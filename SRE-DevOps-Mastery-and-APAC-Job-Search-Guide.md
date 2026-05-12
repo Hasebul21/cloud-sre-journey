@@ -95,7 +95,74 @@
 | **Medium** | Ticketmaster, FB News Feed, WhatsApp, Tinder, Yelp, Rate Limiter, Online Auction, FB Live Comments, Price Tracker, LeetCode clone |
 | **Hard** | Instagram, YouTube, Uber, Google Docs, Distributed Cache, Web Crawler, Ad Click Aggregator, Payment System, Metrics Monitoring, Job Scheduler, Robinhood |
 
-### 0B. Coding / DSA
+### 0B. SQL Interviews
+
+SQL appears in almost every SRE/SWE interview loop — often 1–2 questions in the coding round or a standalone round.
+
+#### Core Syntax to Master
+
+```sql
+-- Joins
+SELECT a.col, b.col FROM a INNER JOIN b ON a.id = b.id
+LEFT JOIN  -- keeps all rows from left, NULLs where no match
+SELF JOIN  -- join a table to itself (e.g. employee → manager)
+
+-- Aggregation
+SELECT dept, COUNT(*), AVG(salary), MAX(salary)
+FROM employees
+GROUP BY dept
+HAVING AVG(salary) > 50000   -- filter AFTER aggregation (WHERE filters before)
+
+-- Window Functions (most common in interviews)
+ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC)
+RANK()        -- ties get same rank, next rank skips (1,1,3)
+DENSE_RANK()  -- ties get same rank, no skip (1,1,2)
+LAG(salary, 1) OVER (ORDER BY date)   -- previous row value
+LEAD(salary, 1) OVER (ORDER BY date)  -- next row value
+SUM(amount) OVER (PARTITION BY user_id ORDER BY date)  -- running total
+
+-- Subqueries vs CTEs
+WITH ranked AS (
+  SELECT *, ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) AS rn
+  FROM employees
+)
+SELECT * FROM ranked WHERE rn = 1;  -- top earner per department
+```
+
+#### High-Frequency Interview Patterns
+
+| Pattern | Classic problem |
+|---------|----------------|
+| **Top N per group** | Highest salary per department |
+| **Running totals** | Cumulative revenue by date |
+| **Gap & island** | Find consecutive active days |
+| **Self join** | Employee + their manager in same row |
+| **Pivot / unpivot** | Rows to columns (CASE + GROUP BY) |
+| **Deduplication** | Delete duplicates keeping one row |
+| **Percentile / median** | Median salary (no built-in in some DBs) |
+| **Date arithmetic** | Users active in last 30 days, month-over-month growth |
+
+#### Must-Know Concepts for Interviews
+- **NULL handling** — `IS NULL`, `COALESCE(col, 0)`, NULLs sort last in ORDER BY
+- **DISTINCT vs GROUP BY** — DISTINCT removes dupes; GROUP BY aggregates
+- **HAVING vs WHERE** — WHERE filters rows before grouping; HAVING filters groups after
+- **EXISTS vs IN** — EXISTS stops at first match (faster for large subqueries); IN evaluates all
+- **Index usage** — queries on non-indexed columns cause full table scans; leading column rule for composite indexes
+- **EXPLAIN / EXPLAIN ANALYZE** — read query plans; spot seq scans, index scans, hash joins
+- **Transactions & isolation** — READ COMMITTED vs REPEATABLE READ; dirty read, phantom read
+
+#### Practice List (LeetCode SQL — do these 20 first)
+- 175 Combine Two Tables · 176 Second Highest Salary · 177 Nth Highest Salary
+- 178 Rank Scores · 180 Consecutive Numbers · 181 Employees Earning More Than Managers
+- 182 Duplicate Emails · 183 Customers Who Never Order · 184 Department Highest Salary
+- 185 Department Top Three Salaries · 196 Delete Duplicate Emails · 197 Rising Temperature
+- 262 Trips and Users · 511 Game Play Analysis · 570 Managers with ≥5 Direct Reports
+- 574 Winning Candidate · 577 Employee Bonus · 584 Find Customer Referee
+- 595 Big Countries · 626 Exchange Seats
+
+**Tip:** Practice in PostgreSQL (window functions, CTEs work the same as in most APAC company stacks). LeetCode SQL Top 50 is the complete target set.
+
+### 0C. Coding / DSA
 
 Study patterns in this order — quality > quantity, talk through approach before coding:
 
