@@ -8,37 +8,16 @@
 
 ## Table of Contents
 
-1. [TL;DR — The Big Picture](#tldr)
-2. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
-3. [Part A — Full Software Lifecycle Mastery](#part-a)
-4. [Part B — Cloud Deep Dive (AWS)](#part-b)
-5. [Part C — IaC, Observability, Cost Optimization](#part-c)
-6. [Part D — System Design for SRE Interviews](#part-d)
-7. [Part E — Coding & Programming](#part-e)
-8. [Part F — 6-Month Plan](#part-f)
-9. [Part G — APAC Job Search](#part-g)
-10. [Part H — Interview Preparation](#part-h)
-11. [Part I — Personal Branding](#part-i)
-12. [Part J — Resources](#part-j)
-
----
-
-## <a id="tldr"></a>TL;DR — The Big Picture
-
-**Your foundation:** Junior SRE + Docker + CI/CD + K8s + some AWS = solid start, but not yet mid-level marketable.
-
-**What to add:**
-1. **Deep AWS** — SAA cert + hands-on with 15 core services
-2. **IaC** — Terraform fluency (CKA + Terraform Associate certs)
-3. **Observability** — Prometheus, Grafana, Loki, OpenTelemetry
-4. **Production K8s** — Helm, RBAC, autoscaling, networking, security
-5. **Cost optimization** — FinOps, Karpenter, right-sizing
-6. **System design** — capacity planning, SLOs, reliability patterns
-7. **One strong language** — Go (SRE lingua franca) + Python for scripting
-8. **Public portfolio** — blog + GitHub repos
-9. **Interview prep** — LeetCode (medium), STAR stories, system design mocks
-
-**Realistic outcome:** Interview-ready for mid-level SRE/DevOps in 5–6 months; offers in months 6–8.
+1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
+2. [Part A — Full Software Lifecycle Mastery](#part-a)
+3. [Part B — Cloud Deep Dive (AWS)](#part-b)
+4. [Part C — IaC, Observability, Cost Optimization](#part-c)
+5. [Part D — System Design for SRE Interviews](#part-d)
+6. [Part E — Coding & Programming](#part-e)
+7. [Part G — APAC Job Search](#part-g)
+8. [Part H — Interview Preparation](#part-h)
+9. [Part I — Personal Branding](#part-i)
+10. [Part J — Resources](#part-j)
 
 ---
 
@@ -143,24 +122,141 @@ SELECT * FROM ranked WHERE rn = 1;  -- top earner per department
 | **Date arithmetic** | Users active in last 30 days, month-over-month growth |
 
 #### Must-Know Concepts for Interviews
-- **NULL handling** — `IS NULL`, `COALESCE(col, 0)`, NULLs sort last in ORDER BY
-- **DISTINCT vs GROUP BY** — DISTINCT removes dupes; GROUP BY aggregates
-- **HAVING vs WHERE** — WHERE filters rows before grouping; HAVING filters groups after
-- **EXISTS vs IN** — EXISTS stops at first match (faster for large subqueries); IN evaluates all
-- **Index usage** — queries on non-indexed columns cause full table scans; leading column rule for composite indexes
-- **EXPLAIN / EXPLAIN ANALYZE** — read query plans; spot seq scans, index scans, hash joins
-- **Transactions & isolation** — READ COMMITTED vs REPEATABLE READ; dirty read, phantom read
 
-#### Practice List (LeetCode SQL — do these 20 first)
-- 175 Combine Two Tables · 176 Second Highest Salary · 177 Nth Highest Salary
-- 178 Rank Scores · 180 Consecutive Numbers · 181 Employees Earning More Than Managers
-- 182 Duplicate Emails · 183 Customers Who Never Order · 184 Department Highest Salary
-- 185 Department Top Three Salaries · 196 Delete Duplicate Emails · 197 Rising Temperature
-- 262 Trips and Users · 511 Game Play Analysis · 570 Managers with ≥5 Direct Reports
-- 574 Winning Candidate · 577 Employee Bonus · 584 Find Customer Referee
-- 595 Big Countries · 626 Exchange Seats
+**NULL Handling**
+- `IS NULL` / `IS NOT NULL` — never use `= NULL` (always false in MySQL)
+- `COALESCE(col, 0)` — returns first non-NULL; use to replace NULLs in output
+- `IFNULL(col, 0)` — MySQL shorthand for COALESCE with two args
+- `NULLIF(a, b)` — returns NULL if a = b; useful to avoid division-by-zero: `SUM(x) / NULLIF(SUM(y), 0)`
+- NULLs are excluded from `COUNT(col)`, `SUM()`, `AVG()` — `COUNT(*)` counts all rows including NULLs
+- `NOT IN (subquery)` with NULLs in subquery returns no rows — use `NOT EXISTS` instead
 
-**Tip:** Practice in PostgreSQL (window functions, CTEs work the same as in most APAC company stacks). LeetCode SQL Top 50 is the complete target set.
+**JOIN Types**
+- `INNER JOIN` — only matching rows from both tables
+- `LEFT JOIN` — all rows from left, NULLs where no match; use for "find rows with no match" (WHERE right.id IS NULL)
+- `SELF JOIN` — same table aliased twice; classic for employee→manager or comparing rows
+- `CROSS JOIN` — cartesian product; used for generating combinations
+- No FULL OUTER JOIN in MySQL — emulate with `LEFT JOIN UNION RIGHT JOIN`
+
+**Subquery Types**
+- **Scalar subquery** — returns single value; usable in SELECT, WHERE, HAVING
+- **Correlated subquery** — references outer query; re-runs per row (slow on large tables; prefer JOIN/window)
+- **Derived table** — subquery in FROM clause: `FROM (SELECT ...) AS t`
+- **EXISTS** — stops at first match, handles NULLs correctly; prefer over `IN` for large datasets
+
+**String Functions**
+- `CONCAT(a, b)` / `CONCAT_WS(sep, a, b)` — join strings
+- `UPPER(col)` / `LOWER(col)` — case conversion
+- `SUBSTRING(col, start, len)` — extract substring (1-indexed)
+- `LEFT(col, n)` / `RIGHT(col, n)` — first/last n characters
+- `LENGTH(col)` — byte length; `CHAR_LENGTH(col)` — character count (differs for UTF-8)
+- `TRIM(col)` / `LTRIM` / `RTRIM` — remove whitespace
+- `REPLACE(col, 'old', 'new')` — string replacement
+- `LIKE '%pattern%'` — case-insensitive in MySQL default collation; `REGEXP` for complex patterns
+- `GROUP_CONCAT(col ORDER BY col SEPARATOR ', ')` — aggregate rows into comma-separated string
+
+**Date & Time Functions**
+- `NOW()` / `CURDATE()` / `CURTIME()` — current datetime/date/time
+- `DATE(datetime_col)` — extract date part from datetime
+- `DATEDIFF(date1, date2)` — days between dates (date1 − date2)
+- `DATE_ADD(date, INTERVAL n DAY)` / `DATE_SUB(...)` — add/subtract intervals
+- `DATE_FORMAT(date, '%Y-%m')` — format date as string; `%Y` year, `%m` month, `%d` day
+- `YEAR(col)` / `MONTH(col)` / `DAY(col)` — extract parts
+- `TIMESTAMPDIFF(MONTH, start, end)` — difference in specified unit
+
+**CASE Expressions**
+```sql
+-- Simple CASE
+CASE status WHEN 'active' THEN 1 WHEN 'inactive' THEN 0 ELSE NULL END
+
+-- Searched CASE (more flexible)
+CASE WHEN salary > 100000 THEN 'high'
+     WHEN salary > 50000  THEN 'medium'
+     ELSE 'low' END
+
+-- Pivot pattern: rows to columns
+SELECT dept,
+  SUM(CASE WHEN gender = 'M' THEN 1 ELSE 0 END) AS male_count,
+  SUM(CASE WHEN gender = 'F' THEN 1 ELSE 0 END) AS female_count
+FROM employees GROUP BY dept;
+```
+
+**UNION & Set Operations**
+- `UNION` — combines results, removes duplicates (adds sort overhead)
+- `UNION ALL` — combines results, keeps duplicates (faster; prefer unless dedup needed)
+- Both SELECT lists must have same number of columns with compatible types
+- Classic use: return two different aggregates in one result (e.g., highest earner + most orders)
+
+**DISTINCT vs GROUP BY**
+- `SELECT DISTINCT col` — removes duplicate rows; single column or all listed columns together
+- `GROUP BY` — aggregates; use when you need COUNT/SUM/AVG alongside the grouped column
+- `GROUP BY` with no aggregate = effectively DISTINCT but slower; use DISTINCT instead
+
+**HAVING vs WHERE**
+- `WHERE` filters individual rows before grouping; cannot reference aggregate functions
+- `HAVING` filters groups after aggregation; can reference aggregates (`HAVING COUNT(*) > 5`)
+- Both can appear in the same query: WHERE reduces rows first, then GROUP BY, then HAVING
+
+**Index Usage**
+- Full table scan occurs when: no index on filter column, leading column rule violated, `LIKE '%prefix'`, function on indexed column (`WHERE YEAR(date) = 2024` → use range instead)
+- Composite index `(a, b, c)` — usable for queries filtering on `a`, `a+b`, or `a+b+c`; not `b` alone
+- Covering index — index contains all columns the query needs; no table row lookup required
+- `EXPLAIN` / `EXPLAIN ANALYZE` — check `type` column: `ALL` = full scan (bad), `ref`/`range`/`const` = index used
+
+**Transactions & Isolation (MySQL InnoDB)**
+- `READ UNCOMMITTED` — dirty reads possible (rarely used)
+- `READ COMMITTED` — sees only committed data; phantom reads possible; used at most APAC companies
+- `REPEATABLE READ` — MySQL default; same query returns same rows within transaction; prevents dirty + non-repeatable reads
+- `SERIALIZABLE` — strictest; full locking; massive performance hit
+- Dirty read: reading uncommitted data from another transaction
+- Phantom read: same query returns different rows due to concurrent INSERT
+
+**MySQL-Specific Gotchas**
+- `LIMIT n OFFSET m` — pagination; MySQL syntax; OFFSET is 0-indexed
+- `ON DUPLICATE KEY UPDATE col = VALUES(col)` — upsert pattern
+- `INSERT IGNORE` — skips insert on duplicate key error silently
+- `AUTO_INCREMENT` — gap behavior: gaps appear after rollbacks or DELETE; never rely on contiguous IDs
+- `GROUP BY` in MySQL (pre-8.0) allowed non-aggregated columns without error — dangerous; use `ONLY_FULL_GROUP_BY` mode
+- `=` comparison is case-insensitive for strings by default (depends on collation); use `BINARY` for case-sensitive match
+
+#### Top 30 LeetCode SQL Problems (Priority Order)
+
+| # | Problem | Difficulty | Key Pattern |
+|---|---------|------------|-------------|
+| 175 | Combine Two Tables | Easy | LEFT JOIN, NULL for missing rows |
+| 176 | Second Highest Salary | Medium | LIMIT/OFFSET, IFNULL, subquery |
+| 177 | Nth Highest Salary | Medium | Custom function, LIMIT with variable |
+| 178 | Rank Scores | Medium | DENSE_RANK() window function |
+| 180 | Consecutive Numbers | Medium | Self-join × 3 or LAG/LEAD |
+| 181 | Employees Earning More Than Managers | Easy | Self JOIN |
+| 182 | Duplicate Emails | Easy | GROUP BY HAVING COUNT > 1 |
+| 183 | Customers Who Never Order | Easy | LEFT JOIN WHERE NULL / NOT IN |
+| 184 | Department Highest Salary | Medium | Subquery MAX per group + JOIN |
+| 185 | Department Top Three Salaries | Hard | DENSE_RANK() PARTITION BY dept |
+| 196 | Delete Duplicate Emails | Easy | DELETE with self-join or subquery |
+| 197 | Rising Temperature | Easy | Self JOIN on DATEDIFF = 1 |
+| 262 | Trips and Users | Hard | Multi-join, rate calculation, date filter |
+| 511 | Game Play Analysis I | Easy | MIN(event_date) GROUP BY player |
+| 550 | Game Play Analysis IV | Medium | DATE_ADD, correlated subquery or window |
+| 570 | Managers with ≥5 Direct Reports | Medium | GROUP BY HAVING + JOIN |
+| 577 | Employee Bonus | Easy | LEFT JOIN, NULL check in WHERE |
+| 584 | Find Customer Referee | Easy | NULL trap — use `IS NULL OR != 2` |
+| 595 | Big Countries | Easy | WHERE with OR / UNION |
+| 601 | Human Traffic of Stadium | Hard | Consecutive rows with ≥100 people |
+| 626 | Exchange Seats | Medium | CASE + MOD(id,2), edge case last row |
+| 1045 | Customers Who Bought All Products | Medium | GROUP BY HAVING COUNT(DISTINCT) |
+| 1141 | User Activity for the Past 30 Days I | Easy | DATEDIFF / DATE range filter |
+| 1179 | Reformat Department Table | Medium | Pivot: SUM(CASE WHEN month=... ) |
+| 1193 | Monthly Transactions I | Medium | DATE_FORMAT group by month, CASE SUM |
+| 1321 | Restaurant Growth | Hard | Sliding 7-day window AVG |
+| 1341 | Movie Rating | Medium | UNION ALL of two aggregates |
+| 1484 | Group Sold Products By The Date | Easy | GROUP_CONCAT with ORDER BY |
+| 1667 | Fix Names in a Table | Easy | CONCAT + UPPER + LOWER + SUBSTRING |
+| 1934 | Confirmation Rate | Medium | LEFT JOIN + AVG(CASE WHEN) |
+
+**Study order:** Do Easy first (175–197) to lock in JOIN/NULL/GROUP BY mechanics. Then Medium problems in order listed. 601 and 1321 are the hardest — do them last. Aim to solve each without hints; if stuck after 20 min, read the editorial then re-solve from scratch.
+
+**Tip:** Practice in MySQL 8.0 (matches LeetCode environment). Window functions, CTEs, and DENSE_RANK work identically in PostgreSQL — switch freely for APAC company stacks.
 
 ### 0C. Coding / DSA
 
@@ -368,73 +464,69 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 
 ---
 
-## <a id="part-f"></a>Part F — 6-Month Plan
-
-**Weekly budget:** 5h technical study + 4h hands-on + 3h LeetCode/design + 2h job hunt + 1h reading
-
-| Month | Primary Focus | Key Deliverables |
-|-------|---------------|------------------|
-| **1** | AWS SAA course (50%) + Go basics | LinkedIn optimized; 14 LeetCode; 1 blog post; billing alerts set up |
-| **2** | AWS SAA exam + Terraform + EKS | SAA passed; EKS cluster via Terraform; 42 LeetCode; 2 blog posts |
-| **3** | CKA course + full observability stack | Prom+Grafana+Loki+Tempo running; 70 LeetCode; 3 blog posts |
-| **4** | CKA + Terraform Associate + start applying | 3 certs; 20 applications; 100 LeetCode; 4 blog posts |
-| **5** | Interview loops | 8–15 interview rounds; 1 mock/week; 5 LeetCode/week maintenance |
-| **6** | Offers + negotiation | Convert to offer; negotiate package; visa paperwork; transition plan |
-
----
-
 ## <a id="part-g"></a>Part G — APAC Job Search
 
-### Singapore (Highest Priority)
+### Singapore
 
-| Company | Stack | Notes |
-|---------|-------|-------|
-| **Grab** | Go, AWS, K8s, Kafka | SG HQ; strong SRE org; most active hirer |
-| **Shopee / Sea Group** | Go, Java, AWS, GCP | High-volume hiring; heavy K8s |
-| **ByteDance / TikTok SG** | Go, C++, K8s | Massive infra; competitive comp |
-| **Stripe APAC** | Ruby, Go, AWS | Premium comp; very high bar |
-| **GovTech Singapore** | Cloud-native, AWS | Hires foreigners for specialist roles |
-| **DBS / OCBC / UOB** | Java, K8s, AWS/Azure | Banks investing heavily in cloud-native |
-| **Ninja Van, Carousell, Razer** | Mixed | Mid-tier; visa-friendly |
-
-**Visa (Employment Pass):** Min SGD 5,600/month. Software engineering on Shortage Occupation List (+20 COMPASS pts). Employer applies on your behalf; 3-week processing.
-**Salary (3 YOE):** SGD 8,500–13,000/month base. Total comp SGD 90K–180K/year at Grab/Shopee/ByteDance.
-**Channels:** Referrals (4× conversion) → LinkedIn → NodeFlair (nodeflair.com) → MyCareersFuture
+| Company | Careers |
+|---------|---------|
+| Grab | https://grab.careers |
+| Shopee / Sea Group | https://careers.sea.com |
+| ByteDance / TikTok | https://jobs.bytedance.com |
+| Stripe | https://stripe.com/jobs |
+| GovTech Singapore | https://careers.tech.gov.sg |
+| DBS Bank | https://www.dbs.com/careers |
+| OCBC Bank | https://www.ocbc.com/group/careers |
+| UOB | https://www.uobgroup.com/careers |
+| Ninja Van | https://careers.ninjavan.co |
+| Carousell | https://careers.carousell.com |
+| Razer | https://careers.razer.com |
+| Circles.Life | https://circles.life/careers |
+| Lazada | https://careers.lazada.com |
+| Gojek | https://www.gojek.com/en-id/careers |
 
 ### Japan
 
-| Company | English-first? | Stack |
-|---------|----------------|-------|
-| **Mercari / Merpay** | YES | Go, GCP, K8s |
-| **PayPay** | YES | Kotlin, AWS, K8s |
-| **Rakuten** | YES (Englishnization since 2010) | Java, Go |
-| **Indeed Japan** | YES | AWS |
-| **Woven by Toyota** | YES | C++, Python, ROS |
-| **LINE / LY Corp** | English subteams | Java, Go, K8s |
+| Company | Careers |
+|---------|---------|
+| Mercari / Merpay | https://careers.mercari.com |
+| PayPay | https://about.paypay.ne.jp/en/career |
+| Rakuten | https://global.rakuten.com/corp/careers |
+| Indeed Japan | https://www.indeed.jobs |
+| Woven by Toyota | https://woven.toyota/en/careers |
+| LINE / LY Corp | https://careers.lycorp.co.jp/en |
+| Cybozu | https://cybozu.co.jp/recruit |
+| SmartNews | https://careers.smartnews.com |
+| Moneyforward | https://corp.moneyforward.com/recruit |
+| DeNA | https://dena.com/intl/careers |
 
-**Visa (Highly Skilled Professional — recommended):** 70 pts required. 3-year PR track (1-year if 80+ pts). Spouse can work. Better than standard Engineer visa.
-**Salary:** Mercari ¥7M–12M; PayPay ¥6M–10M; Indeed Japan ¥7M–11M/year total comp.
-**Channels:** TokyoDev (tokyodev.com) → Japan Dev (japan-dev.com) → LinkedIn (Wahl+Case, Robert Walters)
-**Japanese:** Not required at Mercari/PayPay/Indeed/Woven; JLPT N5 (~100 hrs) improves daily life dramatically.
+### Malaysia
 
-### Malaysia & Thailand
+| Company | Careers |
+|---------|---------|
+| Grab (KL) | https://grab.careers |
+| Shopee (KL) | https://careers.sea.com |
+| ByteDance (KL) | https://jobs.bytedance.com |
+| Axiata / Celcom | https://axiata.com/careers |
+| CIMB | https://www.cimb.com/en/careers.html |
+| Maybank | https://www.maybank.com/en/careers.page |
+| Telekom Malaysia | https://www.tm.com.my/Careers |
+| AirAsia / Capital A | https://careers.airasia.com |
+| Fusionex | https://www.fusionex-international.com/careers |
+| Maxis | https://www.maxis.com.my/maxis-for-you/careers |
 
-**Malaysia (KL):** Grab/Shopee/ByteDance KL offices. EP Cat II: RM10,000+/month. Salary RM10K–18K/month (~USD 25K–47K). Channels: JobStreet + direct + LinkedIn. EP thresholds rising Jun 2026 — apply early.
+### Thailand
 
-**Thailand (Bangkok):** Agoda is the primary target (Scala, Kotlin, AWS; sponsors family visas). Salary THB 1.7M–2.5M/year. Non-B + Work Permit. Apply at careers.agoda.com. LINE MAN Wongnai and SCB 10X also hire.
-
-### Referral Playbook
-1. LinkedIn search: `"Bangladesh" AND "Grab"` (or Shopee, Mercari, etc.)
-2. Connect with shared background (NSU, BUET, IUT, Cefalo alumni)
-3. First message: genuine curiosity about their experience, zero referral mention
-4. After 2–3 real exchanges: "If you think my profile fits [role], I'd be grateful for a referral"
-5. Referred candidates are 4× more likely to receive offers; make up ~40% of hires at APAC tech firms
-
-### CV Format
-- 1 page (mid-level), 2 pages MAX. PDF. ATS-friendly — no graphics/columns/photos.
-- Order: Header → Summary (2 lines) → Skills → Experience → Projects → Education → Certs
-- Header: name + phone (country code) + email + LinkedIn + GitHub + blog + "Open to relocation, visa sponsorship required"
-- Bullet formula: **"Reduced X from Y to Z by [action] using [tech], enabling [impact]"**
+| Company | Careers |
+|---------|---------|
+| Agoda | https://careersatagoda.com |
+| LINE MAN Wongnai | https://lmwn.com/career |
+| SCB 10X | https://www.scb10x.com/careers |
+| Kasikorn Bank (KBank) | https://kasikornbank.com/en/career |
+| True Digital | https://www.truedigital.com/en/career |
+| Ascend Money | https://www.ascendmoney.io/careers |
+| Grab (Bangkok) | https://grab.careers |
+| Lazada (Bangkok) | https://careers.lazada.com |
 
 ---
 
