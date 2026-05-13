@@ -10,14 +10,20 @@
 
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part A — Full Software Lifecycle Mastery](#part-a)
-3. [Part B — Cloud Deep Dive (AWS)](#part-b)
-4. [Part C — IaC, Observability, Cost Optimization](#part-c)
-5. [Part D — System Design for SRE Interviews](#part-d)
-6. [Part E — Coding & Programming](#part-e)
-7. [Part G — APAC Job Search](#part-g)
-8. [Part H — Interview Preparation](#part-h)
-9. [Part I — Personal Branding](#part-i)
-10. [Part J — Resources](#part-j)
+3. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
+   - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
+   - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
+   - [Phase 3 — ELK Stack (Logging)](#phase-3--elk-stack-logging)
+   - [Phase 4 — Observability (Metrics + Traces + Alerts)](#phase-4--observability-metrics--traces--alerts)
+   - [Phase 5 — AWS Deployment](#phase-5--aws-deployment)
+   - [Phase 6 — IaC with Terraform](#phase-6--iac-with-terraform)
+   - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
+4. [Part D — System Design for SRE Interviews](#part-d)
+5. [Part E — Coding & Programming](#part-e)
+6. [Part G — APAC Job Search](#part-g)
+7. [Part H — Interview Preparation](#part-h)
+8. [Part I — Personal Branding](#part-i)
+9. [Part J — Resources](#part-j)
 
 ---
 
