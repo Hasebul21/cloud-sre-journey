@@ -339,29 +339,553 @@ Study patterns in this order — quality > quantity, talk through approach befor
 
 ---
 
-## <a id="part-b"></a>Part B — Cloud Deep Dive (AWS)
+## <a id="part-b"></a>Part B — AWS, Kubernetes & Observability (Hands-On)
 
-### B1. 15 AWS Services to Know Deeply
+> Everything in this section is built around one project: a **Todo List app** (Go REST API + PostgreSQL) that you progressively containerize, deploy to Kubernetes, instrument with full observability, and push to production on AWS. Each phase produces a real artefact you can show in interviews.
 
-| Service | Why it matters |
-|---------|----------------|
-| **EC2** | AMIs, instance families, placement groups, networking |
-| **VPC** | Subnets, route tables, NAT, security groups, NACLs, peering |
-| **IAM** | Roles, policies, trust relationships, STS, OIDC/IRSA for K8s |
-| **S3** | Storage classes, lifecycle, versioning, replication, encryption |
-| **RDS / Aurora** | Multi-AZ, read replicas, backups, parameter groups |
-| **EKS** | Managed K8s, IRSA, node groups, Fargate, cluster upgrades |
-| **ECS / Fargate** | Lighter container option; preferred at some APAC companies |
-| **ELB (ALB/NLB)** | Target groups, listeners, WAF integration |
-| **Route 53** | Routing policies (latency/weighted/failover), health checks |
-| **CloudWatch** | Metrics, Logs Insights, alarms, dashboards |
-| **CloudFormation / CDK** | Native IaC (you'll mostly use Terraform, but know these) |
-| **Lambda** | Layers, cold starts, event sources, provisioned concurrency |
-| **SQS / SNS / EventBridge** | Messaging, fan-out, event-driven architecture |
-| **Secrets Manager / SSM** | Secrets + config management |
-| **CloudTrail / Config / GuardDuty** | Audit, compliance, security posture |
+---
 
-### B2. Certification Path (recommended order)
+### Project Overview: Todo List App
+
+**Stack:** Go (API) + PostgreSQL (DB) + React or plain HTML (frontend)
+
+**Endpoints to implement:**
+```
+GET    /todos          — list all todos
+POST   /todos          — create todo
+PUT    /todos/:id      — update todo
+DELETE /todos/:id      — delete todo
+GET    /health         — liveness probe
+GET    /metrics        — Prometheus scrape endpoint
+```
+
+**Repo structure to aim for:**
+```
+todo-app/
+├── api/               # Go service
+├── frontend/          # static files served via S3 + CloudFront
+├── k8s/               # Kubernetes manifests
+├── helm/              # Helm chart
+├── terraform/         # all AWS infrastructure as code
+├── .github/workflows/ # CI/CD pipelines
+└── docker-compose.yml # local dev environment
+```
+
+---
+
+### Phase 1 — Build & Containerize
+
+**Goal:** Run the app locally with Docker Compose.
+
+**Steps:**
+1. Write the Go API with `net/http` or `gin` — CRUD + `/health` + `/metrics`
+2. Write a `Dockerfile` using multi-stage build:
+```dockerfile
+# Build stage
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o todo-api ./cmd/api
+
+# Final stage — distroless for minimal attack surface
+FROM gcr.io/distroless/static-debian12
+COPY --from=builder /app/todo-api /todo-api
+EXPOSE 8080
+ENTRYPOINT ["/todo-api"]
+```
+3. Write `docker-compose.yml` — api + postgres + pgadmin services
+4. Add `docker-compose.override.yml` for local hot-reload with Air
+5. Scan image: `trivy image todo-api:latest`
+
+**What you learn:** multi-stage builds, distroless images, image scanning, local service networking
+
+---
+
+### Phase 2 — Kubernetes (Local with kind)
+
+**Goal:** Deploy the Todo app on a local Kubernetes cluster.
+
+**Install:** `kind` (Kubernetes in Docker) — zero cloud cost, runs on your laptop
+
+```bash
+kind create cluster --name todo-cluster
+kubectl config use-context kind-todo-cluster
+```
+
+**Kubernetes manifests to write (`k8s/` folder):**
+
+```
+k8s/
+├── namespace.yaml
+├── configmap.yaml          # DB host, port, name
+├── secret.yaml             # DB password (base64) — later replaced by External Secrets
+├── deployment.yaml         # todo-api Deployment
+├── service.yaml            # ClusterIP Service for api
+├── ingress.yaml            # NGINX Ingress → /api routes
+├── hpa.yaml                # HorizontalPodAutoscaler (CPU 60%)
+└── postgres/
+    ├── statefulset.yaml
+    ├── service.yaml
+    └── pvc.yaml
+```
+
+**Key concepts to implement in each manifest:**
+
+`deployment.yaml` — must include:
+```yaml
+resources:
+  requests: { cpu: "100m", memory: "128Mi" }
+  limits:   { cpu: "500m", memory: "256Mi" }
+livenessProbe:
+  httpGet: { path: /health, port: 8080 }
+  initialDelaySeconds: 10
+readinessProbe:
+  httpGet: { path: /health, port: 8080 }
+  initialDelaySeconds: 5
+```
+
+**Commands to know:**
+```bash
+kubectl apply -f k8s/
+kubectl get pods -n todo
+kubectl logs -f deployment/todo-api -n todo
+kubectl exec -it <pod> -n todo -- /bin/sh
+kubectl rollout history deployment/todo-api -n todo
+kubectl rollout undo deployment/todo-api -n todo   # rollback
+kubectl top pods -n todo                            # requires metrics-server
+```
+
+**Helm chart:** Convert the manifests into a Helm chart under `helm/todo-app/`. Practice:
+```bash
+helm install todo ./helm/todo-app -f values.yaml
+helm upgrade todo ./helm/todo-app --set image.tag=v1.2.0
+helm rollback todo 1
+helm template todo ./helm/todo-app | kubectl apply -f -
+```
+
+**RBAC exercise:** Create a ServiceAccount for the todo-api pod with least-privilege Role — only read ConfigMaps in its namespace.
+
+**What you learn:** Deployments, Services, Ingress, HPA, StatefulSets, PVCs, RBAC, Helm
+
+---
+
+### Phase 3 — ELK Stack (Logging)
+
+**Goal:** Collect, ship, and search all logs from the Todo app via ELK.
+
+**Stack:** Elasticsearch + Logstash + Kibana + Filebeat (sidecar or DaemonSet)
+
+**Architecture:**
+```
+Todo API pod → stdout JSON logs
+     ↓
+Filebeat DaemonSet (reads /var/log/containers/*.log)
+     ↓
+Logstash (parse, enrich, filter)
+     ↓
+Elasticsearch (index + store)
+     ↓
+Kibana (search, dashboards, alerts)
+```
+
+**Deploy ELK on kind with Helm:**
+```bash
+helm repo add elastic https://helm.elastic.co
+helm install elasticsearch elastic/elasticsearch -n logging --create-namespace
+helm install kibana elastic/kibana -n logging
+helm install logstash elastic/logstash -n logging
+helm install filebeat elastic/filebeat -n logging
+```
+
+**Structured logging in Go — emit JSON logs:**
+```go
+import "go.uber.org/zap"
+
+logger, _ := zap.NewProduction()
+logger.Info("todo created",
+    zap.String("id", todo.ID),
+    zap.String("user_id", userID),
+    zap.Int("duration_ms", elapsed),
+)
+```
+
+**Logstash pipeline (`logstash.conf`):**
+```
+filter {
+  json { source => "message" }
+  date { match => ["ts", "ISO8601"] target => "@timestamp" }
+  mutate { add_field => { "env" => "production" } }
+}
+```
+
+**Kibana exercises:**
+- Create an Index Pattern for `filebeat-*`
+- Build a dashboard: request rate, error rate, top slow endpoints
+- Set a Watcher alert: >10 errors/min → notify
+
+**What you learn:** DaemonSet log collection, structured logging, Logstash pipelines, Kibana dashboards, index lifecycle management (ILM)
+
+---
+
+### Phase 4 — Observability (Metrics + Traces + Alerts)
+
+**Goal:** Full three-pillar observability on the Todo app.
+
+#### Metrics — Prometheus + Grafana
+
+**Instrument the Go API:**
+```go
+import "github.com/prometheus/client_golang/prometheus"
+
+var httpDuration = prometheus.NewHistogramVec(prometheus.HistogramOpts{
+    Name:    "http_request_duration_seconds",
+    Buckets: prometheus.DefBuckets,
+}, []string{"method", "path", "status"})
+
+// Expose at GET /metrics via promhttp.Handler()
+```
+
+**Deploy Prometheus + Grafana on K8s:**
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -n monitoring
+```
+
+**PromQL queries to write:**
+```promql
+# Request rate
+rate(http_request_duration_seconds_count[5m])
+
+# Error rate (5xx)
+sum(rate(http_request_duration_seconds_count{status=~"5.."}[5m]))
+  / sum(rate(http_request_duration_seconds_count[5m]))
+
+# p99 latency
+histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))
+
+# CPU throttling
+rate(container_cpu_cfs_throttled_seconds_total[5m])
+```
+
+**Grafana dashboards to build:**
+- Four Golden Signals (latency, traffic, errors, saturation)
+- Pod CPU/memory vs requests/limits
+- PostgreSQL query rate and connection pool usage
+
+**Alerting rules to write:**
+```yaml
+- alert: HighErrorRate
+  expr: |
+    sum(rate(http_request_duration_seconds_count{status=~"5.."}[5m]))
+    / sum(rate(http_request_duration_seconds_count[5m])) > 0.05
+  for: 2m
+  labels: { severity: critical }
+  annotations:
+    summary: "Error rate > 5% for 2 minutes"
+```
+
+#### Traces — OpenTelemetry + Jaeger
+
+**Instrument Go API with OTel:**
+```go
+import "go.opentelemetry.io/otel"
+
+tracer := otel.Tracer("todo-api")
+ctx, span := tracer.Start(ctx, "CreateTodo")
+defer span.End()
+
+// Add attributes
+span.SetAttributes(attribute.String("todo.id", id))
+
+// Record errors
+span.RecordError(err)
+span.SetStatus(codes.Error, err.Error())
+```
+
+**Deploy Jaeger:**
+```bash
+helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+helm install jaeger jaegertracing/jaeger -n monitoring
+```
+
+**What to trace:** HTTP handler → DB query → external call. Check Jaeger UI for slow spans and N+1 query patterns.
+
+#### SRE Concepts to Apply
+
+- **SLO:** Define `99.5% of requests complete in < 300ms over 30 days`
+- **Error budget:** `0.5% of 30-day requests = ~2.2 hrs downtime allowed`
+- **Burn rate alert:** Alert when 1-hr burn rate > 14.4× (exhausts monthly budget in 2 hrs)
+- **Runbook:** Write one for the `HighErrorRate` alert — check logs → check DB connections → rollback steps
+
+**What you learn:** RED metrics, four golden signals, PromQL, OTel instrumentation, distributed tracing, SLO/burn-rate alerting
+
+---
+
+### Phase 5 — AWS Deployment
+
+**Goal:** Deploy the production-grade Todo app on AWS using core services.
+
+#### AWS Services Used in This Project
+
+| Service | Role in Todo App | Key concepts |
+|---------|-----------------|--------------|
+| **VPC** | Network isolation | 2 public + 2 private subnets across 2 AZs; NAT Gateway; security groups |
+| **EC2** | Bastion / jump host | Key pair, security group rules, instance connect |
+| **S3** | Frontend static files + Terraform state | Versioning, bucket policy, static website hosting |
+| **CloudFront** | CDN for frontend | Distribution, origin access control (OAC), cache behaviors |
+| **EKS** | Run the Go API | Managed node groups, IRSA for pod-level AWS permissions |
+| **RDS (PostgreSQL)** | Production database | Multi-AZ, automated backups, parameter group, subnet group |
+| **ALB** | Load balancer for K8s | AWS Load Balancer Controller, target groups, HTTPS listener |
+| **ACM** | TLS certificate | DNS validation via Route 53 |
+| **Route 53** | DNS | A-record alias to ALB; health checks |
+| **ECR** | Container registry | Image lifecycle policy; scan on push |
+| **Secrets Manager** | DB password, API keys | External Secrets Operator pulls into K8s Secrets |
+| **IAM** | Permissions | IRSA role for EKS pods; least-privilege policies |
+| **CloudWatch** | Logs + alarms | Container Insights on EKS; log groups; metric filters |
+| **CloudTrail** | Audit log | All API calls; S3 bucket + SNS alert on root login |
+| **GuardDuty** | Threat detection | Enable in all regions; findings → EventBridge → SNS |
+
+#### Deployment Architecture
+
+```
+Internet
+    │
+Route 53 (todo.yourdomain.com)
+    ├── A record → CloudFront → S3 (frontend)
+    └── api.todo.yourdomain.com → ALB
+                                    │
+                              EKS Cluster
+                          ┌───────────────────┐
+                          │  todo-api pods     │
+                          │  (Deployment x3)   │
+                          └────────┬──────────┘
+                                   │ IRSA (IAM role)
+                          ┌────────▼──────────┐
+                          │  RDS PostgreSQL    │
+                          │  (private subnet)  │
+                          └───────────────────┘
+```
+
+#### Step-by-Step AWS Setup
+
+**Step 1 — VPC (Terraform):**
+```hcl
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "5.0.0"
+
+  name = "todo-vpc"
+  cidr = "10.0.0.0/16"
+
+  azs             = ["ap-southeast-1a", "ap-southeast-1b"]
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+
+  enable_nat_gateway = true
+  single_nat_gateway = true  # cost saving for non-prod
+
+  tags = {
+    "kubernetes.io/cluster/todo-cluster" = "shared"
+  }
+}
+```
+
+**Step 2 — ECR + push image:**
+```bash
+aws ecr create-repository --repository-name todo-api --region ap-southeast-1
+aws ecr get-login-password | docker login --username AWS --password-stdin <account>.dkr.ecr.ap-southeast-1.amazonaws.com
+docker build -t todo-api .
+docker tag todo-api:latest <account>.dkr.ecr.ap-southeast-1.amazonaws.com/todo-api:v1.0.0
+docker push <account>.dkr.ecr.ap-southeast-1.amazonaws.com/todo-api:v1.0.0
+```
+
+**Step 3 — EKS cluster (Terraform):**
+```hcl
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "20.0.0"
+
+  cluster_name    = "todo-cluster"
+  cluster_version = "1.29"
+  vpc_id          = module.vpc.vpc_id
+  subnet_ids      = module.vpc.private_subnets
+
+  eks_managed_node_groups = {
+    default = {
+      min_size     = 2
+      max_size     = 5
+      desired_size = 2
+      instance_types = ["t3.medium"]
+    }
+  }
+}
+```
+
+**Step 4 — IRSA (IAM Roles for Service Accounts):**
+```bash
+# Let todo-api pod read from Secrets Manager — no hardcoded AWS keys
+eksctl create iamserviceaccount \
+  --name todo-api \
+  --namespace todo \
+  --cluster todo-cluster \
+  --attach-policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite \
+  --approve
+```
+
+**Step 5 — RDS PostgreSQL:**
+```hcl
+module "rds" {
+  source  = "terraform-aws-modules/rds/aws"
+  identifier = "todo-db"
+  engine     = "postgres"
+  engine_version = "15"
+  instance_class = "db.t3.micro"
+  allocated_storage = 20
+  multi_az   = true
+  db_subnet_group_name   = aws_db_subnet_group.todo.name
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  skip_final_snapshot    = false
+}
+```
+
+**Step 6 — S3 + CloudFront for frontend:**
+```bash
+# Build frontend
+npm run build
+
+# Sync to S3
+aws s3 sync ./build s3://todo-frontend-bucket --delete
+
+# Invalidate CloudFront cache after deploy
+aws cloudfront create-invalidation --distribution-id <ID> --paths "/*"
+```
+
+**Step 7 — ALB Ingress Controller:**
+```bash
+helm repo add eks https://aws.github.io/eks-charts
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=todo-cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller
+```
+
+Then annotate the Ingress:
+```yaml
+annotations:
+  kubernetes.io/ingress.class: alb
+  alb.ingress.kubernetes.io/scheme: internet-facing
+  alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:...
+  alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+```
+
+---
+
+### Phase 6 — IaC with Terraform
+
+**Folder structure (remote state on S3 + DynamoDB lock):**
+```
+terraform/
+├── backend.tf          # S3 bucket + DynamoDB for state lock
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── modules/
+│   ├── vpc/
+│   ├── eks/
+│   ├── rds/
+│   └── s3-cloudfront/
+└── environments/
+    ├── dev/
+    └── prod/
+```
+
+**Remote state setup:**
+```hcl
+terraform {
+  backend "s3" {
+    bucket         = "todo-tfstate"
+    key            = "prod/terraform.tfstate"
+    region         = "ap-southeast-1"
+    dynamodb_table = "todo-tfstate-lock"
+    encrypt        = true
+  }
+}
+```
+
+**Key Terraform commands:**
+```bash
+terraform init          # download providers, configure backend
+terraform plan          # preview changes
+terraform apply         # apply changes
+terraform destroy       # tear down (use carefully)
+terraform import        # import existing resource into state
+terraform state list    # list resources in state
+terraform output        # print outputs (EKS endpoint, RDS address, etc.)
+```
+
+---
+
+### Phase 7 — CI/CD Pipeline (GitHub Actions)
+
+```yaml
+# .github/workflows/deploy.yml
+name: Build → Test → Push → Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions
+          aws-region: ap-southeast-1
+      - name: Build, scan, push to ECR
+        run: |
+          docker build -t todo-api .
+          trivy image --exit-code 1 --severity HIGH,CRITICAL todo-api
+          docker tag todo-api $ECR_REGISTRY/todo-api:$GITHUB_SHA
+          docker push $ECR_REGISTRY/todo-api:$GITHUB_SHA
+      - name: Deploy to EKS
+        run: |
+          aws eks update-kubeconfig --name todo-cluster --region ap-southeast-1
+          helm upgrade todo ./helm/todo-app \
+            --set image.tag=$GITHUB_SHA \
+            --atomic --timeout 5m
+```
+
+---
+
+### AWS Cost Checklist (memorize for interviews)
+
+1. Right-size EC2 / RDS with AWS Compute Optimizer
+2. Savings Plans / RIs for steady-state EKS nodes and RDS
+3. Spot instances for non-critical / batch workloads (up to 90% off)
+4. Delete unattached EBS volumes, old snapshots, unused Elastic IPs
+5. S3 lifecycle policies → Intelligent-Tiering → Glacier for cold data
+6. VPC Endpoints for S3 / Secrets Manager to eliminate NAT Gateway data charges
+7. Schedule dev EKS node groups and RDS to stop nights/weekends (~65% saving)
+8. Karpenter for K8s node autoscaling (bin-packing + Spot-first)
+9. Audit cross-AZ and cross-region data transfer costs
+10. Enable Cost Anomaly Detection for ML-based spend alerts
+
+### SRE Core Concepts
+
+- **Error budgets** — allow X mins downtime/quarter; once exhausted, freeze features → fix reliability
+- **Burn rate alerts** — multi-window, multi-burn-rate (Google's approach; far better than threshold alerts)
+- **Runbooks** — every alert links to one; write a runbook for every Prometheus alert you create
+- **Postmortems** — blameless format; read 5 public postmortems (Cloudflare, GitHub, AWS)
+- **Must-read:** Google SRE Book (free at sre.google/books), chapters 1–6 + 11–18
+
+### Certification Path
 
 1. **AWS SAA-C03** — Stephane Maarek (Udemy $10–15) + Tutorials Dojo practice exams. 6–8 weeks.
 2. **CKA** — Mumshad Mannambeth (KodeKloud). THE K8s credential. $395 (often $245 with CNCF discounts).
@@ -369,47 +893,6 @@ Study patterns in this order — quality > quantity, talk through approach befor
 4. **AWS DevOps Pro** — optional next step after SAA for AWS depth; ~3 months prep.
 
 **GCP awareness:** Know GKE, BigQuery, Cloud Run conceptually (Mercari, LINE, Indeed Japan use GCP heavily).
-
----
-
-## <a id="part-c"></a>Part C — IaC, Observability, Cost Optimization
-
-### Terraform
-- **Learn:** HashiCorp Learn (free) → "Terraform Up & Running" (Brikman, 3rd ed.)
-- **Build:** VPC+EC2+RDS from scratch, EKS cluster, reusable `secure-s3-bucket` module
-- **Advanced:** workspaces, remote state (S3+DynamoDB), `terraform import`, Terragrunt for DRY configs
-
-### Observability Stack (your #1 differentiator)
-
-| Pillar | Tools | Question answered |
-|--------|-------|-------------------|
-| **Metrics** | Prometheus + Grafana | Is the system healthy? |
-| **Logs** | Loki / ELK / CloudWatch Logs | What happened? |
-| **Traces** | Jaeger / Tempo + OpenTelemetry | Where did it slow down? |
-
-**PromQL:** recording rules, alerting rules, multi-window burn rate alerts.
-**OTel:** instrument a sample app with OTel SDK; export to Jaeger/Tempo. Understand spans, context propagation, sampling.
-
-**Portfolio project:** 3-service demo with OTel instrumentation, deployed on K8s (kind locally), full Prom+Grafana+Loki+Tempo. Blog it. This single project impresses every SRE interviewer.
-
-### SRE Core Concepts
-- **Error budgets** — allow X mins downtime/quarter; once exhausted, freeze features → fix reliability
-- **Burn rate alerts** — multi-window, multi-burn-rate (Google's approach; far better than threshold alerts)
-- **Runbooks** — every alert links to one; practice writing a real runbook for a real alert
-- **Postmortems** — blameless format; read 5 public postmortems (Cloudflare, GitHub, AWS)
-- **Must-read:** Google SRE Book (free at sre.google/books), chapters 1–6 + 11–18
-
-### AWS Cost Checklist (memorize for interviews)
-1. Right-size EC2 with Compute Optimizer
-2. Savings Plans / RIs for steady-state workloads
-3. Spot instances for fault-tolerant/batch (up to 90% off)
-4. Delete unattached EBS, old snapshots, unused Elastic IPs
-5. S3 lifecycle policies → Glacier for cold data
-6. VPC Endpoints to eliminate NAT Gateway data charges
-7. Schedule dev environments off nights/weekends (~65% saving)
-8. Karpenter for K8s node autoscaling
-9. Audit cross-AZ and cross-region data transfer costs
-10. Enable Cost Anomaly Detection (ML-based unusual spend alerts)
 
 ---
 
@@ -685,6 +1168,136 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 - **interviewing.io** ($200–400/session) — FAANG engineer mocks; best investment for 2–3 sessions
 - **Hello Interview** (hellointerview.com) — system design mocks + walkthroughs
 - **killer.sh** — CKA exam simulator (free attempts included with CKA registration)
+
+---
+
+### System Design Video Resources (Hello Interview — YouTube)
+
+> All playlists are from the Hello Interview channel. Watch in the order listed below: Basics first, then Deep Dives, then Walkthroughs. LLD and Hello Interviews are supplementary.
+
+#### Playlist 1 — Basics (Start Here)
+> Core building blocks — watch before any deep dives or walkthroughs
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | Kafka vs RabbitMQ | https://www.youtube.com/watch?v=1HOVtQ-_fcE |
+| 2 | Message Queues in System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=1ISRd0bS714 |
+| 3 | Caching in System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=1NngTUYPdpI |
+| 4 | Sharding in System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=L521gizea4s |
+| 5 | Data Modeling in System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=TUcPS6dsWx4 |
+| 6 | API Design in System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=DQ57zYedMdQ |
+| 7 | Object Storage in System Design Interviews w/ Ex-Meta Staff Engineer | https://www.youtube.com/watch?v=RvaMHMxHjp4 |
+| 8 | How to Prepare for System Design Interviews w/ Meta Staff Engineer | https://www.youtube.com/watch?v=Ru54dxzCyD0 |
+| 9 | Consistent Hashing: Easy Explanation for System Design Interviews | https://www.youtube.com/watch?v=vccwdhfqIrI |
+| 10 | Recommendation System Infra Basics | https://www.youtube.com/watch?v=GncgOIiMII8 |
+
+#### Playlist 2 — Deep Dives
+> Technology internals — watch when a walkthrough references a tech you don't fully understand
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | Kafka System Design Deep Dive | https://www.youtube.com/watch?v=DU8o-OTeoCc |
+| 2 | Redis Deep Dive w/ Ex-Meta Senior Manager | https://www.youtube.com/watch?v=fmT5nlEkl3U |
+| 3 | API Gateways in System Design Interviews | https://www.youtube.com/watch?v=7-6F3b14baA |
+| 4 | Networking Essentials for System Design Interviews | https://www.youtube.com/watch?v=SHkbPm1Wrno |
+| 5 | DB Indexing — B-tree, Geospatial, Inverted Index, and more | https://www.youtube.com/watch?v=BHCSL_ZifI0 |
+| 6 | CAP Theorem in System Design Interviews | https://www.youtube.com/watch?v=VdrEq0cODu4 |
+| 7 | Elasticsearch Deep Dive w/ Ex-Meta Senior Manager | https://www.youtube.com/watch?v=PuZvF2EyfBM |
+| 8 | Consistent Hashing: Easy Explanation | https://www.youtube.com/watch?v=vccwdhfqIrI |
+| 9 | DynamoDB Deep Dive w/ Ex-Meta Staff Engineer | https://www.youtube.com/watch?v=2X2SO3Y-af8 |
+| 10 | Data Structures for Big Data — Bloom Filters, Count-Min Sketch, HyperLogLog | https://www.youtube.com/watch?v=IgyU0iFIoqM |
+| 11 | Cassandra Deep Dive w/ Ex-Meta Staff Engineer | https://www.youtube.com/watch?v=TD3-INhm60Q |
+| 12 | Distributed Transactions: 2 Phase Commit vs Saga Pattern | https://www.youtube.com/watch?v=DOFflggE_0Q |
+| 13 | How do Time Series Databases Work? | https://www.youtube.com/watch?v=Qd76ZmfRs_Q |
+
+#### Playlist 3 — System Design Walkthroughs
+> Full end-to-end mock interview walkthroughs — the core practice material. Do 2 per week.
+
+| # | Video | Difficulty | Link |
+|---|-------|------------|------|
+| 1 | Design Bitly (URL Shortener) | Easy | https://www.youtube.com/watch?v=iUU4O1sWtJA |
+| 2 | Design Dropbox / Google Drive | Medium | https://www.youtube.com/watch?v=_UZ1ngy-kOI |
+| 3 | Design WhatsApp | Medium | https://www.youtube.com/watch?v=cr6p0n0N-VA |
+| 4 | Design Twitter | Medium | https://www.youtube.com/watch?v=Nfa-uUHuFHg |
+| 5 | Design FB News Feed | Medium | https://www.youtube.com/watch?v=Qj4-GruzyDU |
+| 6 | Design Tinder | Medium | https://www.youtube.com/watch?v=18Fg5Akhkqw |
+| 7 | Design Live Comments | Medium | https://www.youtube.com/watch?v=LjLx0fCd1k8 |
+| 8 | Design a Distributed Rate Limiter | Medium | https://www.youtube.com/watch?v=MIJFyUPG4Z4 |
+| 9 | Design Web Crawler | Medium | https://www.youtube.com/watch?v=krsuaUp__pM |
+| 10 | Design Ticketmaster | Hard | https://www.youtube.com/watch?v=fhdPyoO6aXI |
+| 11 | Design Uber | Hard | https://www.youtube.com/watch?v=lsKU38RKQSo |
+| 12 | Design YouTube | Hard | https://www.youtube.com/watch?v=IUrQ5_g3XKs |
+| 13 | Design Ad Click Aggregator | Hard | https://www.youtube.com/watch?v=Zcv_899yqhI |
+| 14 | Design LeetCode (Online Judge) | Hard | https://www.youtube.com/watch?v=1xHADtekTNg |
+| 15 | Design Top-K System | Hard | https://www.youtube.com/watch?v=y-tA2NW4LNY |
+| 16 | Design FB Post Search | Hard | https://www.youtube.com/watch?v=l38XL9914fs |
+
+#### Playlist 4 — Low-Level Design (OOP)
+> For rounds that test object-oriented design and concurrency
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | Design an Elevator | https://www.youtube.com/watch?v=fODT0ldeBiU |
+| 2 | Concurrency in Low-Level Design Interviews | https://www.youtube.com/watch?v=d8rmosXttTE |
+| 3 | Design Amazon Locker | https://www.youtube.com/watch?v=s6nGkoGJhXk |
+| 4 | Design Connect Four | https://www.youtube.com/watch?v=9UI4ikKP3Ws |
+
+#### Playlist 5 — Hello Interviews (Meta / Process Insights)
+> Watch during breaks — mindset, behavioral, and interview meta-strategy
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | Behavioral Interview: Common Questions Broken Down | https://www.youtube.com/watch?v=CAda15Tawlg |
+| 2 | How to Learn System Design w/ Jordan Has No Life | https://www.youtube.com/watch?v=nJsVO84LCGs |
+| 3 | Behavioral Interview Discussion w/ Ex-Meta Hiring Committee Member | https://www.youtube.com/watch?v=bBvPQZmPXwQ |
+| 4 | Interview with a Meta EM: AI Impact, Team Match, How to Learn | https://www.youtube.com/watch?v=3Hb5An-NaX8 |
+| 5 | The Art of People Manager Interviews | https://www.youtube.com/watch?v=dYrMSHZnqw0 |
+
+---
+
+### Extra System Design Resources (Mid-Level Interview Focus)
+
+#### YouTube Channels
+| Channel | Best for | Link |
+|---------|----------|------|
+| **Hello Interview** | Full mock walkthroughs + deep dives (all playlists above) | https://www.youtube.com/@hello_interview |
+| **ByteByteGo** | Visual system design explainers, newsletter | https://www.youtube.com/@ByteByteGo |
+| **Exponent** | Mock interviews, behavioral + system design combo | https://www.youtube.com/@tryExponent |
+| **Jordan Has No Life** | Deep whiteboard-style system design | https://www.youtube.com/@jordanhasnolife5163 |
+| **Gaurav Sen** | Distributed systems fundamentals | https://www.youtube.com/@gkcs |
+| **Hussein Nasser** | Networking, databases, backend deep dives | https://www.youtube.com/@hnasr |
+| **System Design Fight Club** | Competitive walkthroughs with trade-off debate | https://www.youtube.com/@SDFC |
+
+#### Written Resources
+| Resource | What it gives you | Link |
+|----------|------------------|------|
+| **ByteByteGo Newsletter** | Weekly visual system design breakdowns | https://blog.bytebytego.com |
+| **Quastor** | Real-world engineering blog deep dives | https://blog.quastor.org |
+| **High Scalability** | How top companies actually built their systems | http://highscalability.com |
+| **The Pragmatic Engineer** | Staff-level system design + career advice | https://newsletter.pragmaticengineer.com |
+| **AWS Architecture Blog** | Real AWS production architectures | https://aws.amazon.com/blogs/architecture |
+| **Cloudflare Blog** | Networking, CDN, distributed systems at scale | https://blog.cloudflare.com |
+| **Martin Fowler's Blog** | Microservices, CQRS, event sourcing patterns | https://martinfowler.com |
+
+#### Interactive Practice
+| Platform | What it gives you | Cost |
+|----------|------------------|------|
+| **hellointerview.com** | AI-powered system design mock + feedback | Freemium |
+| **interviewing.io** | Live mock with FAANG engineers | $200–400/session |
+| **Pramp** | Peer-to-peer system design practice | FREE |
+| **Excalidraw** | Whiteboard tool for drawing system diagrams | FREE |
+| **dbdiagram.io** | Schema design tool — use in data modeling questions | FREE |
+
+#### Recommended Study Order for Mid-Level System Design
+
+```
+Week 1–2:  Watch all Basics playlist (Playlist 1 above)
+Week 3–4:  Read DDIA chapters 1–6 + watch Deep Dives playlist
+Week 5–6:  Do Easy + Medium walkthroughs (Bitly, Dropbox, WhatsApp, Twitter)
+Week 7–8:  Read DDIA chapters 7–12 + do Hard walkthroughs (Uber, YouTube)
+Week 9–10: 2 mock interviews on hellointerview.com + gap-fill with Deep Dives
+Week 11–12: Company-specific prep (Grab → ride-sharing; Shopee → e-commerce; Agoda → search)
+```
 
 ---
 
