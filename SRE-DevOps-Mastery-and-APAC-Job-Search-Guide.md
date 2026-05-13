@@ -484,6 +484,23 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 | Circles.Life | https://circles.life/careers |
 | Lazada | https://careers.lazada.com |
 | Gojek | https://www.gojek.com/en-id/careers |
+| Wise | https://www.wise.jobs |
+| Confluent | https://www.confluent.io/careers |
+| Datadog | https://careers.datadoghq.com |
+| Cloudflare | https://www.cloudflare.com/careers |
+| Zendesk | https://jobs.zendesk.com |
+| Twilio | https://www.twilio.com/en-us/company/jobs |
+| Palantir | https://www.palantir.com/careers |
+| Mastercard | https://careers.mastercard.com |
+| Standard Chartered | https://www.sc.com/en/careers |
+| Singtel | https://careers.singtel.com |
+| ST Engineering | https://careers.stengg.com |
+| Synapxe (IHiS) | https://www.synapxe.sg/careers |
+| Traveloka | https://www.traveloka.com/en-sg/careers |
+| Foodpanda | https://careers.foodpanda.com |
+| PropertyGuru | https://www.propertyguru.com.sg/property-management-news/careers |
+| Carro | https://carro.co/careers |
+| Nium | https://www.nium.com/careers |
 
 ### Japan
 
@@ -499,6 +516,21 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 | SmartNews | https://careers.smartnews.com |
 | Moneyforward | https://corp.moneyforward.com/recruit |
 | DeNA | https://dena.com/intl/careers |
+| Sansan | https://jp.corp-sansan.com/recruit |
+| Freee | https://jobs.freee.co.jp |
+| Recruit Holdings | https://www.recruit.co.jp/employment |
+| Cookpad | https://cookpad.jobs |
+| M3 (m3.com) | https://corporate.m3.com/recruit |
+| Dwango / Niconico | https://dwango.co.jp/recruit |
+| CADDi | https://caddi.com/careers |
+| Preferred Networks | https://preferred.jp/en/careers |
+| NTT Data | https://www.nttdata.com/global/en/careers |
+| Fujitsu | https://careers.fujitsu.com |
+| Sony | https://www.sony.com/en/SonyInfo/Jobs |
+| Toyota Connected | https://www.toyotaconnected.co.jp/recruit |
+| Globis | https://job.globis.co.jp |
+| SmartHR | https://smarthr.co.jp/recruit |
+| Aiming | https://aiming-inc.com/ja/recruit |
 
 ### Malaysia
 
@@ -514,6 +546,20 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 | AirAsia / Capital A | https://careers.airasia.com |
 | Fusionex | https://www.fusionex-international.com/careers |
 | Maxis | https://www.maxis.com.my/maxis-for-you/careers |
+| Lazada (KL) | https://careers.lazada.com |
+| Agoda (KL) | https://careersatagoda.com |
+| Foodpanda Malaysia | https://careers.foodpanda.com |
+| GXBank | https://www.gxbank.com.my/careers |
+| Touch 'n Go | https://www.touchngo.com.my/careers |
+| Boost Holdings | https://www.myboost.com.my/careers |
+| RHB Bank | https://careers.rhbgroup.com |
+| Public Bank | https://www.publicbankgroup.com/Career |
+| PETRONAS | https://www.petronas.com/career |
+| Luno | https://luno.com/en/careers |
+| iPay88 | https://www.ipay88.com.my/careers |
+| Pos Malaysia | https://www.pos.com.my/careers |
+| MyEG | https://www.myeg.com.my/career |
+| Astro | https://www.astro.com.my/corporate/careers |
 
 ### Thailand
 
@@ -527,6 +573,20 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 | Ascend Money | https://www.ascendmoney.io/careers |
 | Grab (Bangkok) | https://grab.careers |
 | Lazada (Bangkok) | https://careers.lazada.com |
+| Foodpanda Thailand | https://careers.foodpanda.com |
+| Shopee Thailand | https://careers.sea.com |
+| ByteDance (Bangkok) | https://jobs.bytedance.com |
+| Krungsri (Bank of Ayudhya) | https://www.krungsri.com/en/careers |
+| Bangkok Bank | https://www.bangkokbank.com/en/careers |
+| KBTG (KBank Tech) | https://kbtg.tech/career |
+| PTT Digital | https://www.pttdigital.com/en/career |
+| Siam Commercial Bank (SCB) | https://careers.scb.co.th |
+| AIS (Advance Info Service) | https://career.ais.th |
+| Flash Express | https://www.flashexpress.co.th/career |
+| Omise / Opn | https://opn.ooo/careers |
+| 2C2P | https://2c2p.com/careers |
+| Central Tech | https://www.centraltech.io/careers |
+| Bitkub | https://www.bitkub.com/careers |
 
 ---
 
