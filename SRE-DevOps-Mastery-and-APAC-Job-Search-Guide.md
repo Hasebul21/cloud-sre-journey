@@ -33,9 +33,16 @@
 
 ## <a id="part-0"></a>Part 0 — Interview Prep Track (Hello Interview Framework)
 
-> Source: [Hello Interview YouTube](https://www.youtube.com/@hello_interview) + [hellointerview.com](https://www.hellointerview.com)
+> Source: [Hello Interview YouTube](https://www.youtube.com/@hello_interview) | [hellointerview.com](https://www.hellointerview.com)
+>
+> All video links below are from the Hello Interview channel. Full playlists:
+> - [Basics](https://www.youtube.com/playlist?list=PL5q3E8eRUieVFeK1oLahJ8KONkAxDpqk2) · [Deep Dives](https://www.youtube.com/playlist?list=PL5q3E8eRUieUHnsz0rh0W6AzwdVJBwEK6) · [System Design Walkthroughs](https://www.youtube.com/playlist?list=PL5q3E8eRUieWtYLmRU3z94-vGRcwKr9tM) · [Low-Level Design](https://www.youtube.com/playlist?list=PL5q3E8eRUieUQCl6CAF4AlOZnmICKmAec) · [Hello Interviews](https://www.youtube.com/playlist?list=PL5q3E8eRUieUwRxPDt_JkpFI407PyXZth)
+
+---
 
 ### 0A. System Design Interviews
+
+> Start here: [How to Prepare for System Design Interviews](https://www.youtube.com/watch?v=Ru54dxzCyD0)
 
 **5-Step Delivery Framework:**
 
@@ -47,26 +54,36 @@
 | 4. Deep Dives | Bottlenecks, failure modes, specific components | 20 min |
 | 5. Trade-offs | Why X over Y; behavior at 10× scale | 5 min |
 
-**Core Concepts to Master:**
-- **Networking** — DNS, HTTP/1.1/2/3, TCP vs UDP, CDN (push/pull), L4 vs L7 load balancers, reverse proxy
-- **API Design** — REST vs GraphQL vs gRPC, idempotency, cursor pagination, rate limiting
-- **Caching** — Redis, cache-aside/write-through/write-back, TTL, LRU/LFU eviction, cache stampede
-- **Sharding** — hash vs range partitioning, consistent hashing, virtual nodes, hot key problem
-- **CAP Theorem** — CP vs AP, eventual vs strong consistency, quorum reads/writes
-- **Database Indexing** — B-tree vs LSM-tree, composite indexes, covering indexes, query explain
-- **Numbers to Know** — latency hierarchy (L1 cache → RAM → SSD → network), storage scales
+**Core Concepts to Master (with videos):**
 
-**Key Technologies:**
+| Concept | Video |
+|---------|-------|
+| Caching (cache-aside, write-through, TTL, eviction) | [Caching in System Design Interviews](https://www.youtube.com/watch?v=1NngTUYPdpI) |
+| Message Queues (Kafka vs RabbitMQ vs SQS) | [Message Queues in System Design Interviews](https://www.youtube.com/watch?v=1ISRd0bS714) |
+| Kafka vs RabbitMQ deep comparison | [Kafka vs RabbitMQ](https://www.youtube.com/watch?v=1HOVtQ-_fcE) |
+| Sharding (hash vs range, consistent hashing, hot keys) | [Sharding in System Design Interviews](https://www.youtube.com/watch?v=L521gizea4s) |
+| Consistent Hashing | [Consistent Hashing: Easy Explanation](https://www.youtube.com/watch?v=vccwdhfqIrI) |
+| API Design (REST, gRPC, idempotency, pagination) | [API Design in System Design Interviews](https://www.youtube.com/watch?v=DQ57zYedMdQ) |
+| Data Modeling (schema design, normalization) | [Data Modeling in System Design Interviews](https://www.youtube.com/watch?v=TUcPS6dsWx4) |
+| Object Storage (S3, blob storage internals) | [Object Storage in System Design Interviews](https://www.youtube.com/watch?v=RvaMHMxHjp4) |
+| Recommendation System infrastructure | [Recommendation System Infra Basics](https://www.youtube.com/watch?v=GncgOIiMII8) |
 
-| Tech | What to understand |
-|------|--------------------|
-| **Redis** | Sorted sets, pub/sub, clustering, RDB vs AOF persistence |
-| **Kafka** | Topics/partitions, consumer groups, offset commits, exactly-once delivery |
-| **Elasticsearch** | Inverted index, analyzers, shards/replicas, relevance scoring |
-| **Cassandra** | Wide-column, partition+clustering key, when to prefer over DynamoDB |
-| **DynamoDB** | Single-table design, GSI/LSI, DynamoDB Streams, hot partitions |
-| **PostgreSQL** | MVCC, logical replication, partitioning with pg_partman |
-| **Kafka + Flink** | Stream processing, event time vs processing time, watermarks |
+**Deep Dive Videos (watch when a topic appears in a walkthrough):**
+
+| Topic | Video |
+|-------|-------|
+| Kafka internals (topics, partitions, consumer groups) | [Kafka System Design Deep Dive](https://www.youtube.com/watch?v=DU8o-OTeoCc) |
+| Redis (sorted sets, clustering, persistence) | [Redis Deep Dive](https://www.youtube.com/watch?v=fmT5nlEkl3U) |
+| Elasticsearch (inverted index, shards, scoring) | [Elasticsearch Deep Dive](https://www.youtube.com/watch?v=PuZvF2EyfBM) |
+| DynamoDB (single-table design, GSI, hot partitions) | [DynamoDB Deep Dive](https://www.youtube.com/watch?v=2X2SO3Y-af8) |
+| Cassandra (wide-column, partition key, vs DynamoDB) | [Cassandra Deep Dive](https://www.youtube.com/watch?v=TD3-INhm60Q) |
+| DB Indexing (B-tree, geospatial, inverted index) | [DB Indexing in System Design Interviews](https://www.youtube.com/watch?v=BHCSL_ZifI0) |
+| CAP Theorem (CP vs AP, eventual consistency) | [CAP Theorem in System Design Interviews](https://www.youtube.com/watch?v=VdrEq0cODu4) |
+| API Gateways (rate limiting, auth, routing) | [API Gateways in System Design Interviews](https://www.youtube.com/watch?v=7-6F3b14baA) |
+| Networking (DNS, HTTP/1/2/3, TCP, load balancers) | [Networking Essentials for System Design](https://www.youtube.com/watch?v=SHkbPm1Wrno) |
+| Distributed Transactions (2PC vs Saga) | [Distributed Transactions: 2PC vs Saga](https://www.youtube.com/watch?v=DOFflggE_0Q) |
+| Big Data Structures (Bloom filters, HyperLogLog) | [Data Structures for Big Data](https://www.youtube.com/watch?v=IgyU0iFIoqM) |
+| Time Series Databases | [How do Time Series Databases Work?](https://www.youtube.com/watch?v=Qd76ZmfRs_Q) |
 
 **Design Patterns:**
 - **Real-time Updates** — WebSockets vs SSE vs Long Polling vs Short Polling
@@ -76,15 +93,97 @@
 - **Large Data Handling** — batch (MapReduce/Spark), stream (Kafka+Flink), columnar (Parquet/Iceberg)
 - **Long-running Jobs** — async queues (SQS/Celery), polling vs webhooks, distributed scheduling
 
-**Practice Problems:**
+**Practice Walkthroughs (do in this order):**
 
-| Difficulty | Problems |
-|------------|----------|
-| **Easy** | Bitly, Dropbox, Local Delivery Service, News Aggregator |
-| **Medium** | Ticketmaster, FB News Feed, WhatsApp, Tinder, Yelp, Rate Limiter, Online Auction, FB Live Comments, Price Tracker, LeetCode clone |
-| **Hard** | Instagram, YouTube, Uber, Google Docs, Distributed Cache, Web Crawler, Ad Click Aggregator, Payment System, Metrics Monitoring, Job Scheduler, Robinhood |
+| Difficulty | Problem | Video |
+|------------|---------|-------|
+| Easy | Design Bitly (URL Shortener) | [Watch](https://www.youtube.com/watch?v=iUU4O1sWtJA) |
+| Easy | Design Dropbox / Google Drive | [Watch](https://www.youtube.com/watch?v=_UZ1ngy-kOI) |
+| Medium | Design WhatsApp | [Watch](https://www.youtube.com/watch?v=cr6p0n0N-VA) |
+| Medium | Design Twitter | [Watch](https://www.youtube.com/watch?v=Nfa-uUHuFHg) |
+| Medium | Design FB News Feed | [Watch](https://www.youtube.com/watch?v=Qj4-GruzyDU) |
+| Medium | Design Tinder | [Watch](https://www.youtube.com/watch?v=18Fg5Akhkqw) |
+| Medium | Design Live Comments | [Watch](https://www.youtube.com/watch?v=LjLx0fCd1k8) |
+| Medium | Design a Distributed Rate Limiter | [Watch](https://www.youtube.com/watch?v=MIJFyUPG4Z4) |
+| Medium | Design Web Crawler | [Watch](https://www.youtube.com/watch?v=krsuaUp__pM) |
+| Hard | Design Ticketmaster | [Watch](https://www.youtube.com/watch?v=fhdPyoO6aXI) |
+| Hard | Design Uber | [Watch](https://www.youtube.com/watch?v=lsKU38RKQSo) |
+| Hard | Design YouTube | [Watch](https://www.youtube.com/watch?v=IUrQ5_g3XKs) |
+| Hard | Design Ad Click Aggregator | [Watch](https://www.youtube.com/watch?v=Zcv_899yqhI) |
+| Hard | Design LeetCode (Online Judge) | [Watch](https://www.youtube.com/watch?v=1xHADtekTNg) |
+| Hard | Design Top-K System | [Watch](https://www.youtube.com/watch?v=y-tA2NW4LNY) |
+| Hard | Design FB Post Search | [Watch](https://www.youtube.com/watch?v=l38XL9914fs) |
 
-### 0B. SQL Interviews
+---
+
+### 0B. Behavioral Interviews
+
+> Watch first: [Behavioral Interview: Common Questions Broken Down](https://www.youtube.com/watch?v=CAda15Tawlg)
+
+**Videos:**
+
+| Video | Link |
+|-------|------|
+| Behavioral Interview: Common Questions (Ex-Meta & Amazon) | [Watch](https://www.youtube.com/watch?v=CAda15Tawlg) |
+| Behavioral Interview Discussion w/ Ex-Meta Hiring Committee Member | [Watch](https://www.youtube.com/watch?v=bBvPQZmPXwQ) |
+| The Art of People Manager Interviews | [Watch](https://www.youtube.com/watch?v=dYrMSHZnqw0) |
+| Interview with a Meta EM: AI Impact, Team Match, How to Learn | [Watch](https://www.youtube.com/watch?v=3Hb5An-NaX8) |
+| How to Learn System Design w/ Jordan Has No Life | [Watch](https://www.youtube.com/watch?v=nJsVO84LCGs) |
+
+**STAR framework:** Situation → Task → Action (say "I" not "we") → Result (quantify). Each story: 90–120 seconds.
+
+| Theme | Question type |
+|-------|---------------|
+| Ownership | End-to-end project you drove |
+| Conflict | Disagreed with a tech decision |
+| Failure | Production incident you caused |
+| Initiative | Took on task without being asked |
+| Collaboration | Worked cross-functionally |
+| Ambiguity | No clear spec — what did you do? |
+| Technical Influence | Convinced team to adopt better practice |
+| Prioritization | Multiple fires — how did you triage? |
+
+**Amazon-specific:** Know all 14 Leadership Principles; have a story for the top 8.
+
+---
+
+### 0C. Coding / DSA
+
+Study patterns in this order — quality > quantity, talk through approach before coding:
+
+1. Arrays + Strings (two pointers, sliding window, prefix sums)
+2. Hash Maps + Sets (frequency counting, two-sum family)
+3. Trees (DFS/BFS, LCA, serialization)
+4. Graphs (BFS/DFS, topological sort, union-find, Dijkstra)
+5. Binary Search (search on answer, rotated arrays)
+6. Heaps / Priority Queues (top-K, merge K sorted lists, median stream)
+7. Dynamic Programming (1D, 2D, interval, knapsack)
+8. Stack + Monotonic Stack (next greater element, histogram area)
+9. Linked Lists (fast/slow pointers, cycle detection)
+10. Concurrency (producer-consumer, semaphores — bonus for SRE)
+
+**Target:** 150–200 medium problems. Start brute force, then optimize. Test edge cases.
+
+---
+
+### 0D. Low-Level Design (OOP)
+
+**Videos:**
+
+| Video | Link |
+|-------|------|
+| Concurrency in Low-Level Design Interviews | [Watch](https://www.youtube.com/watch?v=d8rmosXttTE) |
+| LLD Interview: Design an Elevator | [Watch](https://www.youtube.com/watch?v=fODT0ldeBiU) |
+| LLD Interview: Design Amazon Locker | [Watch](https://www.youtube.com/watch?v=s6nGkoGJhXk) |
+| LLD Interview: Design Connect Four | [Watch](https://www.youtube.com/watch?v=9UI4ikKP3Ws) |
+
+- **SOLID Principles** — Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion
+- **Key Patterns** — Factory, Singleton, Observer, Strategy, Decorator, Builder
+- **Practice problems** — Parking Lot, Elevator, Chess, Library System, Food Delivery App, Notification System
+
+---
+
+### 0E. SQL / MySQL Interviews
 
 SQL appears in almost every SRE/SWE interview loop — often 1–2 questions in the coding round or a standalone round.
 
@@ -268,46 +367,9 @@ FROM employees GROUP BY dept;
 
 **Tip:** Practice in MySQL 8.0 (matches LeetCode environment). Window functions, CTEs, and DENSE_RANK work identically in PostgreSQL — switch freely for APAC company stacks.
 
-### 0C. Coding / DSA
+---
 
-Study patterns in this order — quality > quantity, talk through approach before coding:
-
-1. Arrays + Strings (two pointers, sliding window, prefix sums)
-2. Hash Maps + Sets (frequency counting, two-sum family)
-3. Trees (DFS/BFS, LCA, serialization)
-4. Graphs (BFS/DFS, topological sort, union-find, Dijkstra)
-5. Binary Search (search on answer, rotated arrays)
-6. Heaps / Priority Queues (top-K, merge K sorted lists, median stream)
-7. Dynamic Programming (1D, 2D, interval, knapsack)
-8. Stack + Monotonic Stack (next greater element, histogram area)
-9. Linked Lists (fast/slow pointers, cycle detection)
-10. Concurrency (producer-consumer, semaphores — bonus for SRE)
-
-**Target:** 150–200 medium problems. Start brute force, then optimize. Test edge cases.
-
-### 0C. Behavioral Interviews
-
-**STAR framework:** Situation → Task → Action (say "I" not "we") → Result (quantify). Each story: 90–120 seconds.
-
-| Theme | Question type |
-|-------|---------------|
-| Ownership | End-to-end project you drove |
-| Conflict | Disagreed with a tech decision |
-| Failure | Production incident you caused |
-| Initiative | Took on task without being asked |
-| Collaboration | Worked cross-functionally |
-| Ambiguity | No clear spec — what did you do? |
-| Technical Influence | Convinced team to adopt better practice |
-| Prioritization | Multiple fires — how did you triage? |
-
-**Amazon-specific:** Know all 14 Leadership Principles; have a story for the top 8.
-
-### 0D. Low-Level Design (OOP)
-- **SOLID Principles** — Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion
-- **Key Patterns** — Factory, Singleton, Observer, Strategy, Decorator, Builder
-- **Practice problems** — Parking Lot, Elevator, Chess, Library System, Food Delivery App, Notification System
-
-### 0E. Interview Prep Schedule
+### 0F. Interview Prep Schedule
 
 | Weeks | Focus |
 |-------|-------|
