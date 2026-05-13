@@ -10,6 +10,10 @@
 
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part A — Full Software Lifecycle Mastery](#part-a)
+   - [A1–A2. Plan + Code](#a1a2-plan--code)
+   - [A3–A4. Build + Deploy](#a3a4-build--deploy)
+   - [A5–A6. Operate + Maintain](#a5a6-operate--maintain)
+   - [A7. Cost Optimization](#a7-cost-optimization)
 3. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
    - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
    - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
