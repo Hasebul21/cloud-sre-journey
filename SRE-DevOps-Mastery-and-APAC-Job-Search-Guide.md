@@ -1527,6 +1527,72 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 
 ---
 
+### System Design Video Resources (Additional Channels)
+
+> Community playlists that complement the Hello Interview material — Piyush Garg covers core patterns concisely; Engineering Digest is a Hindi-language end-to-end intro to the fundamentals.
+
+#### Playlist 6 — System Design (Piyush Garg)
+> 14 videos · concise pattern + concept walkthroughs
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | System Design for Beginners | https://www.youtube.com/watch?v=lFeYU31TnQ8 |
+| 2 | System Design Crash Course - Part 2 | https://www.youtube.com/watch?v=YuB3OuF3MUE |
+| 3 | System Design - Event Sourcing | https://www.youtube.com/watch?v=JTmgi0vO5Ug |
+| 4 | CQRS System Design Pattern | https://www.youtube.com/watch?v=vNplj9LwQSw |
+| 5 | Back of Envelope Calculation - System Design Concept | https://www.youtube.com/watch?v=DwqTon7ZS_s |
+| 6 | Master Rate Limiting - System Design | https://www.youtube.com/watch?v=CVItTb_jdkE |
+| 7 | Consistent Hashing - System Design | https://www.youtube.com/watch?v=IC5Y1EE-aj4 |
+| 8 | How Video Streaming Works on Scale - System Design | https://www.youtube.com/watch?v=-JtjQ-OA7XE |
+| 9 | System Design of UPI Payments | https://www.youtube.com/watch?v=fqySz1Me2pI |
+| 10 | What are Bloom Filters? \| System Design | https://www.youtube.com/watch?v=vz0QUa4CS3o |
+| 11 | System Design Behind Multi-Conference Video Calls - WebRTC vs SFU vs MCU | https://www.youtube.com/watch?v=Zaz6hYVm-WE |
+| 12 | Gossip Protocol System Design | https://www.youtube.com/watch?v=TUc_hPtxyf8 |
+| 13 | Master Queues \| System Design Interview | https://www.youtube.com/watch?v=2tCfITBVKjA |
+| 14 | System Design Patterns you should Master Right Now | https://www.youtube.com/watch?v=OdNpY3WQniQ |
+
+#### Playlist 7 — System Design Playlist in Hindi (Engineering Digest)
+> 34 videos · Hindi-language fundamentals: architecture → scaling → databases → auth → SD walkthroughs
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | What is system design process in software engineering? | https://www.youtube.com/watch?v=43-X22tdxiI |
+| 2 | Monolithic Architecture In Hindi (Complete Explanation) | https://www.youtube.com/watch?v=z4AUhxIWKSM |
+| 3 | Difference between monolithic and microservices architecture in Hindi | https://www.youtube.com/watch?v=MPxr1q8ORuA |
+| 4 | What is latency in networking in Hindi \| How to reduce latency in network \| CDN vs Caching | https://www.youtube.com/watch?v=cG3LMd2hIXY |
+| 5 | What is throughput in Hindi? (How to improve throughput?) | https://www.youtube.com/watch?v=IhemzDuCwgU |
+| 6 | What is availability? (replication vs redundancy) | https://www.youtube.com/watch?v=Cdh9qAwFNNk |
+| 7 | What is Consistency in System Design in Hindi (Strong vs Eventual Consistency) | https://www.youtube.com/watch?v=2GKay0Mwk4U |
+| 8 | What is CAP theorem in Hindi? | https://www.youtube.com/watch?v=rb2R5I9S5d8 |
+| 9 | What is Lamport Logical Clock? | https://www.youtube.com/watch?v=27wYlcIYAO8 |
+| 10 | Difference between horizontal and vertical scaling in Hindi | https://www.youtube.com/watch?v=dHjHXis1r24 |
+| 11 | Difference between Redundancy and Replication in Hindi (Master - Slave Replication) | https://www.youtube.com/watch?v=d9kA8CW8Cns |
+| 12 | What is load balancer and How it works in Hindi (Load Balancing Algorithms in Hindi) | https://www.youtube.com/watch?v=bIBC_RQtS2E |
+| 13 | What is Caching in Hindi (Complete Explanation) | https://www.youtube.com/watch?v=xBTGln828Ps |
+| 14 | Cache Eviction Techniques in Hindi (LRU, LFU, MRU, LIFO, FIFO & RR) | https://www.youtube.com/watch?v=IaDU8_KjrpY |
+| 15 | File based storage system in Hindi (File Based Database Management System in Hindi) | https://www.youtube.com/watch?v=ZtpIzSZbuh0 |
+| 16 | Can RDBMS scale horizontally in Hindi? (Why is it hard to scale relational database?) | https://www.youtube.com/watch?v=VOrpRnE24KI |
+| 17 | Types of NoSQL Databases in Hindi (Which one to use and where?) | https://www.youtube.com/watch?v=qxFj8X8n6CE |
+| 18 | What is Polyglot Persistence in Hindi? | https://www.youtube.com/watch?v=z7wB95TXB8M |
+| 19 | What is denormalization in RDBMS in Hindi | https://www.youtube.com/watch?v=o8HgXxqsYBc |
+| 20 | How does indexing work in Databases in Hindi (How to optimize SQL Queries in Hindi) | https://www.youtube.com/watch?v=xXtig5uLQS4 |
+| 21 | What is Synchronous communication in Hindi | https://www.youtube.com/watch?v=W7ppbYgrhwg |
+| 22 | What is synchronous and asynchronous communication in Hindi | https://www.youtube.com/watch?v=MyiLxH8St0U |
+| 23 | What is message based communication in Hindi? | https://www.youtube.com/watch?v=6HKwwJOFHOY |
+| 24 | What is web server in Hindi | https://www.youtube.com/watch?v=1_8a8-__6ts |
+| 25 | What is communication protocol in computer network in Hindi | https://www.youtube.com/watch?v=zaArcSrLPa8 |
+| 26 | REST API \| SOA \| Microservices architecture \| Tier architecture | https://www.youtube.com/watch?v=SvBnrJKzH8k |
+| 27 | Difference between Authentication and Authorization in Hindi | https://www.youtube.com/watch?v=B76BhEq1FN8 |
+| 28 | Basic Authentication in Hindi | https://www.youtube.com/watch?v=2x1L563nTlU |
+| 29 | Token Based Authentication in Hindi | https://www.youtube.com/watch?v=VPnYuwwg0rU |
+| 30 | OAuth Authentication in Hindi | https://www.youtube.com/watch?v=EYQijvnyYp0 |
+| 31 | Forward proxy and reverse proxy Explained in Hindi | https://www.youtube.com/watch?v=dBtpV7aN_20 |
+| 32 | Reverse proxy server in Hindi | https://www.youtube.com/watch?v=Q5jPD2ECEgM |
+| 33 | URL shortener system design in Hindi \| Tinyurl system design in Hindi \| Bitly system design in Hindi | https://www.youtube.com/watch?v=9csfoQK2T8g |
+| 34 | Dropbox system design in Hindi \| Google drive system design in Hindi | https://www.youtube.com/watch?v=k8AObcX8azM |
+
+---
+
 ### Extra System Design Resources (Mid-Level Interview Focus)
 
 #### YouTube Channels
