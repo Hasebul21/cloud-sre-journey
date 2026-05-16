@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SRE Notebook — APAC Study Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ───────── Paper notebook aesthetic ───────── */
+
+:root {
+  --paper: #f6f1e4;
+  --paper-2: #fbf6e7;
+  --paper-line: #d8cdb1;
+  --ink: #2a2418;
+  --ink-soft: #5a4f3d;
+  --ink-faint: #9a8e76;
+  --red: #c4502e;
+  --blue: #2a5d8f;
+  --green: #4a7a3b;
+  --yellow: #e6b820;
+  --pink: #d68b9a;
+  --accent: #f2c14e;
+  --shadow: 0 1px 0 rgba(0,0,0,0.05), 0 8px 24px rgba(60, 45, 20, 0.08);
+}
+
+@font-face { font-family: 'Caveat'; src: local('Caveat'); }
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Source Serif Pro', 'Iowan Old Style', Georgia, serif;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(196,80,46,0.04), transparent 30%),
+    radial-gradient(circle at 88% 78%, rgba(42,93,143,0.05), transparent 30%);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--blue); text-decoration: none; border-bottom: 1px dotted var(--blue); }
+a:hover { color: var(--red); border-color: var(--red); }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: inherit;
+}
+
+/* ───────── App shell ───────── */
+
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* ───────── Sidebar ───────── */
+
+.sidebar {
+  background:
+    repeating-linear-gradient(transparent, transparent 27px, rgba(196,80,46,0.06) 28px),
+    var(--paper-2);
+  border-right: 1px dashed var(--paper-line);
+  padding: 22px 18px 40px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--paper-line); border-radius: 3px; }
+
+.brand {
+  font-family: 'Caveat', 'Kalam', 'Patrick Hand', cursive;
+  font-size: 32px;
+  line-height: 1;
+  margin: 4px 0 2px;
+  color: var(--ink);
+  letter-spacing: 0.5px;
+}
+.brand .dot { color: var(--red); }
+
+.brand-sub {
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.overall-card {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  box-shadow: 3px 3px 0 var(--ink-soft);
+  position: relative;
+}
+
+.overall-card h4 {
+  margin: 0 0 6px;
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-group-label {
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 14px 6px 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--ink-soft);
+  border: 1.5px solid transparent;
+  position: relative;
+  transition: all 0.12s;
+}
+.nav-item:hover { background: rgba(196,80,46,0.06); color: var(--ink); }
+.nav-item.active {
+  background: var(--paper);
+  border-color: var(--ink);
+  color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink-soft);
+  font-weight: 600;
+}
+.nav-item .icon { font-size: 16px; width: 18px; text-align: center; }
+.nav-item .mini-bar {
+  position: absolute;
+  right: 10px;
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-family: 'Caveat', cursive;
+  font-size: 14px;
+}
+
+/* ───────── Main content ───────── */
+
+.main {
+  padding: 32px 40px 80px;
+  max-width: 1100px;
+}
+
+.page-head {
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--paper-line);
+}
+
+.page-title {
+  font-family: 'Caveat', cursive;
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.page-sub { color: var(--ink-soft); font-size: 14px; margin: 0; }
+
+.section-card {
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  box-shadow: 4px 4px 0 var(--ink-soft);
+  position: relative;
+}
+
+.section-card.tilted-l { transform: rotate(-0.25deg); }
+.section-card.tilted-r { transform: rotate(0.25deg); }
+
+.section-card h2 {
+  font-family: 'Caveat', cursive;
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  line-height: 1;
+}
+.section-card h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 18px 0 8px;
+}
+.section-card .lead { color: var(--ink-soft); margin: 0 0 14px; }
+
+/* ───────── Progress bar ───────── */
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+.progress-track {
+  flex: 1;
+  height: 14px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 6px,
+    rgba(0,0,0,0.06) 6px, rgba(0,0,0,0.06) 12px
+  );
+  transition: width 0.4s ease;
+}
+.progress-pct {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  min-width: 60px;
+  color: var(--ink);
+}
+.progress-frac {
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+
+/* ───────── Checklist ───────── */
+
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 7px 8px;
+  border-bottom: 1px dotted var(--paper-line);
+  transition: background 0.1s;
+}
+.checklist li:hover { background: rgba(0,0,0,0.02); }
+.checklist li:last-child { border-bottom: none; }
+
+.check {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  color: var(--red);
+  line-height: 1;
+  transition: all 0.1s;
+}
+.check:hover { background: #fff; transform: scale(1.05) rotate(-2deg); }
+.check.checked { background: #fff7d6; }
+
+.item-label {
+  flex: 1;
+  cursor: pointer;
+  padding-top: 1px;
+}
+.item-label.done {
+  text-decoration: line-through;
+  text-decoration-color: var(--red);
+  text-decoration-thickness: 2px;
+  color: var(--ink-faint);
+}
+
+.tag {
+  display: inline-block;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1.5px solid;
+  margin-left: 6px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: 'Source Serif Pro', serif;
+}
+.tag-easy { color: var(--green); border-color: var(--green); }
+.tag-medium { color: var(--yellow); border-color: var(--yellow); background: #fef9e0; }
+.tag-hard { color: var(--red); border-color: var(--red); background: #fcebe2; }
+.tag-num {
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-right: 8px;
+  min-width: 36px;
+}
+
+/* ───────── DSA grid ───────── */
+
+.dsa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+@media (max-width: 900px) { .dsa-grid { grid-template-columns: 1fr; } }
+
+/* ───────── Stat row (overview) ───────── */
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+@media (max-width: 900px) { .stat-row { grid-template-columns: 1fr 1fr; } }
+
+.stat {
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 3px 3px 0 var(--ink-soft);
+  position: relative;
+  overflow: hidden;
+}
+.stat .v {
+  font-family: 'Caveat', cursive;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.stat .l { font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px; }
+.stat .sub { font-size: 12px; color: var(--ink-faint); margin-top: 2px; font-family: 'Caveat', cursive; font-size: 16px; }
+
+.stat.streak .v { color: var(--red); }
+.stat.streak::after {
+  content: "🔥";
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 22px;
+  opacity: 0.7;
+}
+
+/* ───────── Habits ───────── */
+
+.habit-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--paper-line);
+}
+.habit-row:last-child { border: none; }
+.habit-name {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  flex: 1;
+}
+.habit-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.habit-counter button {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  border-radius: 6px;
+  background: var(--paper);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+}
+.habit-counter button:hover { background: #fff7d6; }
+.habit-counter .num {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  min-width: 60px;
+  text-align: center;
+}
+.habit-counter .target { color: var(--ink-faint); }
+
+.week-strip {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+}
+.week-day {
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  background: var(--paper);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Caveat', cursive;
+  cursor: pointer;
+}
+.week-day.done { background: var(--accent); }
+.week-day.today { box-shadow: 0 0 0 2px var(--red); }
+
+/* ───────── Time log ───────── */
+
+.time-log {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-left: 8px;
+}
+.time-log input {
+  width: 50px;
+  padding: 1px 4px;
+  border: 1px solid var(--paper-line);
+  border-radius: 4px;
+  background: var(--paper);
+  font: inherit;
+  text-align: right;
+  color: var(--ink);
+}
+
+/* ───────── Notes ───────── */
+
+.notes {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background:
+    repeating-linear-gradient(transparent, transparent 22px, rgba(42,93,143,0.18) 23px),
+    var(--paper);
+  border: 1px dashed var(--paper-line);
+  border-radius: 6px;
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--ink);
+  resize: vertical;
+  min-height: 72px;
+  outline: none;
+}
+.notes:focus { border-color: var(--blue); border-style: solid; }
+
+/* ───────── Country tabs ───────── */
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 6px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  background: var(--paper);
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  font-weight: 600;
+}
+.tab.active { background: var(--accent); box-shadow: 2px 2px 0 var(--ink-soft); }
+
+.job-row {
+  display: grid;
+  grid-template-columns: 22px 1fr 110px 90px;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 6px;
+  border-bottom: 1px dotted var(--paper-line);
+}
+.job-row select {
+  font: inherit;
+  font-family: 'Caveat', cursive;
+  font-size: 16px;
+  padding: 2px 6px;
+  border: 1.5px solid var(--paper-line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* ───────── Doodles / accents ───────── */
+
+.tape {
+  position: absolute;
+  background: rgba(255,235,150,0.7);
+  width: 70px;
+  height: 18px;
+  top: -8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.06);
+}
+.tape.tl { left: 20px; transform: rotate(-3deg); }
+.tape.tr { right: 20px; transform: rotate(2deg); }
+
+.pin {
+  display: inline-block;
+  width: 14px; height: 14px;
+  background: var(--red);
+  border-radius: 50%;
+  box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.legend {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+}
+
+.row-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 900px) { .row-grid-2 { grid-template-columns: 1fr; } }
+
+.callout {
+  border-left: 4px solid var(--red);
+  padding: 8px 12px;
+  background: rgba(196,80,46,0.06);
+  border-radius: 4px;
+  margin: 12px 0;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.kbd {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  background: var(--paper);
+  border: 1px solid var(--paper-line);
+  border-radius: 4px;
+  padding: 0 5px;
+}
+
+/* mobile */
+@media (max-width: 800px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px dashed var(--paper-line); }
+  .main { padding: 24px 18px 60px; }
+}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+
+<script>
+// All trackable items, organized by section.
+// Each item has a stable `id` used as localStorage key suffix.
+
+window.SRE_DATA = {
+  // ────────────────────────────────────────────────────────────────
+  // PART 0 — Interview Prep
+  // ────────────────────────────────────────────────────────────────
+  sysDesignConcepts: [
+    { id: "sd-caching", name: "Caching (cache-aside, write-through, TTL, eviction)" },
+    { id: "sd-mq", name: "Message Queues (Kafka vs RabbitMQ vs SQS)" },
+    { id: "sd-kafka-rmq", name: "Kafka vs RabbitMQ deep comparison" },
+    { id: "sd-sharding", name: "Sharding (hash vs range, consistent hashing)" },
+    { id: "sd-consistent-hash", name: "Consistent Hashing" },
+    { id: "sd-api", name: "API Design (REST, gRPC, idempotency, pagination)" },
+    { id: "sd-data-model", name: "Data Modeling (schema, normalization)" },
+    { id: "sd-object-store", name: "Object Storage (S3, blob internals)" },
+    { id: "sd-reco", name: "Recommendation System infrastructure" },
+  ],
+  sysDesignDeepDives: [
+    { id: "dd-kafka", name: "Kafka internals" },
+    { id: "dd-redis", name: "Redis (sorted sets, clustering, persistence)" },
+    { id: "dd-es", name: "Elasticsearch (inverted index, shards, scoring)" },
+    { id: "dd-dynamo", name: "DynamoDB (single-table, GSI, hot partitions)" },
+    { id: "dd-cassandra", name: "Cassandra (wide-column, partition key)" },
+    { id: "dd-indexing", name: "DB Indexing (B-tree, geospatial, inverted)" },
+    { id: "dd-cap", name: "CAP Theorem (CP vs AP, eventual consistency)" },
+    { id: "dd-apigw", name: "API Gateways (rate limit, auth, routing)" },
+    { id: "dd-net", name: "Networking (DNS, HTTP, TCP, LBs)" },
+    { id: "dd-tx", name: "Distributed Transactions (2PC vs Saga)" },
+    { id: "dd-bigdata", name: "Bloom filters, HyperLogLog" },
+    { id: "dd-tsdb", name: "Time Series Databases" },
+  ],
+  sysDesignWalkthroughs: [
+    { id: "w-bitly", name: "Design Bitly (URL Shortener)", level: "Easy" },
+    { id: "w-dropbox", name: "Design Dropbox / Google Drive", level: "Easy" },
+    { id: "w-whatsapp", name: "Design WhatsApp", level: "Medium" },
+    { id: "w-twitter", name: "Design Twitter", level: "Medium" },
+    { id: "w-newsfeed", name: "Design FB News Feed", level: "Medium" },
+    { id: "w-tinder", name: "Design Tinder", level: "Medium" },
+    { id: "w-comments", name: "Design Live Comments", level: "Medium" },
+    { id: "w-ratelimiter", name: "Design Distributed Rate Limiter", level: "Medium" },
+    { id: "w-crawler", name: "Design Web Crawler", level: "Medium" },
+    { id: "w-ticketmaster", name: "Design Ticketmaster", level: "Hard" },
+    { id: "w-uber", name: "Design Uber", level: "Hard" },
+    { id: "w-youtube", name: "Design YouTube", level: "Hard" },
+    { id: "w-adclick", name: "Design Ad Click Aggregator", level: "Hard" },
+    { id: "w-leetcode", name: "Design LeetCode (Online Judge)", level: "Hard" },
+    { id: "w-topk", name: "Design Top-K System", level: "Hard" },
+    { id: "w-postsearch", name: "Design FB Post Search", level: "Hard" },
+  ],
+  starStories: [
+    { id: "star-incident", name: "Production incident — diagnose → fix → prevent" },
+    { id: "star-disagree", name: "Disagreed with a senior engineer" },
+    { id: "star-initiative", name: "Took initiative without being asked" },
+    { id: "star-failure", name: "Failure or mistake (honest + learning)" },
+    { id: "star-mentor", name: "Mentored or helped a teammate" },
+    { id: "star-tradeoff", name: "Technical decision with trade-offs" },
+    { id: "star-improve", name: "Improved a process or system" },
+    { id: "star-deadline", name: "Missed a deadline (honest framing)" },
+  ],
+  lldVideos: [
+    { id: "lld-concur", name: "Concurrency in LLD Interviews" },
+    { id: "lld-elev", name: "Design an Elevator" },
+    { id: "lld-locker", name: "Design Amazon Locker" },
+    { id: "lld-c4", name: "Design Connect Four" },
+  ],
+  lldPractice: [
+    { id: "lld-parking", name: "Parking Lot" },
+    { id: "lld-chess", name: "Chess" },
+    { id: "lld-library", name: "Library System" },
+    { id: "lld-food", name: "Food Delivery App" },
+    { id: "lld-notif", name: "Notification System" },
+  ],
+  sqlConcepts: [
+    { id: "sql-joins", name: "JOIN types (INNER / LEFT / SELF / CROSS)" },
+    { id: "sql-agg", name: "Aggregation + GROUP BY / HAVING" },
+    { id: "sql-window", name: "Window Functions (ROW_NUMBER, RANK, LAG, LEAD)" },
+    { id: "sql-cte", name: "CTEs vs Subqueries" },
+    { id: "sql-null", name: "NULL handling (COALESCE, IFNULL, NULLIF)" },
+    { id: "sql-string", name: "String functions" },
+    { id: "sql-date", name: "Date & time functions" },
+    { id: "sql-case", name: "CASE expressions + pivot pattern" },
+    { id: "sql-union", name: "UNION vs UNION ALL" },
+    { id: "sql-distinct", name: "DISTINCT vs GROUP BY" },
+    { id: "sql-index", name: "Index usage + EXPLAIN" },
+    { id: "sql-tx", name: "Transactions & isolation levels" },
+  ],
+  sqlProblems: [
+    [175,"Combine Two Tables","Easy"],[176,"Second Highest Salary","Medium"],
+    [177,"Nth Highest Salary","Medium"],[178,"Rank Scores","Medium"],
+    [180,"Consecutive Numbers","Medium"],[181,"Employees Earning > Manager","Easy"],
+    [182,"Duplicate Emails","Easy"],[183,"Customers Who Never Order","Easy"],
+    [184,"Department Highest Salary","Medium"],[185,"Department Top 3 Salaries","Hard"],
+    [196,"Delete Duplicate Emails","Easy"],[197,"Rising Temperature","Easy"],
+    [262,"Trips and Users","Hard"],[511,"Game Play Analysis I","Easy"],
+    [550,"Game Play Analysis IV","Medium"],[570,"Managers with ≥5 Reports","Medium"],
+    [577,"Employee Bonus","Easy"],[584,"Find Customer Referee","Easy"],
+    [595,"Big Countries","Easy"],[601,"Human Traffic of Stadium","Hard"],
+    [626,"Exchange Seats","Medium"],[1045,"Customers Bought All Products","Medium"],
+    [1141,"User Activity Past 30 Days","Easy"],[1179,"Reformat Department Table","Medium"],
+    [1193,"Monthly Transactions I","Medium"],[1321,"Restaurant Growth","Hard"],
+    [1341,"Movie Rating","Medium"],[1484,"Group Sold Products By Date","Easy"],
+    [1667,"Fix Names in a Table","Easy"],[1934,"Confirmation Rate","Medium"],
+  ].map(([n,t,d]) => ({ id: `sql-${n}`, num: n, name: t, level: d })),
+
+  // 150 DSA problems organized by topic
+  dsaTopics: [
+    { topic: "Arrays & Strings", items: [
+      [1,"Two Sum","Easy"],[2,"Best Time to Buy & Sell Stock","Easy"],
+      [3,"Contains Duplicate","Easy"],[4,"Valid Anagram","Easy"],
+      [5,"Valid Palindrome","Easy"],[6,"Product of Array Except Self","Medium"],
+      [7,"Maximum Subarray","Medium"],[8,"Maximum Product Subarray","Medium"],
+      [9,"3Sum","Medium"],[10,"Container With Most Water","Medium"],
+      [11,"Longest Substring W/o Repeating","Medium"],[12,"Longest Repeating Char Replacement","Medium"],
+      [13,"Group Anagrams","Medium"],[14,"Subarray Sum Equals K","Medium"],
+      [15,"Rotate Array","Medium"],[16,"Find Min in Rotated Sorted","Medium"],
+      [17,"Search in Rotated Sorted","Medium"],[18,"Trapping Rain Water","Hard"],
+      [19,"Minimum Window Substring","Hard"],[20,"Sliding Window Maximum","Hard"],
+    ]},
+    { topic: "Binary Search", items: [
+      [21,"Binary Search","Easy"],[22,"First Bad Version","Easy"],
+      [23,"Search a 2D Matrix","Medium"],[24,"Find Peak Element","Medium"],
+      [25,"Koko Eating Bananas","Medium"],[26,"Time Based Key-Value Store","Medium"],
+      [27,"Ship Packages Within D Days","Medium"],[28,"Find the Duplicate Number","Medium"],
+      [29,"Split Array Largest Sum","Hard"],[30,"Median of Two Sorted Arrays","Hard"],
+    ]},
+    { topic: "Hash Maps & Sets", items: [
+      [31,"Top K Frequent Elements","Medium"],[32,"Longest Consecutive Sequence","Medium"],
+      [33,"Valid Sudoku","Medium"],[34,"LRU Cache","Medium"],
+      [35,"Insert Delete GetRandom O(1)","Medium"],[36,"Two Sum II — Sorted","Medium"],
+      [37,"Isomorphic Strings","Easy"],[38,"Word Pattern","Easy"],
+      [39,"Design HashMap","Easy"],[40,"First Missing Positive","Hard"],
+    ]},
+    { topic: "Trees", items: [
+      [41,"Invert Binary Tree","Easy"],[42,"Max Depth of Binary Tree","Easy"],
+      [43,"Diameter of Binary Tree","Easy"],[44,"Balanced Binary Tree","Easy"],
+      [45,"Same Tree","Easy"],[46,"Subtree of Another Tree","Easy"],
+      [47,"Path Sum","Easy"],[48,"Level Order Traversal","Medium"],
+      [49,"Right Side View","Medium"],[50,"Validate BST","Medium"],
+      [51,"Kth Smallest in BST","Medium"],[52,"LCA of BST","Medium"],
+      [53,"LCA of Binary Tree","Medium"],[54,"Construct from Preorder + Inorder","Medium"],
+      [55,"Count Good Nodes","Medium"],[56,"Implement Trie","Medium"],
+      [57,"Add and Search Words","Medium"],[58,"Word Search II","Hard"],
+      [59,"Binary Tree Max Path Sum","Hard"],[60,"Serialize/Deserialize Binary Tree","Hard"],
+    ]},
+    { topic: "Graphs", items: [
+      [61,"Number of Islands","Medium"],[62,"Max Area of Island","Medium"],
+      [63,"Clone Graph","Medium"],[64,"Number of Provinces","Medium"],
+      [65,"Rotting Oranges","Medium"],[66,"01 Matrix","Medium"],
+      [67,"Surrounded Regions","Medium"],[68,"Pacific Atlantic Water Flow","Medium"],
+      [69,"Course Schedule","Medium"],[70,"Course Schedule II","Medium"],
+      [71,"Redundant Connection","Medium"],[72,"Accounts Merge","Medium"],
+      [73,"Is Graph Bipartite?","Medium"],[74,"All Paths Source→Target","Medium"],
+      [75,"Keys and Rooms","Medium"],[76,"Find Path Exists in Graph","Easy"],
+      [77,"Network Delay Time","Medium"],[78,"Cheapest Flights K Stops","Medium"],
+      [79,"Minimum Height Trees","Medium"],[80,"Word Ladder","Hard"],
+    ]},
+    { topic: "Heaps / Priority Queues", items: [
+      [81,"Last Stone Weight","Easy"],[82,"Kth Largest Element","Medium"],
+      [83,"K Closest Points to Origin","Medium"],[84,"Top K Frequent Words","Medium"],
+      [85,"Task Scheduler","Medium"],[86,"Reorganize String","Medium"],
+      [87,"Design Twitter","Medium"],[88,"IPO","Hard"],
+      [89,"Find Median from Data Stream","Hard"],[90,"Merge K Sorted Lists","Hard"],
+    ]},
+    { topic: "Stack & Monotonic Stack", items: [
+      [91,"Valid Parentheses","Easy"],[92,"Next Greater Element I","Easy"],
+      [93,"Min Stack","Medium"],[94,"Evaluate RPN","Medium"],
+      [95,"Generate Parentheses","Medium"],[96,"Daily Temperatures","Medium"],
+      [97,"Online Stock Span","Medium"],[98,"Car Fleet","Medium"],
+      [99,"Remove K Digits","Medium"],[100,"Largest Rectangle in Histogram","Hard"],
+    ]},
+    { topic: "Linked Lists", items: [
+      [101,"Reverse Linked List","Easy"],[102,"Merge Two Sorted Lists","Easy"],
+      [103,"Linked List Cycle","Easy"],[104,"Palindrome Linked List","Easy"],
+      [105,"Intersection of Two Linked Lists","Easy"],[106,"Remove Nth From End","Medium"],
+      [107,"Reorder List","Medium"],[108,"Add Two Numbers","Medium"],
+      [109,"Copy List with Random Pointer","Medium"],[110,"Reverse Linked List II","Medium"],
+    ]},
+    { topic: "Dynamic Programming", items: [
+      [111,"Climbing Stairs","Easy"],[112,"House Robber","Medium"],
+      [113,"House Robber II","Medium"],[114,"Longest Palindromic Substring","Medium"],
+      [115,"Palindromic Substrings","Medium"],[116,"Decode Ways","Medium"],
+      [117,"Coin Change","Medium"],[118,"Coin Change II","Medium"],
+      [119,"Word Break","Medium"],[120,"Longest Increasing Subseq","Medium"],
+      [121,"Longest Common Subseq","Medium"],[122,"Unique Paths","Medium"],
+      [123,"Jump Game","Medium"],[124,"Jump Game II","Medium"],
+      [125,"Target Sum","Medium"],[126,"Partition Equal Subset Sum","Medium"],
+      [127,"Buy & Sell Stock w/ Cooldown","Medium"],[128,"Interleaving String","Medium"],
+      [129,"Edit Distance","Medium"],[130,"Regular Expression Matching","Hard"],
+    ]},
+    { topic: "Backtracking", items: [
+      [131,"Subsets","Medium"],[132,"Subsets II","Medium"],
+      [133,"Permutations","Medium"],[134,"Combination Sum","Medium"],
+      [135,"Combination Sum II","Medium"],[136,"Letter Combos of Phone","Medium"],
+      [137,"Word Search","Medium"],[138,"Palindrome Partitioning","Medium"],
+      [139,"Restore IP Addresses","Medium"],[140,"N-Queens","Hard"],
+    ]},
+    { topic: "Intervals", items: [
+      [141,"Merge Intervals","Medium"],[142,"Insert Interval","Medium"],
+      [143,"Non-overlapping Intervals","Medium"],[144,"Min Arrows to Burst Balloons","Medium"],
+      [145,"Interval List Intersections","Medium"],
+    ]},
+    { topic: "Math & Bit Manipulation", items: [
+      [146,"Number of 1 Bits","Easy"],[147,"Counting Bits","Easy"],
+      [148,"Reverse Bits","Easy"],[149,"Missing Number","Easy"],
+      [150,"Sum of Two Integers","Medium"],
+    ]},
+  ].map(t => ({ ...t, items: t.items.map(([n,name,d]) => ({ id:`dsa-${n}`, num:n, name, level:d })) })),
+
+  // 24-week schedule
+  schedule: [
+    { weeks: "1–2", focus: "Delivery framework + Easy problems (Bitly, Dropbox)", id: "wk-1-2" },
+    { weeks: "3–4", focus: "Core concepts (caching, sharding, CAP) + DSA arrays/strings/hashmaps", id: "wk-3-4" },
+    { weeks: "5–8", focus: "Medium system design (2/week) + DSA trees/graphs/binary search", id: "wk-5-8" },
+    { weeks: "9–12", focus: "Hard system design + Behavioral story bank (write 8 stories)", id: "wk-9-12" },
+    { weeks: "13–16", focus: "Mock interviews + LLD basics", id: "wk-13-16" },
+    { weeks: "17–20", focus: "Company-specific prep (Grab, Shopee, ByteDance) + full mock loops", id: "wk-17-20" },
+    { weeks: "21–24", focus: "Live interviews + 1 LeetCode/day maintenance", id: "wk-21-24" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART A — Lifecycle
+  // ────────────────────────────────────────────────────────────────
+  lifecycle: [
+    { group: "A1–A2 · Plan + Code", items: [
+      { id: "a-adr", name: "ADRs + C4 model for docs" },
+      { id: "a-stride", name: "STRIDE threat modeling" },
+      { id: "a-capacity", name: "Capacity math (QPS / storage / bandwidth)" },
+      { id: "a-trunk", name: "Trunk-based dev + conventional commits" },
+      { id: "a-precommit", name: "Pre-commit hooks (gitleaks, trufflehog, lint)" },
+      { id: "a-deps", name: "Dependabot / Renovate + SBOM awareness" },
+      { id: "a-review", name: "Google Engineering Practices for code review" },
+    ]},
+    { group: "A3–A4 · Build + Deploy", items: [
+      { id: "a-gha", name: "GitHub Actions: caching, matrix builds, parallelization" },
+      { id: "a-docker", name: "Multi-stage Dockerfiles + distroless" },
+      { id: "a-scan", name: "Trivy/Grype scanning + Cosign signing" },
+      { id: "a-testc", name: "Testcontainers for integration tests" },
+      { id: "a-k6", name: "k6 for load testing" },
+      { id: "a-deploy", name: "Blue-green / canary / rolling + feature flags" },
+      { id: "a-gitops", name: "GitOps: ArgoCD or Flux + Argo Rollouts" },
+      { id: "a-secrets", name: "Vault / Secrets Manager / External Secrets Operator" },
+    ]},
+    { group: "A5–A6 · Operate + Maintain", items: [
+      { id: "a-golden", name: "Four golden signals (latency/traffic/errors/saturation)" },
+      { id: "a-slo", name: "SLO/SLI/SLA + multi-burn-rate alerts" },
+      { id: "a-incident", name: "Incident mgmt: PagerDuty, on-call, runbooks" },
+      { id: "a-postmortem", name: "Blameless postmortems" },
+      { id: "a-toil", name: "Toil reduction + quarterly capacity reviews" },
+    ]},
+    { group: "A7 · Cost Optimization", items: [
+      { id: "a-finops", name: "FinOps phases: Inform → Optimize → Operate" },
+      { id: "a-rightsize", name: "Right-sizing (Compute Optimizer)" },
+      { id: "a-savings", name: "Savings Plans / RIs / Spot instances" },
+      { id: "a-s3", name: "S3 Intelligent-Tiering + Glacier lifecycle" },
+      { id: "a-vpce", name: "VPC Endpoints (cut NAT data charges)" },
+      { id: "a-karpenter", name: "Karpenter for K8s autoscaling" },
+      { id: "a-tags", name: "Tagging discipline (Owner/Env/CostCenter/Project)" },
+    ]},
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART B — Hands-on Phases (Todo app)
+  // ────────────────────────────────────────────────────────────────
+  phases: [
+    { id: "p1", title: "Phase 1 — Build & Containerize",
+      goal: "Run the app locally with Docker Compose.",
+      tasks: [
+        { id: "p1-go", name: "Write Go API: CRUD + /health + /metrics" },
+        { id: "p1-dockerfile", name: "Multi-stage Dockerfile (distroless final)" },
+        { id: "p1-compose", name: "docker-compose.yml: api + postgres + pgadmin" },
+        { id: "p1-air", name: "docker-compose.override.yml for Air hot-reload" },
+        { id: "p1-trivy", name: "Scan image with Trivy" },
+      ]},
+    { id: "p2", title: "Phase 2 — Kubernetes (local kind)",
+      goal: "Deploy the Todo app on a local kind cluster.",
+      tasks: [
+        { id: "p2-kind", name: "Create kind cluster" },
+        { id: "p2-ns", name: "namespace.yaml" },
+        { id: "p2-cm", name: "configmap.yaml (DB host/port/name)" },
+        { id: "p2-secret", name: "secret.yaml (base64 DB password)" },
+        { id: "p2-deploy", name: "deployment.yaml + resources + probes" },
+        { id: "p2-svc", name: "service.yaml (ClusterIP)" },
+        { id: "p2-ing", name: "ingress.yaml (NGINX)" },
+        { id: "p2-hpa", name: "hpa.yaml (CPU 60%)" },
+        { id: "p2-pg", name: "postgres StatefulSet + PVC + service" },
+        { id: "p2-helm", name: "Convert to Helm chart helm/todo-app/" },
+        { id: "p2-rbac", name: "ServiceAccount + least-privilege Role" },
+        { id: "p2-rollout", name: "Practice rollout history / undo" },
+      ]},
+    { id: "p3", title: "Phase 3 — ELK Stack (Logging)",
+      goal: "Ship and search all logs via ELK.",
+      tasks: [
+        { id: "p3-deploy", name: "Helm-install Elasticsearch/Kibana/Logstash/Filebeat" },
+        { id: "p3-zap", name: "Structured JSON logs in Go (zap)" },
+        { id: "p3-pipeline", name: "Logstash pipeline (json + date + mutate)" },
+        { id: "p3-index", name: "Kibana index pattern filebeat-*" },
+        { id: "p3-dash", name: "Dashboard: req rate, error rate, slow endpoints" },
+        { id: "p3-alert", name: "Watcher alert: >10 errors/min" },
+        { id: "p3-ilm", name: "Configure index lifecycle (ILM)" },
+      ]},
+    { id: "p4", title: "Phase 4 — Observability (metrics + traces + alerts)",
+      goal: "Full three-pillar observability on Todo app.",
+      tasks: [
+        { id: "p4-prom", name: "Instrument Go API with Prometheus histograms" },
+        { id: "p4-kp", name: "Install kube-prometheus-stack" },
+        { id: "p4-promql", name: "Write PromQL: rate / error% / p99 / throttling" },
+        { id: "p4-graf", name: "Grafana: Golden Signals dashboard" },
+        { id: "p4-graf2", name: "Grafana: Pods CPU/mem vs requests/limits" },
+        { id: "p4-graf3", name: "Grafana: Postgres query + pool" },
+        { id: "p4-alert", name: "Alert rule: HighErrorRate >5% for 2m" },
+        { id: "p4-otel", name: "OTel tracing in Go API" },
+        { id: "p4-jaeger", name: "Deploy Jaeger + inspect spans" },
+        { id: "p4-slo", name: "Define SLO + error budget + burn rate" },
+        { id: "p4-runbook", name: "Write runbook for HighErrorRate" },
+      ]},
+    { id: "p5", title: "Phase 5 — AWS Deployment",
+      goal: "Ship the production Todo app on AWS.",
+      tasks: [
+        { id: "p5-vpc", name: "VPC: 2 public + 2 private subnets, NAT" },
+        { id: "p5-ecr", name: "ECR repo + push image" },
+        { id: "p5-eks", name: "EKS cluster + managed node group" },
+        { id: "p5-irsa", name: "IRSA for todo-api pod" },
+        { id: "p5-rds", name: "RDS PostgreSQL Multi-AZ" },
+        { id: "p5-s3cf", name: "S3 + CloudFront for frontend" },
+        { id: "p5-alb", name: "AWS Load Balancer Controller + Ingress" },
+        { id: "p5-acm", name: "ACM cert + Route 53 alias" },
+        { id: "p5-sm", name: "Secrets Manager + External Secrets Operator" },
+        { id: "p5-cw", name: "CloudWatch Container Insights" },
+        { id: "p5-ct", name: "CloudTrail + GuardDuty enabled" },
+      ]},
+    { id: "p6", title: "Phase 6 — IaC with Terraform",
+      goal: "Everything in code, remote state, modules.",
+      tasks: [
+        { id: "p6-backend", name: "S3 + DynamoDB backend with lock" },
+        { id: "p6-mods", name: "Modules: vpc / eks / rds / s3-cloudfront" },
+        { id: "p6-env", name: "environments/dev + environments/prod" },
+        { id: "p6-cmds", name: "Practice plan/apply/import/state list" },
+      ]},
+    { id: "p7", title: "Phase 7 — CI/CD (GitHub Actions)",
+      goal: "Build → test → scan → push → deploy.",
+      tasks: [
+        { id: "p7-oidc", name: "OIDC AWS credentials (no long-lived keys)" },
+        { id: "p7-build", name: "Build + Trivy scan in CI" },
+        { id: "p7-push", name: "Push to ECR with SHA tag" },
+        { id: "p7-helm", name: "helm upgrade --atomic deploy to EKS" },
+      ]},
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART D — System Design for SRE
+  // ────────────────────────────────────────────────────────────────
+  sreSysDesignBooks: [
+    { id: "ddia", name: "Designing Data-Intensive Applications — Kleppmann (12 ch)" },
+    { id: "sd1", name: "System Design Interview Vol 1 — Alex Xu" },
+    { id: "sd2", name: "System Design Interview Vol 2 — Alex Xu" },
+    { id: "udist", name: "Understanding Distributed Systems — Vitillo" },
+  ],
+  sreSysDesignTopics: [
+    { id: "sre-ha", name: "Multi-region, multi-AZ HA" },
+    { id: "sre-cdc", name: "DB scaling: CDC, sharding, read replicas" },
+    { id: "sre-cache", name: "Caching strategies" },
+    { id: "sre-mq", name: "Message queues: Kafka vs RabbitMQ vs SQS" },
+    { id: "sre-resil", name: "Circuit breakers, bulkheads, idempotency" },
+    { id: "sre-consist", name: "Consistency models (strong, eventual, causal)" },
+  ],
+  sreFlavorQuestions: [
+    { id: "srf-cicd200", name: "CI/CD pipeline for 200 microservices" },
+    { id: "srf-mon1m", name: "Monitoring/alerting for 1M req/sec" },
+    { id: "srf-log10t", name: "Log aggregation for 10TB/day" },
+    { id: "srf-multiregion", name: "Multi-region active-active DB" },
+    { id: "srf-bg3", name: "Blue-green deploy across 3 regions" },
+    { id: "srf-ff", name: "Feature flag / secrets management service" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART E — Coding & Programming
+  // ────────────────────────────────────────────────────────────────
+  goPath: [
+    { id: "go-tour", name: "A Tour of Go (tour.golang.org) — 5 hrs" },
+    { id: "go-bodner", name: "“Learning Go” (Jon Bodner)" },
+    { id: "go-byex", name: "Go by Example — pattern reference" },
+    { id: "go-cli", name: "Build small CLI (kubectl plugin or log parser)" },
+    { id: "go-30", name: "30 LeetCode problems in Go" },
+  ],
+  otherSkills: [
+    { id: "sk-bash", name: "Bash: awk / sed / grep / jq / yq + Makefile" },
+    { id: "sk-linux", name: "“The Linux Command Line” (free)" },
+    { id: "sk-sql50", name: "LeetCode Top 50 SQL" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART G — APAC Job Search (companies)
+  // ────────────────────────────────────────────────────────────────
+  jobsByCountry: {
+    Singapore: [
+      ["Grab","https://grab.careers"],["Shopee / Sea Group","https://careers.sea.com"],
+      ["ByteDance / TikTok","https://jobs.bytedance.com"],["Stripe","https://stripe.com/jobs"],
+      ["GovTech Singapore","https://careers.tech.gov.sg"],["DBS Bank","https://www.dbs.com/careers"],
+      ["OCBC Bank","https://www.ocbc.com/group/careers"],["UOB","https://www.uobgroup.com/careers"],
+      ["Ninja Van","https://careers.ninjavan.co"],["Carousell","https://careers.carousell.com"],
+      ["Razer","https://careers.razer.com"],["Circles.Life","https://circles.life/careers"],
+      ["Lazada","https://careers.lazada.com"],["Gojek","https://www.gojek.com/en-id/careers"],
+      ["Wise","https://www.wise.jobs"],["Confluent","https://www.confluent.io/careers"],
+      ["Datadog","https://careers.datadoghq.com"],["Cloudflare","https://www.cloudflare.com/careers"],
+      ["Zendesk","https://jobs.zendesk.com"],["Twilio","https://www.twilio.com/en-us/company/jobs"],
+      ["Palantir","https://www.palantir.com/careers"],["Mastercard","https://careers.mastercard.com"],
+      ["Standard Chartered","https://www.sc.com/en/careers"],["Singtel","https://careers.singtel.com"],
+      ["ST Engineering","https://careers.stengg.com"],["Synapxe (IHiS)","https://www.synapxe.sg/careers"],
+      ["Traveloka","https://www.traveloka.com/en-sg/careers"],["Foodpanda","https://careers.foodpanda.com"],
+      ["PropertyGuru","https://www.propertyguru.com.sg/property-management-news/careers"],
+      ["Carro","https://carro.co/careers"],["Nium","https://www.nium.com/careers"],
+    ],
+    Japan: [
+      ["Mercari / Merpay","https://careers.mercari.com"],["PayPay","https://about.paypay.ne.jp/en/career"],
+      ["Rakuten","https://global.rakuten.com/corp/careers"],["Indeed Japan","https://www.indeed.jobs"],
+      ["Woven by Toyota","https://woven.toyota/en/careers"],["LINE / LY Corp","https://careers.lycorp.co.jp/en"],
+      ["Cybozu","https://cybozu.co.jp/recruit"],["SmartNews","https://careers.smartnews.com"],
+      ["Moneyforward","https://corp.moneyforward.com/recruit"],["DeNA","https://dena.com/intl/careers"],
+      ["Sansan","https://jp.corp-sansan.com/recruit"],["Freee","https://jobs.freee.co.jp"],
+      ["Recruit Holdings","https://www.recruit.co.jp/employment"],["Cookpad","https://cookpad.jobs"],
+      ["M3","https://corporate.m3.com/recruit"],["Dwango / Niconico","https://dwango.co.jp/recruit"],
+      ["CADDi","https://caddi.com/careers"],["Preferred Networks","https://preferred.jp/en/careers"],
+      ["NTT Data","https://www.nttdata.com/global/en/careers"],["Fujitsu","https://careers.fujitsu.com"],
+      ["Sony","https://www.sony.com/en/SonyInfo/Jobs"],["Toyota Connected","https://www.toyotaconnected.co.jp/recruit"],
+      ["Globis","https://job.globis.co.jp"],["SmartHR","https://smarthr.co.jp/recruit"],
+      ["Aiming","https://aiming-inc.com/ja/recruit"],
+    ],
+    Malaysia: [
+      ["Grab (KL)","https://grab.careers"],["Shopee (KL)","https://careers.sea.com"],
+      ["ByteDance (KL)","https://jobs.bytedance.com"],["Axiata / Celcom","https://axiata.com/careers"],
+      ["CIMB","https://www.cimb.com/en/careers.html"],["Maybank","https://www.maybank.com/en/careers.page"],
+      ["Telekom Malaysia","https://www.tm.com.my/Careers"],["AirAsia / Capital A","https://careers.airasia.com"],
+      ["Fusionex","https://www.fusionex-international.com/careers"],["Maxis","https://www.maxis.com.my/maxis-for-you/careers"],
+      ["Lazada (KL)","https://careers.lazada.com"],["Agoda (KL)","https://careersatagoda.com"],
+      ["Foodpanda Malaysia","https://careers.foodpanda.com"],["GXBank","https://www.gxbank.com.my/careers"],
+      ["Touch 'n Go","https://www.touchngo.com.my/careers"],["Boost Holdings","https://www.myboost.com.my/careers"],
+      ["RHB Bank","https://careers.rhbgroup.com"],["Public Bank","https://www.publicbankgroup.com/Career"],
+      ["PETRONAS","https://www.petronas.com/career"],["Luno","https://luno.com/en/careers"],
+      ["iPay88","https://www.ipay88.com.my/careers"],["Pos Malaysia","https://www.pos.com.my/careers"],
+      ["MyEG","https://www.myeg.com.my/career"],["Astro","https://www.astro.com.my/corporate/careers"],
+    ],
+    Thailand: [
+      ["Agoda","https://careersatagoda.com"],["LINE MAN Wongnai","https://lmwn.com/career"],
+      ["SCB 10X","https://www.scb10x.com/careers"],["Kasikorn Bank","https://kasikornbank.com/en/career"],
+      ["True Digital","https://www.truedigital.com/en/career"],["Ascend Money","https://www.ascendmoney.io/careers"],
+      ["Grab (Bangkok)","https://grab.careers"],["Lazada (Bangkok)","https://careers.lazada.com"],
+      ["Foodpanda Thailand","https://careers.foodpanda.com"],["Shopee Thailand","https://careers.sea.com"],
+      ["ByteDance (Bangkok)","https://jobs.bytedance.com"],["Krungsri","https://www.krungsri.com/en/careers"],
+      ["Bangkok Bank","https://www.bangkokbank.com/en/careers"],["KBTG (KBank Tech)","https://kbtg.tech/career"],
+      ["PTT Digital","https://www.pttdigital.com/en/career"],["SCB","https://careers.scb.co.th"],
+      ["AIS","https://career.ais.th"],["Flash Express","https://www.flashexpress.co.th/career"],
+      ["Omise / Opn","https://opn.ooo/careers"],["2C2P","https://2c2p.com/careers"],
+      ["Central Tech","https://www.centraltech.io/careers"],["Bitkub","https://www.bitkub.com/careers"],
+    ],
+  },
+
+  // ────────────────────────────────────────────────────────────────
+  // PART H — Interview Prep
+  // ────────────────────────────────────────────────────────────────
+  loopRounds: [
+    { id: "lp-recruiter", name: "Recruiter screen (30 min)" },
+    { id: "lp-hm", name: "Hiring manager call (45 min)" },
+    { id: "lp-coding", name: "Coding round (60 min) — 1–2 LC mediums" },
+    { id: "lp-sd", name: "System design (60 min)" },
+    { id: "lp-behavior", name: "Behavioral / culture fit (45 min)" },
+  ],
+  questionsToAsk: [
+    { id: "q-slo", name: "How is SRE success measured here?" },
+    { id: "q-oncall", name: "What does on-call look like?" },
+    { id: "q-balance", name: "How is reliability vs feature pressure balanced?" },
+    { id: "q-90days", name: "What does success in first 90 days look like?" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART I — Personal Branding
+  // ────────────────────────────────────────────────────────────────
+  repos: [
+    { id: "r-obs", name: "aws-observability-stack", desc: "Terraform + Helm for Prom/Grafana/Loki/Tempo on EKS" },
+    { id: "r-go", name: "go-microservice-template", desc: "12-factor Go service + OTel + CI/CD + K8s" },
+    { id: "r-cost", name: "aws-cost-analyzer", desc: "Go CLI auditing AWS for cost wins" },
+    { id: "r-sec", name: "k8s-secure-pipeline", desc: "CI: SAST + DAST + image scan + Cosign" },
+    { id: "r-tf", name: "terraform-aws-modules", desc: "Reusable secure Terraform modules" },
+    { id: "r-rb", name: "sre-runbook-templates", desc: "Runbook / postmortem / ADR templates" },
+  ],
+  blogIdeas: [
+    { id: "b-saa", name: "How I passed AWS SAA in 6 weeks" },
+    { id: "b-obs", name: "Building full observability: Prom + Grafana + Loki + Tempo on K8s" },
+    { id: "b-cost", name: "5 AWS cost optimizations that actually moved the needle" },
+    { id: "b-gha", name: "Jenkins → GitHub Actions: a real migration walkthrough" },
+    { id: "b-pm", name: "Postmortem: what I learned from a public incident" },
+  ],
+  certs: [
+    { id: "c-saa", name: "AWS SAA-C03 (Stephane Maarek + TD)", weeks: "6–8" },
+    { id: "c-cka", name: "CKA (KodeKloud)", weeks: "—" },
+    { id: "c-tf", name: "Terraform Associate", weeks: "—" },
+    { id: "c-devops", name: "AWS DevOps Pro (optional)", weeks: "~12" },
+    { id: "c-finops", name: "FinOps Certified Practitioner", weeks: "~6 hrs" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // PART J — Resources
+  // ────────────────────────────────────────────────────────────────
+  books: [
+    { id: "bk-ddia", name: "Designing Data-Intensive Applications — Kleppmann" },
+    { id: "bk-sre", name: "Site Reliability Engineering — Google (free, ch 1–6, 11–18)" },
+    { id: "bk-srew", name: "The Site Reliability Workbook — Google (free)" },
+    { id: "bk-tf", name: "Terraform: Up & Running — Brikman (3rd ed)" },
+    { id: "bk-k8s", name: "Kubernetes Up & Running — Burns, Hightower" },
+    { id: "bk-go", name: "Learning Go — Bodner" },
+    { id: "bk-xu", name: "System Design Interview Vol 1 & 2 — Alex Xu" },
+    { id: "bk-phx", name: "The Phoenix Project — Gene Kim" },
+  ],
+  courses: [
+    { id: "co-saa", name: "AWS SAA-C03 (Stephane Maarek)", plat: "Udemy", cost: "$10–15" },
+    { id: "co-td", name: "SAA Practice Exams (Jon Bonso)", plat: "Tutorials Dojo", cost: "$15" },
+    { id: "co-cka", name: "CKA (Mumshad)", plat: "KodeKloud", cost: "$30/mo" },
+    { id: "co-tf", name: "Terraform AWS Track", plat: "learn.hashicorp.com", cost: "FREE" },
+    { id: "co-go", name: "A Tour of Go", plat: "tour.golang.org", cost: "FREE" },
+    { id: "co-finops", name: "FinOps Certified Practitioner", plat: "finops.org", cost: "$325" },
+  ],
+
+  // ────────────────────────────────────────────────────────────────
+  // Weekly habits
+  // ────────────────────────────────────────────────────────────────
+  habits: [
+    { id: "h-lc", name: "5 LeetCode problems", target: 5 },
+    { id: "h-sd", name: "1 system design walkthrough", target: 1 },
+    { id: "h-study", name: "5 hrs technical study", target: 5 },
+    { id: "h-build", name: "4 hrs hands-on project work", target: 4 },
+    { id: "h-apply", name: "5 job applications (mo 4–6)", target: 5 },
+    { id: "h-network", name: "3 LinkedIn connections to target eng", target: 3 },
+    { id: "h-git", name: "3+ GitHub commits", target: 3 },
+    { id: "h-mock", name: "1 mock interview (every 2 wks)", target: 1 },
+    { id: "h-blog", name: "1 blog post / month", target: 1 },
+  ],
+};
+
+</script>
+
+<script type="text/babel">
+// Shared components + hooks for the SRE dashboard.
+// Storage helpers: each item lives under "sre:" + id.
+
+const { useState, useEffect, useMemo, useRef, useCallback } = React;
+
+const STORAGE_PREFIX = "sre:";
+
+function loadJSON(key, fallback) {
+  try {
+    const v = localStorage.getItem(STORAGE_PREFIX + key);
+    if (v === null) return fallback;
+    return JSON.parse(v);
+  } catch (e) { return fallback; }
+}
+function saveJSON(key, value) {
+  try { localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value)); }
+  catch (e) {}
+}
+
+// Hook: localStorage-backed state
+function useStored(key, fallback) {
+  const [v, setV] = useState(() => loadJSON(key, fallback));
+  useEffect(() => { saveJSON(key, v); }, [key, v]);
+  return [v, setV];
+}
+
+// Global "done" set across all items — useStored map with a single key per group
+function useDoneSet(group) {
+  const [set, setSet] = useStored("done:" + group, {});
+  const toggle = useCallback((id) => {
+    setSet(prev => {
+      const next = { ...prev };
+      if (next[id]) delete next[id]; else next[id] = Date.now();
+      // also bump streak via global event
+      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group, done: !!next[id] } }));
+      return next;
+    });
+  }, [setSet, group]);
+  return [set, toggle];
+}
+
+// ───────── Progress bar ─────────
+function Progress({ done, total, label }) {
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  return (
+    <div className="progress">
+      <div className="progress-pct">{pct}%</div>
+      <div className="progress-track">
+        <div className="progress-fill" style={{ width: pct + "%" }}></div>
+      </div>
+      <div className="progress-frac">{done} / {total}{label ? " " + label : ""}</div>
+    </div>
+  );
+}
+
+// ───────── Tag (difficulty etc) ─────────
+function Tag({ level }) {
+  if (!level) return null;
+  const cls = "tag tag-" + level.toLowerCase();
+  return <span className={cls}>{level}</span>;
+}
+
+// ───────── Checklist ─────────
+function Checklist({ items, group, renderItem }) {
+  const [done, toggle] = useDoneSet(group);
+  return (
+    <ul className="checklist">
+      {items.map(it => {
+        const isDone = !!done[it.id];
+        return (
+          <li key={it.id}>
+            <div
+              className={"check " + (isDone ? "checked" : "")}
+              onClick={() => toggle(it.id)}
+              role="checkbox"
+              aria-checked={isDone}
+            >
+              {isDone ? "✓" : ""}
+            </div>
+            <div
+              className={"item-label " + (isDone ? "done" : "")}
+              onClick={() => toggle(it.id)}
+            >
+              {renderItem ? renderItem(it, isDone) : it.name}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+// ───────── Section card with auto progress ─────────
+function SectionCard({ title, lead, items, group, renderItem, tilted, children }) {
+  const [done] = useDoneSet(group);
+  const completed = items ? items.filter(it => done[it.id]).length : 0;
+  const total = items ? items.length : 0;
+  const tiltClass = tilted === "left" ? "tilted-l" : tilted === "right" ? "tilted-r" : "";
+  return (
+    <section className={"section-card " + tiltClass}>
+      {title && <h2>{title}</h2>}
+      {lead && <p className="lead">{lead}</p>}
+      {items && <Progress done={completed} total={total} />}
+      {items && <Checklist items={items} group={group} renderItem={renderItem} />}
+      {children}
+    </section>
+  );
+}
+
+// ───────── Notes (per section, persists) ─────────
+function Notes({ id, placeholder }) {
+  const [v, setV] = useStored("notes:" + id, "");
+  return (
+    <textarea
+      className="notes"
+      value={v}
+      onChange={(e) => setV(e.target.value)}
+      placeholder={placeholder || "Scribble notes, gotchas, links…"}
+    />
+  );
+}
+
+// ───────── Time log (hours per group) ─────────
+function TimeLog({ id }) {
+  const [hours, setHours] = useStored("time:" + id, 0);
+  return (
+    <span className="time-log">
+      ⏱
+      <input
+        type="number"
+        min="0"
+        step="0.5"
+        value={hours}
+        onChange={(e) => setHours(parseFloat(e.target.value) || 0)}
+      /> hrs logged
+    </span>
+  );
+}
+
+// ───────── Streak engine ─────────
+// Tracks days with any activity. Streak = consecutive days ending today (or yesterday).
+function todayKey(d = new Date()) {
+  return d.toISOString().slice(0, 10);
+}
+function useStreak() {
+  const [days, setDays] = useStored("activity-days", {}); // {YYYY-MM-DD: true}
+  useEffect(() => {
+    function onAct() {
+      const k = todayKey();
+      setDays(prev => prev[k] ? prev : { ...prev, [k]: true });
+    }
+    window.addEventListener("sre:activity", onAct);
+    return () => window.removeEventListener("sre:activity", onAct);
+  }, [setDays]);
+
+  const { streak, longest } = useMemo(() => {
+    const ks = Object.keys(days).sort();
+    if (ks.length === 0) return { streak: 0, longest: 0 };
+    const set = new Set(ks);
+    // current streak
+    let s = 0;
+    let cursor = new Date();
+    if (!set.has(todayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+    while (set.has(todayKey(cursor))) {
+      s++;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    // longest streak
+    let best = 0, run = 1;
+    for (let i = 1; i < ks.length; i++) {
+      const prev = new Date(ks[i-1]);
+      prev.setDate(prev.getDate() + 1);
+      if (todayKey(prev) === ks[i]) { run++; } else { best = Math.max(best, run); run = 1; }
+    }
+    best = Math.max(best, run);
+    return { streak: s, longest: best };
+  }, [days]);
+
+  return { days, streak, longest };
+}
+
+// ───────── Habit counters ─────────
+// Per week (ISO week, simple Sunday-start) — bumps per habit per day.
+function weekKey(d = new Date()) {
+  const dt = new Date(d);
+  dt.setHours(0,0,0,0);
+  const day = dt.getDay();
+  dt.setDate(dt.getDate() - day); // Sunday
+  return dt.toISOString().slice(0,10);
+}
+function useHabits() {
+  const wk = weekKey();
+  const [counts, setCounts] = useStored("habits:" + wk, {});
+  // also keep daily marks for the strip
+  const [daily, setDaily] = useStored("habit-daily:" + wk, {}); // {habitId: {0..6: count}}
+  const dayIdx = new Date().getDay();
+
+  const bump = (id, delta) => {
+    setCounts(prev => {
+      const cur = (prev[id] || 0) + delta;
+      const next = { ...prev, [id]: Math.max(0, cur) };
+      return next;
+    });
+    setDaily(prev => {
+      const cur = prev[id] || {};
+      const v = (cur[dayIdx] || 0) + delta;
+      return { ...prev, [id]: { ...cur, [dayIdx]: Math.max(0, v) } };
+    });
+    // count toward streak
+    if (delta > 0) {
+      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group: "habit" } }));
+    }
+  };
+
+  const reset = () => { setCounts({}); setDaily({}); };
+
+  return { counts, daily, dayIdx, bump, reset, wk };
+}
+
+// ───────── Compute aggregate progress across all groups ─────────
+function useAllProgress() {
+  // collect all item ids by group from SRE_DATA
+  const groups = useMemo(() => buildGroupIndex(SRE_DATA), []);
+  // re-read on storage events
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const onStorage = () => setTick(t => t + 1);
+    const onAct = () => setTick(t => t + 1);
+    window.addEventListener("storage", onStorage);
+    window.addEventListener("sre:activity", onAct);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("sre:activity", onAct);
+    };
+  }, []);
+  const summary = useMemo(() => {
+    const out = {};
+    let allDone = 0, allTotal = 0;
+    for (const [g, ids] of Object.entries(groups)) {
+      const done = loadJSON("done:" + g, {});
+      const d = ids.filter(id => done[id]).length;
+      out[g] = { done: d, total: ids.length };
+      allDone += d;
+      allTotal += ids.length;
+    }
+    return { groups: out, total: allTotal, done: allDone };
+  }, [groups, tick]);
+  return summary;
+}
+
+// Map each group → array of item ids (for aggregate stats)
+function buildGroupIndex(D) {
+  const g = {};
+  g.sdConcepts = D.sysDesignConcepts.map(i => i.id);
+  g.sdDeep = D.sysDesignDeepDives.map(i => i.id);
+  g.sdWalk = D.sysDesignWalkthroughs.map(i => i.id);
+  g.star = D.starStories.map(i => i.id);
+  g.lldV = D.lldVideos.map(i => i.id);
+  g.lldP = D.lldPractice.map(i => i.id);
+  g.sqlC = D.sqlConcepts.map(i => i.id);
+  g.sqlP = D.sqlProblems.map(i => i.id);
+  g.dsa = D.dsaTopics.flatMap(t => t.items.map(i => i.id));
+  g.schedule = D.schedule.map(i => i.id);
+  g.lifecycle = D.lifecycle.flatMap(t => t.items.map(i => i.id));
+  g.phase = D.phases.flatMap(p => p.tasks.map(i => i.id));
+  g.sreBooks = D.sreSysDesignBooks.map(i => i.id);
+  g.sreTopics = D.sreSysDesignTopics.map(i => i.id);
+  g.sreFlavor = D.sreFlavorQuestions.map(i => i.id);
+  g.goPath = D.goPath.map(i => i.id);
+  g.otherSk = D.otherSkills.map(i => i.id);
+  g.loop = D.loopRounds.map(i => i.id);
+  g.qAsk = D.questionsToAsk.map(i => i.id);
+  g.repos = D.repos.map(i => i.id);
+  g.blog = D.blogIdeas.map(i => i.id);
+  g.certs = D.certs.map(i => i.id);
+  g.books = D.books.map(i => i.id);
+  g.courses = D.courses.map(i => i.id);
+  return g;
+}
+
+// Combined per-view ids (used by the sidebar mini progress)
+function viewGroups() {
+  return {
+    overview: [],
+    "p0-sd": ["sdConcepts","sdDeep","sdWalk"],
+    "p0-behavior": ["star"],
+    "p0-lld": ["lldV","lldP"],
+    "p0-sql": ["sqlC","sqlP"],
+    "p0-dsa": ["dsa"],
+    "p0-sched": ["schedule"],
+    "part-a": ["lifecycle"],
+    "part-b": ["phase"],
+    "part-d": ["sreBooks","sreTopics","sreFlavor"],
+    "part-e": ["goPath","otherSk"],
+    "part-g": [], // tracked via job-status
+    "part-h": ["loop","qAsk","star"],
+    "part-i": ["repos","blog","certs"],
+    "part-j": ["books","courses"],
+    "habits": [],
+  };
+}
+
+// expose globally
+Object.assign(window, {
+  loadJSON, saveJSON, useStored, useDoneSet,
+  Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
+  useStreak, useHabits, useAllProgress, viewGroups, buildGroupIndex,
+  todayKey, weekKey,
+});
+
+</script>
+
+<script type="text/babel">
+// Views — one per dashboard route.
+
+const D = window.SRE_DATA;
+
+// ───────── OVERVIEW ─────────
+function OverviewView() {
+  const all = useAllProgress();
+  const { streak, longest, days } = useStreak();
+  const totalHrs = useMemo(() => {
+    // sum any time:* keys
+    let s = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith("sre:time:")) {
+        const v = parseFloat(JSON.parse(localStorage.getItem(k) || "0"));
+        if (!isNaN(v)) s += v;
+      }
+    }
+    return s;
+  }, [all.done]);
+  const activeDays = Object.keys(days).length;
+
+  // Last 28 days heatmap
+  const heat = useMemo(() => {
+    const out = [];
+    const today = new Date();
+    for (let i = 27; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const k = todayKey(d);
+      out.push({ k, day: d.getDate(), done: !!days[k], today: i === 0 });
+    }
+    return out;
+  }, [days]);
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Hello there. 👋</h1>
+        <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
+      </div>
+
+      <div className="stat-row">
+        <div className="stat">
+          <div className="v">{Math.round((all.done / Math.max(all.total,1)) * 100)}%</div>
+          <div className="l">Overall progress</div>
+          <div className="sub">{all.done} of {all.total} items</div>
+        </div>
+        <div className="stat streak">
+          <div className="v">{streak}</div>
+          <div className="l">Day streak</div>
+          <div className="sub">longest: {longest} days</div>
+        </div>
+        <div className="stat">
+          <div className="v">{totalHrs.toFixed(1)}</div>
+          <div className="l">Hours logged</div>
+          <div className="sub">across all sections</div>
+        </div>
+        <div className="stat">
+          <div className="v">{activeDays}</div>
+          <div className="l">Active days</div>
+          <div className="sub">since you started</div>
+        </div>
+      </div>
+
+      <section className="section-card tilted-l">
+        <span className="tape tl"></span>
+        <h2>Last 4 weeks</h2>
+        <p className="lead">Every box you tick adds a dot here. Don't break the chain.</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6, maxWidth: 360 }}>
+          {["S","M","T","W","T","F","S"].map((l, i) => (
+            <div key={"l"+i} style={{ textAlign: "center", fontFamily: "Caveat, cursive", fontSize: 16, color: "var(--ink-faint)" }}>{l}</div>
+          ))}
+          {heat.map(h => (
+            <div key={h.k}
+              title={h.k + (h.done ? " · active" : "")}
+              className={"week-day " + (h.done ? "done " : "") + (h.today ? "today" : "")}
+            >{h.day}</div>
+          ))}
+        </div>
+      </section>
+
+      <div className="row-grid-2">
+        <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
+          <ul className="checklist">
+            {Object.entries({
+              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa","schedule"],
+              "Part A · Lifecycle": ["lifecycle"],
+              "Part B · Hands-on Phases": ["phase"],
+              "Part D · System Design (SRE)": ["sreBooks","sreTopics","sreFlavor"],
+              "Part E · Coding": ["goPath","otherSk"],
+              "Part H · Interview prep": ["loop","qAsk"],
+              "Part I · Branding": ["repos","blog","certs"],
+              "Part J · Resources": ["books","courses"],
+            }).map(([label, groups]) => {
+              const done = groups.reduce((s,g) => s + (all.groups[g]?.done || 0), 0);
+              const total = groups.reduce((s,g) => s + (all.groups[g]?.total || 0), 0);
+              const pct = total ? Math.round(done/total*100) : 0;
+              return (
+                <li key={label}>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex", justifyContent:"space-between", marginBottom: 3}}>
+                      <span>{label}</span>
+                      <span style={{fontFamily:"Caveat, cursive", fontSize: 17, color: "var(--ink-soft)"}}>{done}/{total} · {pct}%</span>
+                    </div>
+                    <div className="progress-track" style={{height: 8}}>
+                      <div className="progress-fill" style={{width: pct + "%"}}></div>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </SectionCard>
+
+        <SectionCard title="This week's checklist" tilted="left">
+          <p className="lead">Tick these every week. Keeps the gears turning.</p>
+          <Checklist items={D.habits.map(h => ({ id: "ovw-"+h.id, name: h.name + (h.target ? `  — target: ${h.target}` : "") }))} group="overview-week" />
+          <p style={{marginTop:10, fontSize:13, color:"var(--ink-faint)"}}>(Detailed tracking lives in the <strong>Habits</strong> view in the sidebar.)</p>
+        </SectionCard>
+      </div>
+
+      <section className="section-card">
+        <h2>What this dashboard tracks</h2>
+        <p className="lead">Every section in your study guide → a view here. Tick items, log hours per section, leave notes. Everything persists in your browser.</p>
+        <div className="callout">
+          15 hrs/week · 6-month timeline · Bangladesh → SG / JP / MY / TH. Comp follows skill. Don't optimize for highest salary on day one.
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ───────── PART 0A — SYSTEM DESIGN ─────────
+function P0_SysDesignView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0A · System Design</h1>
+        <p className="page-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs.</p>
+      </div>
+
+      <section className="section-card tilted-l">
+        <span className="tape tl"></span>
+        <h2>5-step delivery framework</h2>
+        <p className="lead">Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs.</p>
+        <Checklist
+          group="sd-framework"
+          items={[
+            { id: "sdf-clarify", name: "Clarify Requirements — functional + non-functional (5 min)" },
+            { id: "sdf-estimate", name: "Estimate Scale — DAU, QPS, storage, bandwidth (3 min)" },
+            { id: "sdf-hld", name: "High-Level Design — components, data flow, API (10 min)" },
+            { id: "sdf-deep", name: "Deep Dives — bottlenecks, failure modes (20 min)" },
+            { id: "sdf-tradeoff", name: "Trade-offs — why X over Y; behavior at 10× scale (5 min)" },
+          ]}
+        />
+        <TimeLog id="sd-framework" />
+      </section>
+
+      <SectionCard title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." items={D.sysDesignConcepts} group="sdConcepts" tilted="right">
+        <TimeLog id="sdConcepts" />
+        <Notes id="sdConcepts" placeholder="Cache eviction, partition keys, idempotency tokens — anything weird worth remembering." />
+      </SectionCard>
+
+      <SectionCard title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." items={D.sysDesignDeepDives} group="sdDeep">
+        <TimeLog id="sdDeep" />
+      </SectionCard>
+
+      <section className="section-card tilted-r">
+        <h2>Walkthroughs — 2 per week</h2>
+        <p className="lead">Easy → Medium → Hard. Talk through your approach before drawing.</p>
+        <Progress
+          done={D.sysDesignWalkthroughs.filter(w => (loadJSON("done:sdWalk", {}))[w.id]).length}
+          total={D.sysDesignWalkthroughs.length}
+        />
+        <Checklist
+          group="sdWalk"
+          items={D.sysDesignWalkthroughs}
+          renderItem={(it) => (
+            <span>{it.name} <Tag level={it.level} /></span>
+          )}
+        />
+        <TimeLog id="sdWalk" />
+        <Notes id="sdWalk" placeholder="Patterns you reused: rate limiter for hot keys, CQRS for read-heavy, etc." />
+      </section>
+    </div>
+  );
+}
+
+// ───────── 0B BEHAVIORAL ─────────
+function P0_BehaviorView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0B · Behavioral</h1>
+        <p className="page-sub">STAR framework: Situation → Task → Action ("I", not "we") → Result. Each story 90–120 sec.</p>
+      </div>
+
+      <SectionCard
+        title="Write your 8 stories"
+        lead="One memorized story per theme. Quantify results."
+        items={D.starStories}
+        group="star"
+        tilted="left"
+      />
+
+      <section className="section-card tilted-r">
+        <h2>Story bank — drafts</h2>
+        <p className="lead">Pull up these notes before every behavioral round. Edit until each fits in 2 minutes spoken.</p>
+        {D.starStories.map(s => (
+          <details key={s.id} style={{marginBottom: 10, borderBottom: "1px dotted var(--paper-line)", paddingBottom: 8}}>
+            <summary style={{cursor: "pointer", fontFamily: "Caveat, cursive", fontSize: 22}}>{s.name}</summary>
+            <Notes id={"story-" + s.id} placeholder="Situation: ...&#10;Task: ...&#10;Action (I): ...&#10;Result (quantify): ..." />
+          </details>
+        ))}
+      </section>
+
+      <section className="section-card">
+        <h2>Amazon Leadership Principles (top 8)</h2>
+        <p className="lead">Tick when you have a story locked for each.</p>
+        <Checklist group="amzn-lp" items={[
+          { id: "lp-co", name: "Customer Obsession" },
+          { id: "lp-own", name: "Ownership" },
+          { id: "lp-invent", name: "Invent and Simplify" },
+          { id: "lp-right", name: "Are Right, A Lot" },
+          { id: "lp-learn", name: "Learn and Be Curious" },
+          { id: "lp-hire", name: "Hire and Develop the Best" },
+          { id: "lp-bias", name: "Bias for Action" },
+          { id: "lp-deliver", name: "Deliver Results" },
+        ]} />
+      </section>
+    </div>
+  );
+}
+
+// ───────── 0D LLD ─────────
+function P0_LLDView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0D · Low-Level Design</h1>
+        <p className="page-sub">SOLID + design patterns + a few classic OOP problems.</p>
+      </div>
+
+      <div className="row-grid-2">
+        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left" />
+        <SectionCard title="Practice problems" lead="Design + code these end-to-end." items={D.lldPractice} group="lldP" tilted="right" />
+      </div>
+
+      <section className="section-card">
+        <h2>Fundamentals</h2>
+        <Checklist group="lld-fund" items={[
+          { id: "solid-s", name: "S — Single Responsibility" },
+          { id: "solid-o", name: "O — Open / Closed" },
+          { id: "solid-l", name: "L — Liskov Substitution" },
+          { id: "solid-i", name: "I — Interface Segregation" },
+          { id: "solid-d", name: "D — Dependency Inversion" },
+          { id: "ptn-factory", name: "Factory pattern" },
+          { id: "ptn-singleton", name: "Singleton pattern" },
+          { id: "ptn-observer", name: "Observer pattern" },
+          { id: "ptn-strategy", name: "Strategy pattern" },
+          { id: "ptn-decorator", name: "Decorator pattern" },
+          { id: "ptn-builder", name: "Builder pattern" },
+        ]} />
+        <TimeLog id="lld" />
+      </section>
+    </div>
+  );
+}
+
+// ───────── 0E SQL ─────────
+function P0_SQLView() {
+  const sqlPDone = D.sqlProblems.filter(p => (loadJSON("done:sqlP", {}))[p.id]).length;
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0E · SQL / MySQL</h1>
+        <p className="page-sub">Master core syntax → grind 30 LeetCode SQL problems.</p>
+      </div>
+
+      <SectionCard title="Core concepts" lead="Internalize these before grinding problems." items={D.sqlConcepts} group="sqlC" tilted="left">
+        <TimeLog id="sqlC" />
+      </SectionCard>
+
+      <section className="section-card tilted-r">
+        <h2>Top 30 LeetCode SQL problems</h2>
+        <p className="lead">Easy first to lock JOIN/NULL/GROUP BY → then mediums in order. 601 + 1321 last.</p>
+        <Progress done={sqlPDone} total={D.sqlProblems.length} />
+        <Checklist
+          group="sqlP"
+          items={D.sqlProblems}
+          renderItem={(it) => (
+            <span>
+              <span className="tag-num">#{it.num}</span>{it.name} <Tag level={it.level} />
+              <a href={"https://leetcode.com/problems/" + slug(it.name)} target="_blank" rel="noopener" style={{marginLeft: 8, fontSize:12}}>↗</a>
+            </span>
+          )}
+        />
+        <TimeLog id="sqlP" />
+        <Notes id="sqlP" placeholder="Patterns to remember: top-N per group, running totals, gap-and-island…" />
+      </section>
+    </div>
+  );
+}
+function slug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-");
+}
+
+// ───────── 0F DSA — 150 problems ─────────
+function P0_DSAView() {
+  const allDsa = D.dsaTopics.flatMap(t => t.items);
+  const done = loadJSON("done:dsa", {});
+  const completed = allDsa.filter(p => done[p.id]).length;
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0F · Coding / DSA — 150 problems</h1>
+        <p className="page-sub">Quality over quantity. Talk through approach → brute force → optimize → test edges.</p>
+      </div>
+
+      <section className="section-card tilted-l">
+        <h2>Total progress</h2>
+        <Progress done={completed} total={allDsa.length} />
+        <TimeLog id="dsa-all" />
+      </section>
+
+      {D.dsaTopics.map((topic, idx) => {
+        const dCount = topic.items.filter(p => done[p.id]).length;
+        return (
+          <section key={topic.topic} className={"section-card " + (idx % 2 ? "tilted-r" : "tilted-l")}>
+            <h2>{topic.topic}</h2>
+            <Progress done={dCount} total={topic.items.length} />
+            <div className="dsa-grid">
+              <Checklist
+                group="dsa"
+                items={topic.items}
+                renderItem={(it) => (
+                  <span>
+                    <span className="tag-num">#{it.num}</span>{it.name} <Tag level={it.level} />
+                  </span>
+                )}
+              />
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+// ───────── 0G Schedule ─────────
+function P0_ScheduleView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">0G · Interview Prep Schedule</h1>
+        <p className="page-sub">24 weeks. Tick each block when its focus is genuinely behind you.</p>
+      </div>
+      <SectionCard
+        items={D.schedule}
+        group="schedule"
+        renderItem={(it) => (
+          <span>
+            <strong style={{fontFamily: "Caveat, cursive", fontSize: 22, marginRight: 10, color: "var(--red)"}}>Wk {it.weeks}</strong>
+            {it.focus}
+          </span>
+        )}
+      />
+    </div>
+  );
+}
+
+// ───────── PART A — Lifecycle ─────────
+function PartAView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part A · Full Software Lifecycle</h1>
+        <p className="page-sub">Plan → Code → Build → Deploy → Operate → Maintain → Cost. Short, opinionated bullets.</p>
+      </div>
+      {D.lifecycle.map((grp, i) => (
+        <SectionCard
+          key={grp.group}
+          title={grp.group}
+          items={grp.items}
+          group={"lifecycle"}
+          tilted={i % 2 ? "right" : "left"}
+        />
+      ))}
+    </div>
+  );
+}
+
+// ───────── PART B — Hands-on Phases ─────────
+function PartBView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part B · Hands-on Phases</h1>
+        <p className="page-sub">One worked example — a Todo app — from <code>docker compose up</code> to AWS production.</p>
+      </div>
+
+      {D.phases.map((p, i) => (
+        <section key={p.id} className={"section-card " + (i % 2 ? "tilted-r" : "tilted-l")}>
+          {i === 0 && <span className="tape tl"></span>}
+          <h2>{p.title}</h2>
+          <p className="lead">🎯 {p.goal}</p>
+          <Progress
+            done={p.tasks.filter(t => (loadJSON("done:phase", {}))[t.id]).length}
+            total={p.tasks.length}
+          />
+          <Checklist group="phase" items={p.tasks} />
+          <TimeLog id={"phase-" + p.id} />
+          <Notes id={"phase-" + p.id} placeholder="Gotchas, links to repos, commands that worked." />
+        </section>
+      ))}
+    </div>
+  );
+}
+
+// ───────── PART D — System Design for SRE ─────────
+function PartDView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part D · System Design for SRE</h1>
+        <p className="page-sub">SRE interviewers add reliability, observability, deployment, cost on top of vanilla SD.</p>
+      </div>
+      <SectionCard title="Core books" items={D.sreSysDesignBooks} group="sreBooks" tilted="left" />
+      <SectionCard title="SRE-specific topics" items={D.sreSysDesignTopics} group="sreTopics" tilted="right" />
+      <SectionCard title="SRE-flavor design questions" lead="Practice each in a 45-min mock." items={D.sreFlavorQuestions} group="sreFlavor">
+        <Notes id="sreFlavor" />
+      </SectionCard>
+    </div>
+  );
+}
+
+// ───────── PART E — Coding ─────────
+function PartEView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part E · Coding & Programming</h1>
+        <p className="page-sub">Go (primary) · Python (secondary) · Bash + SQL fluency.</p>
+      </div>
+      <SectionCard title="Go learning path (~40 hrs)" items={D.goPath} group="goPath" tilted="left">
+        <TimeLog id="goPath" />
+      </SectionCard>
+      <SectionCard title="Other skills" items={D.otherSkills} group="otherSk" tilted="right" />
+      <section className="section-card">
+        <h2>LeetCode strategy</h2>
+        <p className="lead">NeetCode 150 · 1 hr/day × 5 days × 12 weeks ≈ enough for SRE coding bars.</p>
+        <div className="callout">Skip DP-hard + advanced graph theory unless you have extra time. Focus on the 150 set in <strong>0F</strong>.</div>
+      </section>
+    </div>
+  );
+}
+
+// ───────── PART G — APAC Jobs ─────────
+function PartGView() {
+  const countries = Object.keys(D.jobsByCountry);
+  const [country, setCountry] = useStored("ui:job-country", countries[0]);
+  const [jobs, setJobs] = useStored("jobs", {});
+  const stages = ["Not yet", "Saved", "Applied", "Phone screen", "Interview", "Offer", "Rejected"];
+
+  const setStage = (key, stage) => setJobs(prev => ({ ...prev, [key]: { ...(prev[key] || {}), stage } }));
+  const toggleStar = (key) => setJobs(prev => ({ ...prev, [key]: { ...(prev[key] || {}), starred: !(prev[key]?.starred) } }));
+
+  const counts = useMemo(() => {
+    const out = { applied: 0, interview: 0, offer: 0 };
+    Object.values(jobs).forEach(j => {
+      const s = j.stage;
+      if (s === "Applied" || s === "Phone screen" || s === "Interview") out.applied++;
+      if (s === "Phone screen" || s === "Interview") out.interview++;
+      if (s === "Offer") out.offer++;
+    });
+    return out;
+  }, [jobs]);
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part G · APAC Job Search</h1>
+        <p className="page-sub">Track each company through the pipeline. Star your top targets. Apply early, refer often.</p>
+      </div>
+
+      <div className="stat-row" style={{gridTemplateColumns: "repeat(3, 1fr)"}}>
+        <div className="stat"><div className="v">{counts.applied}</div><div className="l">In pipeline</div></div>
+        <div className="stat"><div className="v">{counts.interview}</div><div className="l">Interviewing</div></div>
+        <div className="stat"><div className="v">{counts.offer}</div><div className="l">Offers</div></div>
+      </div>
+
+      <section className="section-card">
+        <div className="tabs">
+          {countries.map(c => (
+            <button key={c} className={"tab " + (c === country ? "active" : "")} onClick={() => setCountry(c)}>{c}</button>
+          ))}
+        </div>
+        <p className="legend">★ to mark a top target · drop-down sets stage</p>
+
+        <div>
+          {D.jobsByCountry[country].map(([name, url]) => {
+            const key = country + ":" + name;
+            const j = jobs[key] || {};
+            return (
+              <div key={key} className="job-row">
+                <button title="Star" onClick={() => toggleStar(key)} style={{fontSize: 20, color: j.starred ? "var(--yellow)" : "var(--ink-faint)"}}>{j.starred ? "★" : "☆"}</button>
+                <div><a href={url} target="_blank" rel="noopener">{name}</a></div>
+                <select value={j.stage || "Not yet"} onChange={e => setStage(key, e.target.value)}>
+                  {stages.map(s => <option key={s}>{s}</option>)}
+                </select>
+                <span style={{fontSize: 12, color: "var(--ink-faint)", fontFamily: "Caveat, cursive", fontSize: 16}}>{j.stage === "Offer" ? "🎉" : j.stage === "Rejected" ? "—" : ""}</span>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ───────── PART H — Interview Prep ─────────
+function PartHView() {
+  const [mocks, setMocks] = useStored("mocks", []);
+  const addMock = () => {
+    const date = prompt("Mock interview date (YYYY-MM-DD):", todayKey());
+    if (!date) return;
+    const type = prompt("Type (SD / Coding / Behavioral / Full loop):", "SD") || "SD";
+    const notes = prompt("Notes:", "") || "";
+    setMocks(prev => [...prev, { date, type, notes, id: Date.now() }]);
+    window.dispatchEvent(new CustomEvent("sre:activity"));
+  };
+  const removeMock = (id) => setMocks(prev => prev.filter(m => m.id !== id));
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part H · Interview Preparation</h1>
+        <p className="page-sub">Standard SRE/DevOps loop = 5 rounds. Know each and have your story bank ready.</p>
+      </div>
+
+      <SectionCard title="The 5-round loop" items={D.loopRounds} group="loop" tilted="left" />
+      <SectionCard title="Questions to ask the interviewer" lead="Show you care about reliability, ownership, ramp-up." items={D.questionsToAsk} group="qAsk" tilted="right" />
+
+      <section className="section-card">
+        <h2>Mock interviews log</h2>
+        <p className="lead">Aim: 1 every 2 weeks. Pramp (free) → Hello Interview AI → interviewing.io for FAANG mocks.</p>
+        <button onClick={addMock} style={{padding:"6px 14px", border:"1.5px solid var(--ink)", borderRadius: 20, background: "var(--accent)", fontFamily: "Caveat, cursive", fontSize: 20, marginBottom: 10}}>
+          + Log a mock
+        </button>
+        {mocks.length === 0 ? (
+          <p style={{color: "var(--ink-faint)", fontStyle: "italic"}}>No mocks logged yet. First one is the hardest.</p>
+        ) : (
+          <ul className="checklist">
+            {mocks.map(m => (
+              <li key={m.id}>
+                <span style={{fontFamily: "Caveat, cursive", fontSize: 20, color: "var(--blue)", minWidth: 110}}>{m.date}</span>
+                <Tag level={m.type === "SD" ? "Hard" : m.type === "Coding" ? "Medium" : "Easy"} />
+                <span style={{flex:1, marginLeft: 8}}>{m.notes}</span>
+                <button onClick={() => removeMock(m.id)} style={{color: "var(--red)", fontSize: 14}}>×</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="section-card">
+        <h2>Salary negotiation prep</h2>
+        <Checklist group="salary" items={[
+          { id: "sal-research", name: "Research bands: levels.fyi + NodeFlair (SG) + TokyoDev" },
+          { id: "sal-no-anchor", name: "Recruiter screen: 'I'd love to understand the band first'" },
+          { id: "sal-package", name: "Ask for full package — base + bonus + RSU + relocation + sign-on" },
+          { id: "sal-write", name: "Negotiate in writing; ask 2–5 days to consider offer" },
+        ]} />
+      </section>
+    </div>
+  );
+}
+
+// ───────── PART I — Personal Branding ─────────
+function PartIView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part I · Personal Branding</h1>
+        <p className="page-sub">Visible work is what separates you from the next 200 applications. Build → publish → share.</p>
+      </div>
+
+      <SectionCard
+        title="Six pinned GitHub repos"
+        lead="Each one a real, polished project. Pin them on your profile."
+        items={D.repos}
+        group="repos"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <strong>{it.name}</strong> <span style={{color:"var(--ink-soft)"}}>— {it.desc}</span>
+          </span>
+        )}
+      />
+
+      <SectionCard
+        title="Blog post ideas"
+        lead="1 post / 3–4 weeks · 1,500–3k words · cross-post to dev.to + Hashnode + LinkedIn"
+        items={D.blogIdeas}
+        group="blog"
+        tilted="right"
+      />
+
+      <SectionCard
+        title="Certifications"
+        lead="Tick when you've passed."
+        items={D.certs}
+        group="certs"
+        renderItem={(it) => (
+          <span><strong>{it.name}</strong> <span style={{color: "var(--ink-faint)", fontSize: 12, marginLeft: 6}}>{it.weeks} weeks</span></span>
+        )}
+      />
+    </div>
+  );
+}
+
+// ───────── PART J — Resources ─────────
+function PartJView() {
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part J · Resources</h1>
+        <p className="page-sub">Books + courses to grind through. Tick when finished — or when "good enough for interviews".</p>
+      </div>
+
+      <SectionCard title="Must-read books" items={D.books} group="books" tilted="left">
+        <TimeLog id="books" />
+        <Notes id="books" placeholder="Chapter notes, favorite passages, what to revisit." />
+      </SectionCard>
+
+      <SectionCard title="Courses"
+        items={D.courses}
+        group="courses"
+        tilted="right"
+        renderItem={(it) => (
+          <span><strong>{it.name}</strong>
+            <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{it.plat} · {it.cost}</span>
+          </span>
+        )}
+      />
+
+      <section className="section-card">
+        <h2>Practice platforms</h2>
+        <ul className="checklist">
+          {[
+            ["NeetCode", "neetcode.io", "FREE"],
+            ["LeetCode Premium", "leetcode.com", "$35/mo"],
+            ["Pramp", "pramp.com", "FREE peer mocks"],
+            ["interviewing.io", "interviewing.io", "$200–400/session"],
+            ["Hello Interview", "hellointerview.com", "Freemium"],
+            ["killer.sh", "killer.sh", "CKA simulator"],
+          ].map(([n, u, c]) => (
+            <li key={n}>
+              <div className="check"></div>
+              <div className="item-label"><a href={"https://"+u} target="_blank" rel="noopener"><strong>{n}</strong></a> <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{c}</span></div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  );
+}
+
+// ───────── HABITS ─────────
+function HabitsView() {
+  const { counts, daily, dayIdx, bump, reset, wk } = useHabits();
+  const totalProgress = useMemo(() => {
+    let hit = 0, tgt = 0;
+    D.habits.forEach(h => {
+      tgt += h.target;
+      hit += Math.min(counts[h.id] || 0, h.target);
+    });
+    return { hit, tgt };
+  }, [counts]);
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Weekly Habits</h1>
+        <p className="page-sub">Week starting <strong>{wk}</strong>. Bump each habit as you do it. Resets every Sunday.</p>
+      </div>
+
+      <section className="section-card tilted-l">
+        <h2>This week</h2>
+        <Progress done={totalProgress.hit} total={totalProgress.tgt} label="completions" />
+        <button onClick={() => { if (confirm("Reset this week's counters?")) reset(); }}
+          style={{padding:"4px 12px", border:"1.5px solid var(--paper-line)", borderRadius: 16, background: "var(--paper)", fontSize: 12, color: "var(--ink-soft)"}}>
+          Reset week
+        </button>
+
+        <div style={{marginTop: 16}}>
+          {D.habits.map(h => {
+            const c = counts[h.id] || 0;
+            const ratio = Math.min(1, c / h.target);
+            const dailyMap = daily[h.id] || {};
+            return (
+              <div key={h.id} className="habit-row">
+                <div className="habit-name">{h.name}</div>
+                <div className="habit-counter">
+                  <button onClick={() => bump(h.id, -1)}>−</button>
+                  <span className="num">
+                    {c}<span className="target"> / {h.target}</span>
+                  </span>
+                  <button onClick={() => bump(h.id, +1)}>+</button>
+                </div>
+                <div className="week-strip">
+                  {["S","M","T","W","T","F","S"].map((l, i) => (
+                    <div key={i} className={"week-day " + ((dailyMap[i]||0) > 0 ? "done " : "") + (i === dayIdx ? "today" : "")}>{l}</div>
+                  ))}
+                </div>
+                <div style={{width: 30, fontFamily: "Caveat, cursive", fontSize: 22, color: ratio >= 1 ? "var(--green)" : "var(--ink-faint)"}}>
+                  {ratio >= 1 ? "✓" : Math.round(ratio*100)+"%"}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="section-card tilted-r">
+        <h2>Why habits matter</h2>
+        <p>15 hours/week is the budget. Spread it: 5 hrs LeetCode + 5 hrs technical study + 4 hrs hands-on + 1 hr writing/networking. The streak is the goal — daily input beats weekend cramming for skill-building.</p>
+      </section>
+    </div>
+  );
+}
+
+Object.assign(window, {
+  OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
+  P0_DSAView, P0_ScheduleView, PartAView, PartBView, PartDView, PartEView,
+  PartGView, PartHView, PartIView, PartJView, HabitsView,
+});
+
+</script>
+
+<script type="text/babel">
+// App shell — sidebar nav + view router. Persists current view in URL hash.
+
+const NAV = [
+  { id: "overview", label: "Overview", icon: "📊", group: "" },
+  { id: "habits", label: "Weekly Habits", icon: "🔥", group: "" },
+  { id: "_p0", label: "Part 0 · Interview Prep", group: "section" },
+  { id: "p0-sd", label: "0A  System Design", icon: "🧩", group: "p0" },
+  { id: "p0-behavior", label: "0B  Behavioral", icon: "💬", group: "p0" },
+  { id: "p0-lld", label: "0D  Low-Level Design", icon: "🧱", group: "p0" },
+  { id: "p0-sql", label: "0E  SQL / MySQL", icon: "🗄", group: "p0" },
+  { id: "p0-dsa", label: "0F  DSA · 150", icon: "🧠", group: "p0" },
+  { id: "p0-sched", label: "0G  Schedule", icon: "🗓", group: "p0" },
+  { id: "_parts", label: "Mastery", group: "section" },
+  { id: "part-a", label: "Part A · Lifecycle", icon: "🔄", group: "parts" },
+  { id: "part-b", label: "Part B · Hands-on phases", icon: "🛠", group: "parts" },
+  { id: "part-d", label: "Part D · SD for SRE", icon: "🏗", group: "parts" },
+  { id: "part-e", label: "Part E · Coding", icon: "💻", group: "parts" },
+  { id: "_jobs", label: "Job hunt", group: "section" },
+  { id: "part-g", label: "Part G · APAC jobs", icon: "🌏", group: "jobs" },
+  { id: "part-h", label: "Part H · Interview prep", icon: "🎤", group: "jobs" },
+  { id: "part-i", label: "Part I · Personal branding", icon: "🌟", group: "jobs" },
+  { id: "part-j", label: "Part J · Resources", icon: "📖", group: "jobs" },
+];
+
+const VIEW_MAP = {
+  "overview": OverviewView,
+  "habits": HabitsView,
+  "p0-sd": P0_SysDesignView,
+  "p0-behavior": P0_BehaviorView,
+  "p0-lld": P0_LLDView,
+  "p0-sql": P0_SQLView,
+  "p0-dsa": P0_DSAView,
+  "p0-sched": P0_ScheduleView,
+  "part-a": PartAView,
+  "part-b": PartBView,
+  "part-d": PartDView,
+  "part-e": PartEView,
+  "part-g": PartGView,
+  "part-h": PartHView,
+  "part-i": PartIView,
+  "part-j": PartJView,
+};
+
+function App() {
+  const [view, setView] = useState(() => (location.hash.replace("#", "") || "overview"));
+  useEffect(() => {
+    const onHash = () => setView(location.hash.replace("#", "") || "overview");
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  const go = (id) => {
+    location.hash = id;
+    window.scrollTo(0, 0);
+  };
+
+  const all = useAllProgress();
+  const vg = viewGroups();
+  const sidebarPct = (id) => {
+    const groups = vg[id];
+    if (!groups || groups.length === 0) return null;
+    let d = 0, t = 0;
+    groups.forEach(g => { d += all.groups[g]?.done || 0; t += all.groups[g]?.total || 0; });
+    if (t === 0) return null;
+    return Math.round(d / t * 100);
+  };
+
+  const Current = VIEW_MAP[view] || OverviewView;
+
+  return (
+    <div className="app">
+      <aside className="sidebar">
+        <div className="brand">SRE Notebook<span className="dot">.</span></div>
+        <div className="brand-sub">6-month plan → APAC offer</div>
+
+        <div className="overall-card">
+          <h4>Overall</h4>
+          <div style={{display: "flex", alignItems: "baseline", gap: 8}}>
+            <div style={{fontFamily: "Caveat, cursive", fontSize: 38, fontWeight: 700, lineHeight: 1, color: "var(--red)"}}>
+              {Math.round((all.done / Math.max(all.total,1)) * 100)}%
+            </div>
+            <div style={{fontSize: 12, color: "var(--ink-faint)"}}>
+              {all.done} / {all.total}
+            </div>
+          </div>
+          <div className="progress-track" style={{height: 8, marginTop: 4}}>
+            <div className="progress-fill" style={{width: ((all.done/Math.max(all.total,1))*100) + "%"}}></div>
+          </div>
+        </div>
+
+        <nav className="nav">
+          {NAV.map(n => {
+            if (n.group === "section") {
+              return <div key={n.id} className="nav-group-label">— {n.label} —</div>;
+            }
+            const pct = sidebarPct(n.id);
+            return (
+              <button key={n.id}
+                className={"nav-item " + (view === n.id ? "active" : "")}
+                onClick={() => go(n.id)}
+              >
+                <span className="icon">{n.icon}</span>
+                <span>{n.label}</span>
+                {pct !== null && <span className="mini-bar">{pct}%</span>}
+              </button>
+            );
+          })}
+        </nav>
+
+        <div style={{marginTop: 24, fontSize: 11, color: "var(--ink-faint)", textAlign: "center", fontFamily: "Caveat, cursive", fontSize: 14}}>
+          Saved in your browser ·
+          <button onClick={() => {
+            if (confirm("Export all progress to clipboard as JSON?")) {
+              const dump = {};
+              for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && k.startsWith("sre:")) dump[k] = localStorage.getItem(k);
+              }
+              navigator.clipboard.writeText(JSON.stringify(dump, null, 2));
+              alert("Copied to clipboard!");
+            }
+          }} style={{textDecoration: "underline", marginLeft: 4, color: "var(--blue)"}}>export</button>
+        </div>
+      </aside>
+
+      <main className="main">
+        <Current />
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>
