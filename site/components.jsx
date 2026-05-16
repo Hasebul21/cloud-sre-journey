@@ -24,18 +24,42 @@ function useStored(key, fallback) {
   return [v, setV];
 }
 
-// Global "done" set across all items — useStored map with a single key per group
+// Global "done" set across all items — one key per group, with cross-instance
+// sync so multiple <Checklist> components sharing the same group stay in step.
+// (Previously a write from instance B could clobber instance A's recent toggle
+// because B's React state was stale relative to localStorage.)
 function useDoneSet(group) {
-  const [set, setSet] = useStored("done:" + group, {});
+  const key = "done:" + group;
+  const [set, setSet] = useState(() => loadJSON(key, {}));
+
+  // Listen for activity events from sibling instances of the same group and
+  // re-read from localStorage so all instances see the latest state.
+  useEffect(() => {
+    const sync = (e) => {
+      if (e && e.detail && e.detail.group === group) {
+        setSet(loadJSON(key, {}));
+      }
+    };
+    window.addEventListener("sre:activity", sync);
+    return () => window.removeEventListener("sre:activity", sync);
+  }, [group, key]);
+
   const toggle = useCallback((id) => {
     setSet(prev => {
       const next = { ...prev };
       if (next[id]) delete next[id]; else next[id] = Date.now();
-      // also bump streak via global event
-      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group, done: !!next[id] } }));
+      // Persist synchronously so other instances see fresh data when the
+      // activity event fires.
+      saveJSON(key, next);
+      // Defer the event to a microtask so React has finished the commit
+      // before siblings re-read state.
+      Promise.resolve().then(() => {
+        window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group, done: !!next[id] } }));
+      });
       return next;
     });
-  }, [setSet, group]);
+  }, [key, group]);
+
   return [set, toggle];
 }
 
@@ -275,6 +299,13 @@ function buildGroupIndex(D) {
   g.certs = D.certs.map(i => i.id);
   g.books = D.books.map(i => i.id);
   g.courses = D.courses.map(i => i.id);
+  // SRE Learning sections (each view has resources + milestones)
+  if (D.sreRoadmap) {
+    for (const [key, sec] of Object.entries(D.sreRoadmap)) {
+      g["sreLr_" + key] = sec.resources.map(i => i.id);
+      g["sreLm_" + key] = sec.milestones.map(i => i.id);
+    }
+  }
   return g;
 }
 
@@ -288,6 +319,11 @@ function viewGroups() {
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
     "p0-sched": ["schedule"],
+    "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
+    "sre-cod":   ["sreLr_coding",       "sreLm_coding"],
+    "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
+    "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
+    "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
     "part-a": ["lifecycle"],
     "part-b": ["phase"],
     "part-d": ["sreBooks","sreTopics","sreFlavor"],

@@ -1098,6 +1098,186 @@ window.SRE_DATA = {
   ],
 
   // ────────────────────────────────────────────────────────────────
+  // SRE LEARNING — Become an SRE (curated path with resources)
+  // Inserted between Part 0 (Interview Prep) and Mastery in the sidebar.
+  // ────────────────────────────────────────────────────────────────
+  sreRoadmap: {
+    foundations: {
+      title: "SRE 1 · Foundations",
+      intro: "Linux, networking, the terminal. Every reliability incident eventually pulls you to a shell, a packet capture, or a /proc file. Build the floor first.",
+      why: "If you can't read top, strace, lsof, dig, tcpdump fluently, you're locked out of root-causing real production problems.",
+      resources: [
+        { id: "srf-r-1",  type: "video",  name: "Linux in 100 Seconds — Fireship",                                url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
+        { id: "srf-r-2",  type: "video",  name: "Linux Crash Course — Learn Linux TV",                            url: "https://www.youtube.com/playlist?list=PLT98CRl2KxKHaKA9-4_I38sLzK134p4GJ" },
+        { id: "srf-r-3",  type: "video",  name: "Linux for Hackers — NetworkChuck",                               url: "https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL" },
+        { id: "srf-r-4",  type: "video",  name: "Computer Networking Full Course — freeCodeCamp",                 url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+        { id: "srf-r-5",  type: "video",  name: "Bash Scripting Tutorial — TechWorld with Nana",                  url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
+        { id: "srf-r-6",  type: "video",  name: "USE Method — Brendan Gregg",                                     url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
+        { id: "srf-r-7",  type: "course", name: "MIT Missing Semester (shell, vim, git, ssh)",                    url: "https://missing.csail.mit.edu/" },
+        { id: "srf-r-8",  type: "course", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",           url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
+        { id: "srf-r-9",  type: "course", name: "Beej's Guide to Network Programming (free)",                     url: "https://beej.us/guide/bgnet/" },
+        { id: "srf-r-10", type: "book",   name: "The Linux Command Line — William Shotts (free PDF)",             url: "https://linuxcommand.org/tlcl.php" },
+        { id: "srf-r-11", type: "book",   name: "Systems Performance — Brendan Gregg (2nd ed)",                   url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
+        { id: "srf-r-12", type: "book",   name: "TCP/IP Illustrated Vol 1 — Stevens",                             url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
+        { id: "srf-r-13", type: "blog",   name: "Brendan Gregg's homepage (perf gold)",                           url: "https://www.brendangregg.com/" },
+        { id: "srf-r-14", type: "blog",   name: "Julia Evans — Wizard Zines",                                     url: "https://wizardzines.com/" },
+        { id: "srf-r-15", type: "blog",   name: "Linux Kernel docs",                                              url: "https://www.kernel.org/doc/html/latest/" },
+      ],
+      milestones: [
+        { id: "srf-m-1",  name: "Run Ubuntu in a VM (UTM / Multipass / WSL)" },
+        { id: "srf-m-2",  name: "Write 5 one-liners combining awk + sed + jq + grep" },
+        { id: "srf-m-3",  name: "Use strace to debug a hung process" },
+        { id: "srf-m-4",  name: "Use tcpdump or Wireshark to inspect a HTTP request" },
+        { id: "srf-m-5",  name: "Trace a DNS lookup end-to-end with dig +trace" },
+        { id: "srf-m-6",  name: "Use ss / lsof to find what's listening on a port" },
+        { id: "srf-m-7",  name: "Configure SSH keys and harden sshd_config" },
+        { id: "srf-m-8",  name: "Read top, htop, iostat, vmstat fluently (USE method)" },
+        { id: "srf-m-9",  name: "Write + enable a systemd service unit" },
+        { id: "srf-m-10", name: "Set up a cron job that emits a daily disk-usage report" },
+      ],
+    },
+
+    coding: {
+      title: "SRE 2 · Coding for SRE",
+      intro: "Python for glue + tooling. Go for control planes + CLIs. Pick one to fluency, learn the other to read.",
+      why: "An SRE who can't read or write code is an oncall responder, not an engineer. Most modern reliability tools (Prometheus, Terraform, Kubernetes) are written in Go.",
+      resources: [
+        { id: "src-r-1",  type: "video",  name: "Python Full Course — Mosh",                                     url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc" },
+        { id: "src-r-2",  type: "video",  name: "Python OOP Series — Corey Schafer",                             url: "https://www.youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc" },
+        { id: "src-r-3",  type: "video",  name: "Learn Go Programming — TechWorld with Nana",                    url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
+        { id: "src-r-4",  type: "video",  name: "Go in 100 Seconds — Fireship",                                  url: "https://www.youtube.com/watch?v=446E-r0rXHI" },
+        { id: "src-r-5",  type: "video",  name: "Go Concurrency Patterns — Rob Pike (Google I/O)",               url: "https://www.youtube.com/watch?v=f6kdp27TYZs" },
+        { id: "src-r-6",  type: "course", name: "A Tour of Go (official, free)",                                 url: "https://go.dev/tour/" },
+        { id: "src-r-7",  type: "course", name: "Boot.dev — Learn Go by building",                               url: "https://www.boot.dev/" },
+        { id: "src-r-8",  type: "course", name: "Real Python — articles + courses",                              url: "https://realpython.com/" },
+        { id: "src-r-9",  type: "book",   name: "Automate the Boring Stuff with Python — Al Sweigart (free)",    url: "https://automatetheboringstuff.com/" },
+        { id: "src-r-10", type: "book",   name: "Fluent Python — Luciano Ramalho",                               url: "https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" },
+        { id: "src-r-11", type: "book",   name: "Learning Go — Jon Bodner (2nd ed)",                             url: "https://www.oreilly.com/library/view/learning-go-2nd/9781098139285/" },
+        { id: "src-r-12", type: "book",   name: "The Go Programming Language — Donovan & Kernighan",             url: "https://www.gopl.io/" },
+        { id: "src-r-13", type: "blog",   name: "Effective Go (official idioms)",                                url: "https://go.dev/doc/effective_go" },
+        { id: "src-r-14", type: "blog",   name: "Dave Cheney — Go internals + practical articles",               url: "https://dave.cheney.net/" },
+      ],
+      milestones: [
+        { id: "src-m-1", name: "Python: parse /var/log/nginx/access.log into JSON via stdlib only" },
+        { id: "src-m-2", name: "Python: build a CLI with argparse (3 subcommands)" },
+        { id: "src-m-3", name: "Python: wrap a REST API client with retries + exponential backoff" },
+        { id: "src-m-4", name: "Go: write an HTTP server with /healthz + /metrics handlers" },
+        { id: "src-m-5", name: "Go: use context.Context for cancellation across goroutines" },
+        { id: "src-m-6", name: "Go: write table-driven unit tests + run with -race" },
+        { id: "src-m-7", name: "Go: build a Cobra CLI with auto-completion + nested commands" },
+        { id: "src-m-8", name: "Go: profile a program with pprof — find a CPU or heap hotspot" },
+      ],
+    },
+
+    cloud: {
+      title: "SRE 3 · Cloud, Containers & K8s",
+      intro: "AWS first — most APAC SRE roles ask for it. Then Docker. Then Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
+      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services. You'll touch this every shift.",
+      resources: [
+        { id: "scl-r-1",  type: "video",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
+        { id: "scl-r-2",  type: "video",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
+        { id: "scl-r-3",  type: "video",  name: "Kubernetes Full Course — TechWorld with Nana (4h)",             url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
+        { id: "scl-r-4",  type: "video",  name: "Helm Crash Course — KodeKloud",                                 url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
+        { id: "scl-r-5",  type: "video",  name: "Bret Fisher — Docker Live Shows (channel)",                     url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
+        { id: "scl-r-6",  type: "video",  name: "Kelsey Hightower — Kubernetes The Hard Way (talks)",            url: "https://www.youtube.com/results?search_query=kelsey+hightower+kubernetes" },
+        { id: "scl-r-7",  type: "course", name: "AWS SAA-C03 — Stephane Maarek (Udemy)",                         url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
+        { id: "scl-r-8",  type: "course", name: "Tutorials Dojo — SAA practice exams",                           url: "https://portal.tutorialsdojo.com/" },
+        { id: "scl-r-9",  type: "course", name: "KodeKloud — Certified Kubernetes Administrator (CKA)",          url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
+        { id: "scl-r-10", type: "course", name: "Docker Mastery — Bret Fisher (Udemy)",                          url: "https://www.udemy.com/course/docker-mastery/" },
+        { id: "scl-r-11", type: "course", name: "AWS Skill Builder (free official)",                             url: "https://skillbuilder.aws/" },
+        { id: "scl-r-12", type: "course", name: "Kubernetes The Hard Way — Kelsey Hightower (free GitHub)",      url: "https://github.com/kelseyhightower/kubernetes-the-hard-way" },
+        { id: "scl-r-13", type: "book",   name: "Kubernetes Up & Running — Burns / Beda / Hightower",            url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781098110192/" },
+        { id: "scl-r-14", type: "book",   name: "Cloud Native Patterns — Cornelia Davis",                        url: "https://www.manning.com/books/cloud-native-patterns" },
+        { id: "scl-r-15", type: "blog",   name: "AWS Architecture Center",                                       url: "https://aws.amazon.com/architecture/" },
+        { id: "scl-r-16", type: "blog",   name: "Kubernetes official docs",                                      url: "https://kubernetes.io/docs/" },
+        { id: "scl-r-17", type: "blog",   name: "Learnk8s — Kubernetes deep dives",                              url: "https://learnk8s.io/" },
+      ],
+      milestones: [
+        { id: "scl-m-1", name: "Pass AWS Cloud Practitioner (or finish 50% of SAA course)" },
+        { id: "scl-m-2", name: "Containerize a service with a multi-stage distroless Dockerfile" },
+        { id: "scl-m-3", name: "Push an image to ECR / Docker Hub; pull on another host" },
+        { id: "scl-m-4", name: "Stand up a kind cluster — deploy 2-tier app with Service + Ingress" },
+        { id: "scl-m-5", name: "Add liveness + readiness probes to a Pod; watch them fail and recover" },
+        { id: "scl-m-6", name: "Write a Helm chart for a real service" },
+        { id: "scl-m-7", name: "Set up HPA + ClusterAutoscaler (or Karpenter on EKS)" },
+        { id: "scl-m-8", name: "Deploy to EKS: VPC + node group + IAM Roles for Service Accounts (IRSA)" },
+        { id: "scl-m-9", name: "Debug a failing Pod with k9s or Lens (events + describe + logs)" },
+      ],
+    },
+
+    automation: {
+      title: "SRE 4 · Automation — IaC + CI/CD + GitOps",
+      intro: "Terraform for cloud infra. Ansible for VM config (still very common). GitHub Actions / Argo for delivery. GitOps for K8s. The goal: nothing manual in prod.",
+      why: "An incident at 3am is fine. An incident at 3am because someone clicked the wrong button isn't. If it can run twice, automate it.",
+      resources: [
+        { id: "sau-r-1",  type: "video",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
+        { id: "sau-r-2",  type: "video",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
+        { id: "sau-r-3",  type: "video",  name: "GitHub Actions in 100 Seconds — Fireship",                      url: "https://www.youtube.com/watch?v=cP0I9w2coGU" },
+        { id: "sau-r-4",  type: "video",  name: "GitHub Actions Full Course — TechWorld with Nana",              url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
+        { id: "sau-r-5",  type: "video",  name: "ArgoCD GitOps — KodeKloud",                                     url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
+        { id: "sau-r-6",  type: "course", name: "HashiCorp Learn — Terraform (free)",                            url: "https://developer.hashicorp.com/terraform/tutorials" },
+        { id: "sau-r-7",  type: "course", name: "Terraform Associate Cert prep — Bryan Krausen (Udemy)",         url: "https://www.udemy.com/course/terraform-associate-practice-exam/" },
+        { id: "sau-r-8",  type: "course", name: "KodeKloud — Ansible for the Absolute Beginner",                 url: "https://kodekloud.com/courses/learn-ansible-basics-beginners-course/" },
+        { id: "sau-r-9",  type: "course", name: "GitHub Actions — Learning Path (free official)",                url: "https://docs.github.com/en/actions/learn-github-actions" },
+        { id: "sau-r-10", type: "book",   name: "Terraform: Up & Running — Yevgeniy Brikman (3rd ed)",           url: "https://www.oreilly.com/library/view/terraform-up/9781098116736/" },
+        { id: "sau-r-11", type: "book",   name: "Infrastructure as Code — Kief Morris (2nd ed)",                 url: "https://www.oreilly.com/library/view/infrastructure-as-code/9781098114664/" },
+        { id: "sau-r-12", type: "blog",   name: "Terraform Best Practices — Anton Babenko",                      url: "https://www.terraform-best-practices.com/" },
+        { id: "sau-r-13", type: "blog",   name: "ArgoCD Operator Manual — Best Practices",                       url: "https://argo-cd.readthedocs.io/en/stable/operator-manual/best_practices/" },
+        { id: "sau-r-14", type: "blog",   name: "Google DORA — DevOps research papers",                          url: "https://dora.dev/" },
+      ],
+      milestones: [
+        { id: "sau-m-1", name: "Write a Terraform module with vars + outputs + remote state (S3 + DynamoDB lock)" },
+        { id: "sau-m-2", name: "Run plan / apply / destroy on a real cloud account (your own playground)" },
+        { id: "sau-m-3", name: "Import an existing cloud resource into Terraform state" },
+        { id: "sau-m-4", name: "Write an Ansible playbook to harden a VM (close to CIS baseline)" },
+        { id: "sau-m-5", name: "Build a GitHub Actions workflow: build → test → scan → push → deploy" },
+        { id: "sau-m-6", name: "Use OIDC for AWS credentials in GitHub Actions (no long-lived keys)" },
+        { id: "sau-m-7", name: "Set up ArgoCD on a kind cluster, auto-sync from a Git repo" },
+        { id: "sau-m-8", name: "Practice a canary or blue-green rollout via Argo Rollouts" },
+      ],
+    },
+
+    reliability: {
+      title: "SRE 5 · Observability & Reliability Practice",
+      intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
+      why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
+      resources: [
+        { id: "srl-r-1",  type: "video",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
+        { id: "srl-r-2",  type: "video",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
+        { id: "srl-r-3",  type: "video",  name: "Charity Majors — Observability is for Humans",                  url: "https://www.youtube.com/watch?v=oGC8C9z7TN4" },
+        { id: "srl-r-4",  type: "video",  name: "Class SRE Implements DevOps — Liz Fong-Jones",                  url: "https://www.youtube.com/watch?v=uTEL8Ff1Zvk" },
+        { id: "srl-r-5",  type: "video",  name: "Loki + Grafana logging — Grafana Labs",                         url: "https://www.youtube.com/watch?v=h_GGd7HfKQ8" },
+        { id: "srl-r-6",  type: "course", name: "Google SRE Course — Measuring & Managing Reliability (Coursera, free audit)", url: "https://www.coursera.org/learn/site-reliability-engineering-slos" },
+        { id: "srl-r-7",  type: "course", name: "KodeKloud — Prometheus Certified Associate (PCA)",              url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/" },
+        { id: "srl-r-8",  type: "course", name: "Linux Foundation — LFS162 Intro to SRE & DevOps (free)",        url: "https://training.linuxfoundation.org/training/introduction-to-site-reliability-engineering-and-devops-lfs162/" },
+        { id: "srl-r-9",  type: "book",   name: "Site Reliability Engineering — Google (free online)",           url: "https://sre.google/sre-book/table-of-contents/" },
+        { id: "srl-r-10", type: "book",   name: "The Site Reliability Workbook — Google (free online)",          url: "https://sre.google/workbook/table-of-contents/" },
+        { id: "srl-r-11", type: "book",   name: "Observability Engineering — Majors / Fong-Jones / Miranda",     url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
+        { id: "srl-r-12", type: "book",   name: "Implementing Service Level Objectives — Alex Hidalgo",          url: "https://www.oreilly.com/library/view/implementing-service-level/9781492076803/" },
+        { id: "srl-r-13", type: "book",   name: "Seeking SRE — David Blank-Edelman (ed)",                        url: "https://www.oreilly.com/library/view/seeking-sre/9781491978856/" },
+        { id: "srl-r-14", type: "blog",   name: "sre.google — articles, talks, papers",                          url: "https://sre.google/" },
+        { id: "srl-r-15", type: "blog",   name: "Honeycomb blog (observability)",                                url: "https://www.honeycomb.io/blog" },
+        { id: "srl-r-16", type: "blog",   name: "PagerDuty Incident Response docs",                              url: "https://response.pagerduty.com/" },
+        { id: "srl-r-17", type: "blog",   name: "Increment magazine — On-Call issue",                            url: "https://increment.com/on-call/" },
+        { id: "srl-r-18", type: "blog",   name: "USE Method — Brendan Gregg",                                    url: "https://www.brendangregg.com/usemethod.html" },
+      ],
+      milestones: [
+        { id: "srl-m-1",  name: "Instrument a Go/Python service with the Prometheus client library" },
+        { id: "srl-m-2",  name: "Build a Grafana dashboard for the 4 golden signals (latency/traffic/errors/saturation)" },
+        { id: "srl-m-3",  name: "Write a Prometheus alert rule + Alertmanager route to Slack/Discord" },
+        { id: "srl-m-4",  name: "Define an SLO + error budget for a service — document it" },
+        { id: "srl-m-5",  name: "Add OpenTelemetry tracing — see a span graph in Jaeger or Grafana Tempo" },
+        { id: "srl-m-6",  name: "Centralize logs (Loki / ELK / CloudWatch) with a structured JSON format" },
+        { id: "srl-m-7",  name: "Run a chaos experiment — kill a Pod or inject latency, measure recovery" },
+        { id: "srl-m-8",  name: "Write a runbook for one alert — test it with a colleague" },
+        { id: "srl-m-9",  name: "Write a blameless postmortem template + practice on a real incident" },
+        { id: "srl-m-10", name: "Read SRE book ch 3–5 (Embracing Risk · SLOs · Eliminating Toil)" },
+        { id: "srl-m-11", name: "Read SRE book ch 13–15 (Emergency Response · Managing Incidents · Postmortems)" },
+      ],
+    },
+  },
+
+  // ────────────────────────────────────────────────────────────────
   // Weekly habits
   // ────────────────────────────────────────────────────────────────
   habits: [
@@ -1142,18 +1322,42 @@ function useStored(key, fallback) {
   return [v, setV];
 }
 
-// Global "done" set across all items — useStored map with a single key per group
+// Global "done" set across all items — one key per group, with cross-instance
+// sync so multiple <Checklist> components sharing the same group stay in step.
+// (Previously a write from instance B could clobber instance A's recent toggle
+// because B's React state was stale relative to localStorage.)
 function useDoneSet(group) {
-  const [set, setSet] = useStored("done:" + group, {});
+  const key = "done:" + group;
+  const [set, setSet] = useState(() => loadJSON(key, {}));
+
+  // Listen for activity events from sibling instances of the same group and
+  // re-read from localStorage so all instances see the latest state.
+  useEffect(() => {
+    const sync = (e) => {
+      if (e && e.detail && e.detail.group === group) {
+        setSet(loadJSON(key, {}));
+      }
+    };
+    window.addEventListener("sre:activity", sync);
+    return () => window.removeEventListener("sre:activity", sync);
+  }, [group, key]);
+
   const toggle = useCallback((id) => {
     setSet(prev => {
       const next = { ...prev };
       if (next[id]) delete next[id]; else next[id] = Date.now();
-      // also bump streak via global event
-      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group, done: !!next[id] } }));
+      // Persist synchronously so other instances see fresh data when the
+      // activity event fires.
+      saveJSON(key, next);
+      // Defer the event to a microtask so React has finished the commit
+      // before siblings re-read state.
+      Promise.resolve().then(() => {
+        window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group, done: !!next[id] } }));
+      });
       return next;
     });
-  }, [setSet, group]);
+  }, [key, group]);
+
   return [set, toggle];
 }
 
@@ -1393,6 +1597,13 @@ function buildGroupIndex(D) {
   g.certs = D.certs.map(i => i.id);
   g.books = D.books.map(i => i.id);
   g.courses = D.courses.map(i => i.id);
+  // SRE Learning sections (each view has resources + milestones)
+  if (D.sreRoadmap) {
+    for (const [key, sec] of Object.entries(D.sreRoadmap)) {
+      g["sreLr_" + key] = sec.resources.map(i => i.id);
+      g["sreLm_" + key] = sec.milestones.map(i => i.id);
+    }
+  }
   return g;
 }
 
@@ -1406,6 +1617,11 @@ function viewGroups() {
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
     "p0-sched": ["schedule"],
+    "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
+    "sre-cod":   ["sreLr_coding",       "sreLm_coding"],
+    "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
+    "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
+    "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
     "part-a": ["lifecycle"],
     "part-b": ["phase"],
     "part-d": ["sreBooks","sreTopics","sreFlavor"],
@@ -1436,80 +1652,12 @@ const D = window.SRE_DATA;
 // ───────── OVERVIEW ─────────
 function OverviewView() {
   const all = useAllProgress();
-  const { streak, longest, days } = useStreak();
-  const totalHrs = useMemo(() => {
-    // sum any time:* keys
-    let s = 0;
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("sre:time:")) {
-        const v = parseFloat(JSON.parse(localStorage.getItem(k) || "0"));
-        if (!isNaN(v)) s += v;
-      }
-    }
-    return s;
-  }, [all.done]);
-  const activeDays = Object.keys(days).length;
-
-  // Last 28 days heatmap
-  const heat = useMemo(() => {
-    const out = [];
-    const today = new Date();
-    for (let i = 27; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
-      const k = todayKey(d);
-      out.push({ k, day: d.getDate(), done: !!days[k], today: i === 0 });
-    }
-    return out;
-  }, [days]);
-
   return (
     <div>
       <div className="page-head">
         <h1 className="page-title">Hello there. 👋</h1>
         <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
-
-      <div className="stat-row">
-        <div className="stat">
-          <div className="v">{Math.round((all.done / Math.max(all.total,1)) * 100)}%</div>
-          <div className="l">Overall progress</div>
-          <div className="sub">{all.done} of {all.total} items</div>
-        </div>
-        <div className="stat streak">
-          <div className="v">{streak}</div>
-          <div className="l">Day streak</div>
-          <div className="sub">longest: {longest} days</div>
-        </div>
-        <div className="stat">
-          <div className="v">{totalHrs.toFixed(1)}</div>
-          <div className="l">Hours logged</div>
-          <div className="sub">across all sections</div>
-        </div>
-        <div className="stat">
-          <div className="v">{activeDays}</div>
-          <div className="l">Active days</div>
-          <div className="sub">since you started</div>
-        </div>
-      </div>
-
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>Last 4 weeks</h2>
-        <p className="lead">Every box you tick adds a dot here. Don't break the chain.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6, maxWidth: 360 }}>
-          {["S","M","T","W","T","F","S"].map((l, i) => (
-            <div key={"l"+i} style={{ textAlign: "center", fontFamily: "Caveat, cursive", fontSize: 16, color: "var(--ink-faint)" }}>{l}</div>
-          ))}
-          {heat.map(h => (
-            <div key={h.k}
-              title={h.k + (h.done ? " · active" : "")}
-              className={"week-day " + (h.done ? "done " : "") + (h.today ? "today" : "")}
-            >{h.day}</div>
-          ))}
-        </div>
-      </section>
 
       <div className="row-grid-2">
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
@@ -2162,10 +2310,85 @@ function HabitsView() {
   );
 }
 
+// ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
+
+function ResourceTag({ type }) {
+  const map = {
+    video:  { l: "VIDEO",  bg: "#fcebe2", c: "var(--red)" },
+    course: { l: "COURSE", bg: "#dfeefb", c: "var(--blue)" },
+    book:   { l: "BOOK",   bg: "#e3f1da", c: "var(--green)" },
+    blog:   { l: "BLOG",   bg: "#fef9e0", c: "#9a6c00" },
+  };
+  const s = map[type] || { l: "RES", bg: "#eee", c: "#666" };
+  return (
+    <span
+      className="tag"
+      style={{ background: s.bg, color: s.c, borderColor: s.c, marginRight: 8, marginLeft: 0 }}
+    >{s.l}</span>
+  );
+}
+
+function SreLearningView({ sectionKey }) {
+  const section = D.sreRoadmap[sectionKey];
+  if (!section) return null;
+  const resGroup = "sreLr_" + sectionKey;
+  const milGroup = "sreLm_" + sectionKey;
+  const resDone = D.sreRoadmap[sectionKey].resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
+  const milDone = section.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? (
+        <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      ) : <span>{it.name}</span>}
+    </span>
+  );
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">{section.title}</h1>
+        <p className="page-sub">{section.intro}</p>
+      </div>
+
+      {section.why && <div className="callout">{section.why}</div>}
+
+      <section className="section-card tilted-l">
+        <span className="tape tl"></span>
+        <h2>📚 Curated resources</h2>
+        <p className="lead">A mix of videos, courses, books, blogs. Tick when you've worked through it (or honestly decided you don't need to).</p>
+        <Progress done={resDone} total={section.resources.length} />
+        <Checklist
+          items={section.resources}
+          group={resGroup}
+          renderItem={renderResource}
+        />
+        <TimeLog id={resGroup} />
+      </section>
+
+      <section className="section-card tilted-r">
+        <h2>🛠 Hands-on milestones</h2>
+        <p className="lead">Do not tick unless you've actually shipped it. This is the difference between "watched a video" and "I can do this."</p>
+        <Progress done={milDone} total={section.milestones.length} />
+        <Checklist items={section.milestones} group={milGroup} />
+        <Notes id={milGroup} placeholder="Log links to commits, gotchas, gnarly bugs that taught you something." />
+      </section>
+    </div>
+  );
+}
+
+const SRE_FoundationsView = () => <SreLearningView sectionKey="foundations" />;
+const SRE_CodingView      = () => <SreLearningView sectionKey="coding" />;
+const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
+const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
+const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
+
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, P0_ScheduleView, PartAView, PartBView, PartDView, PartEView,
   PartGView, PartHView, PartIView, PartJView, HabitsView,
+  SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });
 
 </script>
@@ -2174,7 +2397,6 @@ Object.assign(window, {
 // App shell — sidebar nav + view router. Persists current view in URL hash.
 
 const NAV = [
-  { id: "overview", label: "Overview", icon: "📊", group: "" },
   { id: "habits", label: "Weekly Habits", icon: "🔥", group: "" },
   { id: "_p0", label: "Part 0 · Interview Prep", group: "section" },
   { id: "p0-sd", label: "0A  System Design", icon: "🧩", group: "p0" },
@@ -2183,6 +2405,12 @@ const NAV = [
   { id: "p0-sql", label: "0E  SQL / MySQL", icon: "🗄", group: "p0" },
   { id: "p0-dsa", label: "0F  DSA · 150", icon: "🧠", group: "p0" },
   { id: "p0-sched", label: "0G  Schedule", icon: "🗓", group: "p0" },
+  { id: "_sre", label: "SRE Learning", group: "section" },
+  { id: "sre-fnd",   label: "SRE 1  Foundations",        icon: "🏛", group: "sre" },
+  { id: "sre-cod",   label: "SRE 2  Coding",             icon: "🐍", group: "sre" },
+  { id: "sre-cloud", label: "SRE 3  Cloud + K8s",        icon: "☁️", group: "sre" },
+  { id: "sre-auto",  label: "SRE 4  Automation",         icon: "⚙️", group: "sre" },
+  { id: "sre-rel",   label: "SRE 5  Observability + SRE",icon: "📈", group: "sre" },
   { id: "_parts", label: "Mastery", group: "section" },
   { id: "part-a", label: "Part A · Lifecycle", icon: "🔄", group: "parts" },
   { id: "part-b", label: "Part B · Hands-on phases", icon: "🛠", group: "parts" },
@@ -2195,6 +2423,8 @@ const NAV = [
   { id: "part-j", label: "Part J · Resources", icon: "📖", group: "jobs" },
 ];
 
+const DEFAULT_VIEW = "sre-fnd";
+
 const VIEW_MAP = {
   "overview": OverviewView,
   "habits": HabitsView,
@@ -2204,6 +2434,11 @@ const VIEW_MAP = {
   "p0-sql": P0_SQLView,
   "p0-dsa": P0_DSAView,
   "p0-sched": P0_ScheduleView,
+  "sre-fnd":   SRE_FoundationsView,
+  "sre-cod":   SRE_CodingView,
+  "sre-cloud": SRE_CloudView,
+  "sre-auto":  SRE_AutomationView,
+  "sre-rel":   SRE_ReliabilityView,
   "part-a": PartAView,
   "part-b": PartBView,
   "part-d": PartDView,
@@ -2215,9 +2450,9 @@ const VIEW_MAP = {
 };
 
 function App() {
-  const [view, setView] = useState(() => (location.hash.replace("#", "") || "overview"));
+  const [view, setView] = useState(() => (location.hash.replace("#", "") || DEFAULT_VIEW));
   useEffect(() => {
-    const onHash = () => setView(location.hash.replace("#", "") || "overview");
+    const onHash = () => setView(location.hash.replace("#", "") || DEFAULT_VIEW);
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -2243,22 +2478,6 @@ function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">SRE Notebook<span className="dot">.</span></div>
-        <div className="brand-sub">6-month plan → APAC offer</div>
-
-        <div className="overall-card">
-          <h4>Overall</h4>
-          <div style={{display: "flex", alignItems: "baseline", gap: 8}}>
-            <div style={{fontFamily: "Caveat, cursive", fontSize: 38, fontWeight: 700, lineHeight: 1, color: "var(--red)"}}>
-              {Math.round((all.done / Math.max(all.total,1)) * 100)}%
-            </div>
-            <div style={{fontSize: 12, color: "var(--ink-faint)"}}>
-              {all.done} / {all.total}
-            </div>
-          </div>
-          <div className="progress-track" style={{height: 8, marginTop: 4}}>
-            <div className="progress-fill" style={{width: ((all.done/Math.max(all.total,1))*100) + "%"}}></div>
-          </div>
-        </div>
 
         <nav className="nav">
           {NAV.map(n => {

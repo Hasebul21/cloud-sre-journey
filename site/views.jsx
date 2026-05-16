@@ -5,80 +5,12 @@ const D = window.SRE_DATA;
 // ───────── OVERVIEW ─────────
 function OverviewView() {
   const all = useAllProgress();
-  const { streak, longest, days } = useStreak();
-  const totalHrs = useMemo(() => {
-    // sum any time:* keys
-    let s = 0;
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith("sre:time:")) {
-        const v = parseFloat(JSON.parse(localStorage.getItem(k) || "0"));
-        if (!isNaN(v)) s += v;
-      }
-    }
-    return s;
-  }, [all.done]);
-  const activeDays = Object.keys(days).length;
-
-  // Last 28 days heatmap
-  const heat = useMemo(() => {
-    const out = [];
-    const today = new Date();
-    for (let i = 27; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
-      const k = todayKey(d);
-      out.push({ k, day: d.getDate(), done: !!days[k], today: i === 0 });
-    }
-    return out;
-  }, [days]);
-
   return (
     <div>
       <div className="page-head">
         <h1 className="page-title">Hello there. 👋</h1>
         <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
-
-      <div className="stat-row">
-        <div className="stat">
-          <div className="v">{Math.round((all.done / Math.max(all.total,1)) * 100)}%</div>
-          <div className="l">Overall progress</div>
-          <div className="sub">{all.done} of {all.total} items</div>
-        </div>
-        <div className="stat streak">
-          <div className="v">{streak}</div>
-          <div className="l">Day streak</div>
-          <div className="sub">longest: {longest} days</div>
-        </div>
-        <div className="stat">
-          <div className="v">{totalHrs.toFixed(1)}</div>
-          <div className="l">Hours logged</div>
-          <div className="sub">across all sections</div>
-        </div>
-        <div className="stat">
-          <div className="v">{activeDays}</div>
-          <div className="l">Active days</div>
-          <div className="sub">since you started</div>
-        </div>
-      </div>
-
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>Last 4 weeks</h2>
-        <p className="lead">Every box you tick adds a dot here. Don't break the chain.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6, maxWidth: 360 }}>
-          {["S","M","T","W","T","F","S"].map((l, i) => (
-            <div key={"l"+i} style={{ textAlign: "center", fontFamily: "Caveat, cursive", fontSize: 16, color: "var(--ink-faint)" }}>{l}</div>
-          ))}
-          {heat.map(h => (
-            <div key={h.k}
-              title={h.k + (h.done ? " · active" : "")}
-              className={"week-day " + (h.done ? "done " : "") + (h.today ? "today" : "")}
-            >{h.day}</div>
-          ))}
-        </div>
-      </section>
 
       <div className="row-grid-2">
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
@@ -731,8 +663,83 @@ function HabitsView() {
   );
 }
 
+// ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
+
+function ResourceTag({ type }) {
+  const map = {
+    video:  { l: "VIDEO",  bg: "#fcebe2", c: "var(--red)" },
+    course: { l: "COURSE", bg: "#dfeefb", c: "var(--blue)" },
+    book:   { l: "BOOK",   bg: "#e3f1da", c: "var(--green)" },
+    blog:   { l: "BLOG",   bg: "#fef9e0", c: "#9a6c00" },
+  };
+  const s = map[type] || { l: "RES", bg: "#eee", c: "#666" };
+  return (
+    <span
+      className="tag"
+      style={{ background: s.bg, color: s.c, borderColor: s.c, marginRight: 8, marginLeft: 0 }}
+    >{s.l}</span>
+  );
+}
+
+function SreLearningView({ sectionKey }) {
+  const section = D.sreRoadmap[sectionKey];
+  if (!section) return null;
+  const resGroup = "sreLr_" + sectionKey;
+  const milGroup = "sreLm_" + sectionKey;
+  const resDone = D.sreRoadmap[sectionKey].resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
+  const milDone = section.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? (
+        <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      ) : <span>{it.name}</span>}
+    </span>
+  );
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">{section.title}</h1>
+        <p className="page-sub">{section.intro}</p>
+      </div>
+
+      {section.why && <div className="callout">{section.why}</div>}
+
+      <section className="section-card tilted-l">
+        <span className="tape tl"></span>
+        <h2>📚 Curated resources</h2>
+        <p className="lead">A mix of videos, courses, books, blogs. Tick when you've worked through it (or honestly decided you don't need to).</p>
+        <Progress done={resDone} total={section.resources.length} />
+        <Checklist
+          items={section.resources}
+          group={resGroup}
+          renderItem={renderResource}
+        />
+        <TimeLog id={resGroup} />
+      </section>
+
+      <section className="section-card tilted-r">
+        <h2>🛠 Hands-on milestones</h2>
+        <p className="lead">Do not tick unless you've actually shipped it. This is the difference between "watched a video" and "I can do this."</p>
+        <Progress done={milDone} total={section.milestones.length} />
+        <Checklist items={section.milestones} group={milGroup} />
+        <Notes id={milGroup} placeholder="Log links to commits, gotchas, gnarly bugs that taught you something." />
+      </section>
+    </div>
+  );
+}
+
+const SRE_FoundationsView = () => <SreLearningView sectionKey="foundations" />;
+const SRE_CodingView      = () => <SreLearningView sectionKey="coding" />;
+const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
+const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
+const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
+
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, P0_ScheduleView, PartAView, PartBView, PartDView, PartEView,
   PartGView, PartHView, PartIView, PartJView, HabitsView,
+  SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });

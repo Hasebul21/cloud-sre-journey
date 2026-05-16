@@ -1,7 +1,6 @@
 // App shell — sidebar nav + view router. Persists current view in URL hash.
 
 const NAV = [
-  { id: "overview", label: "Overview", icon: "📊", group: "" },
   { id: "habits", label: "Weekly Habits", icon: "🔥", group: "" },
   { id: "_p0", label: "Part 0 · Interview Prep", group: "section" },
   { id: "p0-sd", label: "0A  System Design", icon: "🧩", group: "p0" },
@@ -10,6 +9,12 @@ const NAV = [
   { id: "p0-sql", label: "0E  SQL / MySQL", icon: "🗄", group: "p0" },
   { id: "p0-dsa", label: "0F  DSA · 150", icon: "🧠", group: "p0" },
   { id: "p0-sched", label: "0G  Schedule", icon: "🗓", group: "p0" },
+  { id: "_sre", label: "SRE Learning", group: "section" },
+  { id: "sre-fnd",   label: "SRE 1  Foundations",        icon: "🏛", group: "sre" },
+  { id: "sre-cod",   label: "SRE 2  Coding",             icon: "🐍", group: "sre" },
+  { id: "sre-cloud", label: "SRE 3  Cloud + K8s",        icon: "☁️", group: "sre" },
+  { id: "sre-auto",  label: "SRE 4  Automation",         icon: "⚙️", group: "sre" },
+  { id: "sre-rel",   label: "SRE 5  Observability + SRE",icon: "📈", group: "sre" },
   { id: "_parts", label: "Mastery", group: "section" },
   { id: "part-a", label: "Part A · Lifecycle", icon: "🔄", group: "parts" },
   { id: "part-b", label: "Part B · Hands-on phases", icon: "🛠", group: "parts" },
@@ -22,6 +27,8 @@ const NAV = [
   { id: "part-j", label: "Part J · Resources", icon: "📖", group: "jobs" },
 ];
 
+const DEFAULT_VIEW = "sre-fnd";
+
 const VIEW_MAP = {
   "overview": OverviewView,
   "habits": HabitsView,
@@ -31,6 +38,11 @@ const VIEW_MAP = {
   "p0-sql": P0_SQLView,
   "p0-dsa": P0_DSAView,
   "p0-sched": P0_ScheduleView,
+  "sre-fnd":   SRE_FoundationsView,
+  "sre-cod":   SRE_CodingView,
+  "sre-cloud": SRE_CloudView,
+  "sre-auto":  SRE_AutomationView,
+  "sre-rel":   SRE_ReliabilityView,
   "part-a": PartAView,
   "part-b": PartBView,
   "part-d": PartDView,
@@ -42,9 +54,9 @@ const VIEW_MAP = {
 };
 
 function App() {
-  const [view, setView] = useState(() => (location.hash.replace("#", "") || "overview"));
+  const [view, setView] = useState(() => (location.hash.replace("#", "") || DEFAULT_VIEW));
   useEffect(() => {
-    const onHash = () => setView(location.hash.replace("#", "") || "overview");
+    const onHash = () => setView(location.hash.replace("#", "") || DEFAULT_VIEW);
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -70,22 +82,6 @@ function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">SRE Notebook<span className="dot">.</span></div>
-        <div className="brand-sub">6-month plan → APAC offer</div>
-
-        <div className="overall-card">
-          <h4>Overall</h4>
-          <div style={{display: "flex", alignItems: "baseline", gap: 8}}>
-            <div style={{fontFamily: "Caveat, cursive", fontSize: 38, fontWeight: 700, lineHeight: 1, color: "var(--red)"}}>
-              {Math.round((all.done / Math.max(all.total,1)) * 100)}%
-            </div>
-            <div style={{fontSize: 12, color: "var(--ink-faint)"}}>
-              {all.done} / {all.total}
-            </div>
-          </div>
-          <div className="progress-track" style={{height: 8, marginTop: 4}}>
-            <div className="progress-fill" style={{width: ((all.done/Math.max(all.total,1))*100) + "%"}}></div>
-          </div>
-        </div>
 
         <nav className="nav">
           {NAV.map(n => {
