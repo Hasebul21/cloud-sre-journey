@@ -9,12 +9,13 @@
 ## Table of Contents
 
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
-2. [Part A — Full Software Lifecycle Mastery](#part-a)
+2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
+3. [Part A — Full Software Lifecycle Mastery](#part-a)
    - [A1–A2. Plan + Code](#a1a2-plan--code)
    - [A3–A4. Build + Deploy](#a3a4-build--deploy)
    - [A5–A6. Operate + Maintain](#a5a6-operate--maintain)
    - [A7. Cost Optimization](#a7-cost-optimization)
-3. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
+4. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
    - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
    - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
    - [Phase 3 — ELK Stack (Logging)](#phase-3--elk-stack-logging)
@@ -22,12 +23,12 @@
    - [Phase 5 — AWS Deployment](#phase-5--aws-deployment)
    - [Phase 6 — IaC with Terraform](#phase-6--iac-with-terraform)
    - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
-4. [Part D — System Design for SRE Interviews](#part-d)
-5. [Part E — Coding & Programming](#part-e)
-6. [Part G — APAC Job Search](#part-g)
-7. [Part H — Interview Preparation](#part-h)
-8. [Part I — Personal Branding](#part-i)
-9. [Part J — Resources](#part-j)
+5. [Part D — System Design for SRE Interviews](#part-d)
+6. [Part E — Coding & Programming](#part-e)
+7. [Part G — APAC Job Search](#part-g)
+8. [Part H — Interview Preparation](#part-h)
+9. [Part I — Personal Branding](#part-i)
+10. [Part J — Resources](#part-j)
 
 ---
 
@@ -580,6 +581,452 @@ FROM employees GROUP BY dept;
 | 13–16 | Mock interviews (hellointerview.com) + LLD basics |
 | 17–20 | Company-specific prep (Grab, Shopee, ByteDance) + full mock loops |
 | 21–24 | Live interviews + 1 LeetCode/day maintenance |
+
+---
+
+## <a id="part-sre"></a>Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)
+
+> **Sources:** *Enterprise Roadmap to SRE* (Brookbank & McGhee, O'Reilly 2022) · [roadmap.sh/devops](https://roadmap.sh/devops) · [Google SRE canon](https://sre.google/books/) · 12–24 month synthesis
+>
+> **Commitment:** 300–500 focused hours, runs in parallel with Part 0 + Part B over the 6-month window — the parts overlap heavily, so don't double-count time. Stages 1–5 are the load-bearing months; Stages 6–8 continue past job start.
+>
+> **"Class SRE implements interface DevOps."** DevOps is *what good looks like*; SRE is the prescriptive *how* — SLOs, error budgets, blameless postmortems, toil budgets, PRRs.
+
+### Three mindsets to internalize before you start
+1. **100% reliability is the wrong target.** Pick what users actually need, then defend it. Each "nine" costs ~10× the previous one.
+2. **Reliability is a product feature.** It competes with feature work for resources — that's healthy. If your PM isn't in the SLO conversation, the SLO is wrong.
+3. **Evolution, not revolution.** Expect a **J-curve**: things get harder before they get better as hidden risk/toil surfaces. Communicate this *up front* or leadership pulls the plug at the bottom of the curve.
+
+---
+
+### Stage 0 — Prerequisites (confirm before you start)
+
+| Have | Brush up if rusty |
+|------|-------------------|
+| Go or Python at intermediate level | Concurrency: threads vs processes, async/await, locks, race conditions |
+| Git workflow (branches, rebase, PRs, conflict resolution) | Shell beyond `cd`/`ls` — pipes, redirection, exit codes, `xargs` |
+| HTTP, REST, JSON, SQL basics | Reading both a statically + dynamically typed language |
+| OOP, arrays/maps/queues/trees/hashtables, big-O intuition | The habit of reading other people's code |
+
+**Milestone:** Write a ~200-line CLI in Go or Python — takes structured input (CSV/JSON), transforms it, produces output with proper exit codes, logging, error handling. Seed of every SRE automation script.
+
+**Time:** 1–2 weeks of evening review *only if needed*.
+
+---
+
+### Stage 1 — Foundations: Linux, Networking, Scripting, Git Deepening
+
+> **Why it matters:** Almost every production incident eventually touches Linux, a TCP socket, or a misconfigured Git/CI artifact. Google SRE phone screens famously *will not let you past* this — it is the new ground floor.
+
+**Key topics**
+- **Linux internals:** processes, threads, file descriptors, signals, cgroups, namespaces, systemd, `/proc`, syscalls, page cache, OOM killer
+- **Debugging toolkit:** `top`/`htop`, `ps`, `lsof`, `strace`, `tcpdump`, `ss`, `iostat`, `vmstat`, `dmesg`, `journalctl`, `perf`, `bpftrace` (intro)
+- **Networking:** OSI vs TCP/IP, DNS resolution path, HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC), TLS handshake, L4 vs L7 load balancers, NAT, CIDR, BGP basics, retries/timeouts/backoff
+- **Shell:** robust bash (`set -euo pipefail`, traps) — but prefer Python/Go for non-trivial scripts
+- **Git deepening:** `reflog`, `bisect`, `cherry-pick`, signed commits, trunk-based development
+
+**Resources**
+
+| Resource | Type | Where |
+|----------|------|-------|
+| *The Linux Command Line* — Shotts | Book (free PDF) | [linuxcommand.org](https://linuxcommand.org) |
+| *How Linux Works* (3rd ed.) — Ward | Book | No Starch Press |
+| *Computer Networking: A Top-Down Approach* — Kurose & Ross | Book | Chapters 1, 2, 3, 5, 6 |
+| *Beej's Guide to Network Programming* | Free online | [beej.us/guide/bgnet](https://beej.us/guide/bgnet/) |
+| *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog | [brendangregg.com](https://www.brendangregg.com) |
+| OverTheWire — Bandit / Natas | Wargame | [overthewire.org](https://overthewire.org) |
+
+**Hands-on milestones**
+- Provision a bare Linux VM (Hetzner, DigitalOcean, or a Raspberry Pi). Harden SSH, set up `ufw`, install nginx, serve a static site via a custom systemd unit, set up log rotation, write a bash + Python script that reports CPU/mem/disk and alerts via webhook
+- Use `tcpdump` and `ss` to follow a single HTTPS request from client to server. Write up what you saw at each layer
+
+**Time:** 4–6 weeks.
+
+---
+
+### Stage 2 — Core SRE Principles: SLIs, SLOs, Error Budgets, Toil, Postmortems
+
+> **Why it matters:** Tools change every two years; principles don't. This is the conceptual spine. Without it, you are a DevOps tool operator, not an SRE.
+
+**Key topics**
+- **Four Golden Signals:** latency, traffic, errors, saturation
+- **SLI / SLO / SLA distinction** — frequent interview gotcha. SLA is *contractual external*; SLO is *internal target*; SLI is *measurement*. Setting SLO = SLA gives you zero headroom.
+- **Error budgets** as the policy mechanism linking reliability and feature velocity
+- **Error budget policy** (an actual document): when does feature work freeze? Who declares? Who can override?
+- **Toil:** manual, repetitive, automatable, tactical, no enduring value, scales linearly. Google's cap: **<50% of an SRE's time**
+- **Blameless postmortem culture** — separate actions from people; focus on systemic contributing causes
+- **Embracing risk** — pick the *right* reliability target, not the highest
+- **Release engineering** — hermetic builds, canarying, progressive rollouts
+
+**From the Enterprise SRE report**
+- **Ulysses pact:** commit to error budget policy *before* the incident, when you're calm — under deadline pressure, the predefined action takes over. One of the most underrated cultural tools in SRE.
+- **Plan-Do-Check-Act:** SLO setting is iterative; v1 will be wrong, and that's fine
+- **Sublinear scaling:** SRE headcount should grow *more slowly* than the systems supported. If you hire an SRE per new service, you've built ops, not SRE.
+- **J-curve of transformation:** automation increases test requirements → tech debt blocks progress → relentless improvement → elite performance. Brief leadership before the curve starts.
+
+**Resources**
+
+| Resource | Why |
+|----------|-----|
+| [*Site Reliability Engineering*](https://sre.google/sre-book/) — Google (2016) | Ch 1–6 mandatory; Ch 4 (SLOs) is the single highest-leverage chapter |
+| [*The Site Reliability Workbook*](https://sre.google/workbook/) — Google (2018) | "Implementing SLOs", "Alerting on SLOs", "Eliminating Toil" |
+| [*Enterprise Roadmap to SRE*](https://sre.google/resources/practices-and-processes/enterprise-roadmap-to-sre/) — Brookbank & McGhee (2022) | Free download; J-curve, Ulysses pact, sublinear scaling, platform of capabilities |
+| Liz Fong-Jones SREcon talks | YouTube/USENIX — SLOs & error budgets |
+| [Coursera SRE & DevOps Specialization (Google)](https://www.coursera.org/specializations/sre-devops) | Paced, structured exposure |
+
+**Hands-on milestones**
+- Write a full **SLO document** + **Error Budget Policy** for a service you can touch (or a side project): SLI spec, measurement method, target, time window, exclusions, freeze policy. The act of writing it is transformative.
+- Write a fictional blameless postmortem for a publicly-known incident (GitHub, AWS, Cloudflare). Use the Workbook's appendix template.
+
+**Time:** 3–4 weeks of reading + writing.
+
+---
+
+### Stage 3 — Infrastructure & Cloud: Providers, IaC, Containers
+
+> **Why it matters:** SREs don't click in consoles. Production infrastructure must be code: versioned, reviewable, reproducible.
+
+**Key topics**
+- **One cloud, deeply** (AWS for APAC region — Singapore, Tokyo, Mumbai, Jakarta all have AWS strong presence): EC2, S3, IAM, VPC, RDS, EKS, ALB/NLB, Route53
+- **Infrastructure as Code:** Terraform (or OpenTofu) — modules, remote state, plan/apply discipline, drift detection
+- **Configuration management:** Ansible for VM/server config (Pulumi and AWS CDK as alternatives)
+- **Containers:** Docker / Podman — images, layers, OCI spec, multi-stage builds, slim images, container security (non-root, read-only FS, capabilities)
+- **Secrets:** never in Git; Vault, SOPS, cloud KMS, External Secrets Operator
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| [Terraform "Get Started"](https://developer.hashicorp.com/terraform/tutorials) | Official tutorials |
+| AWS Skill Builder (free tier) / GCP Skills Boost | Labs, not just videos |
+| *Terraform: Up & Running* (3rd ed.) — Brikman | O'Reilly book |
+| *Docker Deep Dive* — Nigel Poulton | Book |
+| [CNCF Cloud Native Glossary](https://glossary.cncf.io) | Bookmark |
+
+**Hands-on milestones**
+- Build a **three-tier reference architecture** (web → app → DB) entirely in Terraform, one cloud, remote state, modules, staging + prod via workspaces or split state
+- Containerize a small app — Dockerfile under 100 MB, runs as non-root, passes `trivy` or `grype` scanning
+
+**Time:** 6–8 weeks. *(Overlaps heavily with Part B Phase 1, 5, 6.)*
+
+---
+
+### Stage 4 — Orchestration & Deployment: Kubernetes, CI/CD, GitOps
+
+> **Why it matters:** 93% of orgs (CNCF Annual Survey) run or evaluate Kubernetes in prod. SREs own clusters, pipelines, and the connection between them.
+
+**Key topics**
+- **K8s fundamentals:** Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, StatefulSets, DaemonSets, Jobs/CronJobs, Namespaces, RBAC, ServiceAccounts
+- **K8s ops:** control plane (API server, etcd, scheduler, controller manager), node lifecycle, probes (liveness/readiness/startup), PodDisruptionBudgets, HPA, resource requests/limits, troubleshooting (`kubectl describe` / `logs` / `exec` / `events`)
+- **Helm & Kustomize** for templating
+- **CI/CD:** GitHub Actions, GitLab CI, Jenkins/Tekton — build → test → scan → publish → deploy as pipeline-as-code
+- **GitOps:** ArgoCD or Flux — desired state in Git, cluster reconciles toward it
+- **Release engineering:** blue/green, canary, feature flags, rollback strategy, schema migrations, deploy ≠ release
+- **Progressive delivery tools:** Argo Rollouts, Flagger, LaunchDarkly / OpenFeature
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| [kubernetes.io Tutorials](https://kubernetes.io/docs/tutorials/) | Start with "Kubernetes Basics" |
+| *Kubernetes Up & Running* (3rd ed.) — Burns/Beda/Hightower/Villalba | O'Reilly book |
+| KodeKloud / A Cloud Guru CKA prep | Heavily lab-based |
+| [ArgoCD docs](https://argo-cd.readthedocs.io) + [OpenGitOps Principles](https://opengitops.dev) | Free |
+| *Continuous Delivery* — Humble & Farley | Canonical text on release patterns |
+
+**Hands-on milestones**
+- Deploy the Stage 3 app on **kind**/**minikube** with a full Helm chart, then on managed EKS/GKE provisioned by your Terraform
+- Wire a GitHub Actions pipeline: build, test, scan, push, trigger ArgoCD sync. Demonstrate a canary release with **automated rollback** when error rate exceeds threshold
+
+**Time:** 8–12 weeks. The densest technical stage. *(Overlaps with Part B Phase 2, 7.)*
+
+---
+
+### Stage 5 — Observability & Monitoring
+
+> **Why it matters:** You cannot defend an SLO you cannot measure. Observability is the *enabling layer* for every principle in Stage 2.
+
+**Key topics**
+- **Three signals:** metrics, logs, traces (and emerging: continuous profiling). Know each one's strengths.
+- **Open-source stack:** Prometheus + PromQL, Grafana, Loki (logs), Tempo or Jaeger (traces), Alertmanager, Mimir/Thanos/VictoriaMetrics (long-term Prometheus)
+- **OpenTelemetry (OTel):** CNCF vendor-neutral standard. OTel Metrics is GA as of 2025. Learn the Collector pattern (receivers → processors → exporters) — the universal adapter.
+- **Commercial alternatives** to know: Datadog, New Relic, Honeycomb, Splunk, Dynatrace
+- **eBPF observability:** Cilium, Pixie, Beyla, Parca — increasingly important for zero-instrumentation
+- **Alerting that doesn't suck:** alert on *symptoms* (SLO burn rate), not *causes*. Multi-window, multi-burn-rate (SRE Workbook Ch 5) is best practice.
+- **Dashboards as docs:** RED (Rate/Errors/Duration) for request-driven, USE (Utilization/Saturation/Errors) for resources
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| *Observability Engineering* — Majors/Fong-Jones/Miranda | O'Reilly book |
+| *Prometheus: Up & Running* (2nd ed.) — Brazil | Book |
+| [opentelemetry.io](https://opentelemetry.io) + CNCF Observability TAG | Free docs |
+| [Grafana Tutorials](https://grafana.com/tutorials/) | Free |
+| *Distributed Systems Observability* — Sridharan | Free O'Reilly report |
+| SRE Workbook Ch 4 (Monitoring) + Ch 5 (Alerting on SLOs) | Free |
+
+**Hands-on milestones**
+- Instrument the Stage 4 app end-to-end with **OpenTelemetry SDKs**. Metrics → Prometheus, logs → Loki, traces → Tempo, unified in Grafana. One dashboard answers "Is the service healthy?" in under 10 seconds.
+- Convert your Stage 2 SLO into a **working multi-window, multi-burn-rate alert** and demonstrate it firing in a load-test scenario.
+
+**Time:** 4–6 weeks. *(Overlaps with Part B Phase 3, 4.)*
+
+---
+
+### Stage 6 — Reliability Practices: Incidents, On-Call, Chaos, Capacity
+
+> **Why it matters:** Where you start *behaving* like an SRE rather than just knowing about it. The work moves from "build" to "operate, learn, harden."
+
+**Key topics**
+- **Incident command:** Incident Commander, Ops Lead, Comms Lead — explicit roles (adapted from US Forest Service ICS)
+- **On-call practices:** sustainable rotations, primary/secondary, follow-the-sun, compensation, paging hygiene (no pageable alerts that aren't actionable)
+- **Blameless postmortems in practice:** writing, reviewing, indexing, *actually closing out action items* — this is where most teams fail
+- **Toil reduction:** measure quarterly, continuous 30–50% allocation, *not* "toil fix week" (antipattern)
+- **Chaos engineering:** Chaos Monkey, Gremlin, Chaos Mesh, Litmus — hypothesis-driven game days
+- **Capacity planning:** organic vs inorganic growth, headroom, policy-driven autoscaling, back-pressure, circuit breakers, rate limits
+- **Runbooks:** actionable, dated, tested — not aspirational essays
+- **Production Readiness Reviews (PRRs):** before SRE takes ownership of a service
+- **Wheel of Misfortune / tabletop exercises** — practice incident response in low-stakes settings
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| SRE Book Ch 11–15 (on-call, troubleshooting, emergency response, incident mgmt, postmortems) | Free |
+| [learningfromincidents.io](https://www.learningfromincidents.io/) | Etsy/Adaptive Capacity Labs — modern human-factors flavor |
+| *Chaos Engineering* — Rosenthal & Jones | O'Reilly book |
+| [PagerDuty Incident Response training](https://response.pagerduty.com/) | Free OSS docs |
+| SREcon talks on YouTube | Search "blameless", "incident command", "on-call" |
+
+**Hands-on milestones**
+- Run a **game day** on your Stage 5 stack: kill pods, sever a network link, fill a disk, exhaust a connection pool. Document hypothesis → experiment → result → what you'd change.
+- Write a real postmortem for any incident on your team. Get a teammate to review for blame language and *systemic* contributing causes, not "Bob forgot to."
+
+**Time:** 4–6 weeks, then ongoing.
+
+---
+
+### Stage 7 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
+
+> **Why it matters:** Senior SREs are systems thinkers. They reason about how independent components interact under failure. They also design *platforms of capabilities* (the central frame in *Enterprise Roadmap to SRE*) — not bespoke help for every team.
+
+**Key topics**
+- **Distributed systems:** CAP, PACELC, consistency models (eventual, causal, linearizable), consensus (Raft, Paxos), idempotency, replication, partitioning, leader election, fallacies of distributed computing
+- **Service mesh:** Istio, Linkerd, Cilium Service Mesh (eBPF-native) — mTLS, traffic shifting, retries, outlier detection. *Many teams over-adopt mesh.* Know the cost/complexity tradeoff.
+- **Resilience patterns:** circuit breakers, bulkheads, timeouts, retries with jitter, hedged requests, dead-letter queues, idempotency keys
+- **DevSecOps:** supply-chain (SBOM, Sigstore, in-toto, SLSA), runtime security (Falco), policy as code (OPA/Gatekeeper, Kyverno), secrets scanning, image signing
+- **Platform engineering:** internal developer platform with a "golden path", Backstage as the most common portal. The platform is your **leverage** — how you scale sublinearly.
+- **Cost / FinOps:** rightsizing, spot/preemptible, autoscaling policy, the cost/reliability/velocity triangle
+- **AI in SRE (2025–2026):** AIOps for anomaly detection, LLMs as on-call *copilot* (not autopilot — Heinrich Hartmann's framing)
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| *Designing Data-Intensive Applications* — Kleppmann | The single most useful book for advanced SRE thinking |
+| *Database Internals* — Petrov | Book |
+| *Seeking SRE* — Blank-Edelman (ed.) | O'Reilly book; ch 23 has antipatterns catalog |
+| *Team Topologies* — Skelton & Pais | Platform-team / stream-aligned-team model |
+| [CNCF Landscape](https://landscape.cncf.io) | To *orient*, not to install |
+| [SLSA framework](https://slsa.dev/) | Supply-chain security |
+
+**Hands-on milestones**
+- Install Linkerd or Istio on your cluster — demonstrate mTLS, 5% canary traffic shift, automatic retries on a service that intermittently fails
+- Contribute one non-trivial PR (docs count) to a CNCF or major OSS project — navigating their codebase *is* the learning
+
+**Time:** 8–12 weeks, parallelizable with Stage 6.
+
+---
+
+### Stage 8 — Leadership, Culture, Scaling SRE (ongoing, post-job-start)
+
+> **Why it matters:** Brookbank & McGhee's central thesis — enterprise SRE adoption fails *not on technology* but on culture, staffing, leadership. As you mature, the highest-leverage thing you can do is shape how reliability is *thought about*, not how it is *implemented*.
+
+**Key topics**
+- **Westrum's organizational culture typology** (pathological / bureaucratic / generative). Generative culture is the empirically proven DORA predictor of high performance.
+- **Influencing without authority** — most reliability wins come from convincing other teams. SREs rarely have org-chart power.
+- **Staffing & upskilling** — build, buy, or adopt? Avoid the trap of "rename ops to SRE" (the #1 enterprise failure mode).
+- **Three Horizons of Growth** (McKinsey, applied to SRE by Brookbank & McGhee): H1 keep existing reliability work running; H2 grow adjacent capabilities; H3 plant future bets (AI-assisted triage). Invest across all three concurrently.
+- **DORA Four Keys** (deploy frequency, lead time, change failure rate, MTTR) — pair *with* SLOs, don't pick one or the other
+- **Five team dynamics** (Google Project Aristotle): psychological safety, dependability, structure/clarity, meaning, impact
+- **Peacetime vs Wartime** investment modes; **Code Yellow / Code Red** priority codes
+
+**Resources**
+
+| Resource | Type |
+|----------|------|
+| *Enterprise Roadmap to SRE* — Brookbank & McGhee | **Re-read after Stages 1–7** — the second pass is vastly more useful |
+| *Accelerate* — Forsgren/Humble/Kim | DORA data |
+| *The DevOps Handbook* (2nd ed.) — Kim et al. | Book |
+| Ron Westrum, "A typology of organisational cultures" (2004) | Free academic paper |
+| *Crucial Conversations* — Patterson et al. | Soft-skills foundation for hard reliability conversations |
+
+**Hands-on milestones**
+- Lead a postmortem for your team. Coach a peer through writing the next one.
+- Write a one-pager proposing an SRE practice (e.g., PRRs) to leadership — address cost, J-curve, and success metrics explicitly.
+
+**Time:** Ongoing for the rest of your career.
+
+---
+
+### Certifications Worth Considering
+
+Certs are *trust signals*, not substitutes for experience. Prioritize performance-based.
+
+| Cert | Why for SRE | Notes |
+|------|-------------|-------|
+| **CKA — Certified Kubernetes Administrator** | Highest-signal cert for cloud-native SRE. Live cluster, performance-based. | ~$445, valid 2 yrs. **Start here.** |
+| **CKAD** | In-cluster app debugging; lighter than CKA | Optional if you have CKA |
+| **CKS** | After CKA; senior SRE / platform roles | Requires valid CKA |
+| **Google Pro Cloud DevOps Engineer** | Explicitly tests SRE principles (SLOs, error budgets, monitoring) on GCP — the most SRE-native cloud cert | Recommended even if not using GCP daily |
+| **AWS Solutions Architect Associate (SAA-C03)** | Broad AWS literacy, Well-Architected | Most universally recognized cloud cert |
+| **AWS Developer Associate (DVA-C02)** | Code-side AWS: Lambda, API GW, DynamoDB, X-Ray | Strong complement to SAA |
+| **AWS DevOps Engineer Pro (DOP-C02)** | Senior AWS cert closest to SRE — CI/CD, CloudWatch, incident response, IaC at scale | After SAA + DVA |
+| **HashiCorp Terraform Associate** | IaC literacy; quick win | Cheap, online-proctored |
+| **Linux Foundation LFCS** or **RHCSA** | If your Linux is shaky. RHCSA is gold standard in many enterprises. | LFCS is the modern choice |
+| **Prometheus Certified Associate (PCA)** | Observability credibility | New CNCF cert |
+
+**Skip:** Scrum, ITIL, "DevOps Foundation" certs — they signal little to SRE hiring managers.
+
+---
+
+### Reading List Across the Journey
+
+**Reliability and SRE canon** (read in this order)
+1. [*Site Reliability Engineering*](https://sre.google/sre-book/) — Beyer/Jones/Petoff/Murphy (2016)
+2. [*The Site Reliability Workbook*](https://sre.google/workbook/) — Beyer et al. (2018)
+3. [*Enterprise Roadmap to SRE*](https://sre.google/resources/practices-and-processes/enterprise-roadmap-to-sre/) — Brookbank & McGhee (2022)
+4. [*Building Secure & Reliable Systems*](https://sre.google/books/building-secure-reliable-systems/) — Adkins et al. (2020)
+5. *Seeking SRE* — Blank-Edelman ed. (2018) — non-Google perspective
+
+**Engineering / systems thinking**
+6. *Designing Data-Intensive Applications* — Kleppmann
+7. *Systems Performance* (2nd ed.) — Brendan Gregg
+8. *Database Internals* — Petrov
+9. *Observability Engineering* — Majors/Fong-Jones/Miranda
+
+**Culture / leadership / process**
+10. *The Phoenix Project* — Kim/Behr/Spafford (audiobook works well)
+11. *The Unicorn Project* — Kim (the dev/SRE counterpoint)
+12. *Accelerate* — Forsgren/Humble/Kim
+13. *Team Topologies* — Skelton & Pais
+14. *An Elegant Puzzle* — Will Larson
+15. *Resilience Engineering in Practice* — Hollnagel et al.
+
+---
+
+### DevOps Tooling Reference Map (from roadmap.sh/devops)
+
+> Use as a "you are here" map, **not** a learning checklist. Don't try to learn everything — pick *one tool per category* aligned with your target stack (AWS + K8s + Go + GitHub Actions for APAC SRE roles).
+
+| Category | Pick (recommended) | Alternatives to recognize |
+|----------|---------------------|---------------------------|
+| **Language** | Go *or* Python | Ruby, Rust, JS/Node.js |
+| **OS** | Ubuntu/Debian | RHEL/derivatives, SUSE; BSDs for breadth |
+| **Editor + shell** | vim + bash | nano/emacs; PowerShell if Windows |
+| **VCS hosting** | GitHub | GitLab, Bitbucket |
+| **Containers** | Docker | Podman, LXC |
+| **Web server / proxy** | nginx | Caddy, Apache, Traefik |
+| **Cloud provider** | AWS | GCP, Azure, DigitalOcean, Hetzner |
+| **Serverless** | AWS Lambda | Cloudflare Workers, Vercel, GCP Functions |
+| **Config mgmt** | Ansible | Chef, Salt, Puppet |
+| **Provisioning (IaC)** | Terraform / OpenTofu | Pulumi, AWS CDK, CloudFormation |
+| **CI/CD** | GitHub Actions | GitLab CI, Jenkins, CircleCI, Tekton |
+| **Secret mgmt** | Vault + External Secrets Operator | Sealed Secrets, SOPS, cloud-native KMS |
+| **Logs** | Loki + Grafana | Elastic Stack, Splunk, Graylog, Papertrail |
+| **Metrics** | Prometheus + Grafana | Datadog, Zabbix, New Relic |
+| **Traces** | Tempo or Jaeger | New Relic, Datadog, Dynatrace |
+| **Instrumentation** | OpenTelemetry | Vendor SDKs |
+| **Orchestration** | Kubernetes (EKS) | ECS/Fargate, OpenShift, Docker Swarm (legacy) |
+| **Artifact mgmt** | ECR or GHCR | Artifactory, Nexus, Harbor |
+| **GitOps** | ArgoCD | FluxCD |
+| **Service mesh** | Linkerd (start simple) | Istio, Cilium, Consul, Envoy |
+
+---
+
+### SRE Interview Loop (differs significantly from SWE)
+
+| Round | What it tests | How to prep |
+|-------|---------------|-------------|
+| **Coding** | File/log parsing, string processing, concurrency, networking, retries — usually a notch easier than SWE LeetCode | Python or Go preferred. Practice partial-failure + edge cases over clever O(n log n). |
+| **Linux internals & troubleshooting** | "A service is slow; walk me through your investigation." | Drill USE method for resources, RED for requests. Verbalize your thought process — interviewers grade *reasoning*, not the answer. |
+| **Networking** | DNS, TCP/UDP, HTTP, LBs, proxies, TLS, BGP at a high level | Re-read Stage 1 networking resources. Be ready to whiteboard a DNS resolution path. |
+| **Systems design / NALSD** | Google's "Non-Abstract" variant explicitly requires *numbers*: bandwidth, IOPS, latency budgets, fan-out math | Memorize Jeff Dean's latency numbers. Know SSD/NVMe IOPS, 10 GbE throughput, memory bandwidth. A design without back-of-envelope numbers is a fail. |
+| **SRE behavioral & culture** | "Tell me about an incident you led", "How would you set an SLO for X", "How would you reduce toil for a team that doesn't want help" | STAR stories: a hard incident, a reliability initiative, a conflict, a time you said no, a time you were wrong. |
+
+**Public postmortems to study** (gold for behavioral questions — "how would you have responded?"): GitHub, Cloudflare, AWS, GCP, Slack post-incident reports.
+
+---
+
+### Antipatterns to Avoid (from *Enterprise Roadmap to SRE* and *Seeking SRE*)
+
+- **Watermelon metrics** — green on the outside, red on the inside. Aggregate availability 99.95%, users furious. Slice by user, region, request type, percentile. **Don't accept averages.**
+- **SLO = SLA confusion.** Setting your SLO at your SLA gives you zero headroom.
+- **100% reliability targets.** The right answer is almost never "more nines." Cost grows superlinearly.
+- **Hero culture.** Rewarding the firefighter rewards the existence of fires. Recognize prevention publicly.
+- **"Toil fix week."** Quarterly sprint after which toil regrows. Toil reduction is *continuous* (30–50% allocation), not a heroic burst.
+- **Renaming ops to SRE.** Same people, same tools, same processes, new business cards. *The #1 enterprise failure mode.*
+- **One SRE team for everything.** Doesn't scale. Either embedded with product teams, or centralized owning a *platform of capabilities*.
+- **SLO ceremony without enforcement.** SLOs exist but no one ever stops a release. Pre-commit (Ulysses pact) in writing, with named decision owners.
+- **Alerting on causes, not symptoms.** "CPU is high" wakes you at 3am while the user is fine. Alert on SLI burn rate.
+- **Tool-first thinking.** "We need Prometheus / Istio / ArgoCD" *before* "We need to know our user-facing latency target." Per the Enterprise SRE authors, *the* chief reason enthusiastic adoption stalls.
+- **Skipping the J-curve briefing.** Leaders surprised that things got harder before easier conclude SRE "doesn't work" and roll it back.
+- **Toxic combinations.** Mixing old (ITIL problem-mgmt with central problem manager) + new (embedded SREs driving postmortems) *at the same time* causes confusion and worsened outcomes. Choose evolution path.
+- **Ignoring Ulysses** — letting outages affect planning cycle even when they were *expected*. Stick to the plan.
+
+---
+
+### Continuous Learning (subscribe to 2–3, not all)
+
+**Newsletters**
+- [SRE Weekly](https://sreweekly.com/) — Lex Neva — the canonical SRE newsletter
+- KubeWeekly — official CNCF
+- Monitoring Weekly — observability focus
+- [DevOps'ish](https://devopsish.com/) — Chris Short — culture + tooling
+- Resilience Roundup — human factors / resilience engineering
+
+**Conferences (recordings are free)**
+- [SREcon (USENIX)](https://www.usenix.org/srecon) — Americas, EMEA, APAC. The flagship.
+- KubeCon + CloudNativeCon — three regions per year
+- DevOpsDays — local, community-driven
+- Monitorama — observability-specific
+- QCon — broader SE, strong SRE/platform tracks
+
+**Communities**
+- [CNCF Slack](https://slack.cncf.io) — largest cloud-native community
+- Kubernetes Slack — same invite as CNCF
+- #sre on Rands Leadership Slack
+- r/sre, r/devops, r/kubernetes — surprisingly high signal
+- [`awesome-sre`](https://github.com/dastergon/awesome-sre) — community-maintained mega-list
+
+**People to follow:** Liz Fong-Jones, Charity Majors, Cindy Sridharan, Niall Murphy, Steve McGhee, Lorin Hochstein, John Allspaw, Brendan Gregg, Kelsey Hightower, Tom Limoncelli.
+
+---
+
+### Soft Skills — The Multiplier
+
+Brookbank & McGhee are blunt: enterprise SRE success depends *more* on these than on technology.
+
+- **Written communication.** A postmortem someone else can learn from is a deliverable. So is a runbook. So is an SLO doc. Write often.
+- **Calm under pressure.** Incident command demands it. Practice on game days.
+- **Blameless framing.** Replace "Bob did X" with "the system permitted X." Trainable habit.
+- **Asking, not telling.** "Help me understand why the 4pm Friday deploy is needed" beats "no Friday deploys."
+- **Influencing without authority.** Build relationships *before* you need them. Pair with product, security, platform.
+- **Knowing when NOT to automate.** Sometimes the right answer is to delete the toil at the source. Automating bad processes faster is still bad.
+- **Saying "I don't know."** In front of senior engineers — then finding out.
+
+---
+
+### Closing the Loop
+
+Commit to ~8–12 focused hours per week for 12–18 months, apply every concept on a real or pet system, and write as you go. You won't just be *employable* as an SRE — you'll be a *thoughtful* one. The kind who walks into a struggling enterprise SRE function, recognizes the J-curve, writes the Ulysses-pact error budget policy, and leads the team out of it.
+
+> "Hope is not a strategy." — Traditional SRE saying
+> "Evolution, not revolution." — Brookbank & McGhee
+> "There is no perfect end state. There is only continuous improvement, applied with discipline, in the direction of reliability for your users." — *Enterprise Roadmap to SRE*
+
+Page yourself only when it's actionable. Write the postmortem you wish you'd been handed. Keep error budgets honest. Welcome to SRE.
 
 ---
 
