@@ -1,57 +1,69 @@
-// App shell — sidebar nav + view router. Persists current view in URL hash.
+// App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
-  { id: "habits", label: "Weekly Habits", icon: "🔥", group: "" },
-  { id: "_p0", label: "Part 0 · Interview Prep", group: "section" },
-  { id: "p0-sd", label: "0A  System Design", icon: "🧩", group: "p0" },
-  { id: "p0-behavior", label: "0B  Behavioral", icon: "💬", group: "p0" },
-  { id: "p0-lld", label: "0D  Low-Level Design", icon: "🧱", group: "p0" },
-  { id: "p0-sql", label: "0E  SQL / MySQL", icon: "🗄", group: "p0" },
-  { id: "p0-dsa", label: "0F  DSA · 150", icon: "🧠", group: "p0" },
-  { id: "p0-sched", label: "0G  Schedule", icon: "🗓", group: "p0" },
-  { id: "_sre", label: "SRE Learning", group: "section" },
-  { id: "sre-fnd",   label: "SRE 1  Foundations",        icon: "🏛", group: "sre" },
-  { id: "sre-cod",   label: "SRE 2  Coding",             icon: "🐍", group: "sre" },
-  { id: "sre-cloud", label: "SRE 3  Cloud + K8s",        icon: "☁️", group: "sre" },
-  { id: "sre-auto",  label: "SRE 4  Automation",         icon: "⚙️", group: "sre" },
-  { id: "sre-rel",   label: "SRE 5  Observability + SRE",icon: "📈", group: "sre" },
-  { id: "_parts", label: "Mastery", group: "section" },
-  { id: "part-a", label: "Part A · Lifecycle", icon: "🔄", group: "parts" },
-  { id: "part-b", label: "Part B · Hands-on phases", icon: "🛠", group: "parts" },
-  { id: "part-d", label: "Part D · SD for SRE", icon: "🏗", group: "parts" },
-  { id: "part-e", label: "Part E · Coding", icon: "💻", group: "parts" },
-  { id: "_jobs", label: "Job hunt", group: "section" },
-  { id: "part-g", label: "Part G · APAC jobs", icon: "🌏", group: "jobs" },
-  { id: "part-h", label: "Part H · Interview prep", icon: "🎤", group: "jobs" },
-  { id: "part-i", label: "Part I · Personal branding", icon: "🌟", group: "jobs" },
-  { id: "part-j", label: "Part J · Resources", icon: "📖", group: "jobs" },
+  { id: "_daily", label: "Daily", group: "section" },
+  { id: "habits",       label: "Habits",                crumb: "Daily · Habits",                       group: "daily" },
+  { id: "p0-sched",     label: "Schedule",              crumb: "Daily · Schedule",                     group: "daily" },
+
+  { id: "_learn", label: "Learn", group: "section" },
+  { id: "sre-fnd",      label: "Foundations",           crumb: "Learn · SRE · Foundations",            group: "learn" },
+  { id: "sre-cod",      label: "Coding",                crumb: "Learn · SRE · Coding",                 group: "learn" },
+  { id: "sre-cloud",    label: "Cloud + K8s",           crumb: "Learn · SRE · Cloud + K8s",            group: "learn" },
+  { id: "sre-auto",     label: "Automation",            crumb: "Learn · SRE · Automation",             group: "learn" },
+  { id: "sre-rel",      label: "Observability + SRE",   crumb: "Learn · SRE · Observability + SRE",    group: "learn" },
+  { id: "part-a",       label: "Lifecycle",             crumb: "Learn · Lifecycle",                    group: "learn" },
+
+  { id: "_practice", label: "Practice", group: "section" },
+  { id: "p0-sd",        label: "System Design",         crumb: "Practice · System Design",             group: "practice" },
+  { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice · Behavioral",                group: "practice" },
+  { id: "p0-lld",       label: "LLD",                   crumb: "Practice · Low-Level Design",          group: "practice" },
+  { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice · SQL",                       group: "practice" },
+  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice · DSA",                       group: "practice" },
+  { id: "part-b",       label: "Hands-on",              crumb: "Practice · Hands-on phases",           group: "practice" },
+  { id: "part-d",       label: "SD for SRE",            crumb: "Practice · System Design for SRE",     group: "practice" },
+  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice · Coding (Part E)",           group: "practice" },
+
+  { id: "_apply", label: "Apply", group: "section" },
+  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply · APAC jobs",                    group: "apply" },
+  { id: "part-h",       label: "Interview loop",        crumb: "Apply · Interview prep",               group: "apply" },
+  { id: "part-i",       label: "Branding",              crumb: "Apply · Personal branding",            group: "apply" },
+  { id: "part-j",       label: "Resources",             crumb: "Apply · Resources",                    group: "apply" },
 ];
 
 const DEFAULT_VIEW = "sre-fnd";
 
 const VIEW_MAP = {
-  "overview": OverviewView,
-  "habits": HabitsView,
-  "p0-sd": P0_SysDesignView,
-  "p0-behavior": P0_BehaviorView,
-  "p0-lld": P0_LLDView,
-  "p0-sql": P0_SQLView,
-  "p0-dsa": P0_DSAView,
-  "p0-sched": P0_ScheduleView,
-  "sre-fnd":   SRE_FoundationsView,
-  "sre-cod":   SRE_CodingView,
-  "sre-cloud": SRE_CloudView,
-  "sre-auto":  SRE_AutomationView,
-  "sre-rel":   SRE_ReliabilityView,
-  "part-a": PartAView,
-  "part-b": PartBView,
-  "part-d": PartDView,
-  "part-e": PartEView,
-  "part-g": PartGView,
-  "part-h": PartHView,
-  "part-i": PartIView,
-  "part-j": PartJView,
+  "overview":     OverviewView,
+  "habits":       HabitsView,
+  "p0-sd":        P0_SysDesignView,
+  "p0-behavior":  P0_BehaviorView,
+  "p0-lld":       P0_LLDView,
+  "p0-sql":       P0_SQLView,
+  "p0-dsa":       P0_DSAView,
+  "p0-sched":     P0_ScheduleView,
+  "sre-fnd":      SRE_FoundationsView,
+  "sre-cod":      SRE_CodingView,
+  "sre-cloud":    SRE_CloudView,
+  "sre-auto":     SRE_AutomationView,
+  "sre-rel":      SRE_ReliabilityView,
+  "part-a":       PartAView,
+  "part-b":       PartBView,
+  "part-d":       PartDView,
+  "part-e":       PartEView,
+  "part-g":       PartGView,
+  "part-h":       PartHView,
+  "part-i":       PartIView,
+  "part-j":       PartJView,
 };
+
+function renderCrumb(crumb) {
+  if (!crumb) return null;
+  const parts = crumb.split(" · ");
+  if (parts.length === 1) return <span className="leaf">{parts[0]}</span>;
+  const head = parts.slice(0, -1).join(" · ");
+  const leaf = parts[parts.length - 1];
+  return <>{head}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="leaf">{leaf}</span></>;
+}
 
 function App() {
   const [view, setView] = useState(() => (location.hash.replace("#", "") || DEFAULT_VIEW));
@@ -76,6 +88,7 @@ function App() {
     return Math.round(d / t * 100);
   };
 
+  const current = NAV.find(n => n.id === view);
   const Current = VIEW_MAP[view] || OverviewView;
 
   return (
@@ -83,10 +96,14 @@ function App() {
       <aside className="sidebar">
         <div className="brand">SRE Notebook<span className="dot">.</span></div>
 
+        <div className="search" title="Search not wired yet">
+          <span className="kbd-hint">⌘K</span> search…
+        </div>
+
         <nav className="nav">
           {NAV.map(n => {
             if (n.group === "section") {
-              return <div key={n.id} className="nav-group-label">— {n.label} —</div>;
+              return <div key={n.id} className="nav-group-label">{n.label}</div>;
             }
             const pct = sidebarPct(n.id);
             return (
@@ -94,7 +111,6 @@ function App() {
                 className={"nav-item " + (view === n.id ? "active" : "")}
                 onClick={() => go(n.id)}
               >
-                <span className="icon">{n.icon}</span>
                 <span>{n.label}</span>
                 {pct !== null && <span className="mini-bar">{pct}%</span>}
               </button>
@@ -102,7 +118,7 @@ function App() {
           })}
         </nav>
 
-        <div style={{marginTop: 24, fontSize: 11, color: "var(--ink-faint)", textAlign: "center", fontFamily: "Caveat, cursive", fontSize: 14}}>
+        <div className="sidebar-foot">
           Saved in your browser ·
           <button onClick={() => {
             if (confirm("Export all progress to clipboard as JSON?")) {
@@ -114,11 +130,12 @@ function App() {
               navigator.clipboard.writeText(JSON.stringify(dump, null, 2));
               alert("Copied to clipboard!");
             }
-          }} style={{textDecoration: "underline", marginLeft: 4, color: "var(--blue)"}}>export</button>
+          }}>export</button>
         </div>
       </aside>
 
       <main className="main">
+        {current?.crumb && <div className="crumb">{renderCrumb(current.crumb)}</div>}
         <Current />
       </main>
     </div>

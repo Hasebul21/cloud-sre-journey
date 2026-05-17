@@ -60,10 +60,12 @@ Vercel auto-detects "Other" framework and serves the directory as static.
    | Setting             | Value         |
    |---------------------|---------------|
    | Framework Preset    | **Other**     |
-   | Root Directory      | `site`        |
+   | Root Directory      | `site` ← **required, see warning below** |
    | Build Command       | *(leave empty)* |
    | Output Directory    | *(leave empty — defaults to root)* |
    | Install Command     | *(leave empty)* |
+
+   > ⚠️ **Root Directory must be `site`.** If you leave it blank, Vercel builds from the repo root (which has no `index.html`) and every URL returns `404 NOT_FOUND` even though the deployment shows "Ready". To fix after the fact: **Project → Settings → Build & Deployment → Root Directory → `site` → Save**, then redeploy (push a commit or use **Deployments → ⋯ → Redeploy**).
 
 4. Click **Deploy**. First build takes ~10 seconds. Every subsequent `git push` to `main` redeploys automatically.
 
@@ -94,8 +96,19 @@ Create `site/vercel.json`:
 ## After deploy
 
 - Vercel gives you a `*.vercel.app` URL immediately. To add a custom domain, go to **Project → Settings → Domains**.
+- New Hobby team projects ship with **Vercel Authentication** enabled, which makes the public URL 401 (or 404 on the canonical alias) for anyone not logged into your Vercel account. To make the site public: **Project → Settings → Deployment Protection → Vercel Authentication → Disabled → Save**. No redeploy needed.
 - All checkboxes / streaks / notes live in `localStorage`, scoped per browser. Open the same URL on your phone and it starts fresh — that's intentional, not a bug.
 - To "back up" progress, use the **export** link at the bottom of the sidebar (copies JSON to clipboard).
+
+---
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Every path returns `404 NOT_FOUND`, deployment is "Ready" | Root Directory unset → built from repo root, no `index.html` | Settings → Build & Deployment → Root Directory → `site` → Save → redeploy |
+| Canonical URL is 404, but `*-<hash>-<scope>.vercel.app` is 401 | Vercel Authentication on (default for new Hobby team projects) | Settings → Deployment Protection → Disabled |
+| `vercel --prod` from repo root creates a new project instead of redeploying `sre-notebook` | Repo root isn't linked; only `site/.vercel/` is | `cd site && vercel --prod` (CLI deploys must run from the linked dir) |
 
 ---
 
