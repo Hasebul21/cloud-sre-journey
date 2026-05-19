@@ -10,12 +10,13 @@
 
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
-3. [Part A — Full Software Lifecycle Mastery](#part-a)
+3. [Part AI — AI Engineering for SRE/DevOps](#part-ai)
+4. [Part A — Full Software Lifecycle Mastery](#part-a)
    - [A1–A2. Plan + Code](#a1a2-plan--code)
    - [A3–A4. Build + Deploy](#a3a4-build--deploy)
    - [A5–A6. Operate + Maintain](#a5a6-operate--maintain)
    - [A7. Cost Optimization](#a7-cost-optimization)
-4. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
+5. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
    - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
    - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
    - [Phase 3 — ELK Stack (Logging)](#phase-3--elk-stack-logging)
@@ -23,12 +24,12 @@
    - [Phase 5 — AWS Deployment](#phase-5--aws-deployment)
    - [Phase 6 — IaC with Terraform](#phase-6--iac-with-terraform)
    - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
-5. [Part D — System Design for SRE Interviews](#part-d)
-6. [Part E — Coding & Programming](#part-e)
-7. [Part G — APAC Job Search](#part-g)
-8. [Part H — Interview Preparation](#part-h)
-9. [Part I — Personal Branding](#part-i)
-10. [Part J — Resources](#part-j)
+6. [Part D — System Design for SRE Interviews](#part-d)
+7. [Part E — Coding & Programming](#part-e)
+8. [Part G — APAC Job Search](#part-g)
+9. [Part H — Interview Preparation](#part-h)
+10. [Part I — Personal Branding](#part-i)
+11. [Part J — Resources](#part-j)
 
 ---
 
@@ -916,6 +917,145 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 ---
 
+### Foundational University Course Videos
+
+> Three academic deep-dives that map onto the SRE foundations: distributed systems, computer networking, and end-to-end systems engineering. These go deeper than interview prep — they pay off in production debugging and senior-level design rounds. Watch alongside Stage 1 (Networking) and Stage 7 (Distributed Systems).
+
+#### Course 1 — MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)
+
+> 20 lectures · the canonical graduate distributed-systems course; pairs directly with Stage 7. [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
+
+| # | Lecture | Link |
+|---|---------|------|
+| 1 | Introduction | https://www.youtube.com/watch?v=cQP8WApzIQQ |
+| 2 | RPC and Threads | https://www.youtube.com/watch?v=gA4YXUJX7t8 |
+| 3 | GFS | https://www.youtube.com/watch?v=EpIgvowZr00 |
+| 4 | Primary-Backup Replication | https://www.youtube.com/watch?v=M_teob23ZzY |
+| 5 | Go, Threads, and Raft | https://www.youtube.com/watch?v=UzzcUS2OHqo |
+| 6 | Fault Tolerance: Raft (1) | https://www.youtube.com/watch?v=64Zp3tzNbpE |
+| 7 | Fault Tolerance: Raft (2) | https://www.youtube.com/watch?v=4r8Mz3MMivY |
+| 8 | Zookeeper | https://www.youtube.com/watch?v=pbmyrNjzdDk |
+| 9 | More Replication, CRAQ | https://www.youtube.com/watch?v=IXHzbCuADt0 |
+| 10 | Cloud Replicated DB, Aurora | https://www.youtube.com/watch?v=jJSh54J1s5o |
+| 11 | Cache Consistency: Frangipani | https://www.youtube.com/watch?v=-pKNCjUhPjQ |
+| 12 | Distributed Transactions | https://www.youtube.com/watch?v=aDp99WDIM_4 |
+| 13 | Spanner | https://www.youtube.com/watch?v=4eW5SWBi7vs |
+| 14 | Optimistic Concurrency Control | https://www.youtube.com/watch?v=Cw6Nj2evjSs |
+| 15 | Big Data: Spark | https://www.youtube.com/watch?v=mzIoSW-cInA |
+| 16 | Cache Consistency: Memcached at Facebook | https://www.youtube.com/watch?v=Myp8z0ybdzM |
+| 17 | COPS, Causal Consistency | https://www.youtube.com/watch?v=fR_NB714EAI |
+| 18 | Fork Consistency, Certificate Transparency | https://www.youtube.com/watch?v=UKdLJ7-0iFM |
+| 19 | Bitcoin | https://www.youtube.com/watch?v=K_euhRou98Y |
+| 20 | Blockstack | https://www.youtube.com/watch?v=XvXK_vZ0BNw |
+
+#### Course 2 — Stanford CS144 Introduction to Computer Networking (Fall 2013, Philip Levis & Nick McKeown)
+
+> Course pair to Stage 1 networking. [Full playlist](https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z)
+>
+> ⚠️ **Warning:** 82 of the 113 entries in this playlist are now marked **[Private video]** on YouTube and cannot be watched. The accessible Fall 2013 lectures below cover Transport, Congestion Control, Routing, and Security; for the missing topics (Internet architecture intro, link layer, packet switching, NAT, DNS, HTTP, SDN, applications), use Stanford's official current course site at [cs144.github.io](https://cs144.github.io) or *Kurose & Ross — Computer Networking: A Top-Down Approach* from the Stage 1 resources.
+
+**Transport Layer (TCP / UDP / ICMP)**
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | 2-0: Transport (intro) | https://www.youtube.com/watch?v=1CP6aF09OjI |
+| 2 | 2-1: TCP service model | https://www.youtube.com/watch?v=l3AhPe4WK0E |
+| 3 | 2-2: UDP service model | https://www.youtube.com/watch?v=umqdobwwbFc |
+| 4 | 2-3: ICMP service model | https://www.youtube.com/watch?v=LSobIghyLGU |
+| 5 | 2-4: End to End Principle | https://www.youtube.com/watch?v=mZcthYLpF9Q |
+| 6 | 2-5: Error detection | https://www.youtube.com/watch?v=8DRD-vQam60 |
+| 7 | 2-6a: Finite state machines 1 | https://www.youtube.com/watch?v=FYNk9VrMWwc |
+| 8 | 2-12: Transport (recap) | https://www.youtube.com/watch?v=vtJ2JzhWTsk |
+
+**Congestion Control**
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | 4-0: Congestion Control (intro) | https://www.youtube.com/watch?v=nh970YyKRDA |
+| 2 | 4-4: AIMD Multiple Flows | https://www.youtube.com/watch?v=OAHga4mQr_A |
+| 3 | 4-11: Congestion Control (wrap-up) | https://www.youtube.com/watch?v=JMm2vDkCUJg |
+
+**Routing**
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | 6-0: Routing (intro) | https://www.youtube.com/watch?v=yfIyxDhhWHU |
+| 2 | 6-9: Routing (wrap-up) | https://www.youtube.com/watch?v=VJoYi6UZiCg |
+
+**Network Security**
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | 8-0: Security (intro) | https://www.youtube.com/watch?v=LHbynG7iYEY |
+| 2 | 8-1: Introduction to Network Security | https://www.youtube.com/watch?v=SERez34ww5c |
+| 3 | 8-2: Layer 2 Attacks | https://www.youtube.com/watch?v=GkqPLrCqkeo |
+| 4 | 8-2a: MAC Overflow Attack | https://www.youtube.com/watch?v=YC_oLgYd_qU |
+| 5 | 8-2b: DHCP Attack Demo | https://www.youtube.com/watch?v=_eW_SDyhj-U |
+| 6 | 8-3: Layer 3 Attacks | https://www.youtube.com/watch?v=6vudh-STvBM |
+| 7 | 8-5: Security Principles | https://www.youtube.com/watch?v=LxtJoXxeDyE |
+| 8 | 8-6a: Confidentiality | https://www.youtube.com/watch?v=Pr_vrfRYuvQ |
+| 9 | 8-7: Integrity | https://www.youtube.com/watch?v=sRBuAB0reNY |
+| 10 | 8-8: Public Key Cryptography | https://www.youtube.com/watch?v=aSh16igtLf4 |
+| 11 | 8-9: Certificates | https://www.youtube.com/watch?v=gQ33dMv1aJ8 |
+| 12 | 8-10a: TLS | https://www.youtube.com/watch?v=gsLEz6sRPr8 |
+| 13 | 8-11: Security (wrap-up) | https://www.youtube.com/watch?v=CxuyR9G1HwA |
+
+**Guest Talks & Interviews**
+
+| # | Video | Link |
+|---|-------|------|
+| 1 | Nandita Dukkipati Interview (Google, BBR/data-center TCP) | https://www.youtube.com/watch?v=OVhJEn3cu5M |
+| 2 | BGP: Putting the "Inter" in Internet — Jennifer Rexford (Princeton) | https://www.youtube.com/watch?v=HAhzj1E1ejI |
+| 3 | Sanjit Biswas, CEO of Meraki — interviewed by Nick McKeown | https://www.youtube.com/watch?v=pHULhFc8pwA |
+| 4 | Reed Hundt on Security and Openness | https://www.youtube.com/watch?v=0jwuR8YANIk |
+
+#### Course 3 — MIT 6.033 Computer System Engineering (Spring 2018, Katrina LaCurts)
+
+> Undergraduate end-to-end systems course — OS, networking, distributed systems, security — taught around primary research papers. Cross-cuts Stages 1, 5, 6, and 7.
+>
+> 📖 **Note:** OCW does **not** publish video lectures for the Spring 2018 offering — the course is delivered through readings (Saltzer & Kaashoek, *Principles of Computer System Design*), assigned papers, recitation outlines, and a multi-week design project. Use it as a paper-driven study companion, not a video course.
+
+**Syllabus highlights** ([source](https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/pages/syllabus/))
+
+- **Primary learning objective:** *"Students will design distributed systems addressing real-world problems"* — with secondary abilities to evaluate existing systems, apply technical material to new components, and recognize design patterns in operating systems, Internet architecture, reliable systems, and security. This single-line objective is the lens to read the whole course through.
+- **Secondary objective:** communication skills — written reports, oral presentations, peer review. Mirrors what senior SREs do (postmortems, RFCs, design reviews); worth taking seriously when self-studying.
+- **Prerequisites (self-check before starting):** *6.004 Computation Structures* (computer architecture fundamentals) **and** *6.005 Software Construction* **or** *6.009 Fundamentals of Programming*. If your background is gaps in OS/arch, do *Operating Systems: Three Easy Pieces* first.
+- **Required textbook:** Saltzer & Kaashoek, *Principles of Computer System Design: An Introduction* — Morgan Kaufmann, 2009. ISBN 9780123749574. Part I is the printed book; **Part II is free on MIT OCW** (link below).
+- **Format:** 2 lectures/week (high-level framing) + 2 recitations/week (paper discussion — this is where the deep learning happens) + 1 writing tutorial/week. For self-study, the recitation paper list is the highest-value artifact.
+- **Major deliverables:** two quizzes (15% each), weekly hands-ons (5%, OCW-restricted), a team **design project** (preliminary report + presentation + final report + peer review = 34%), two paper critiques (6%). Self-study substitute: pick one of the assigned design projects and write the final report solo.
+- **Topic emphasis (14 weeks):** Operating Systems (weeks 1–4) → Networking (weeks 5–7) → Distributed Systems (weeks 8–10) → Security (weeks 11–14). Notice security is **the largest** unit — reflects modern SRE reality.
+- **Instructor:** Dr. Katrina LaCurts (EECS).
+
+**Resources**
+
+| Resource | Link |
+|----------|------|
+| OCW course home | https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/ |
+| Syllabus | https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/pages/syllabus/ |
+| Lecture & recitation outlines | https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/pages/lecture-and-recitation-notes/ |
+| Assignments (papers + critiques + design project) | https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/pages/assignments/ |
+| Sample papers covered: DNS, UNIX, MapReduce, Raft, Spanner, Eraser, LFS, Landmark routing, RON, DCTCP, CDN, DNSSEC, botnets, Meltdown | (see Assignments page above) |
+| Saltzer & Kaashoek, *Principles of Computer System Design* (Part II — free) | https://ocw.mit.edu/resources/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/online-textbook/ |
+
+**Topic map (use to plug into other stages):**
+
+| 6.033 unit | Maps to | Companion video resource |
+|------------|---------|--------------------------|
+| Operating Systems (weeks 1–4) | Stage 1 | *Operating Systems: Three Easy Pieces* (free) + Brendan Gregg talks |
+| Networking (weeks 5–7) | Stage 1 | CS144 videos above + Kurose & Ross |
+| Distributed Systems (weeks 8–10) | Stage 7 | MIT 6.824 videos above |
+| Security (weeks 11–14) | Stages 1, 7 (DevSecOps) | CS144 Security videos above |
+
+**Self-study plan (≈8 weeks, 3 hrs/week — compresses 14 weeks of the official course):**
+
+1. Weeks 1–2: read Saltzer & Kaashoek Part I ch. 1–3 (system complexity, naming, modularity). Write a one-page critique of the UNIX paper.
+2. Weeks 3–4: networking unit — pair with CS144 Transport + Routing videos. Read the DNS, RON, and DCTCP papers.
+3. Weeks 5–6: distributed systems unit — pair with MIT 6.824 lectures 1–9. Read GFS, MapReduce, Raft, Spanner.
+4. Weeks 7–8: security unit — read DNSSEC, Meltdown, and one botnet paper. Pair with CS144 8-x security videos.
+5. Capstone: pick one OCW design project prompt and write a 2,000-word final report applying the principles. This is the single best transfer-to-interview artifact this course produces.
+
+---
+
 ### DevOps Tooling Reference Map (from roadmap.sh/devops)
 
 > Use as a "you are here" map, **not** a learning checklist. Don't try to learn everything — pick *one tool per category* aligned with your target stack (AWS + K8s + Go + GitHub Actions for APAC SRE roles).
@@ -1030,7 +1170,310 @@ Page yourself only when it's actionable. Write the postmortem you wish you'd bee
 
 ---
 
-## <a id="part-a"></a>Part A — Full Software Lifecycle Mastery
+## <a id="part-ai"></a>Part AI — AI Engineering for SRE/DevOps
+
+> **Why this is here:** Between 2024 and 2026, AI moved from "research curiosity" to "production tool" inside SRE. LLMs are now plausible on-call copilots, log summarizers, runbook generators, and NL→PromQL/SQL interfaces. SRE teams at Grab, Mercari, Agoda, ByteDance, and PayPay already operate vLLM/TGI clusters, RAG-over-runbooks systems, and AI-driven incident triage. Treat this as a **horizontal specialization** that compounds with Stages 5–7 of Part SRE — not a separate career.
+>
+> **Scope clarifier:** This is **AI engineering** (using pre-trained models in production), not **ML research** (training foundation models). The latter is a PhD track; the former is what SRE/DevOps roles increasingly require. If you're tempted by the research path, see *AI learning path'.md* in this repo — it's a different game.
+
+### Two roles to keep separate
+
+| Role | What they do | Stance in this guide |
+|------|--------------|----------------------|
+| **AI Engineer** | Uses pre-trained models + APIs to build features (chat, RAG, agents, NL→X). | Primary focus — pairs naturally with SRE work. |
+| **ML Engineer / Researcher** | Trains, fine-tunes, evaluates models; architecture-level work. | Out of scope for a 6-month junior-SRE plan. |
+
+---
+
+### AI1. Core concepts (from [roadmap.sh/ai-engineer](https://roadmap.sh/ai-engineer))
+
+**LLM mechanics you must internalize:**
+- **Tokens & context window** — pricing, latency, and "out of context" failures all live here
+- **Temperature / Top-K / Top-P / repetition penalty** — determinism vs creativity
+- **Zero-shot, Few-shot, Chain-of-Thought (CoT), ReAct** — prompting strategies (CoT and ReAct are non-optional in 2026)
+- **Inference vs training** — 99% of an AI engineer's job is inference
+- **Closed vs open weights** — Claude / GPT / Gemini vs Llama / Mistral / Qwen / DeepSeek / Gemma
+
+**Application lifecycle (the natural progression):**
+
+```
+Prompt engineering  →  RAG  →  Fine-tuning  →  Agents (+ MCP)
+                       ↑
+       most teams should stop here; many escalate prematurely
+```
+
+**Prompt vs context engineering:** *context engineering* (controlling what reaches the model — retrieved chunks, tools, structured memory) scales further than clever prompts. This is the 2026 buzzword for what RAG/agent designers actually do.
+
+---
+
+### AI2. The AI engineering stack (cherry-pick — don't install everything)
+
+| Layer | Pick first | Strong alternatives |
+|-------|-----------|---------------------|
+| **Closed model API** | Anthropic Claude (Messages API) | OpenAI Response API, Google Gemini API, OpenRouter (multi-provider router) |
+| **Open weights via API** | Llama 3.1/3.2 via Together.ai or Groq | Fireworks, Replicate, OctoAI |
+| **Local inference (dev)** | Ollama | LM Studio, llama.cpp, MLX (Apple Silicon) |
+| **Local inference (prod throughput)** | vLLM (PagedAttention, continuous batching) | TGI (HuggingFace), TensorRT-LLM, SGLang |
+| **App framework** | LangChain (mainstream) or DSPy (programmatic, research-grade) | LlamaIndex (RAG-first), Pydantic-AI, Haystack, RAGFlow |
+| **Agent framework** | LangGraph or OpenAI Agents SDK | CrewAI, AutoGen, Claude Agent SDK, Vertex AI Agent Builder, Google ADK |
+| **Vector DB** | pgvector on Postgres (start here) | Qdrant, Weaviate, Milvus, LanceDB, Chroma, Pinecone, MongoDB Atlas Vector, Supabase |
+| **Embeddings** | OpenAI `text-embedding-3-small` or BGE-M3 | Voyage AI, Nomic Embed, Jina, sentence-transformers, Cohere, Gemini Embedding |
+| **Eval / observability** | Langfuse + Ragas | LangSmith, Braintrust, Promptfoo, DeepEval, OpenAI Evals |
+| **Guardrails** | Pydantic output schemas + Outlines / Instructor | Guardrails AI, NeMo Guardrails, LlamaGuard |
+| **Multimodal** | OpenAI Vision API, Whisper (STT), DALL-E / Gemini image | HF multimodal models, Eleven Labs (TTS) |
+
+**Heuristic:** know one pick per row well enough to ship; know the alternatives well enough to explain trade-offs in an interview.
+
+---
+
+### AI3. RAG (Retrieval-Augmented Generation) — the highest-leverage pattern for SRE
+
+This is what lets an LLM consult **your** runbooks, postmortems, Grafana dashboards, and Slack history without hallucinating.
+
+**Pipeline:**
+
+```
+docs → chunk → embed → vector DB index
+                              ↓
+query → embed → top-K cosine search → stuff into prompt → LLM → answer
+```
+
+1. **Chunking** — recursive char-splitter at 500–1500 tokens with 50–100 overlap is a sane default. Markdown-aware splitters preserve section structure; code-aware splitters use AST boundaries.
+2. **Embedding** — pass each chunk through an embedding model → vector.
+3. **Vector DB index** — store vectors with metadata (`source`, `date`, `service`).
+4. **Retrieval** — at query time, embed the question and run cosine/dot-product search; rerank with a cross-encoder (Cohere Rerank, BGE-Reranker) when accuracy matters.
+5. **Generation** — stuff retrieved chunks into the LLM context with provenance tags.
+
+**RAG vs fine-tuning:** RAG covers ~80% of "make the LLM know my docs" use cases. Fine-tune only when you need style/domain shift (e.g., always answer in incident-report format) or to compress repeated context. Almost every team should try RAG first.
+
+---
+
+### AI4. Agents + MCP (Model Context Protocol)
+
+**Anatomy of an agent:** loop = **perceive** (read tool output) → **reason** (LLM) → **act** (call tool / function). ReAct prompting + function calling is the substrate; orchestration frameworks add memory, retries, multi-agent coordination.
+
+**MCP (2025 standard):** Anthropic's open protocol that lets any LLM client (Claude, Cursor, your custom app) talk to any tool server. Components: **MCP host** (the app), **MCP client** (in-app connector), **MCP server** (exposes tools). Build one server, plug into every agent.
+
+**The SRE killer app:** an **incident-triage agent** with read-only tools — `get_recent_alerts`, `query_loki(service, window)`, `query_prom(promql)`, `read_runbook(name)`, `post_to_slack(channel, text)` — and a system prompt encoding your incident-response playbook. Heinrich Hartmann's framing: *LLM as copilot, not autopilot*. Always human-in-the-loop on actions that mutate state.
+
+---
+
+### AI5. AIOps & SRE-specific use cases
+
+| Use case | Pattern | Where to start |
+|----------|---------|----------------|
+| **On-call copilot** | RAG over runbooks + recent postmortems; agent with read-only Prom/Loki tools | Start with retrieval; add tools only after retrieval is solid |
+| **Log summarization & clustering** | Embed log lines → HDBSCAN cluster → LLM summarizes each cluster | Built over your Part B Phase 3 ELK stack |
+| **Anomaly detection** | Classical (Prophet, isolation forest, ARIMA) ≫ LLMs for time-series. Use LLMs to *explain* anomalies, not to detect them | Grafana ML plugins, Anodot, Datadog Watchdog |
+| **NL → PromQL / SQL** | Schema-aware prompt + few-shot examples; cite BIRD benchmark numbers in interviews | Vanna.ai (OSS, SQL), PromQL is small enough to DIY |
+| **Postmortem assistant** | LLM extracts timeline from Slack + alert logs; drafts contributing-factors section | Mandatory human review — hallucination risk in incident docs is severe |
+| **Runbook generation** | LLM drafts from recent incidents → human reviews → versions into Backstage | Always human-in-the-loop |
+| **PR review for IaC** | Code-LLM + Semgrep/CodeQL on Terraform/K8s manifests | Atlantis + Aider/Claude as a comment-only reviewer |
+| **Capacity forecasting** | Prophet/NeuralProphet for traffic; LLM for narrative + alerts | Classical ML wins; LLM is the wrapper |
+
+---
+
+### AI6. Operating AI in production — what SREs running ML infra need
+
+You'll likely be asked to **operate** AI infrastructure long before you're asked to **build** AI features. Surface area:
+
+| Concern | Tool / pattern |
+|---------|----------------|
+| **LLM serving** | vLLM (continuous batching, PagedAttention), TGI, TensorRT-LLM, SGLang. KV-cache, speculative decoding, FlashAttention 2/3 |
+| **Quantization** | GPTQ, AWQ, GGUF, bitsandbytes — typically 4-bit/8-bit for cost-latency trade |
+| **Throughput vs latency** | Continuous batching for throughput; speculative decoding for latency |
+| **GPU fleet** | NVIDIA H100/A100; MIG slicing; spot/on-demand mix; Lambda Labs, RunPod, CoreWeave, Modal for burst |
+| **Autoscaling** | KEDA on Kubernetes, queue-depth-based; warm pools / snapshots for cold-start |
+| **Experiment tracking** | Weights & Biases (industry default), MLflow (OSS default), Neptune, Comet |
+| **Eval pipelines in CI** | Langfuse traces + Ragas + GitHub Actions; treat eval failures like test failures |
+| **Drift / regression** | Evidently AI, Arize, WhyLabs; alert on embedding-distance drift, not just latency |
+| **Cost observability** | Per-tenant token accounting; Anthropic prompt caching; route to cheap models first, escalate to large only on failure |
+| **Secrets / IAM** | Never embed API keys in containers; rotate via External Secrets Operator + Vault |
+| **Compliance** | PII redaction in prompts; audit logs of every model call (SOC2 / HIPAA / PDPA) |
+
+**Read once, then re-read after building one project:**
+- Sculley et al. 2015 — *Hidden Technical Debt in ML Systems* (NeurIPS). [arXiv: papers.nips.cc/paper/5656](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems)
+- Amershi et al. 2019 — *Software Engineering for ML: A Case Study* (Microsoft, ICSE-SEIP). [link](https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/)
+
+---
+
+### AI7. AI Safety & Security (this is SRE work)
+
+Safety **is** reliability in this space. SREs should be the loudest voice in the room on:
+
+- **Prompt injection** — assume any text from a user / document / web page is hostile. Sanitize. Tag retrieved chunks with provenance; never let untrusted text issue tool calls.
+- **Output validation** — JSON-schema validate every structured response (Pydantic, Outlines, Instructor). A malformed JSON should fail closed, not silently drop a field.
+- **Bias & fairness** — content moderation API (OpenAI moderation, Anthropic content-mod, Perspective) as pre/post filter on user-facing surfaces.
+- **End-user IDs** — pass `user_id` through to provider APIs for abuse tracing and per-user rate limiting.
+- **Adversarial / red-team testing** — Promptfoo, DeepEval, Garak in CI; treat as a security regression suite.
+- **Data leakage** — Anthropic ZDR (Zero Data Retention), OpenAI ZDR endpoints, or on-prem inference when handling regulated data.
+- **Constraining inputs/outputs** — function calling > free-text where possible; the model can only emit values your schema allows.
+
+---
+
+### AI8. 6-week learning plan (≈ 12 hrs/week — runs beside Part SRE Stage 5+)
+
+| Week | Topic | Tangible output |
+|------|-------|-----------------|
+| 1 | Concepts: tokens, context, prompting strategies, RAG vs fine-tune. Watch DeepLearning.AI "ChatGPT Prompt Engineering for Developers" (free, 1 hr). | Notes repo `sre-ai/concepts.md` |
+| 2 | Stack hands-on: call Anthropic + Ollama from Python; embed with sentence-transformers; pgvector quickstart. | `sre-ai/hello-rag` MVP |
+| 3 | Build a **runbook RAG** over your Part B repo's `docs/` directory. Add Langfuse traces. | `sre-ai/runbook-rag` deployed to kind |
+| 4 | Add an **incident-triage agent** with read-only Prometheus + Loki tools using **MCP**. | `sre-ai/oncall-copilot` |
+| 5 | Operate vLLM locally; benchmark Llama 3.1 8B (4-bit) vs hosted `claude-haiku-4-5` on cost / latency / quality. | Blog post: "vLLM vs hosted Claude for SRE workloads" |
+| 6 | Eval pipeline (Ragas + Langfuse) + adversarial tests (Promptfoo); deploy oncall-copilot with Helm; write SLO doc. | `sre-ai/oncall-copilot` v1.0 + Helm chart + SLO |
+
+> **Deliverable to pin on GitHub:** `sre-ai/oncall-copilot` is the artifact you should walk into an APAC interview with. It compounds Part B (K8s/observability) + Part AI (RAG + agents).
+
+---
+
+### AI9. Foundational concepts — free YouTube videos (curated)
+
+> Short list — watch these before diving into frameworks. Pick the English playlists below; the Krishna Naik link in AI10 has a Hindi alternative if you prefer.
+
+| Topic | Video | Channel | Link |
+|-------|-------|---------|------|
+| Math intuition for ML | Essence of Linear Algebra | 3Blue1Brown | https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab |
+| Neural net intuition | But what is a Neural Network? | 3Blue1Brown | https://www.youtube.com/watch?v=aircAruvnKk |
+| Transformers — visual | But what is a GPT? Visual intro to Transformers | 3Blue1Brown | https://www.youtube.com/watch?v=wjZofJX0v4M |
+| Build a GPT from scratch | Let's build GPT: from scratch, in code, spelled out | Andrej Karpathy | https://www.youtube.com/watch?v=kCc8FmEb1nY |
+| Tokenizer deep dive | Let's build the GPT Tokenizer | Andrej Karpathy | https://www.youtube.com/watch?v=zduSFxRajkE |
+| Full series | Neural Networks: Zero to Hero | Andrej Karpathy | https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ |
+| Intro to LLMs (1 hr) | Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
+| State of GPT | State of GPT — Microsoft Build | Andrej Karpathy | https://www.youtube.com/watch?v=bZQun8Y4L2A |
+| Attention paper | Attention Is All You Need — paper walkthrough | Yannic Kilcher | https://www.youtube.com/watch?v=iDulhoQ2pro |
+| Transformers United | Stanford CS25 — Transformers United | Stanford Online | https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM |
+| HF NLP course (video) | Hugging Face NLP Course | HuggingFace | https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o |
+| Practical DL | Practical Deep Learning for Coders (2022) | fast.ai | https://www.youtube.com/playlist?list=PLfYUBJiXbdtSvpQjSnJJ_PmDQB_VyT5iU |
+
+---
+
+### AI10. Agentic AI — Krishna Naik's curated playlists ([repo](https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI))
+
+> Most useful for the Bangladeshi/South-Asian audience because of Hindi options + end-to-end project format. Pair with the English-language deep dives in AI9 — Krishna Naik is strong on practical project builds, lighter on first-principles theory.
+
+| # | Topic | Playlist / video | Link |
+|---|-------|------------------|------|
+| 1 | Python (English) | Complete Python Playlist | https://www.youtube.com/playlist?list=PLZoTAELRMXVNUL99R4bDlVYsncUNvwUBB |
+| 2 | Python (Hindi) | Complete Python Playlist — Hindi | https://www.youtube.com/playlist?list=PLTDARY42LDV4qqiJd1Z1tShm3mp9-rP4v |
+| 3 | NLP basics | Basic ML for NLP (one-hot, BoW, TF-IDF, Word2Vec) | https://www.youtube.com/watch?v=ENLEjGozrio |
+| 4 | DL for NLP | Complete Deep Learning for NLP playlist | https://www.youtube.com/playlist?list=PLZoTAELRMXVNNrHSKv36Lr3_156yCo6Nn |
+| 5 | Transformer | In-depth Transformer explanation | https://www.youtube.com/watch?v=3bPhDUSAUYI |
+| 6 | GenAI projects | Generative AI Tutorials With End-to-End Projects | https://www.youtube.com/playlist?list=PLA1lVIthbM1D5I6r5uY2K89X1KD2w5LNh |
+| 7 | Agentic AI | Agentic AI Tutorials | https://www.youtube.com/playlist?list=PLZoTAELRMXVPFd7JdvB-rnTb_5V26NYNO |
+| 8 | Agentic frameworks | Agentic AI With Different Frameworks | https://www.youtube.com/playlist?list=PLZoTAELRMXVMBr14UQ30AFlnlQ7eL5wjl |
+| 9 | Multimodal RAG | MultiModal RAGs | https://www.youtube.com/playlist?list=PLQxDHpeGU14D6dm0rmAXhdLeLYlX2zk7p |
+| 10 | MCP | Model Context Protocol playlist | https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK |
+
+**Agentic frameworks called out in the repo (pick one, then learn the others by analogy):**
+
+| Framework | One-line | Docs |
+|-----------|----------|------|
+| **LangChain + LangGraph** | Most mainstream; LangGraph for stateful graph-shaped agents | https://www.langchain.com/langgraph |
+| **Agno (formerly Phidata)** | Python-native, type-safe agents; lighter than LangChain | https://github.com/agno-agi/agno |
+| **CrewAI** | Role-based multi-agent ("crew of agents"); good for parallel research-style tasks | https://www.crewai.com |
+| **AutoGen** | Microsoft Research; strong for conversational multi-agent + code execution | https://microsoft.github.io/autogen/ |
+| **DSPy** | Stanford; *programmatic* prompt optimization — research-relevant | https://dspy.ai |
+| **Pydantic-AI** | Type-safe agents leaning on Pydantic v2 | https://ai.pydantic.dev |
+| **Claude Agent SDK** | Anthropic's official SDK; pairs natively with MCP | https://docs.anthropic.com/agents |
+
+---
+
+### AI11. Blogs and newsletters (read weekly, not all at once)
+
+> The single best signal-to-noise heuristic in this space: **scan, don't subscribe to everything**. Star 5–7 and read them when posts drop.
+
+**Practitioner blogs (start here):**
+
+| Source | Why it's worth reading | Link |
+|--------|------------------------|------|
+| **Simon Willison's blog** | Best practical LLM blog on the internet; daily updates on tools/tricks | https://simonwillison.net |
+| **Anthropic Engineering blog** | First-party guidance on Claude, prompt caching, tool use, agents | https://www.anthropic.com/engineering |
+| **OpenAI Cookbook** | First-party code examples; great for API patterns | https://cookbook.openai.com |
+| **HuggingFace blog** | Open-model releases, fine-tuning guides, leaderboard analyses | https://huggingface.co/blog |
+| **Lilian Weng's blog** | Long-form deep dives on agents, LLM hallucination, RLHF | https://lilianweng.github.io |
+| **Chip Huyen's blog** | The SE4AI / MLOps perspective; author of *Designing ML Systems* | https://huyenchip.com |
+| **Sebastian Raschka's Magazine** | Plain-language LLM internals; great for self-learners | https://magazine.sebastianraschka.com |
+| **Eugene Yan's blog** | Recsys + LLM eval; very practical | https://eugeneyan.com |
+| **Hamel Husain's blog** | Eval-driven LLM development; "AI for SWEs" framing | https://hamel.dev |
+| **Phil Schmid's blog** | Production fine-tuning + serving (HF DevRel) | https://www.philschmid.de |
+
+**Newsletters / podcasts:**
+
+| Source | Format | Link |
+|--------|--------|------|
+| **The Batch** (DeepLearning.AI) | Weekly newsletter | https://www.deeplearning.ai/the-batch |
+| **Sebastian Ruder's NLP newsletter** | Monthly NLP/LLM digest | https://newsletter.ruder.io |
+| **Latent Space** (swyx + Alessio) | Newsletter + podcast — top AI engineer interviews | https://www.latent.space |
+| **AI Engineer Pod / Summit talks** | Conference talks (free on YouTube) | https://www.youtube.com/@aiDotEngineer |
+| **Last Week in AI** | Weekly research + industry roundup | https://lastweekin.ai |
+| **Import AI** (Jack Clark) | Weekly research + policy briefing | https://importai.substack.com |
+| **The Pragmatic Engineer** (Gergely Orosz) | Engineering practices — has growing AI coverage | https://newsletter.pragmaticengineer.com |
+| **Stratechery on AI** | Strategic framing (paid, but essays often go free) | https://stratechery.com |
+
+**SRE-flavored AI blogs:**
+
+| Source | Why | Link |
+|--------|-----|------|
+| **Heinrich Hartmann** | "LLM as on-call copilot, not autopilot" — origin of the framing | https://heinrichhartmann.com |
+| **Honeycomb blog** | "AI assistance for observability" — practical SRE-AI pattern essays | https://www.honeycomb.io/blog |
+| **Datadog blog — AI/ML** | AIOps + LLM observability | https://www.datadoghq.com/blog |
+| **Google SRE blog** | Increasingly publishing on AI-assisted on-call | https://sre.google/resources/blog |
+
+---
+
+### AI12. Books (in priority order)
+
+1. ***AI Engineering: Building Applications with Foundation Models*** — Chip Huyen (2025). The single most aligned book for this Part — read first.
+2. ***Designing Machine Learning Systems*** — Chip Huyen (2022). The SE4AI/MLOps reference SREs reach for.
+3. ***Hands-On Large Language Models*** — Jay Alammar & Maarten Grootendorst (2024). Best visual companion to embeddings, RAG, fine-tuning.
+4. ***Building LLMs for Production*** — Bouchard & Peters. Practical patterns; lighter on theory.
+5. ***Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*** (3rd ed.) — Géron. Optional but useful if your ML background is shaky.
+
+---
+
+### AI13. Key papers (skim — don't reproduce unless going PhD)
+
+| # | Paper | Why |
+|---|-------|-----|
+| 1 | Vaswani et al. 2017 — *Attention Is All You Need* | The transformer foundation. [arXiv](https://arxiv.org/abs/1706.03762) |
+| 2 | Brown et al. 2020 — *Language Models are Few-Shot Learners* (GPT-3) | Few-shot prompting works. [arXiv](https://arxiv.org/abs/2005.14165) |
+| 3 | Lewis et al. 2020 — *Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks* | The original RAG paper. [arXiv](https://arxiv.org/abs/2005.11401) |
+| 4 | Wei et al. 2022 — *Chain-of-Thought Prompting Elicits Reasoning in LLMs* | Why "think step by step" works. [arXiv](https://arxiv.org/abs/2201.11903) |
+| 5 | Yao et al. 2022 — *ReAct: Synergizing Reasoning and Acting in Language Models* | Substrate for every modern agent. [arXiv](https://arxiv.org/abs/2210.03629) |
+| 6 | Hoffmann et al. 2022 — *Training Compute-Optimal LLMs* (Chinchilla) | Sets the data-vs-params framing for model selection. [arXiv](https://arxiv.org/abs/2203.15556) |
+| 7 | Schick et al. 2023 — *Toolformer: LMs Can Teach Themselves to Use Tools* | Origin of LLM tool use. [arXiv](https://arxiv.org/abs/2302.04761) |
+| 8 | Sculley et al. 2015 — *Hidden Technical Debt in ML Systems* | The SE4AI canon — every ML platform engineer cites this. [NeurIPS](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems) |
+| 9 | Amershi et al. 2019 — *SE for ML: A Case Study* (Microsoft) | What real ML pipelines look like. [link](https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/) |
+| 10 | Anthropic 2024 — *Building Effective Agents* | The 2024 "Anthropic primer" — best opinionated agent-design doc. [link](https://www.anthropic.com/research/building-effective-agents) |
+
+---
+
+### AI14. APAC-specific signal (where AI-aware SRE pays off)
+
+| Country / company | What "AI-aware SRE" means there in 2026 |
+|---|---|
+| **Singapore (Grab, Shopee, Sea, ByteDance/TikTok, Stripe SG)** | Multi-region vLLM/TGI clusters; AI-platform team often *inside* SRE org; NL→SQL for analytics is hot. |
+| **Japan (PayPay, Mercari, Rakuten, LINE, SmartNews)** | Conservative on production AI; AIOps + log analysis are the entry points; Japanese-language LLM eval is a niche edge. |
+| **Malaysia (Petronas, Maybank, Axiata, AirAsia)** | Heavy on regulated-industry RAG (compliance docs); fewer LLM-native startups. |
+| **Thailand (Agoda, SCB, KBank, LINE MAN Wongnai)** | Agoda runs production LLM features in search/recommendations; SRE owns the inference latency SLO. |
+
+**Interview signal:** mentioning that you've *operated* a vLLM cluster or that you've shipped an RAG-over-runbooks system to your own kind cluster is the differentiator. Almost no junior-SRE candidate has hands-on AI-infra experience yet — being in the first 10% is the entire edge.
+
+---
+
+### AI15. Antipatterns to avoid
+
+- **"Let's fine-tune"** as the first instinct. Try prompts → RAG → tools → fine-tune, in that order.
+- **Ungrounded LLM in incident response.** Hallucinated runbook steps will outage you. Provenance-tag every retrieved chunk; require citations in the response.
+- **LLM in the critical path with no fallback.** Always have a deterministic fallback (cached answer, "I don't know," escalation to human).
+- **No eval suite.** "Looks good" is not an SLO. Build Ragas/Promptfoo from day 1.
+- **Vendor lock-in via SDK.** Use OpenRouter or LiteLLM so you can swap providers without rewriting application code.
+- **Letting context windows grow unbounded.** Token cost is multiplicative; truncate, summarize, or compress.
+- **Skipping safety until launch.** Prompt injection is exploitable from any untrusted text source (web pages, PDFs, even logs). Threat-model on day 1.
+
+---
+
+
 
 ### A1–A2. Plan + Code
 - ADRs (architecture decision records) + C4 model for docs; STRIDE for threat modeling; capacity math (QPS/storage/bandwidth)
