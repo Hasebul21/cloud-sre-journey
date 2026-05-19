@@ -737,9 +737,71 @@ const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 
+// Part AI renders 4 difficulty levels on one page (sourced from sreRoadmap.ai-l1..l4)
+function PartAIView() {
+  const D = window.SRE_DATA;
+  const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
+  const tilts = ["tilted-l", "tilted-r", "tilted-l", "tilted-r"];
+
+  return (
+    <div>
+      <div className="page-head">
+        <h1 className="page-title">Part AI — AI Engineering for SRE/DevOps</h1>
+        <p className="page-sub">A horizontal specialization that compounds with Parts SRE + B. AI engineering (using pre-trained models in production), not ML research. Pair with the 6-week plan in the guide.</p>
+      </div>
+
+      <div className="callout">
+        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Roadmap to Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
+      </div>
+
+      {levelKeys.map((key, idx) => {
+        const sec = D.sreRoadmap[key];
+        if (!sec) return null;
+        const resGroup = "sreLr_" + key;
+        const milGroup = "sreLm_" + key;
+        const resDone = sec.resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
+        const milDone = sec.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+
+        const renderResource = (it) => (
+          <span>
+            <ResourceTag type={it.type} />
+            {it.url ? (
+              <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+            ) : <span>{it.name}</span>}
+          </span>
+        );
+
+        return (
+          <section key={key} className={"section-card " + tilts[idx]}>
+            {idx === 0 && <span className="tape tl"></span>}
+            <h2>{sec.title}</h2>
+            <p className="lead">{sec.intro}</p>
+            {sec.why && <div className="callout" style={{marginBottom: "1rem"}}>{sec.why}</div>}
+
+            <h3 style={{marginTop: "1.5rem"}}>📚 Resources</h3>
+            <Progress done={resDone} total={sec.resources.length} />
+            <Checklist
+              items={sec.resources}
+              group={resGroup}
+              renderItem={renderResource}
+            />
+
+            <h3 style={{marginTop: "1.5rem"}}>🛠 Milestones</h3>
+            <Progress done={milDone} total={sec.milestones.length} />
+            <Checklist items={sec.milestones} group={milGroup} />
+
+            <TimeLog id={resGroup} />
+            <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, eval numbers." />
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
-  P0_DSAView, P0_ScheduleView, PartAView, PartBView, PartDView, PartEView,
+  P0_DSAView, P0_ScheduleView, PartAView, PartAIView, PartBView, PartDView, PartEView,
   PartGView, PartHView, PartIView, PartJView, HabitsView,
   SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });

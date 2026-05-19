@@ -11,6 +11,7 @@ const NAV = [
   { id: "sre-cloud",    label: "Cloud + K8s",           crumb: "Learn · SRE · Cloud + K8s",            group: "learn" },
   { id: "sre-auto",     label: "Automation",            crumb: "Learn · SRE · Automation",             group: "learn" },
   { id: "sre-rel",      label: "Observability + SRE",   crumb: "Learn · SRE · Observability + SRE",    group: "learn" },
+  { id: "part-ai",      label: "AI Engineer · L1–4",    crumb: "Learn · AI Engineering for SRE",       group: "learn" },
   { id: "part-a",       label: "Lifecycle",             crumb: "Learn · Lifecycle",                    group: "learn" },
 
   { id: "_practice", label: "Practice", group: "section" },
@@ -46,6 +47,7 @@ const VIEW_MAP = {
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
   "sre-rel":      SRE_ReliabilityView,
+  "part-ai":      PartAIView,
   "part-a":       PartAView,
   "part-b":       PartBView,
   "part-d":       PartDView,

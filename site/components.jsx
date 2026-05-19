@@ -324,6 +324,7 @@ function viewGroups() {
     "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
     "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
     "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
+    "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
     "part-a": ["lifecycle"],
     "part-b": ["phase"],
     "part-d": ["sreBooks","sreTopics","sreFlavor"],
