@@ -10,21 +10,33 @@
 
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
+   - **Level 1 — Foundations** (Stages 0–2)
+   - **Level 2 — Core SRE Skills** (Stages 3–5)
+   - **Level 3 — Advanced SRE** (Stages 6–7)
+   - **Level 4 — Mastery & Leadership** (Stage 8+)
 3. [Part AI — AI Engineering for SRE/DevOps](#part-ai)
+   - **Level 1 — Foundations** (concepts, videos, books)
+   - **Level 2 — Core Engineering** (stack, RAG, blogs, agentic playlists)
+   - **Level 3 — Advanced / Production** (agents, AIOps, infra ops, safety)
+   - **Level 4 — Specialist** (papers, APAC signal, antipatterns)
 4. [Part A — Full Software Lifecycle Mastery](#part-a)
    - [A1–A2. Plan + Code](#a1a2-plan--code)
    - [A3–A4. Build + Deploy](#a3a4-build--deploy)
    - [A5–A6. Operate + Maintain](#a5a6-operate--maintain)
    - [A7. Cost Optimization](#a7-cost-optimization)
 5. [Part B — AWS, Kubernetes & Observability (Hands-On)](#part-b)
-   - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
-   - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
-   - [Phase 3 — ELK Stack (Logging)](#phase-3--elk-stack-logging)
-   - [Phase 4 — Observability (Metrics + Traces + Alerts)](#phase-4--observability-metrics--traces--alerts)
-   - [Phase 5 — AWS Deployment](#phase-5--aws-deployment)
-   - [Phase 6 — IaC with Terraform](#phase-6--iac-with-terraform)
-   - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
+   - **Level 1 — Local & Containerized**
+     - [Phase 1 — Build & Containerize](#phase-1--build--containerize)
+     - [Phase 2 — Kubernetes (Local with kind)](#phase-2--kubernetes-local-with-kind)
+   - **Level 2 — Observability Stack**
+     - [Phase 3 — ELK Stack (Logging)](#phase-3--elk-stack-logging)
+     - [Phase 4 — Observability (Metrics + Traces + Alerts)](#phase-4--observability-metrics--traces--alerts)
+   - **Level 3 — Production on AWS**
+     - [Phase 5 — AWS Deployment](#phase-5--aws-deployment)
+     - [Phase 6 — IaC with Terraform](#phase-6--iac-with-terraform)
+     - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
 6. [Part D — System Design for SRE Interviews](#part-d)
+   - **Level 1 — Foundations** · **Level 2 — Core** · **Level 3 — Advanced** · **Level 4 — Specialist**
 7. [Part E — Coding & Programming](#part-e)
 8. [Part G — APAC Job Search](#part-g)
 9. [Part H — Interview Preparation](#part-h)
@@ -46,7 +58,7 @@
 
 > Start here: [How to Prepare for System Design Interviews](https://www.youtube.com/watch?v=Ru54dxzCyD0)
 
-**5-Step Delivery Framework:**
+**5-Step Delivery Framework (applies to all levels):**
 
 | Step | What you do | Time |
 |------|-------------|------|
@@ -55,6 +67,10 @@
 | 3. High-Level Design | Core components, data flow, API contracts | 10 min |
 | 4. Deep Dives | Bottlenecks, failure modes, specific components | 20 min |
 | 5. Trade-offs | Why X over Y; behavior at 10× scale | 5 min |
+
+#### Level 1 — Foundations
+
+> Master these before any walkthrough. ~2 weeks.
 
 **Core Concepts to Master (with videos):**
 
@@ -68,7 +84,18 @@
 | API Design (REST, gRPC, idempotency, pagination) | [API Design in System Design Interviews](https://www.youtube.com/watch?v=DQ57zYedMdQ) |
 | Data Modeling (schema design, normalization) | [Data Modeling in System Design Interviews](https://www.youtube.com/watch?v=TUcPS6dsWx4) |
 | Object Storage (S3, blob storage internals) | [Object Storage in System Design Interviews](https://www.youtube.com/watch?v=RvaMHMxHjp4) |
-| Recommendation System infrastructure | [Recommendation System Infra Basics](https://www.youtube.com/watch?v=GncgOIiMII8) |
+| Networking (DNS, HTTP/1/2/3, TCP, load balancers) | [Networking Essentials for System Design](https://www.youtube.com/watch?v=SHkbPm1Wrno) |
+
+**Easy walkthroughs:**
+
+| Problem | Video |
+|---------|-------|
+| Design Bitly (URL Shortener) | https://www.youtube.com/watch?v=iUU4O1sWtJA |
+| Design Dropbox / Google Drive | https://www.youtube.com/watch?v=_UZ1ngy-kOI |
+
+#### Level 2 — Core
+
+> Mid-level walkthroughs + storage deep dives. Most APAC mid-SRE rounds target this. ~3 weeks.
 
 **Deep Dive Videos (watch when a topic appears in a walkthrough):**
 
@@ -77,17 +104,38 @@
 | Kafka internals (topics, partitions, consumer groups) | [Kafka System Design Deep Dive](https://www.youtube.com/watch?v=DU8o-OTeoCc) |
 | Redis (sorted sets, clustering, persistence) | [Redis Deep Dive](https://www.youtube.com/watch?v=fmT5nlEkl3U) |
 | Elasticsearch (inverted index, shards, scoring) | [Elasticsearch Deep Dive](https://www.youtube.com/watch?v=PuZvF2EyfBM) |
+| DB Indexing (B-tree, geospatial, inverted index) | [DB Indexing in System Design Interviews](https://www.youtube.com/watch?v=BHCSL_ZifI0) |
+| API Gateways (rate limiting, auth, routing) | [API Gateways in System Design Interviews](https://www.youtube.com/watch?v=7-6F3b14baA) |
+| Recommendation System infrastructure | [Recommendation System Infra Basics](https://www.youtube.com/watch?v=GncgOIiMII8) |
+| Big Data Structures (Bloom filters, HyperLogLog) | [Data Structures for Big Data](https://www.youtube.com/watch?v=IgyU0iFIoqM) |
+
+**Medium walkthroughs:**
+
+| Problem | Video |
+|---------|-------|
+| Design WhatsApp | https://www.youtube.com/watch?v=cr6p0n0N-VA |
+| Design Twitter | https://www.youtube.com/watch?v=Nfa-uUHuFHg |
+| Design FB News Feed | https://www.youtube.com/watch?v=Qj4-GruzyDU |
+| Design Tinder | https://www.youtube.com/watch?v=18Fg5Akhkqw |
+| Design Live Comments | https://www.youtube.com/watch?v=LjLx0fCd1k8 |
+| Design a Distributed Rate Limiter | https://www.youtube.com/watch?v=MIJFyUPG4Z4 |
+| Design Web Crawler | https://www.youtube.com/watch?v=krsuaUp__pM |
+
+#### Level 3 — Advanced
+
+> Consistency, distributed transactions, multi-region. Senior SRE rounds. ~3 weeks.
+
+**Advanced Deep Dives:**
+
+| Topic | Video |
+|-------|-------|
 | DynamoDB (single-table design, GSI, hot partitions) | [DynamoDB Deep Dive](https://www.youtube.com/watch?v=2X2SO3Y-af8) |
 | Cassandra (wide-column, partition key, vs DynamoDB) | [Cassandra Deep Dive](https://www.youtube.com/watch?v=TD3-INhm60Q) |
-| DB Indexing (B-tree, geospatial, inverted index) | [DB Indexing in System Design Interviews](https://www.youtube.com/watch?v=BHCSL_ZifI0) |
 | CAP Theorem (CP vs AP, eventual consistency) | [CAP Theorem in System Design Interviews](https://www.youtube.com/watch?v=VdrEq0cODu4) |
-| API Gateways (rate limiting, auth, routing) | [API Gateways in System Design Interviews](https://www.youtube.com/watch?v=7-6F3b14baA) |
-| Networking (DNS, HTTP/1/2/3, TCP, load balancers) | [Networking Essentials for System Design](https://www.youtube.com/watch?v=SHkbPm1Wrno) |
 | Distributed Transactions (2PC vs Saga) | [Distributed Transactions: 2PC vs Saga](https://www.youtube.com/watch?v=DOFflggE_0Q) |
-| Big Data Structures (Bloom filters, HyperLogLog) | [Data Structures for Big Data](https://www.youtube.com/watch?v=IgyU0iFIoqM) |
 | Time Series Databases | [How do Time Series Databases Work?](https://www.youtube.com/watch?v=Qd76ZmfRs_Q) |
 
-**Design Patterns:**
+**Design Patterns (senior signal):**
 - **Real-time Updates** — WebSockets vs SSE vs Long Polling vs Short Polling
 - **Contention Management** — Redis Redlock, optimistic locking, queue-based serialization
 - **Multi-step Processes** — Saga (choreography vs orchestration), idempotent retries, outbox pattern
@@ -95,27 +143,29 @@
 - **Large Data Handling** — batch (MapReduce/Spark), stream (Kafka+Flink), columnar (Parquet/Iceberg)
 - **Long-running Jobs** — async queues (SQS/Celery), polling vs webhooks, distributed scheduling
 
-**Practice Walkthroughs (do in this order):**
+**Hard walkthroughs:**
 
-| Difficulty | Problem | Video |
-|------------|---------|-------|
-| Easy | Design Bitly (URL Shortener) | [Watch](https://www.youtube.com/watch?v=iUU4O1sWtJA) |
-| Easy | Design Dropbox / Google Drive | [Watch](https://www.youtube.com/watch?v=_UZ1ngy-kOI) |
-| Medium | Design WhatsApp | [Watch](https://www.youtube.com/watch?v=cr6p0n0N-VA) |
-| Medium | Design Twitter | [Watch](https://www.youtube.com/watch?v=Nfa-uUHuFHg) |
-| Medium | Design FB News Feed | [Watch](https://www.youtube.com/watch?v=Qj4-GruzyDU) |
-| Medium | Design Tinder | [Watch](https://www.youtube.com/watch?v=18Fg5Akhkqw) |
-| Medium | Design Live Comments | [Watch](https://www.youtube.com/watch?v=LjLx0fCd1k8) |
-| Medium | Design a Distributed Rate Limiter | [Watch](https://www.youtube.com/watch?v=MIJFyUPG4Z4) |
-| Medium | Design Web Crawler | [Watch](https://www.youtube.com/watch?v=krsuaUp__pM) |
-| Hard | Design Ticketmaster | [Watch](https://www.youtube.com/watch?v=fhdPyoO6aXI) |
-| Hard | Design Uber | [Watch](https://www.youtube.com/watch?v=lsKU38RKQSo) |
-| Hard | Design YouTube | [Watch](https://www.youtube.com/watch?v=IUrQ5_g3XKs) |
-| Hard | Design Ad Click Aggregator | [Watch](https://www.youtube.com/watch?v=Zcv_899yqhI) |
-| Hard | Design LeetCode (Online Judge) | [Watch](https://www.youtube.com/watch?v=1xHADtekTNg) |
-| Hard | Design Top-K System | [Watch](https://www.youtube.com/watch?v=y-tA2NW4LNY) |
-| Hard | Design FB Post Search | [Watch](https://www.youtube.com/watch?v=l38XL9914fs) |
-| Hard | Design Ad Click Aggregator (original version) | [Watch](https://www.youtube.com/watch?v=1oFVUT4_Yy0) |
+| Problem | Video |
+|---------|-------|
+| Design Ticketmaster | https://www.youtube.com/watch?v=fhdPyoO6aXI |
+| Design Uber | https://www.youtube.com/watch?v=lsKU38RKQSo |
+| Design YouTube | https://www.youtube.com/watch?v=IUrQ5_g3XKs |
+| Design LeetCode (Online Judge) | https://www.youtube.com/watch?v=1xHADtekTNg |
+
+#### Level 4 — Specialist
+
+> Hardest walkthroughs + specialized analytics/search systems. Staff-level interview territory.
+
+**Specialist walkthroughs:**
+
+| Problem | Video |
+|---------|-------|
+| Design Ad Click Aggregator | https://www.youtube.com/watch?v=Zcv_899yqhI |
+| Design Ad Click Aggregator (original version) | https://www.youtube.com/watch?v=1oFVUT4_Yy0 |
+| Design Top-K System | https://www.youtube.com/watch?v=y-tA2NW4LNY |
+| Design FB Post Search | https://www.youtube.com/watch?v=l38XL9914fs |
+
+Cross-reference: see **Part D Level 4 (SRE Flavor)** for SRE-specific senior questions (multi-region active-active, log pipeline at 10TB/day, etc.).
 
 ---
 
@@ -312,42 +362,54 @@ FROM employees GROUP BY dept;
 - `GROUP BY` in MySQL (pre-8.0) allowed non-aggregated columns without error — dangerous; use `ONLY_FULL_GROUP_BY` mode
 - `=` comparison is case-insensitive for strings by default (depends on collation); use `BINARY` for case-sensitive match
 
-#### Top 30 LeetCode SQL Problems (Priority Order)
+#### Top 30 LeetCode SQL Problems (sorted by difficulty)
 
-| # | Problem | Difficulty | Key Pattern |
-|---|---------|------------|-------------|
-| 175 | Combine Two Tables | Easy | LEFT JOIN, NULL for missing rows |
-| 176 | Second Highest Salary | Medium | LIMIT/OFFSET, IFNULL, subquery |
-| 177 | Nth Highest Salary | Medium | Custom function, LIMIT with variable |
-| 178 | Rank Scores | Medium | DENSE_RANK() window function |
-| 180 | Consecutive Numbers | Medium | Self-join × 3 or LAG/LEAD |
-| 181 | Employees Earning More Than Managers | Easy | Self JOIN |
-| 182 | Duplicate Emails | Easy | GROUP BY HAVING COUNT > 1 |
-| 183 | Customers Who Never Order | Easy | LEFT JOIN WHERE NULL / NOT IN |
-| 184 | Department Highest Salary | Medium | Subquery MAX per group + JOIN |
-| 185 | Department Top Three Salaries | Hard | DENSE_RANK() PARTITION BY dept |
-| 196 | Delete Duplicate Emails | Easy | DELETE with self-join or subquery |
-| 197 | Rising Temperature | Easy | Self JOIN on DATEDIFF = 1 |
-| 262 | Trips and Users | Hard | Multi-join, rate calculation, date filter |
-| 511 | Game Play Analysis I | Easy | MIN(event_date) GROUP BY player |
-| 550 | Game Play Analysis IV | Medium | DATE_ADD, correlated subquery or window |
-| 570 | Managers with ≥5 Direct Reports | Medium | GROUP BY HAVING + JOIN |
-| 577 | Employee Bonus | Easy | LEFT JOIN, NULL check in WHERE |
-| 584 | Find Customer Referee | Easy | NULL trap — use `IS NULL OR != 2` |
-| 595 | Big Countries | Easy | WHERE with OR / UNION |
-| 601 | Human Traffic of Stadium | Hard | Consecutive rows with ≥100 people |
-| 626 | Exchange Seats | Medium | CASE + MOD(id,2), edge case last row |
-| 1045 | Customers Who Bought All Products | Medium | GROUP BY HAVING COUNT(DISTINCT) |
-| 1141 | User Activity for the Past 30 Days I | Easy | DATEDIFF / DATE range filter |
-| 1179 | Reformat Department Table | Medium | Pivot: SUM(CASE WHEN month=... ) |
-| 1193 | Monthly Transactions I | Medium | DATE_FORMAT group by month, CASE SUM |
-| 1321 | Restaurant Growth | Hard | Sliding 7-day window AVG |
-| 1341 | Movie Rating | Medium | UNION ALL of two aggregates |
-| 1484 | Group Sold Products By The Date | Easy | GROUP_CONCAT with ORDER BY |
-| 1667 | Fix Names in a Table | Easy | CONCAT + UPPER + LOWER + SUBSTRING |
-| 1934 | Confirmation Rate | Medium | LEFT JOIN + AVG(CASE WHEN) |
+##### Level 1 — Easy (13 problems) — lock in JOIN / NULL / GROUP BY mechanics
 
-**Study order:** Do Easy first (175–197) to lock in JOIN/NULL/GROUP BY mechanics. Then Medium problems in order listed. 601 and 1321 are the hardest — do them last. Aim to solve each without hints; if stuck after 20 min, read the editorial then re-solve from scratch.
+| # | Problem | Key Pattern |
+|---|---------|-------------|
+| 175 | Combine Two Tables | LEFT JOIN, NULL for missing rows |
+| 181 | Employees Earning More Than Managers | Self JOIN |
+| 182 | Duplicate Emails | GROUP BY HAVING COUNT > 1 |
+| 183 | Customers Who Never Order | LEFT JOIN WHERE NULL / NOT IN |
+| 196 | Delete Duplicate Emails | DELETE with self-join or subquery |
+| 197 | Rising Temperature | Self JOIN on DATEDIFF = 1 |
+| 511 | Game Play Analysis I | MIN(event_date) GROUP BY player |
+| 577 | Employee Bonus | LEFT JOIN, NULL check in WHERE |
+| 584 | Find Customer Referee | NULL trap — use `IS NULL OR != 2` |
+| 595 | Big Countries | WHERE with OR / UNION |
+| 1141 | User Activity for the Past 30 Days I | DATEDIFF / DATE range filter |
+| 1484 | Group Sold Products By The Date | GROUP_CONCAT with ORDER BY |
+| 1667 | Fix Names in a Table | CONCAT + UPPER + LOWER + SUBSTRING |
+
+##### Level 2 — Medium (13 problems) — window functions, subqueries, pivots
+
+| # | Problem | Key Pattern |
+|---|---------|-------------|
+| 176 | Second Highest Salary | LIMIT/OFFSET, IFNULL, subquery |
+| 177 | Nth Highest Salary | Custom function, LIMIT with variable |
+| 178 | Rank Scores | DENSE_RANK() window function |
+| 180 | Consecutive Numbers | Self-join × 3 or LAG/LEAD |
+| 184 | Department Highest Salary | Subquery MAX per group + JOIN |
+| 550 | Game Play Analysis IV | DATE_ADD, correlated subquery or window |
+| 570 | Managers with ≥5 Direct Reports | GROUP BY HAVING + JOIN |
+| 626 | Exchange Seats | CASE + MOD(id,2), edge case last row |
+| 1045 | Customers Who Bought All Products | GROUP BY HAVING COUNT(DISTINCT) |
+| 1179 | Reformat Department Table | Pivot: SUM(CASE WHEN month=... ) |
+| 1193 | Monthly Transactions I | DATE_FORMAT group by month, CASE SUM |
+| 1341 | Movie Rating | UNION ALL of two aggregates |
+| 1934 | Confirmation Rate | LEFT JOIN + AVG(CASE WHEN) |
+
+##### Level 3 — Hard (4 problems) — multi-pattern, do last
+
+| # | Problem | Key Pattern |
+|---|---------|-------------|
+| 185 | Department Top Three Salaries | DENSE_RANK() PARTITION BY dept |
+| 262 | Trips and Users | Multi-join, rate calculation, date filter |
+| 601 | Human Traffic of Stadium | Consecutive rows with ≥100 people |
+| 1321 | Restaurant Growth | Sliding 7-day window AVG |
+
+**Study order:** Level 1 → Level 2 → Level 3. Aim to solve each without hints; if stuck after 20 min, read the editorial then re-solve from scratch.
 
 **Tip:** Practice in MySQL 8.0 (matches LeetCode environment). Window functions, CTEs, and DENSE_RANK work identically in PostgreSQL — switch freely for APAC company stacks.
 
@@ -356,8 +418,24 @@ FROM employees GROUP BY dept;
 ### 0F. Coding / DSA — 150 Problems
 
 > Study patterns in this order — quality > quantity. Talk through your approach before coding, start brute force, then optimize. Always test edge cases.
+>
+> **Two difficulty dimensions:**
+> - **Topic-level** — each topic is tagged `[L1]`, `[L2]`, or `[L3]` in its header below (see map).
+> - **Problem-level** — within each topic, the table has a Difficulty column (Easy / Medium / Hard) and problems are roughly ordered Easy → Hard.
 
-#### Arrays & Strings — 20 problems
+**Topic level map:**
+
+| Level | Topics | Total problems |
+|-------|--------|----------------|
+| **Level 1 — Foundations** | Arrays & Strings · Binary Search · Hash Maps & Sets · Linked Lists · Math & Bit | 55 |
+| **Level 2 — Core patterns** | Trees · Heaps / Priority Queues · Stack & Monotonic Stack · Intervals | 45 |
+| **Level 3 — Advanced** | Graphs · Dynamic Programming · Backtracking | 50 |
+
+**Study order:** complete all Level 1 topics first → then Level 2 → then Level 3. Within a topic, do all Easy before Medium before Hard.
+
+---
+
+#### [L1] Arrays & Strings — 20 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -382,7 +460,7 @@ FROM employees GROUP BY dept;
 | 19 | Minimum Window Substring | Hard | Sliding window | [LC 76](https://leetcode.com/problems/minimum-window-substring/) |
 | 20 | Sliding Window Maximum | Hard | Monotonic deque | [LC 239](https://leetcode.com/problems/sliding-window-maximum/) |
 
-#### Binary Search — 10 problems
+#### [L1] Binary Search — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -397,7 +475,7 @@ FROM employees GROUP BY dept;
 | 29 | Split Array Largest Sum | Hard | Search on answer | [LC 410](https://leetcode.com/problems/split-array-largest-sum/) |
 | 30 | Median of Two Sorted Arrays | Hard | Binary search | [LC 4](https://leetcode.com/problems/median-of-two-sorted-arrays/) |
 
-#### Hash Maps & Sets — 10 problems
+#### [L1] Hash Maps & Sets — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -412,7 +490,7 @@ FROM employees GROUP BY dept;
 | 39 | Design HashMap | Easy | Hash function + chaining | [LC 706](https://leetcode.com/problems/design-hashmap/) |
 | 40 | First Missing Positive | Hard | Index as hash | [LC 41](https://leetcode.com/problems/first-missing-positive/) |
 
-#### Trees — 20 problems
+#### [L2] Trees — 20 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -437,7 +515,7 @@ FROM employees GROUP BY dept;
 | 59 | Binary Tree Maximum Path Sum | Hard | DFS | [LC 124](https://leetcode.com/problems/binary-tree-maximum-path-sum/) |
 | 60 | Serialize and Deserialize Binary Tree | Hard | BFS/DFS | [LC 297](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/) |
 
-#### Graphs — 20 problems
+#### [L3] Graphs — 20 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -462,7 +540,7 @@ FROM employees GROUP BY dept;
 | 79 | Minimum Height Trees | Medium | Topological sort | [LC 310](https://leetcode.com/problems/minimum-height-trees/) |
 | 80 | Word Ladder | Hard | BFS shortest path | [LC 127](https://leetcode.com/problems/word-ladder/) |
 
-#### Heaps / Priority Queues — 10 problems
+#### [L2] Heaps / Priority Queues — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -477,7 +555,7 @@ FROM employees GROUP BY dept;
 | 89 | Find Median from Data Stream | Hard | Two heaps | [LC 295](https://leetcode.com/problems/find-median-from-data-stream/) |
 | 90 | Merge K Sorted Lists | Hard | Heap | [LC 23](https://leetcode.com/problems/merge-k-sorted-lists/) |
 
-#### Stack & Monotonic Stack — 10 problems
+#### [L2] Stack & Monotonic Stack — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -492,7 +570,7 @@ FROM employees GROUP BY dept;
 | 99 | Remove K Digits | Medium | Greedy + monotonic stack | [LC 402](https://leetcode.com/problems/remove-k-digits/) |
 | 100 | Largest Rectangle in Histogram | Hard | Monotonic stack | [LC 84](https://leetcode.com/problems/largest-rectangle-in-histogram/) |
 
-#### Linked Lists — 10 problems
+#### [L1] Linked Lists — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -507,7 +585,7 @@ FROM employees GROUP BY dept;
 | 109 | Copy List with Random Pointer | Medium | Hash map | [LC 138](https://leetcode.com/problems/copy-list-with-random-pointer/) |
 | 110 | Reverse Linked List II | Medium | Iterative | [LC 92](https://leetcode.com/problems/reverse-linked-list-ii/) |
 
-#### Dynamic Programming — 20 problems
+#### [L3] Dynamic Programming — 20 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -532,7 +610,7 @@ FROM employees GROUP BY dept;
 | 129 | Edit Distance | Medium | 2D DP | [LC 72](https://leetcode.com/problems/edit-distance/) |
 | 130 | Regular Expression Matching | Hard | 2D DP | [LC 10](https://leetcode.com/problems/regular-expression-matching/) |
 
-#### Backtracking — 10 problems
+#### [L3] Backtracking — 10 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -547,7 +625,7 @@ FROM employees GROUP BY dept;
 | 139 | Restore IP Addresses | Medium | Backtracking | [LC 93](https://leetcode.com/problems/restore-ip-addresses/) |
 | 140 | N-Queens | Hard | Backtracking | [LC 51](https://leetcode.com/problems/n-queens/) |
 
-#### Intervals — 5 problems
+#### [L2] Intervals — 5 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -557,7 +635,7 @@ FROM employees GROUP BY dept;
 | 144 | Minimum Number of Arrows to Burst Balloons | Medium | Sort + greedy | [LC 452](https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/) |
 | 145 | Interval List Intersections | Medium | Two pointers | [LC 986](https://leetcode.com/problems/interval-list-intersections/) |
 
-#### Math & Bit Manipulation — 5 problems
+#### [L1] Math & Bit Manipulation — 5 problems
 
 | # | Problem | Difficulty | Pattern | Link |
 |---|---------|------------|---------|------|
@@ -600,7 +678,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 0 — Prerequisites (confirm before you start)
+### Level 1 — Foundations (Stages 0–2)
+
+> **Beginner tier.** Goal: solid Linux/networking baseline plus the SRE mental model (SLOs, error budgets, toil, postmortems). No prior SRE experience required. ~6–10 weeks at 15 hrs/wk.
+
+#### Stage 0 — Prerequisites (confirm before you start)
 
 | Have | Brush up if rusty |
 |------|-------------------|
@@ -615,7 +697,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 1 — Foundations: Linux, Networking, Scripting, Git Deepening
+#### Stage 1 — Foundations: Linux, Networking, Scripting, Git Deepening
 
 > **Why it matters:** Almost every production incident eventually touches Linux, a TCP socket, or a misconfigured Git/CI artifact. Google SRE phone screens famously *will not let you past* this — it is the new ground floor.
 
@@ -645,7 +727,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 2 — Core SRE Principles: SLIs, SLOs, Error Budgets, Toil, Postmortems
+#### Stage 2 — Core SRE Principles: SLIs, SLOs, Error Budgets, Toil, Postmortems
 
 > **Why it matters:** Tools change every two years; principles don't. This is the conceptual spine. Without it, you are a DevOps tool operator, not an SRE.
 
@@ -683,7 +765,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 3 — Infrastructure & Cloud: Providers, IaC, Containers
+### Level 2 — Core SRE Skills (Stages 3–5)
+
+> **Working SRE tier.** Goal: ship and operate cloud-native services with full observability. This is where you become hireable as an SRE in APAC. ~12–16 weeks.
+
+#### Stage 3 — Infrastructure & Cloud: Providers, IaC, Containers
 
 > **Why it matters:** SREs don't click in consoles. Production infrastructure must be code: versioned, reviewable, reproducible.
 
@@ -712,7 +798,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 4 — Orchestration & Deployment: Kubernetes, CI/CD, GitOps
+#### Stage 4 — Orchestration & Deployment: Kubernetes, CI/CD, GitOps
 
 > **Why it matters:** 93% of orgs (CNCF Annual Survey) run or evaluate Kubernetes in prod. SREs own clusters, pipelines, and the connection between them.
 
@@ -743,7 +829,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 5 — Observability & Monitoring
+#### Stage 5 — Observability & Monitoring
 
 > **Why it matters:** You cannot defend an SLO you cannot measure. Observability is the *enabling layer* for every principle in Stage 2.
 
@@ -775,7 +861,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 6 — Reliability Practices: Incidents, On-Call, Chaos, Capacity
+### Level 3 — Advanced SRE (Stages 6–7)
+
+> **Senior-track tier.** Goal: lead incidents, design reliable distributed systems, build internal platforms. Senior SRE roles at Grab/Mercari/Agoda target this level. ~10–16 weeks.
+
+#### Stage 6 — Reliability Practices: Incidents, On-Call, Chaos, Capacity
 
 > **Why it matters:** Where you start *behaving* like an SRE rather than just knowing about it. The work moves from "build" to "operate, learn, harden."
 
@@ -808,7 +898,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 7 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
+#### Stage 7 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
 
 > **Why it matters:** Senior SREs are systems thinkers. They reason about how independent components interact under failure. They also design *platforms of capabilities* (the central frame in *Enterprise Roadmap to SRE*) — not bespoke help for every team.
 
@@ -840,7 +930,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Stage 8 — Leadership, Culture, Scaling SRE (ongoing, post-job-start)
+### Level 4 — Mastery & Leadership (Stage 8+)
+
+> **Staff / Principal / Manager tier.** Goal: shape how reliability is *thought about* across the org. Highest-leverage work; primarily cultural, organizational, and strategic. Ongoing post-first-job.
+
+#### Stage 8 — Leadership, Culture, Scaling SRE (ongoing, post-job-start)
 
 > **Why it matters:** Brookbank & McGhee's central thesis — enterprise SRE adoption fails *not on technology* but on culture, staffing, leadership. As you mature, the highest-leverage thing you can do is shape how reliability is *thought about*, not how it is *implemented*.
 
@@ -1185,7 +1279,11 @@ Page yourself only when it's actionable. Write the postmortem you wish you'd bee
 
 ---
 
-### AI1. Core concepts (from [roadmap.sh/ai-engineer](https://roadmap.sh/ai-engineer))
+### Level 1 — Foundations
+
+> **Beginner tier.** Goal: understand LLM mechanics + see the field once before installing anything. Reading-only. ~1 week at 12 hrs.
+
+#### L1.1 Core concepts (from [roadmap.sh/ai-engineer](https://roadmap.sh/ai-engineer))
 
 **LLM mechanics you must internalize:**
 - **Tokens & context window** — pricing, latency, and "out of context" failures all live here
@@ -1204,9 +1302,37 @@ Prompt engineering  →  RAG  →  Fine-tuning  →  Agents (+ MCP)
 
 **Prompt vs context engineering:** *context engineering* (controlling what reaches the model — retrieved chunks, tools, structured memory) scales further than clever prompts. This is the 2026 buzzword for what RAG/agent designers actually do.
 
+#### L1.2 Foundational concepts — free YouTube videos (curated)
+
+> Watch these before diving into frameworks. Pick the English playlists below; the Krishna Naik link in L2.4 has Hindi alternatives if you prefer.
+
+| Topic | Video | Channel | Link |
+|-------|-------|---------|------|
+| Math intuition for ML | Essence of Linear Algebra | 3Blue1Brown | https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab |
+| Neural net intuition | But what is a Neural Network? | 3Blue1Brown | https://www.youtube.com/watch?v=aircAruvnKk |
+| Transformers — visual | But what is a GPT? Visual intro to Transformers | 3Blue1Brown | https://www.youtube.com/watch?v=wjZofJX0v4M |
+| Build a GPT from scratch | Let's build GPT: from scratch, in code, spelled out | Andrej Karpathy | https://www.youtube.com/watch?v=kCc8FmEb1nY |
+| Tokenizer deep dive | Let's build the GPT Tokenizer | Andrej Karpathy | https://www.youtube.com/watch?v=zduSFxRajkE |
+| Full series | Neural Networks: Zero to Hero | Andrej Karpathy | https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ |
+| Intro to LLMs (1 hr) | Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
+| State of GPT | State of GPT — Microsoft Build | Andrej Karpathy | https://www.youtube.com/watch?v=bZQun8Y4L2A |
+| Attention paper | Attention Is All You Need — paper walkthrough | Yannic Kilcher | https://www.youtube.com/watch?v=iDulhoQ2pro |
+| Transformers United | Stanford CS25 — Transformers United | Stanford Online | https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM |
+| HF NLP course (video) | Hugging Face NLP Course | HuggingFace | https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o |
+| Practical DL | Practical Deep Learning for Coders (2022) | fast.ai | https://www.youtube.com/playlist?list=PLfYUBJiXbdtSvpQjSnJJ_PmDQB_VyT5iU |
+
+#### L1.3 Books — start here
+
+1. ***AI Engineering: Building Applications with Foundation Models*** — Chip Huyen (2025). The single most aligned book for this Part — read first.
+2. ***Designing Machine Learning Systems*** — Chip Huyen (2022). The SE4AI/MLOps reference SREs reach for.
+
 ---
 
-### AI2. The AI engineering stack (cherry-pick — don't install everything)
+### Level 2 — Core Engineering
+
+> **Working AI-engineer tier.** Goal: ship a real artifact — RAG over your runbooks, deployed to your kind cluster. ~3 weeks at 12 hrs.
+
+#### L2.1 The AI engineering stack (cherry-pick — don't install everything)
 
 | Layer | Pick first | Strong alternatives |
 |-------|-----------|---------------------|
@@ -1224,9 +1350,7 @@ Prompt engineering  →  RAG  →  Fine-tuning  →  Agents (+ MCP)
 
 **Heuristic:** know one pick per row well enough to ship; know the alternatives well enough to explain trade-offs in an interview.
 
----
-
-### AI3. RAG (Retrieval-Augmented Generation) — the highest-leverage pattern for SRE
+#### L2.2 RAG (Retrieval-Augmented Generation) — the highest-leverage pattern for SRE
 
 This is what lets an LLM consult **your** runbooks, postmortems, Grafana dashboards, and Slack history without hallucinating.
 
@@ -1246,110 +1370,22 @@ query → embed → top-K cosine search → stuff into prompt → LLM → answer
 
 **RAG vs fine-tuning:** RAG covers ~80% of "make the LLM know my docs" use cases. Fine-tune only when you need style/domain shift (e.g., always answer in incident-report format) or to compress repeated context. Almost every team should try RAG first.
 
----
+#### L2.3 6-week learning plan (≈ 12 hrs/week — runs beside Part SRE Stage 5+)
 
-### AI4. Agents + MCP (Model Context Protocol)
-
-**Anatomy of an agent:** loop = **perceive** (read tool output) → **reason** (LLM) → **act** (call tool / function). ReAct prompting + function calling is the substrate; orchestration frameworks add memory, retries, multi-agent coordination.
-
-**MCP (2025 standard):** Anthropic's open protocol that lets any LLM client (Claude, Cursor, your custom app) talk to any tool server. Components: **MCP host** (the app), **MCP client** (in-app connector), **MCP server** (exposes tools). Build one server, plug into every agent.
-
-**The SRE killer app:** an **incident-triage agent** with read-only tools — `get_recent_alerts`, `query_loki(service, window)`, `query_prom(promql)`, `read_runbook(name)`, `post_to_slack(channel, text)` — and a system prompt encoding your incident-response playbook. Heinrich Hartmann's framing: *LLM as copilot, not autopilot*. Always human-in-the-loop on actions that mutate state.
-
----
-
-### AI5. AIOps & SRE-specific use cases
-
-| Use case | Pattern | Where to start |
-|----------|---------|----------------|
-| **On-call copilot** | RAG over runbooks + recent postmortems; agent with read-only Prom/Loki tools | Start with retrieval; add tools only after retrieval is solid |
-| **Log summarization & clustering** | Embed log lines → HDBSCAN cluster → LLM summarizes each cluster | Built over your Part B Phase 3 ELK stack |
-| **Anomaly detection** | Classical (Prophet, isolation forest, ARIMA) ≫ LLMs for time-series. Use LLMs to *explain* anomalies, not to detect them | Grafana ML plugins, Anodot, Datadog Watchdog |
-| **NL → PromQL / SQL** | Schema-aware prompt + few-shot examples; cite BIRD benchmark numbers in interviews | Vanna.ai (OSS, SQL), PromQL is small enough to DIY |
-| **Postmortem assistant** | LLM extracts timeline from Slack + alert logs; drafts contributing-factors section | Mandatory human review — hallucination risk in incident docs is severe |
-| **Runbook generation** | LLM drafts from recent incidents → human reviews → versions into Backstage | Always human-in-the-loop |
-| **PR review for IaC** | Code-LLM + Semgrep/CodeQL on Terraform/K8s manifests | Atlantis + Aider/Claude as a comment-only reviewer |
-| **Capacity forecasting** | Prophet/NeuralProphet for traffic; LLM for narrative + alerts | Classical ML wins; LLM is the wrapper |
-
----
-
-### AI6. Operating AI in production — what SREs running ML infra need
-
-You'll likely be asked to **operate** AI infrastructure long before you're asked to **build** AI features. Surface area:
-
-| Concern | Tool / pattern |
-|---------|----------------|
-| **LLM serving** | vLLM (continuous batching, PagedAttention), TGI, TensorRT-LLM, SGLang. KV-cache, speculative decoding, FlashAttention 2/3 |
-| **Quantization** | GPTQ, AWQ, GGUF, bitsandbytes — typically 4-bit/8-bit for cost-latency trade |
-| **Throughput vs latency** | Continuous batching for throughput; speculative decoding for latency |
-| **GPU fleet** | NVIDIA H100/A100; MIG slicing; spot/on-demand mix; Lambda Labs, RunPod, CoreWeave, Modal for burst |
-| **Autoscaling** | KEDA on Kubernetes, queue-depth-based; warm pools / snapshots for cold-start |
-| **Experiment tracking** | Weights & Biases (industry default), MLflow (OSS default), Neptune, Comet |
-| **Eval pipelines in CI** | Langfuse traces + Ragas + GitHub Actions; treat eval failures like test failures |
-| **Drift / regression** | Evidently AI, Arize, WhyLabs; alert on embedding-distance drift, not just latency |
-| **Cost observability** | Per-tenant token accounting; Anthropic prompt caching; route to cheap models first, escalate to large only on failure |
-| **Secrets / IAM** | Never embed API keys in containers; rotate via External Secrets Operator + Vault |
-| **Compliance** | PII redaction in prompts; audit logs of every model call (SOC2 / HIPAA / PDPA) |
-
-**Read once, then re-read after building one project:**
-- Sculley et al. 2015 — *Hidden Technical Debt in ML Systems* (NeurIPS). [arXiv: papers.nips.cc/paper/5656](https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems)
-- Amershi et al. 2019 — *Software Engineering for ML: A Case Study* (Microsoft, ICSE-SEIP). [link](https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/)
-
----
-
-### AI7. AI Safety & Security (this is SRE work)
-
-Safety **is** reliability in this space. SREs should be the loudest voice in the room on:
-
-- **Prompt injection** — assume any text from a user / document / web page is hostile. Sanitize. Tag retrieved chunks with provenance; never let untrusted text issue tool calls.
-- **Output validation** — JSON-schema validate every structured response (Pydantic, Outlines, Instructor). A malformed JSON should fail closed, not silently drop a field.
-- **Bias & fairness** — content moderation API (OpenAI moderation, Anthropic content-mod, Perspective) as pre/post filter on user-facing surfaces.
-- **End-user IDs** — pass `user_id` through to provider APIs for abuse tracing and per-user rate limiting.
-- **Adversarial / red-team testing** — Promptfoo, DeepEval, Garak in CI; treat as a security regression suite.
-- **Data leakage** — Anthropic ZDR (Zero Data Retention), OpenAI ZDR endpoints, or on-prem inference when handling regulated data.
-- **Constraining inputs/outputs** — function calling > free-text where possible; the model can only emit values your schema allows.
-
----
-
-### AI8. 6-week learning plan (≈ 12 hrs/week — runs beside Part SRE Stage 5+)
-
-| Week | Topic | Tangible output |
-|------|-------|-----------------|
-| 1 | Concepts: tokens, context, prompting strategies, RAG vs fine-tune. Watch DeepLearning.AI "ChatGPT Prompt Engineering for Developers" (free, 1 hr). | Notes repo `sre-ai/concepts.md` |
-| 2 | Stack hands-on: call Anthropic + Ollama from Python; embed with sentence-transformers; pgvector quickstart. | `sre-ai/hello-rag` MVP |
-| 3 | Build a **runbook RAG** over your Part B repo's `docs/` directory. Add Langfuse traces. | `sre-ai/runbook-rag` deployed to kind |
-| 4 | Add an **incident-triage agent** with read-only Prometheus + Loki tools using **MCP**. | `sre-ai/oncall-copilot` |
-| 5 | Operate vLLM locally; benchmark Llama 3.1 8B (4-bit) vs hosted `claude-haiku-4-5` on cost / latency / quality. | Blog post: "vLLM vs hosted Claude for SRE workloads" |
-| 6 | Eval pipeline (Ragas + Langfuse) + adversarial tests (Promptfoo); deploy oncall-copilot with Helm; write SLO doc. | `sre-ai/oncall-copilot` v1.0 + Helm chart + SLO |
+| Week | Level | Topic | Tangible output |
+|------|-------|-------|-----------------|
+| 1 | L1 | Concepts: tokens, context, prompting strategies, RAG vs fine-tune. Watch DeepLearning.AI "ChatGPT Prompt Engineering for Developers" (free, 1 hr). | Notes repo `sre-ai/concepts.md` |
+| 2 | L2 | Stack hands-on: call Anthropic + Ollama from Python; embed with sentence-transformers; pgvector quickstart. | `sre-ai/hello-rag` MVP |
+| 3 | L2 | Build a **runbook RAG** over your Part B repo's `docs/` directory. Add Langfuse traces. | `sre-ai/runbook-rag` deployed to kind |
+| 4 | L3 | Add an **incident-triage agent** with read-only Prometheus + Loki tools using **MCP**. | `sre-ai/oncall-copilot` |
+| 5 | L3 | Operate vLLM locally; benchmark Llama 3.1 8B (4-bit) vs hosted `claude-haiku-4-5` on cost / latency / quality. | Blog post: "vLLM vs hosted Claude for SRE workloads" |
+| 6 | L3 | Eval pipeline (Ragas + Langfuse) + adversarial tests (Promptfoo); deploy oncall-copilot with Helm; write SLO doc. | `sre-ai/oncall-copilot` v1.0 + Helm chart + SLO |
 
 > **Deliverable to pin on GitHub:** `sre-ai/oncall-copilot` is the artifact you should walk into an APAC interview with. It compounds Part B (K8s/observability) + Part AI (RAG + agents).
 
----
+#### L2.4 Agentic AI — Krishna Naik's curated playlists ([repo](https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI))
 
-### AI9. Foundational concepts — free YouTube videos (curated)
-
-> Short list — watch these before diving into frameworks. Pick the English playlists below; the Krishna Naik link in AI10 has a Hindi alternative if you prefer.
-
-| Topic | Video | Channel | Link |
-|-------|-------|---------|------|
-| Math intuition for ML | Essence of Linear Algebra | 3Blue1Brown | https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab |
-| Neural net intuition | But what is a Neural Network? | 3Blue1Brown | https://www.youtube.com/watch?v=aircAruvnKk |
-| Transformers — visual | But what is a GPT? Visual intro to Transformers | 3Blue1Brown | https://www.youtube.com/watch?v=wjZofJX0v4M |
-| Build a GPT from scratch | Let's build GPT: from scratch, in code, spelled out | Andrej Karpathy | https://www.youtube.com/watch?v=kCc8FmEb1nY |
-| Tokenizer deep dive | Let's build the GPT Tokenizer | Andrej Karpathy | https://www.youtube.com/watch?v=zduSFxRajkE |
-| Full series | Neural Networks: Zero to Hero | Andrej Karpathy | https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ |
-| Intro to LLMs (1 hr) | Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
-| State of GPT | State of GPT — Microsoft Build | Andrej Karpathy | https://www.youtube.com/watch?v=bZQun8Y4L2A |
-| Attention paper | Attention Is All You Need — paper walkthrough | Yannic Kilcher | https://www.youtube.com/watch?v=iDulhoQ2pro |
-| Transformers United | Stanford CS25 — Transformers United | Stanford Online | https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM |
-| HF NLP course (video) | Hugging Face NLP Course | HuggingFace | https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o |
-| Practical DL | Practical Deep Learning for Coders (2022) | fast.ai | https://www.youtube.com/playlist?list=PLfYUBJiXbdtSvpQjSnJJ_PmDQB_VyT5iU |
-
----
-
-### AI10. Agentic AI — Krishna Naik's curated playlists ([repo](https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI))
-
-> Most useful for the Bangladeshi/South-Asian audience because of Hindi options + end-to-end project format. Pair with the English-language deep dives in AI9 — Krishna Naik is strong on practical project builds, lighter on first-principles theory.
+> Most useful for the Bangladeshi/South-Asian audience because of Hindi options + end-to-end project format. Pair with the English-language deep dives in L1.2 — Krishna Naik is strong on practical project builds, lighter on first-principles theory.
 
 | # | Topic | Playlist / video | Link |
 |---|-------|------------------|------|
@@ -1364,7 +1400,7 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 | 9 | Multimodal RAG | MultiModal RAGs | https://www.youtube.com/playlist?list=PLQxDHpeGU14D6dm0rmAXhdLeLYlX2zk7p |
 | 10 | MCP | Model Context Protocol playlist | https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK |
 
-**Agentic frameworks called out in the repo (pick one, then learn the others by analogy):**
+**Agentic frameworks (pick one, then learn the others by analogy):**
 
 | Framework | One-line | Docs |
 |-----------|----------|------|
@@ -1376,11 +1412,7 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 | **Pydantic-AI** | Type-safe agents leaning on Pydantic v2 | https://ai.pydantic.dev |
 | **Claude Agent SDK** | Anthropic's official SDK; pairs natively with MCP | https://docs.anthropic.com/agents |
 
----
-
-### AI11. Blogs and newsletters (read weekly, not all at once)
-
-> The single best signal-to-noise heuristic in this space: **scan, don't subscribe to everything**. Star 5–7 and read them when posts drop.
+#### L2.5 Blogs & newsletters (scan weekly — don't subscribe to everything)
 
 **Practitioner blogs (start here):**
 
@@ -1421,17 +1453,70 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 
 ---
 
-### AI12. Books (in priority order)
+### Level 3 — Advanced / Production
 
-1. ***AI Engineering: Building Applications with Foundation Models*** — Chip Huyen (2025). The single most aligned book for this Part — read first.
-2. ***Designing Machine Learning Systems*** — Chip Huyen (2022). The SE4AI/MLOps reference SREs reach for.
+> **Senior AI-engineer tier.** Goal: operate AI infrastructure (vLLM clusters, eval pipelines, drift monitoring) and ship agentic systems safely. ~2 weeks at 12 hrs.
+
+#### L3.1 Agents + MCP (Model Context Protocol)
+
+**Anatomy of an agent:** loop = **perceive** (read tool output) → **reason** (LLM) → **act** (call tool / function). ReAct prompting + function calling is the substrate; orchestration frameworks add memory, retries, multi-agent coordination.
+
+**MCP (2025 standard):** Anthropic's open protocol that lets any LLM client (Claude, Cursor, your custom app) talk to any tool server. Components: **MCP host** (the app), **MCP client** (in-app connector), **MCP server** (exposes tools). Build one server, plug into every agent.
+
+**The SRE killer app:** an **incident-triage agent** with read-only tools — `get_recent_alerts`, `query_loki(service, window)`, `query_prom(promql)`, `read_runbook(name)`, `post_to_slack(channel, text)` — and a system prompt encoding your incident-response playbook. Heinrich Hartmann's framing: *LLM as copilot, not autopilot*. Always human-in-the-loop on actions that mutate state.
+
+#### L3.2 AIOps & SRE-specific use cases
+
+| Use case | Pattern | Where to start |
+|----------|---------|----------------|
+| **On-call copilot** | RAG over runbooks + recent postmortems; agent with read-only Prom/Loki tools | Start with retrieval; add tools only after retrieval is solid |
+| **Log summarization & clustering** | Embed log lines → HDBSCAN cluster → LLM summarizes each cluster | Built over your Part B Phase 3 ELK stack |
+| **Anomaly detection** | Classical (Prophet, isolation forest, ARIMA) ≫ LLMs for time-series. Use LLMs to *explain* anomalies, not to detect them | Grafana ML plugins, Anodot, Datadog Watchdog |
+| **NL → PromQL / SQL** | Schema-aware prompt + few-shot examples; cite BIRD benchmark numbers in interviews | Vanna.ai (OSS, SQL), PromQL is small enough to DIY |
+| **Postmortem assistant** | LLM extracts timeline from Slack + alert logs; drafts contributing-factors section | Mandatory human review — hallucination risk in incident docs is severe |
+| **Runbook generation** | LLM drafts from recent incidents → human reviews → versions into Backstage | Always human-in-the-loop |
+| **PR review for IaC** | Code-LLM + Semgrep/CodeQL on Terraform/K8s manifests | Atlantis + Aider/Claude as a comment-only reviewer |
+| **Capacity forecasting** | Prophet/NeuralProphet for traffic; LLM for narrative + alerts | Classical ML wins; LLM is the wrapper |
+
+#### L3.3 Operating AI in production — what SREs running ML infra need
+
+You'll likely be asked to **operate** AI infrastructure long before you're asked to **build** AI features. Surface area:
+
+| Concern | Tool / pattern |
+|---------|----------------|
+| **LLM serving** | vLLM (continuous batching, PagedAttention), TGI, TensorRT-LLM, SGLang. KV-cache, speculative decoding, FlashAttention 2/3 |
+| **Quantization** | GPTQ, AWQ, GGUF, bitsandbytes — typically 4-bit/8-bit for cost-latency trade |
+| **Throughput vs latency** | Continuous batching for throughput; speculative decoding for latency |
+| **GPU fleet** | NVIDIA H100/A100; MIG slicing; spot/on-demand mix; Lambda Labs, RunPod, CoreWeave, Modal for burst |
+| **Autoscaling** | KEDA on Kubernetes, queue-depth-based; warm pools / snapshots for cold-start |
+| **Experiment tracking** | Weights & Biases (industry default), MLflow (OSS default), Neptune, Comet |
+| **Eval pipelines in CI** | Langfuse traces + Ragas + GitHub Actions; treat eval failures like test failures |
+| **Drift / regression** | Evidently AI, Arize, WhyLabs; alert on embedding-distance drift, not just latency |
+| **Cost observability** | Per-tenant token accounting; Anthropic prompt caching; route to cheap models first, escalate to large only on failure |
+| **Secrets / IAM** | Never embed API keys in containers; rotate via External Secrets Operator + Vault |
+| **Compliance** | PII redaction in prompts; audit logs of every model call (SOC2 / HIPAA / PDPA) |
+
+#### L3.4 AI Safety & Security (this is SRE work)
+
+Safety **is** reliability in this space. SREs should be the loudest voice in the room on:
+
+- **Prompt injection** — assume any text from a user / document / web page is hostile. Sanitize. Tag retrieved chunks with provenance; never let untrusted text issue tool calls.
+- **Output validation** — JSON-schema validate every structured response (Pydantic, Outlines, Instructor). A malformed JSON should fail closed, not silently drop a field.
+- **Bias & fairness** — content moderation API (OpenAI moderation, Anthropic content-mod, Perspective) as pre/post filter on user-facing surfaces.
+- **End-user IDs** — pass `user_id` through to provider APIs for abuse tracing and per-user rate limiting.
+- **Adversarial / red-team testing** — Promptfoo, DeepEval, Garak in CI; treat as a security regression suite.
+- **Data leakage** — Anthropic ZDR (Zero Data Retention), OpenAI ZDR endpoints, or on-prem inference when handling regulated data.
+- **Constraining inputs/outputs** — function calling > free-text where possible; the model can only emit values your schema allows.
+
+#### L3.5 Advanced reading — books & papers
+
+**Books (after L1.3):**
+
 3. ***Hands-On Large Language Models*** — Jay Alammar & Maarten Grootendorst (2024). Best visual companion to embeddings, RAG, fine-tuning.
 4. ***Building LLMs for Production*** — Bouchard & Peters. Practical patterns; lighter on theory.
 5. ***Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow*** (3rd ed.) — Géron. Optional but useful if your ML background is shaky.
 
----
-
-### AI13. Key papers (skim — don't reproduce unless going PhD)
+**Papers (skim — don't reproduce unless going PhD):**
 
 | # | Paper | Why |
 |---|-------|-----|
@@ -1448,7 +1533,11 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 
 ---
 
-### AI14. APAC-specific signal (where AI-aware SRE pays off)
+### Level 4 — Specialist / Cross-cutting
+
+> **Senior+ tier.** Career and pattern-recognition material. Read once for context, revisit when planning a job switch or leading a project. Cross-cuts all earlier levels.
+
+#### L4.1 APAC-specific signal (where AI-aware SRE pays off)
 
 | Country / company | What "AI-aware SRE" means there in 2026 |
 |---|---|
@@ -1459,9 +1548,7 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 
 **Interview signal:** mentioning that you've *operated* a vLLM cluster or that you've shipped an RAG-over-runbooks system to your own kind cluster is the differentiator. Almost no junior-SRE candidate has hands-on AI-infra experience yet — being in the first 10% is the entire edge.
 
----
-
-### AI15. Antipatterns to avoid
+#### L4.2 Antipatterns to avoid
 
 - **"Let's fine-tune"** as the first instinct. Try prompts → RAG → tools → fine-tune, in that order.
 - **Ungrounded LLM in incident response.** Hallucinated runbook steps will outage you. Provenance-tag every retrieved chunk; require citations in the response.
@@ -1473,7 +1560,7 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 
 ---
 
-
+## <a id="part-a"></a>Part A — Full Software Lifecycle Mastery
 
 ### A1–A2. Plan + Code
 - ADRs (architecture decision records) + C4 model for docs; STRIDE for threat modeling; capacity math (QPS/storage/bandwidth)
@@ -1535,7 +1622,11 @@ todo-app/
 
 ---
 
-### Phase 1 — Build & Containerize
+### Level 1 — Local & Containerized (Phases 1–2)
+
+> **Beginner tier.** Goal: app runs in Docker locally and on a local Kubernetes cluster (kind). No cloud accounts needed. ~3–4 weeks.
+
+#### Phase 1 — Build & Containerize
 
 **Goal:** Run the app locally with Docker Compose.
 
@@ -1565,7 +1656,7 @@ ENTRYPOINT ["/todo-api"]
 
 ---
 
-### Phase 2 — Kubernetes (Local with kind)
+#### Phase 2 — Kubernetes (Local with kind)
 
 **Goal:** Deploy the Todo app on a local Kubernetes cluster.
 
@@ -1633,7 +1724,11 @@ helm template todo ./helm/todo-app | kubectl apply -f -
 
 ---
 
-### Phase 3 — ELK Stack (Logging)
+### Level 2 — Observability Stack (Phases 3–4)
+
+> **Core tier.** Goal: full observability for a real service — logs, metrics, traces, alerts. The skill set every APAC SRE interview probes. ~4–6 weeks.
+
+#### Phase 3 — ELK Stack (Logging)
 
 **Goal:** Collect, ship, and search all logs from the Todo app via ELK.
 
@@ -1691,7 +1786,7 @@ filter {
 
 ---
 
-### Phase 4 — Observability (Metrics + Traces + Alerts)
+#### Phase 4 — Observability (Metrics + Traces + Alerts)
 
 **Goal:** Full three-pillar observability on the Todo app.
 
@@ -1785,7 +1880,11 @@ helm install jaeger jaegertracing/jaeger -n monitoring
 
 ---
 
-### Phase 5 — AWS Deployment
+### Level 3 — Production on AWS (Phases 5–7)
+
+> **Advanced tier.** Goal: ship the same app to AWS with EKS + RDS + ALB, codified in Terraform, deployed via GitHub Actions. Senior-SRE interview territory. ~6–10 weeks.
+
+#### Phase 5 — AWS Deployment
 
 **Goal:** Deploy the production-grade Todo app on AWS using core services.
 
@@ -1945,7 +2044,7 @@ annotations:
 
 ---
 
-### Phase 6 — IaC with Terraform
+#### Phase 6 — IaC with Terraform
 
 **Folder structure (remote state on S3 + DynamoDB lock):**
 ```
@@ -1990,7 +2089,7 @@ terraform output        # print outputs (EKS endpoint, RDS address, etc.)
 
 ---
 
-### Phase 7 — CI/CD Pipeline (GitHub Actions)
+#### Phase 7 — CI/CD Pipeline (GitHub Actions)
 
 ```yaml
 # .github/workflows/deploy.yml
@@ -2060,27 +2159,91 @@ jobs:
 
 ## <a id="part-d"></a>Part D — System Design for SRE/DevOps Interviews
 
-SRE system design differs from SWE — interviewers also ask about reliability, observability, deployment, and cost.
+SRE system design differs from SWE — interviewers also ask about reliability, observability, deployment, and cost. Sorted by difficulty below; expect L1–L2 in junior rounds, L2–L3 in mid, L3–L4 in senior.
 
-### Core Resources
-1. **"Designing Data-Intensive Applications"** (Kleppmann) — THE book. Non-negotiable. All 12 chapters.
-2. **"System Design Interview Vol 1 & 2"** (Alex Xu) — interview-focused companion.
-3. **ByteByteGo** newsletter + platform (Alex Xu's content).
-4. **"Understanding Distributed Systems"** (Vitillo) — good middle-ground depth.
+---
 
-### SRE-Specific Topics
-- Multi-region, multi-AZ HA; database scaling: CDC, sharding, read replicas
-- Caching strategies; message queues (Kafka vs RabbitMQ vs SQS — know when to use each)
-- Circuit breakers, bulkheads, idempotency in distributed systems
-- Consistency models: strong, eventual, causal, read-your-writes
+### Level 1 — Foundations
 
-### SRE Flavor Questions (practice these specifically)
-- Design a CI/CD pipeline for 200 microservices
-- Design monitoring/alerting for a system handling 1M req/sec
-- Design a log aggregation pipeline for 10TB/day
-- Design a multi-region active-active database setup
-- Design a blue-green deployment system across 3 regions
-- Design a feature flag service or secrets management system
+> **Beginner tier.** Goal: vocabulary + back-of-envelope math + the canonical primitives. Read first; you cannot reason about anything else without these.
+
+**Topics:**
+- Back-of-envelope estimation: QPS, storage, bandwidth (e.g., "design Twitter at 500M DAU"). The single skill that interviewers test for in *every* round.
+- Read vs write paths; stateless vs stateful services
+- Load balancers (L4 vs L7); reverse proxies (nginx, Envoy)
+- DNS basics, CDN basics, HTTPS basics
+- Caching primitives: TTL, eviction policies (LRU/LFU), cache-aside vs write-through
+
+**Resources:**
+1. **"System Design Interview Vol 1"** (Alex Xu) — start here. Easy reading, mock-interview-shaped.
+2. **ByteByteGo** newsletter + YouTube — visual explainers; pairs with Alex Xu's books.
+3. Hello Interview *Basics* playlist (see Part J).
+
+---
+
+### Level 2 — Core
+
+> **Working tier.** Goal: design a typical mid-scale system end-to-end. This is what mid-level (3–5 YOE) APAC SRE rounds probe.
+
+**Topics:**
+- **Database scaling:** read replicas, sharding strategies (range / hash / geo), partitioning trade-offs
+- **Caching strategies:** Redis, Memcached, cache-aside vs read-through vs write-back; cache stampede; consistent hashing
+- **Message queues:** Kafka vs RabbitMQ vs SQS — durability vs throughput vs ordering vs delivery semantics; know when to use each
+- **API design:** REST, gRPC, GraphQL trade-offs; idempotency keys; pagination
+- **Background processing:** workers + queues; cron vs event-driven
+- **Storage tiers:** object (S3) vs block (EBS) vs file (EFS); hot/warm/cold
+
+**Resources:**
+1. **"Designing Data-Intensive Applications"** (Kleppmann) — THE book. Chapters 1–6 are L2; the rest are L3. Non-negotiable.
+2. **"Understanding Distributed Systems"** (Vitillo) — good middle-ground depth between Alex Xu and DDIA.
+3. **"System Design Interview Vol 2"** (Alex Xu) — harder walkthroughs.
+4. Hello Interview *Deep Dives* + *Walkthroughs* (Easy + Medium) — see Part J.
+
+---
+
+### Level 3 — Advanced
+
+> **Senior tier.** Goal: design highly-available, multi-region systems with explicit reliability budgets. Senior SRE rounds (Grab, Mercari Staff+) target this depth.
+
+**Topics:**
+- **High availability:** multi-AZ, multi-region (active-active vs active-passive); failover strategies; quorum
+- **Consistency models:** strong, eventual, causal, read-your-writes, monotonic-reads — when to pick which
+- **Consensus:** Raft and Paxos *enough to reason about* (not necessarily to implement); leader election; split-brain
+- **Distributed transactions:** 2PC, Saga pattern, outbox pattern; idempotency
+- **Resilience patterns:** circuit breakers, bulkheads, timeouts, retries with jitter, hedged requests, dead-letter queues
+- **CDC pipelines:** Debezium → Kafka → consumers; log-based replication
+- **Geo-distributed databases:** Spanner, CockroachDB, Aurora Global, DynamoDB Global Tables — trade-offs
+
+**Resources:**
+1. **DDIA chapters 7–12** — transactions, consistency, consensus, batch + stream
+2. **MIT 6.824 lectures** (see Part SRE → Foundational University Course Videos)
+3. Hello Interview *Walkthroughs* (Hard tier — Uber, YouTube, Ad Click Aggregator)
+4. **"Database Internals"** (Petrov) — for storage-engine-level depth
+
+---
+
+### Level 4 — Specialist (SRE Flavor)
+
+> **Staff/Principal tier.** Goal: design *for reliability as a first-class output*, not just functionality. SRE-flavored questions that explicitly test deployment, observability, and cost — where SRE candidates beat SWE candidates.
+
+**SRE-flavored interview questions (practice these specifically):**
+
+| Difficulty | Question | What it tests |
+|------------|----------|---------------|
+| Hard | Design a CI/CD pipeline for 200 microservices | Build orchestration, dependency graphs, rollout strategy |
+| Hard | Design monitoring + alerting for a system handling 1M req/sec | SLOs, burn-rate alerts, cardinality control, alert routing |
+| Hard | Design a log aggregation pipeline for 10 TB/day | Ingest fan-in, retention tiers, query latency, cost |
+| Hard | Design a multi-region active-active database setup | Conflict resolution, replication lag, failover semantics |
+| Hard | Design a blue-green deployment system across 3 regions | Traffic shifting, health gates, rollback automation |
+| Hard | Design a feature-flag service | Real-time updates at edge, audit, per-tenant config |
+| Hard | Design a secrets-management system | KMS, rotation, sealed secrets, audit, breakglass |
+| Specialist | Design an AI inference platform (vLLM cluster) for 100k req/min | GPU scheduling, KV-cache, autoscaling, cost (cross-reference Part AI L3.3) |
+
+**Resources:**
+1. **"Building Secure & Reliable Systems"** (Google) — the SRE+Security book; covers system-design-for-reliability explicitly.
+2. **Google SRE workbook** chapters on SLO implementation + practical alerting.
+3. **High Scalability blog** — real-world architectures at scale.
+4. **AWS Architecture Blog** — Well-Architected reviews of production systems.
 
 ---
 
