@@ -46,6 +46,16 @@ TEMPLATE = """<!DOCTYPE html>
 <style>
 __STYLES__
 </style>
+<script>
+// Apply theme synchronously before paint to avoid flash.
+(function() {
+  try {
+    var t = localStorage.getItem("sre:theme");
+    if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    if (t === "dark") document.documentElement.dataset.theme = "dark";
+  } catch (e) {}
+})();
+</script>
 </head>
 <body>
 <div id="root"></div>

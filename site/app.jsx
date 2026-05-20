@@ -67,6 +67,20 @@ function renderCrumb(crumb) {
   return <>{head}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="leaf">{leaf}</span></>;
 }
 
+function ThemeToggle() {
+  const [theme, setTheme] = useState(() =>
+    document.documentElement.dataset.theme === "dark" ? "dark" : "light"
+  );
+  const flip = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    if (next === "dark") document.documentElement.dataset.theme = "dark";
+    else delete document.documentElement.dataset.theme;
+    try { localStorage.setItem("sre:theme", next); } catch (e) {}
+    setTheme(next);
+  };
+  return <button onClick={flip} title="Toggle dark / light mode">{theme === "dark" ? "light mode" : "dark mode"}</button>;
+}
+
 function App() {
   const [view, setView] = useState(() => (location.hash.replace("#", "") || DEFAULT_VIEW));
   useEffect(() => {
@@ -133,6 +147,8 @@ function App() {
               alert("Copied to clipboard!");
             }
           }}>export</button>
+          {' · '}
+          <ThemeToggle />
         </div>
       </aside>
 

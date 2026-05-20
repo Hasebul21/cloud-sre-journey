@@ -8,6 +8,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<script>
+// Apply theme synchronously before paint to avoid flash.
+(function() {
+  try {
+    var t = localStorage.getItem("sre:theme");
+    if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    if (t === "dark") document.documentElement.dataset.theme = "dark";
+  } catch (e) {}
+})();
+</script>
 </head>
 <body>
 <div id="root"></div>
