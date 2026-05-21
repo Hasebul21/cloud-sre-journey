@@ -17,12 +17,7 @@ function OverviewView() {
           <ul className="checklist">
             {Object.entries({
               "System Design": ["sdConcepts","sdDeep","sdWalk","sdPlaylists","sdChannels","sdReading"],
-              "Interview Prep · Behavioral / LLD / SQL / DSA": ["star","lldV","lldP","sqlC","sqlP","dsa"],
-              "Part B · Hands-on Phases": ["phase"],
-              "Part E · Coding": ["goPath","otherSk"],
-              "Part H · Interview prep": ["loop","qAsk"],
-              "Part I · Branding": ["repos","blog","certs"],
-              "Part J · Resources": ["books","courses"],
+              "Interview Prep · Behavioral / LLD / SQL": ["star","lldV","lldP","sqlC","sqlP"],
             }).map(([label, groups]) => {
               const done = groups.reduce((s,g) => s + (all.groups[g]?.done || 0), 0);
               const total = groups.reduce((s,g) => s + (all.groups[g]?.total || 0), 0);
@@ -77,14 +72,15 @@ function P0_SysDesignView() {
 
   const count = (items, set) => items.filter(it => set[it.id]).length;
   const fwDone = count(SD_FRAMEWORK, fwSet);
-  const plDone = count(D.sdPlaylists, plSet);
+  const plFlat = D.sdPlaylists.flatMap(i => i.videos ? i.videos : (i.id ? [i] : []));
+  const plDone = count(plFlat, plSet);
   const cnDone = count(D.sysDesignConcepts, cnSet);
   const ddDone = count(D.sysDesignDeepDives, ddSet);
   const wkDone = count(D.sysDesignWalkthroughs, wkSet);
   const chDone = count(D.sdChannels, chSet);
   const rdDone = count(D.sdReading, rdSet);
 
-  const total = SD_FRAMEWORK.length + D.sdPlaylists.length + D.sysDesignConcepts.length + D.sysDesignDeepDives.length + D.sysDesignWalkthroughs.length + D.sdChannels.length + D.sdReading.length;
+  const total = SD_FRAMEWORK.length + plFlat.length + D.sysDesignConcepts.length + D.sysDesignDeepDives.length + D.sysDesignWalkthroughs.length + D.sdChannels.length + D.sdReading.length;
   const done = fwDone + plDone + cnDone + ddDone + wkDone + chDone + rdDone;
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
 
@@ -133,8 +129,28 @@ function P0_SysDesignView() {
         <Checklist items={SD_FRAMEWORK} group="sd-framework" />
       </ListSection>
 
-      <ListSection title="Playlists" lead="Curated YouTube playlists — Hello Interview is the canonical source." done={plDone} total={D.sdPlaylists.length}>
-        <Checklist items={D.sdPlaylists} group="sdPlaylists" renderItem={renderResource} />
+      <ListSection title="Playlists" lead="Every video extracted, grouped by source. Hello Interview is canonical; Piyush Garg and Engineering Digest are supplementary." done={plDone} total={plFlat.length}>
+        {D.sdPlaylists.map((item, idx) => {
+          if (item.videos) {
+            return (
+              <div key={item.key || idx} className="playlist-group">
+                <h3 className="playlist-group-title">
+                  <ResourceTag type="playlist" />
+                  <a href={item.url} target="_blank" rel="noopener">{item.name}</a>
+                  <span className="playlist-group-count">{item.videos.length} videos</span>
+                </h3>
+                <Checklist
+                  items={item.videos}
+                  group="sdPlaylists"
+                  renderItem={item.videos.some(v => v.level) ? renderWalkthrough : renderResource}
+                />
+              </div>
+            );
+          }
+          return (
+            <Checklist key={item.id} items={[item]} group="sdPlaylists" renderItem={renderResource} />
+          );
+        })}
       </ListSection>
 
       <ListSection title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." done={cnDone} total={D.sysDesignConcepts.length}>

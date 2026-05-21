@@ -245,7 +245,7 @@ function buildGroupIndex(D) {
   g.sdConcepts = D.sysDesignConcepts.map(i => i.id);
   g.sdDeep = D.sysDesignDeepDives.map(i => i.id);
   g.sdWalk = D.sysDesignWalkthroughs.map(i => i.id);
-  g.sdPlaylists = D.sdPlaylists.map(i => i.id);
+  g.sdPlaylists = D.sdPlaylists.flatMap(i => i.videos ? i.videos.map(v => v.id) : (i.id ? [i.id] : []));
   g.sdChannels = D.sdChannels.map(i => i.id);
   g.sdReading = D.sdReading.map(i => i.id);
   g.star = D.starStories.map(i => i.id);

@@ -14,15 +14,6 @@ const NAV = [
   { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice / Behavioral",                group: "practice" },
   { id: "p0-lld",       label: "LLD",                   crumb: "Practice / Low-Level Design",          group: "practice" },
   { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
-  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice / DSA",                       group: "practice" },
-  { id: "part-b",       label: "Hands-on",              crumb: "Practice / Hands-on phases",           group: "practice" },
-  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice / Coding (Part E)",           group: "practice" },
-
-  { id: "_apply", label: "Apply", group: "section" },
-  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply / APAC jobs",                    group: "apply" },
-  { id: "part-h",       label: "Interview loop",        crumb: "Apply / Interview prep",               group: "apply" },
-  { id: "part-i",       label: "Branding",              crumb: "Apply / Personal branding",            group: "apply" },
-  { id: "part-j",       label: "Resources",             crumb: "Apply / Resources",                    group: "apply" },
 ];
 
 const DEFAULT_VIEW = "sre-fnd";

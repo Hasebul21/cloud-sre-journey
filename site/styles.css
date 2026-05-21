@@ -845,6 +845,43 @@ button {
   margin: 4px 0 8px;
 }
 
+.playlist-group {
+  margin: 14px 0 4px;
+}
+.playlist-group:first-of-type {
+  margin-top: 10px;
+}
+.playlist-group + .playlist-group {
+  border-top: 1px dashed var(--line);
+  padding-top: 12px;
+}
+.playlist-group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.playlist-group-title a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ink-3);
+}
+.playlist-group-title a:hover {
+  color: var(--hand);
+  border-bottom-color: var(--hand);
+}
+.playlist-group-count {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-3);
+  margin-left: auto;
+}
+
 .sparkbar {
   display: inline-flex;
   align-items: flex-end;
