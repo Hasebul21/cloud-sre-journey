@@ -1028,48 +1028,80 @@ window.SRE_DATA = {
   // ────────────────────────────────────────────────────────────────
   // PART 0 — Interview Prep
   // ────────────────────────────────────────────────────────────────
+  sdPlaylists: [
+    { id: "sdpl-hi-all",     type: "channel",  name: "Hello Interview · all playlists",               url: "https://www.youtube.com/@hello_interview/playlists" },
+    { id: "sdpl-hi-basics",  type: "playlist", name: "Hello Interview · Basics",                      url: "https://www.youtube.com/playlist?list=PL5q3E8eRUieVFeK1oLahJ8KONkAxDpqk2" },
+    { id: "sdpl-hi-deep",    type: "playlist", name: "Hello Interview · Deep Dives",                  url: "https://www.youtube.com/playlist?list=PL5q3E8eRUieUHnsz0rh0W6AzwdVJBwEK6" },
+    { id: "sdpl-hi-walk",    type: "playlist", name: "Hello Interview · System Design Walkthroughs",  url: "https://www.youtube.com/playlist?list=PL5q3E8eRUieWtYLmRU3z94-vGRcwKr9tM" },
+    { id: "sdpl-hi-lld",     type: "playlist", name: "Hello Interview · Low-Level Design",            url: "https://www.youtube.com/playlist?list=PL5q3E8eRUieUQCl6CAF4AlOZnmICKmAec" },
+    { id: "sdpl-hi-meta",    type: "playlist", name: "Hello Interview · Behavioral & process",        url: "https://www.youtube.com/playlist?list=PL5q3E8eRUieUwRxPDt_JkpFI407PyXZth" },
+    { id: "sdpl-piyush",     type: "playlist", name: "Piyush Garg · System Design (14 videos)",       url: "https://www.youtube.com/watch?v=lFeYU31TnQ8&list=PLinedj3B30sBlBWRox2V2tg9QJ2zr4M3o" },
+    { id: "sdpl-engdig",     type: "playlist", name: "Engineering Digest · System Design in Hindi (34 videos)", url: "https://www.youtube.com/watch?v=43-X22tdxiI&list=PLA3GkZPtsafZdyC5iucNM_uhqGJ5yFNUM" },
+  ],
   sysDesignConcepts: [
-    { id: "sd-caching", name: "Caching (cache-aside, write-through, TTL, eviction)" },
-    { id: "sd-mq", name: "Message Queues (Kafka vs RabbitMQ vs SQS)" },
-    { id: "sd-kafka-rmq", name: "Kafka vs RabbitMQ deep comparison" },
-    { id: "sd-sharding", name: "Sharding (hash vs range, consistent hashing)" },
-    { id: "sd-consistent-hash", name: "Consistent Hashing" },
-    { id: "sd-api", name: "API Design (REST, gRPC, idempotency, pagination)" },
-    { id: "sd-data-model", name: "Data Modeling (schema, normalization)" },
-    { id: "sd-object-store", name: "Object Storage (S3, blob internals)" },
-    { id: "sd-reco", name: "Recommendation System infrastructure" },
+    { id: "sd-prep",            type: "video", name: "How to Prepare for System Design Interviews",         url: "https://www.youtube.com/watch?v=Ru54dxzCyD0" },
+    { id: "sd-caching",         type: "video", name: "Caching in System Design Interviews",                 url: "https://www.youtube.com/watch?v=1NngTUYPdpI" },
+    { id: "sd-mq",              type: "video", name: "Message Queues in System Design Interviews",          url: "https://www.youtube.com/watch?v=1ISRd0bS714" },
+    { id: "sd-kafka-rmq",       type: "video", name: "Kafka vs RabbitMQ deep comparison",                   url: "https://www.youtube.com/watch?v=1HOVtQ-_fcE" },
+    { id: "sd-sharding",        type: "video", name: "Sharding in System Design Interviews",                url: "https://www.youtube.com/watch?v=L521gizea4s" },
+    { id: "sd-consistent-hash", type: "video", name: "Consistent Hashing: Easy Explanation",                url: "https://www.youtube.com/watch?v=vccwdhfqIrI" },
+    { id: "sd-api",             type: "video", name: "API Design in System Design Interviews",              url: "https://www.youtube.com/watch?v=DQ57zYedMdQ" },
+    { id: "sd-data-model",      type: "video", name: "Data Modeling in System Design Interviews",           url: "https://www.youtube.com/watch?v=TUcPS6dsWx4" },
+    { id: "sd-object-store",    type: "video", name: "Object Storage in System Design Interviews",          url: "https://www.youtube.com/watch?v=RvaMHMxHjp4" },
+    { id: "sd-networking",      type: "video", name: "Networking Essentials for System Design",             url: "https://www.youtube.com/watch?v=SHkbPm1Wrno" },
+    { id: "sd-reco",            type: "video", name: "Recommendation System Infra Basics",                  url: "https://www.youtube.com/watch?v=GncgOIiMII8" },
   ],
   sysDesignDeepDives: [
-    { id: "dd-kafka", name: "Kafka internals" },
-    { id: "dd-redis", name: "Redis (sorted sets, clustering, persistence)" },
-    { id: "dd-es", name: "Elasticsearch (inverted index, shards, scoring)" },
-    { id: "dd-dynamo", name: "DynamoDB (single-table, GSI, hot partitions)" },
-    { id: "dd-cassandra", name: "Cassandra (wide-column, partition key)" },
-    { id: "dd-indexing", name: "DB Indexing (B-tree, geospatial, inverted)" },
-    { id: "dd-cap", name: "CAP Theorem (CP vs AP, eventual consistency)" },
-    { id: "dd-apigw", name: "API Gateways (rate limit, auth, routing)" },
-    { id: "dd-net", name: "Networking (DNS, HTTP, TCP, LBs)" },
-    { id: "dd-tx", name: "Distributed Transactions (2PC vs Saga)" },
-    { id: "dd-bigdata", name: "Bloom filters, HyperLogLog" },
-    { id: "dd-tsdb", name: "Time Series Databases" },
+    { id: "dd-kafka",    type: "video", name: "Kafka System Design Deep Dive",                       url: "https://www.youtube.com/watch?v=DU8o-OTeoCc" },
+    { id: "dd-redis",    type: "video", name: "Redis Deep Dive (sorted sets, clustering, persistence)", url: "https://www.youtube.com/watch?v=fmT5nlEkl3U" },
+    { id: "dd-es",       type: "video", name: "Elasticsearch Deep Dive",                             url: "https://www.youtube.com/watch?v=PuZvF2EyfBM" },
+    { id: "dd-dynamo",   type: "video", name: "DynamoDB Deep Dive (single-table, GSI, hot partitions)", url: "https://www.youtube.com/watch?v=2X2SO3Y-af8" },
+    { id: "dd-cassandra",type: "video", name: "Cassandra Deep Dive (wide-column, partition key)",    url: "https://www.youtube.com/watch?v=TD3-INhm60Q" },
+    { id: "dd-indexing", type: "video", name: "DB Indexing — B-tree, Geospatial, Inverted Index",    url: "https://www.youtube.com/watch?v=BHCSL_ZifI0" },
+    { id: "dd-cap",      type: "video", name: "CAP Theorem in System Design Interviews",             url: "https://www.youtube.com/watch?v=VdrEq0cODu4" },
+    { id: "dd-apigw",    type: "video", name: "API Gateways in System Design Interviews",            url: "https://www.youtube.com/watch?v=7-6F3b14baA" },
+    { id: "dd-net",      type: "video", name: "Networking Essentials for System Design",             url: "https://www.youtube.com/watch?v=SHkbPm1Wrno" },
+    { id: "dd-tx",       type: "video", name: "Distributed Transactions — 2PC vs Saga",              url: "https://www.youtube.com/watch?v=DOFflggE_0Q" },
+    { id: "dd-bigdata",  type: "video", name: "Data Structures for Big Data (Bloom, HyperLogLog)",   url: "https://www.youtube.com/watch?v=IgyU0iFIoqM" },
+    { id: "dd-tsdb",     type: "video", name: "How do Time Series Databases Work?",                  url: "https://www.youtube.com/watch?v=Qd76ZmfRs_Q" },
   ],
   sysDesignWalkthroughs: [
-    { id: "w-bitly", name: "Design Bitly (URL Shortener)", level: "Easy" },
-    { id: "w-dropbox", name: "Design Dropbox / Google Drive", level: "Easy" },
-    { id: "w-whatsapp", name: "Design WhatsApp", level: "Medium" },
-    { id: "w-twitter", name: "Design Twitter", level: "Medium" },
-    { id: "w-newsfeed", name: "Design FB News Feed", level: "Medium" },
-    { id: "w-tinder", name: "Design Tinder", level: "Medium" },
-    { id: "w-comments", name: "Design Live Comments", level: "Medium" },
-    { id: "w-ratelimiter", name: "Design Distributed Rate Limiter", level: "Medium" },
-    { id: "w-crawler", name: "Design Web Crawler", level: "Medium" },
-    { id: "w-ticketmaster", name: "Design Ticketmaster", level: "Hard" },
-    { id: "w-uber", name: "Design Uber", level: "Hard" },
-    { id: "w-youtube", name: "Design YouTube", level: "Hard" },
-    { id: "w-adclick", name: "Design Ad Click Aggregator", level: "Hard" },
-    { id: "w-leetcode", name: "Design LeetCode (Online Judge)", level: "Hard" },
-    { id: "w-topk", name: "Design Top-K System", level: "Hard" },
-    { id: "w-postsearch", name: "Design FB Post Search", level: "Hard" },
+    { id: "w-bitly",        type: "video", name: "Design Bitly (URL Shortener)",     level: "Easy",   url: "https://www.youtube.com/watch?v=iUU4O1sWtJA" },
+    { id: "w-dropbox",      type: "video", name: "Design Dropbox / Google Drive",    level: "Easy",   url: "https://www.youtube.com/watch?v=_UZ1ngy-kOI" },
+    { id: "w-whatsapp",     type: "video", name: "Design WhatsApp",                  level: "Medium", url: "https://www.youtube.com/watch?v=cr6p0n0N-VA" },
+    { id: "w-twitter",      type: "video", name: "Design Twitter",                   level: "Medium", url: "https://www.youtube.com/watch?v=Nfa-uUHuFHg" },
+    { id: "w-newsfeed",     type: "video", name: "Design FB News Feed",              level: "Medium", url: "https://www.youtube.com/watch?v=Qj4-GruzyDU" },
+    { id: "w-tinder",       type: "video", name: "Design Tinder",                    level: "Medium", url: "https://www.youtube.com/watch?v=18Fg5Akhkqw" },
+    { id: "w-comments",     type: "video", name: "Design Live Comments",             level: "Medium", url: "https://www.youtube.com/watch?v=LjLx0fCd1k8" },
+    { id: "w-ratelimiter",  type: "video", name: "Design Distributed Rate Limiter",  level: "Medium", url: "https://www.youtube.com/watch?v=MIJFyUPG4Z4" },
+    { id: "w-crawler",      type: "video", name: "Design Web Crawler",               level: "Medium", url: "https://www.youtube.com/watch?v=krsuaUp__pM" },
+    { id: "w-ticketmaster", type: "video", name: "Design Ticketmaster",              level: "Hard",   url: "https://www.youtube.com/watch?v=fhdPyoO6aXI" },
+    { id: "w-uber",         type: "video", name: "Design Uber",                      level: "Hard",   url: "https://www.youtube.com/watch?v=lsKU38RKQSo" },
+    { id: "w-youtube",      type: "video", name: "Design YouTube",                   level: "Hard",   url: "https://www.youtube.com/watch?v=IUrQ5_g3XKs" },
+    { id: "w-adclick",      type: "video", name: "Design Ad Click Aggregator",       level: "Hard",   url: "https://www.youtube.com/watch?v=Zcv_899yqhI" },
+    { id: "w-leetcode",     type: "video", name: "Design LeetCode (Online Judge)",   level: "Hard",   url: "https://www.youtube.com/watch?v=1xHADtekTNg" },
+    { id: "w-topk",         type: "video", name: "Design Top-K System",              level: "Hard",   url: "https://www.youtube.com/watch?v=y-tA2NW4LNY" },
+    { id: "w-postsearch",   type: "video", name: "Design FB Post Search",            level: "Hard",   url: "https://www.youtube.com/watch?v=l38XL9914fs" },
+  ],
+  sdChannels: [
+    { id: "sdch-hi",      type: "channel", name: "Hello Interview · full walkthroughs + deep dives", url: "https://www.youtube.com/@hello_interview" },
+    { id: "sdch-bbg",     type: "channel", name: "ByteByteGo · visual explainers",                   url: "https://www.youtube.com/@ByteByteGo" },
+    { id: "sdch-exp",     type: "channel", name: "Exponent · mock interviews + behavioral",          url: "https://www.youtube.com/@tryExponent" },
+    { id: "sdch-jordan",  type: "channel", name: "Jordan Has No Life · whiteboard deep dives",       url: "https://www.youtube.com/@jordanhasnolife5163" },
+    { id: "sdch-gaurav",  type: "channel", name: "Gaurav Sen · distributed systems fundamentals",    url: "https://www.youtube.com/@gkcs" },
+    { id: "sdch-hussein", type: "channel", name: "Hussein Nasser · networking, DBs, backend",        url: "https://www.youtube.com/@hnasr" },
+    { id: "sdch-sdfc",    type: "channel", name: "System Design Fight Club · trade-off debates",     url: "https://www.youtube.com/@SDFC" },
+  ],
+  sdReading: [
+    { id: "sdrd-awesome", type: "github", name: "awesome-system-design-resources (Ashish PS)",       url: "https://github.com/ashishps1/awesome-system-design-resources" },
+    { id: "sdrd-bbg",     type: "blog",   name: "ByteByteGo Newsletter — weekly visual breakdowns", url: "https://blog.bytebytego.com" },
+    { id: "sdrd-quastor", type: "blog",   name: "Quastor — engineering blog deep dives",            url: "https://blog.quastor.org" },
+    { id: "sdrd-hs",      type: "blog",   name: "High Scalability — how top companies built it",    url: "http://highscalability.com" },
+    { id: "sdrd-pe",      type: "blog",   name: "The Pragmatic Engineer",                           url: "https://newsletter.pragmaticengineer.com" },
+    { id: "sdrd-aws",     type: "blog",   name: "AWS Architecture Blog",                            url: "https://aws.amazon.com/blogs/architecture" },
+    { id: "sdrd-cf",      type: "blog",   name: "Cloudflare Blog",                                  url: "https://blog.cloudflare.com" },
+    { id: "sdrd-mf",      type: "blog",   name: "Martin Fowler · microservices, CQRS, event sourcing", url: "https://martinfowler.com" },
+    { id: "sdrd-hi-site", type: "course", name: "hellointerview.com · AI-powered SD mocks",         url: "https://www.hellointerview.com" },
   ],
   starStories: [
     { id: "star-incident", name: "Production incident — diagnose → fix → prevent" },
@@ -1082,10 +1114,10 @@ window.SRE_DATA = {
     { id: "star-deadline", name: "Missed a deadline (honest framing)" },
   ],
   lldVideos: [
-    { id: "lld-concur", name: "Concurrency in LLD Interviews" },
-    { id: "lld-elev", name: "Design an Elevator" },
-    { id: "lld-locker", name: "Design Amazon Locker" },
-    { id: "lld-c4", name: "Design Connect Four" },
+    { id: "lld-elev",   type: "video", name: "Design an Elevator",                  url: "https://www.youtube.com/watch?v=fODT0ldeBiU" },
+    { id: "lld-concur", type: "video", name: "Concurrency in LLD Interviews",       url: "https://www.youtube.com/watch?v=d8rmosXttTE" },
+    { id: "lld-locker", type: "video", name: "Design Amazon Locker",                url: "https://www.youtube.com/watch?v=s6nGkoGJhXk" },
+    { id: "lld-c4",     type: "video", name: "Design Connect Four",                 url: "https://www.youtube.com/watch?v=9UI4ikKP3Ws" },
   ],
   lldPractice: [
     { id: "lld-parking", name: "Parking Lot" },
@@ -1242,47 +1274,6 @@ window.SRE_DATA = {
   ],
 
   // ────────────────────────────────────────────────────────────────
-  // PART A — Lifecycle
-  // ────────────────────────────────────────────────────────────────
-  lifecycle: [
-    { group: "A1–A2 · Plan + Code", items: [
-      { id: "a-adr", name: "ADRs + C4 model for docs" },
-      { id: "a-stride", name: "STRIDE threat modeling" },
-      { id: "a-capacity", name: "Capacity math (QPS / storage / bandwidth)" },
-      { id: "a-trunk", name: "Trunk-based dev + conventional commits" },
-      { id: "a-precommit", name: "Pre-commit hooks (gitleaks, trufflehog, lint)" },
-      { id: "a-deps", name: "Dependabot / Renovate + SBOM awareness" },
-      { id: "a-review", name: "Google Engineering Practices for code review" },
-    ]},
-    { group: "A3–A4 · Build + Deploy", items: [
-      { id: "a-gha", name: "GitHub Actions: caching, matrix builds, parallelization" },
-      { id: "a-docker", name: "Multi-stage Dockerfiles + distroless" },
-      { id: "a-scan", name: "Trivy/Grype scanning + Cosign signing" },
-      { id: "a-testc", name: "Testcontainers for integration tests" },
-      { id: "a-k6", name: "k6 for load testing" },
-      { id: "a-deploy", name: "Blue-green / canary / rolling + feature flags" },
-      { id: "a-gitops", name: "GitOps: ArgoCD or Flux + Argo Rollouts" },
-      { id: "a-secrets", name: "Vault / Secrets Manager / External Secrets Operator" },
-    ]},
-    { group: "A5–A6 · Operate + Maintain", items: [
-      { id: "a-golden", name: "Four golden signals (latency/traffic/errors/saturation)" },
-      { id: "a-slo", name: "SLO/SLI/SLA + multi-burn-rate alerts" },
-      { id: "a-incident", name: "Incident mgmt: PagerDuty, on-call, runbooks" },
-      { id: "a-postmortem", name: "Blameless postmortems" },
-      { id: "a-toil", name: "Toil reduction + quarterly capacity reviews" },
-    ]},
-    { group: "A7 · Cost Optimization", items: [
-      { id: "a-finops", name: "FinOps phases: Inform → Optimize → Operate" },
-      { id: "a-rightsize", name: "Right-sizing (Compute Optimizer)" },
-      { id: "a-savings", name: "Savings Plans / RIs / Spot instances" },
-      { id: "a-s3", name: "S3 Intelligent-Tiering + Glacier lifecycle" },
-      { id: "a-vpce", name: "VPC Endpoints (cut NAT data charges)" },
-      { id: "a-karpenter", name: "Karpenter for K8s autoscaling" },
-      { id: "a-tags", name: "Tagging discipline (Owner/Env/CostCenter/Project)" },
-    ]},
-  ],
-
-  // ────────────────────────────────────────────────────────────────
   // PART B — Hands-on Phases (Todo app)
   // ────────────────────────────────────────────────────────────────
   phases: [
@@ -1368,32 +1359,6 @@ window.SRE_DATA = {
         { id: "p7-push", name: "Push to ECR with SHA tag" },
         { id: "p7-helm", name: "helm upgrade --atomic deploy to EKS" },
       ]},
-  ],
-
-  // ────────────────────────────────────────────────────────────────
-  // PART D — System Design for SRE
-  // ────────────────────────────────────────────────────────────────
-  sreSysDesignBooks: [
-    { id: "ddia", name: "Designing Data-Intensive Applications — Kleppmann (12 ch)" },
-    { id: "sd1", name: "System Design Interview Vol 1 — Alex Xu" },
-    { id: "sd2", name: "System Design Interview Vol 2 — Alex Xu" },
-    { id: "udist", name: "Understanding Distributed Systems — Vitillo" },
-  ],
-  sreSysDesignTopics: [
-    { id: "sre-ha", name: "Multi-region, multi-AZ HA" },
-    { id: "sre-cdc", name: "DB scaling: CDC, sharding, read replicas" },
-    { id: "sre-cache", name: "Caching strategies" },
-    { id: "sre-mq", name: "Message queues: Kafka vs RabbitMQ vs SQS" },
-    { id: "sre-resil", name: "Circuit breakers, bulkheads, idempotency" },
-    { id: "sre-consist", name: "Consistency models (strong, eventual, causal)" },
-  ],
-  sreFlavorQuestions: [
-    { id: "srf-cicd200", name: "CI/CD pipeline for 200 microservices" },
-    { id: "srf-mon1m", name: "Monitoring/alerting for 1M req/sec" },
-    { id: "srf-log10t", name: "Log aggregation for 10TB/day" },
-    { id: "srf-multiregion", name: "Multi-region active-active DB" },
-    { id: "srf-bg3", name: "Blue-green deploy across 3 regions" },
-    { id: "srf-ff", name: "Feature flag / secrets management service" },
   ],
 
   // ────────────────────────────────────────────────────────────────
@@ -1525,22 +1490,22 @@ window.SRE_DATA = {
   // PART J — Resources
   // ────────────────────────────────────────────────────────────────
   books: [
-    { id: "bk-ddia", name: "Designing Data-Intensive Applications — Kleppmann" },
-    { id: "bk-sre", name: "Site Reliability Engineering — Google (free, ch 1–6, 11–18)" },
-    { id: "bk-srew", name: "The Site Reliability Workbook — Google (free)" },
-    { id: "bk-tf", name: "Terraform: Up & Running — Brikman (3rd ed)" },
-    { id: "bk-k8s", name: "Kubernetes Up & Running — Burns, Hightower" },
-    { id: "bk-go", name: "Learning Go — Bodner" },
-    { id: "bk-xu", name: "System Design Interview Vol 1 & 2 — Alex Xu" },
-    { id: "bk-phx", name: "The Phoenix Project — Gene Kim" },
+    { id: "bk-ddia", type: "book", name: "Designing Data-Intensive Applications — Kleppmann",          url: "https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/" },
+    { id: "bk-sre",  type: "book", name: "Site Reliability Engineering — Google (free, ch 1–6, 11–18)", url: "https://sre.google/sre-book/table-of-contents/" },
+    { id: "bk-srew", type: "book", name: "The Site Reliability Workbook — Google (free)",              url: "https://sre.google/workbook/table-of-contents/" },
+    { id: "bk-tf",   type: "book", name: "Terraform: Up & Running — Brikman (3rd ed)",                 url: "https://www.terraformupandrunning.com/" },
+    { id: "bk-k8s",  type: "book", name: "Kubernetes Up & Running — Burns, Hightower",                 url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/" },
+    { id: "bk-go",   type: "book", name: "Learning Go — Jon Bodner",                                   url: "https://www.oreilly.com/library/view/learning-go-2nd/9781098139285/" },
+    { id: "bk-xu",   type: "book", name: "System Design Interview Vol 1 & 2 — Alex Xu",                url: "https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF" },
+    { id: "bk-phx",  type: "book", name: "The Phoenix Project — Gene Kim",                             url: "https://itrevolution.com/product/the-phoenix-project/" },
   ],
   courses: [
-    { id: "co-saa", name: "AWS SAA-C03 (Stephane Maarek)", plat: "Udemy", cost: "$10–15" },
-    { id: "co-td", name: "SAA Practice Exams (Jon Bonso)", plat: "Tutorials Dojo", cost: "$15" },
-    { id: "co-cka", name: "CKA (Mumshad)", plat: "KodeKloud", cost: "$30/mo" },
-    { id: "co-tf", name: "Terraform AWS Track", plat: "learn.hashicorp.com", cost: "FREE" },
-    { id: "co-go", name: "A Tour of Go", plat: "tour.golang.org", cost: "FREE" },
-    { id: "co-finops", name: "FinOps Certified Practitioner", plat: "finops.org", cost: "$325" },
+    { id: "co-saa",    type: "course", name: "AWS SAA-C03 (Stephane Maarek)",         plat: "Udemy",             cost: "$10–15", url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
+    { id: "co-td",     type: "course", name: "SAA Practice Exams (Jon Bonso)",        plat: "Tutorials Dojo",    cost: "$15",    url: "https://portal.tutorialsdojo.com/" },
+    { id: "co-cka",    type: "course", name: "CKA (Mumshad)",                         plat: "KodeKloud",         cost: "$30/mo", url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
+    { id: "co-tf",     type: "course", name: "Terraform AWS Track",                   plat: "HashiCorp Learn",   cost: "FREE",   url: "https://developer.hashicorp.com/terraform/tutorials/aws-get-started" },
+    { id: "co-go",     type: "course", name: "A Tour of Go",                          plat: "go.dev",            cost: "FREE",   url: "https://go.dev/tour/" },
+    { id: "co-finops", type: "course", name: "FinOps Certified Practitioner",         plat: "FinOps Foundation", cost: "$325",   url: "https://www.finops.org/training/certifications/fcp/" },
   ],
 
   // ────────────────────────────────────────────────────────────────
@@ -2096,17 +2061,16 @@ function buildGroupIndex(D) {
   g.sdConcepts = D.sysDesignConcepts.map(i => i.id);
   g.sdDeep = D.sysDesignDeepDives.map(i => i.id);
   g.sdWalk = D.sysDesignWalkthroughs.map(i => i.id);
+  g.sdPlaylists = D.sdPlaylists.map(i => i.id);
+  g.sdChannels = D.sdChannels.map(i => i.id);
+  g.sdReading = D.sdReading.map(i => i.id);
   g.star = D.starStories.map(i => i.id);
   g.lldV = D.lldVideos.map(i => i.id);
   g.lldP = D.lldPractice.map(i => i.id);
   g.sqlC = D.sqlConcepts.map(i => i.id);
   g.sqlP = D.sqlProblems.map(i => i.id);
   g.dsa = D.dsaTopics.flatMap(t => t.items.map(i => i.id));
-  g.lifecycle = D.lifecycle.flatMap(t => t.items.map(i => i.id));
   g.phase = D.phases.flatMap(p => p.tasks.map(i => i.id));
-  g.sreBooks = D.sreSysDesignBooks.map(i => i.id);
-  g.sreTopics = D.sreSysDesignTopics.map(i => i.id);
-  g.sreFlavor = D.sreFlavorQuestions.map(i => i.id);
   g.goPath = D.goPath.map(i => i.id);
   g.otherSk = D.otherSkills.map(i => i.id);
   g.loop = D.loopRounds.map(i => i.id);
@@ -2130,7 +2094,7 @@ function buildGroupIndex(D) {
 function viewGroups() {
   return {
     overview: [],
-    "p0-sd": ["sdConcepts","sdDeep","sdWalk"],
+    "p0-sd": ["sdConcepts","sdDeep","sdWalk","sdPlaylists","sdChannels","sdReading"],
     "p0-behavior": ["star"],
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
@@ -2141,9 +2105,7 @@ function viewGroups() {
     "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
     "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
     "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
-    "part-a": ["lifecycle"],
     "part-b": ["phase"],
-    "part-d": ["sreBooks","sreTopics","sreFlavor"],
     "part-e": ["goPath","otherSk"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],
@@ -2181,10 +2143,9 @@ function OverviewView() {
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
           <ul className="checklist">
             {Object.entries({
-              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa"],
-              "Part A · Lifecycle": ["lifecycle"],
+              "System Design": ["sdConcepts","sdDeep","sdWalk","sdPlaylists","sdChannels","sdReading"],
+              "Interview Prep · Behavioral / LLD / SQL / DSA": ["star","lldV","lldP","sqlC","sqlP","dsa"],
               "Part B · Hands-on Phases": ["phase"],
-              "Part D · System Design (SRE)": ["sreBooks","sreTopics","sreFlavor"],
               "Part E · Coding": ["goPath","otherSk"],
               "Part H · Interview prep": ["loop","qAsk"],
               "Part I · Branding": ["repos","blog","certs"],
@@ -2224,55 +2185,110 @@ function OverviewView() {
 }
 
 // ───────── PART 0A — SYSTEM DESIGN ─────────
+const SD_FRAMEWORK = [
+  { id: "sdf-clarify",  name: "Clarify Requirements — functional + non-functional (5 min)" },
+  { id: "sdf-estimate", name: "Estimate Scale — DAU, QPS, storage, bandwidth (3 min)" },
+  { id: "sdf-hld",      name: "High-Level Design — components, data flow, API (10 min)" },
+  { id: "sdf-deep",     name: "Deep Dives — bottlenecks, failure modes (20 min)" },
+  { id: "sdf-tradeoff", name: "Trade-offs — why X over Y; behavior at 10× scale (5 min)" },
+];
+
 function P0_SysDesignView() {
+  const fwSet = useDoneSet("sd-framework")[0];
+  const plSet = useDoneSet("sdPlaylists")[0];
+  const cnSet = useDoneSet("sdConcepts")[0];
+  const ddSet = useDoneSet("sdDeep")[0];
+  const wkSet = useDoneSet("sdWalk")[0];
+  const chSet = useDoneSet("sdChannels")[0];
+  const rdSet = useDoneSet("sdReading")[0];
+
+  const count = (items, set) => items.filter(it => set[it.id]).length;
+  const fwDone = count(SD_FRAMEWORK, fwSet);
+  const plDone = count(D.sdPlaylists, plSet);
+  const cnDone = count(D.sysDesignConcepts, cnSet);
+  const ddDone = count(D.sysDesignDeepDives, ddSet);
+  const wkDone = count(D.sysDesignWalkthroughs, wkSet);
+  const chDone = count(D.sdChannels, chSet);
+  const rdDone = count(D.sdReading, rdSet);
+
+  const total = SD_FRAMEWORK.length + D.sdPlaylists.length + D.sysDesignConcepts.length + D.sysDesignDeepDives.length + D.sysDesignWalkthroughs.length + D.sdChannels.length + D.sdReading.length;
+  const done = fwDone + plDone + cnDone + ddDone + wkDone + chDone + rdDone;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+    </span>
+  );
+
+  const renderWalkthrough = (it) => (
+    <span>
+      <ResourceTag type="video" />
+      {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+      <Tag level={it.level} />
+    </span>
+  );
+
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">0A · System Design</h1>
-        <p className="page-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs.</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">interview prep</div>
+          <h1 className="dash-title">
+            <span className="dash-num">0A</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">System Design</span>
+          </h1>
+          <p className="dash-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs. Curated playlists from Hello Interview, Piyush Garg, and Engineering Digest.</p>
+        </div>
+        <StatusPill pct={pct} />
       </div>
 
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>5-step delivery framework</h2>
-        <p className="lead">Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs.</p>
-        <Checklist
-          group="sd-framework"
-          items={[
-            { id: "sdf-clarify", name: "Clarify Requirements — functional + non-functional (5 min)" },
-            { id: "sdf-estimate", name: "Estimate Scale — DAU, QPS, storage, bandwidth (3 min)" },
-            { id: "sdf-hld", name: "High-Level Design — components, data flow, API (10 min)" },
-            { id: "sdf-deep", name: "Deep Dives — bottlenecks, failure modes (20 min)" },
-            { id: "sdf-tradeoff", name: "Trade-offs — why X over Y; behavior at 10× scale (5 min)" },
-          ]}
-        />
-        <TimeLog id="sd-framework" />
-      </section>
+      <div className="stat-tiles">
+        <StatTile label="Complete"   value={pct + "%"}                                       sub={done + " of " + total} accent />
+        <StatTile label="Walkthroughs" value={wkDone + "/" + D.sysDesignWalkthroughs.length} sub={Math.round(wkDone / D.sysDesignWalkthroughs.length * 100) + "%"} />
+        <StatTile label="Concepts"   value={cnDone + "/" + D.sysDesignConcepts.length}       sub={Math.round(cnDone / D.sysDesignConcepts.length * 100) + "%"} />
+        <StatTile label="Deep Dives" value={ddDone + "/" + D.sysDesignDeepDives.length}      sub={Math.round(ddDone / D.sysDesignDeepDives.length * 100) + "%"} />
+      </div>
 
-      <SectionCard title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." items={D.sysDesignConcepts} group="sdConcepts" tilted="right">
-        <TimeLog id="sdConcepts" />
-        <Notes id="sdConcepts" placeholder="Cache eviction, partition keys, idempotency tokens — anything weird worth remembering." />
-      </SectionCard>
+      <div className="callout">
+        Start with <a href="https://www.youtube.com/watch?v=Ru54dxzCyD0" target="_blank" rel="noopener">How to Prepare for System Design Interviews</a>, then work the Hello Interview playlists. Mock at <a href="https://www.hellointerview.com" target="_blank" rel="noopener">hellointerview.com</a> after Week 4.
+      </div>
 
-      <SectionCard title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." items={D.sysDesignDeepDives} group="sdDeep">
-        <TimeLog id="sdDeep" />
-      </SectionCard>
+      <ListSection title="5-step delivery framework" lead="Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs." done={fwDone} total={SD_FRAMEWORK.length}>
+        <Checklist items={SD_FRAMEWORK} group="sd-framework" />
+      </ListSection>
 
-      <section className="section-card tilted-r">
-        <h2>Walkthroughs — 2 per week</h2>
-        <p className="lead">Easy → Medium → Hard. Talk through your approach before drawing.</p>
-        <Progress
-          done={D.sysDesignWalkthroughs.filter(w => (loadJSON("done:sdWalk", {}))[w.id]).length}
-          total={D.sysDesignWalkthroughs.length}
-        />
-        <Checklist
-          group="sdWalk"
-          items={D.sysDesignWalkthroughs}
-          renderItem={(it) => (
-            <span>{it.name} <Tag level={it.level} /></span>
-          )}
-        />
-        <TimeLog id="sdWalk" />
+      <ListSection title="Playlists" lead="Curated YouTube playlists — Hello Interview is the canonical source." done={plDone} total={D.sdPlaylists.length}>
+        <Checklist items={D.sdPlaylists} group="sdPlaylists" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." done={cnDone} total={D.sysDesignConcepts.length}>
+        <Checklist items={D.sysDesignConcepts} group="sdConcepts" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." done={ddDone} total={D.sysDesignDeepDives.length}>
+        <Checklist items={D.sysDesignDeepDives} group="sdDeep" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Walkthroughs · 2/week" lead="Easy → Medium → Hard. Talk through your approach before drawing." done={wkDone} total={D.sysDesignWalkthroughs.length}>
+        <Checklist items={D.sysDesignWalkthroughs} group="sdWalk" renderItem={renderWalkthrough} />
+      </ListSection>
+
+      <ListSection title="Channels" lead="Subscribe and dip in." done={chDone} total={D.sdChannels.length}>
+        <Checklist items={D.sdChannels} group="sdChannels" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Reading & resources" lead="Newsletters, blogs, and reference repos." done={rdDone} total={D.sdReading.length}>
+        <Checklist items={D.sdReading} group="sdReading" renderItem={renderResource} />
+      </ListSection>
+
+      <section className="notes-section">
+        <div className="list-section-head">
+          <h2>Notes</h2>
+          <TimeLog id="sdWalk" />
+        </div>
         <Notes id="sdWalk" placeholder="Patterns you reused: rate limiter for hot keys, CQRS for read-heavy, etc." />
       </section>
     </div>
@@ -2335,7 +2351,14 @@ function P0_LLDView() {
       </div>
 
       <div className="row-grid-2">
-        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left" />
+        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left"
+          renderItem={(it) => (
+            <span>
+              <ResourceTag type="video" />
+              {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+            </span>
+          )}
+        />
         <SectionCard title="Practice problems" lead="Design + code these end-to-end." items={D.lldPractice} group="lldP" tilted="right" />
       </div>
 
@@ -2440,27 +2463,6 @@ function P0_DSAView() {
   );
 }
 
-// ───────── PART A — Lifecycle ─────────
-function PartAView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Part A · Full Software Lifecycle</h1>
-        <p className="page-sub">Plan → Code → Build → Deploy → Operate → Maintain → Cost. Short, opinionated bullets.</p>
-      </div>
-      {D.lifecycle.map((grp, i) => (
-        <SectionCard
-          key={grp.group}
-          title={grp.group}
-          items={grp.items}
-          group={"lifecycle"}
-          tilted={i % 2 ? "right" : "left"}
-        />
-      ))}
-    </div>
-  );
-}
-
 // ───────── PART B — Hands-on Phases ─────────
 function PartBView() {
   return (
@@ -2484,23 +2486,6 @@ function PartBView() {
           <Notes id={"phase-" + p.id} placeholder="Gotchas, links to repos, commands that worked." />
         </section>
       ))}
-    </div>
-  );
-}
-
-// ───────── PART D — System Design for SRE ─────────
-function PartDView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Part D · System Design for SRE</h1>
-        <p className="page-sub">SRE interviewers add reliability, observability, deployment, cost on top of vanilla SD.</p>
-      </div>
-      <SectionCard title="Core books" items={D.sreSysDesignBooks} group="sreBooks" tilted="left" />
-      <SectionCard title="SRE-specific topics" items={D.sreSysDesignTopics} group="sreTopics" tilted="right" />
-      <SectionCard title="SRE-flavor design questions" lead="Practice each in a 45-min mock." items={D.sreFlavorQuestions} group="sreFlavor">
-        <Notes id="sreFlavor" />
-      </SectionCard>
     </div>
   );
 }
@@ -2699,7 +2684,17 @@ function PartJView() {
         <p className="page-sub">Books + courses to grind through. Tick when finished — or when "good enough for interviews".</p>
       </div>
 
-      <SectionCard title="Must-read books" items={D.books} group="books" tilted="left">
+      <SectionCard title="Must-read books"
+        items={D.books}
+        group="books"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <ResourceTag type="book" />
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+          </span>
+        )}
+      >
         <TimeLog id="books" />
         <Notes id="books" placeholder="Chapter notes, favorite passages, what to revisit." />
       </SectionCard>
@@ -2709,7 +2704,9 @@ function PartJView() {
         group="courses"
         tilted="right"
         renderItem={(it) => (
-          <span><strong>{it.name}</strong>
+          <span>
+            <ResourceTag type="course" />
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <strong>{it.name}</strong>}
             <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{it.plat} · {it.cost}</span>
           </span>
         )}
@@ -2741,10 +2738,13 @@ function PartJView() {
 
 function ResourceTag({ type }) {
   const map = {
-    video:  { l: "VIDEO",  bg: "#fcebe2", c: "var(--red)" },
-    course: { l: "COURSE", bg: "#dfeefb", c: "var(--blue)" },
-    book:   { l: "BOOK",   bg: "#e3f1da", c: "var(--green)" },
-    blog:   { l: "BLOG",   bg: "#fef9e0", c: "#9a6c00" },
+    video:    { l: "VIDEO",    bg: "#fcebe2", c: "var(--red)" },
+    course:   { l: "COURSE",   bg: "#dfeefb", c: "var(--blue)" },
+    book:     { l: "BOOK",     bg: "#e3f1da", c: "var(--green)" },
+    blog:     { l: "BLOG",     bg: "#fef9e0", c: "#9a6c00" },
+    playlist: { l: "PLAYLIST", bg: "#fcebe2", c: "var(--red)" },
+    channel:  { l: "CHANNEL",  bg: "#f0e6ff", c: "#6b3aa1" },
+    github:   { l: "GITHUB",   bg: "#e8eaed", c: "#1f2328" },
   };
   const s = map[type] || { l: "RES", bg: "#eee", c: "#666" };
   return (
@@ -3013,7 +3013,7 @@ function PartAIView() {
 
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
-  P0_DSAView, PartAView, PartAIView, PartBView, PartDView, PartEView,
+  P0_DSAView, PartAIView, PartBView, PartEView,
   PartGView, PartHView, PartIView, PartJView,
   SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });
@@ -3031,9 +3031,7 @@ const NAV = [
   { id: "sre-auto",     label: "04 · Automation",       crumb: "Learn / 04 · Automation",              group: "learn" },
   { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
-  { id: "part-d",       label: "SD for SRE",            crumb: "Learn / System Design for SRE",        group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
-  { id: "part-a",       label: "Lifecycle",             crumb: "Learn / Lifecycle",                    group: "learn" },
 
   { id: "_practice", label: "Practice", group: "section" },
   { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice / Behavioral",                group: "practice" },
@@ -3065,9 +3063,7 @@ const VIEW_MAP = {
   "sre-auto":     SRE_AutomationView,
   "sre-rel":      SRE_ReliabilityView,
   "part-ai":      PartAIView,
-  "part-a":       PartAView,
   "part-b":       PartBView,
-  "part-d":       PartDView,
   "part-e":       PartEView,
   "part-g":       PartGView,
   "part-h":       PartHView,

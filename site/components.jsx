@@ -245,17 +245,16 @@ function buildGroupIndex(D) {
   g.sdConcepts = D.sysDesignConcepts.map(i => i.id);
   g.sdDeep = D.sysDesignDeepDives.map(i => i.id);
   g.sdWalk = D.sysDesignWalkthroughs.map(i => i.id);
+  g.sdPlaylists = D.sdPlaylists.map(i => i.id);
+  g.sdChannels = D.sdChannels.map(i => i.id);
+  g.sdReading = D.sdReading.map(i => i.id);
   g.star = D.starStories.map(i => i.id);
   g.lldV = D.lldVideos.map(i => i.id);
   g.lldP = D.lldPractice.map(i => i.id);
   g.sqlC = D.sqlConcepts.map(i => i.id);
   g.sqlP = D.sqlProblems.map(i => i.id);
   g.dsa = D.dsaTopics.flatMap(t => t.items.map(i => i.id));
-  g.lifecycle = D.lifecycle.flatMap(t => t.items.map(i => i.id));
   g.phase = D.phases.flatMap(p => p.tasks.map(i => i.id));
-  g.sreBooks = D.sreSysDesignBooks.map(i => i.id);
-  g.sreTopics = D.sreSysDesignTopics.map(i => i.id);
-  g.sreFlavor = D.sreFlavorQuestions.map(i => i.id);
   g.goPath = D.goPath.map(i => i.id);
   g.otherSk = D.otherSkills.map(i => i.id);
   g.loop = D.loopRounds.map(i => i.id);
@@ -279,7 +278,7 @@ function buildGroupIndex(D) {
 function viewGroups() {
   return {
     overview: [],
-    "p0-sd": ["sdConcepts","sdDeep","sdWalk"],
+    "p0-sd": ["sdConcepts","sdDeep","sdWalk","sdPlaylists","sdChannels","sdReading"],
     "p0-behavior": ["star"],
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
@@ -290,9 +289,7 @@ function viewGroups() {
     "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
     "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
     "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
-    "part-a": ["lifecycle"],
     "part-b": ["phase"],
-    "part-d": ["sreBooks","sreTopics","sreFlavor"],
     "part-e": ["goPath","otherSk"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],

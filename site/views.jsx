@@ -16,10 +16,9 @@ function OverviewView() {
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
           <ul className="checklist">
             {Object.entries({
-              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa"],
-              "Part A · Lifecycle": ["lifecycle"],
+              "System Design": ["sdConcepts","sdDeep","sdWalk","sdPlaylists","sdChannels","sdReading"],
+              "Interview Prep · Behavioral / LLD / SQL / DSA": ["star","lldV","lldP","sqlC","sqlP","dsa"],
               "Part B · Hands-on Phases": ["phase"],
-              "Part D · System Design (SRE)": ["sreBooks","sreTopics","sreFlavor"],
               "Part E · Coding": ["goPath","otherSk"],
               "Part H · Interview prep": ["loop","qAsk"],
               "Part I · Branding": ["repos","blog","certs"],
@@ -59,55 +58,110 @@ function OverviewView() {
 }
 
 // ───────── PART 0A — SYSTEM DESIGN ─────────
+const SD_FRAMEWORK = [
+  { id: "sdf-clarify",  name: "Clarify Requirements — functional + non-functional (5 min)" },
+  { id: "sdf-estimate", name: "Estimate Scale — DAU, QPS, storage, bandwidth (3 min)" },
+  { id: "sdf-hld",      name: "High-Level Design — components, data flow, API (10 min)" },
+  { id: "sdf-deep",     name: "Deep Dives — bottlenecks, failure modes (20 min)" },
+  { id: "sdf-tradeoff", name: "Trade-offs — why X over Y; behavior at 10× scale (5 min)" },
+];
+
 function P0_SysDesignView() {
+  const fwSet = useDoneSet("sd-framework")[0];
+  const plSet = useDoneSet("sdPlaylists")[0];
+  const cnSet = useDoneSet("sdConcepts")[0];
+  const ddSet = useDoneSet("sdDeep")[0];
+  const wkSet = useDoneSet("sdWalk")[0];
+  const chSet = useDoneSet("sdChannels")[0];
+  const rdSet = useDoneSet("sdReading")[0];
+
+  const count = (items, set) => items.filter(it => set[it.id]).length;
+  const fwDone = count(SD_FRAMEWORK, fwSet);
+  const plDone = count(D.sdPlaylists, plSet);
+  const cnDone = count(D.sysDesignConcepts, cnSet);
+  const ddDone = count(D.sysDesignDeepDives, ddSet);
+  const wkDone = count(D.sysDesignWalkthroughs, wkSet);
+  const chDone = count(D.sdChannels, chSet);
+  const rdDone = count(D.sdReading, rdSet);
+
+  const total = SD_FRAMEWORK.length + D.sdPlaylists.length + D.sysDesignConcepts.length + D.sysDesignDeepDives.length + D.sysDesignWalkthroughs.length + D.sdChannels.length + D.sdReading.length;
+  const done = fwDone + plDone + cnDone + ddDone + wkDone + chDone + rdDone;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+    </span>
+  );
+
+  const renderWalkthrough = (it) => (
+    <span>
+      <ResourceTag type="video" />
+      {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+      <Tag level={it.level} />
+    </span>
+  );
+
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">0A · System Design</h1>
-        <p className="page-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs.</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">interview prep</div>
+          <h1 className="dash-title">
+            <span className="dash-num">0A</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">System Design</span>
+          </h1>
+          <p className="dash-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs. Curated playlists from Hello Interview, Piyush Garg, and Engineering Digest.</p>
+        </div>
+        <StatusPill pct={pct} />
       </div>
 
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>5-step delivery framework</h2>
-        <p className="lead">Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs.</p>
-        <Checklist
-          group="sd-framework"
-          items={[
-            { id: "sdf-clarify", name: "Clarify Requirements — functional + non-functional (5 min)" },
-            { id: "sdf-estimate", name: "Estimate Scale — DAU, QPS, storage, bandwidth (3 min)" },
-            { id: "sdf-hld", name: "High-Level Design — components, data flow, API (10 min)" },
-            { id: "sdf-deep", name: "Deep Dives — bottlenecks, failure modes (20 min)" },
-            { id: "sdf-tradeoff", name: "Trade-offs — why X over Y; behavior at 10× scale (5 min)" },
-          ]}
-        />
-        <TimeLog id="sd-framework" />
-      </section>
+      <div className="stat-tiles">
+        <StatTile label="Complete"   value={pct + "%"}                                       sub={done + " of " + total} accent />
+        <StatTile label="Walkthroughs" value={wkDone + "/" + D.sysDesignWalkthroughs.length} sub={Math.round(wkDone / D.sysDesignWalkthroughs.length * 100) + "%"} />
+        <StatTile label="Concepts"   value={cnDone + "/" + D.sysDesignConcepts.length}       sub={Math.round(cnDone / D.sysDesignConcepts.length * 100) + "%"} />
+        <StatTile label="Deep Dives" value={ddDone + "/" + D.sysDesignDeepDives.length}      sub={Math.round(ddDone / D.sysDesignDeepDives.length * 100) + "%"} />
+      </div>
 
-      <SectionCard title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." items={D.sysDesignConcepts} group="sdConcepts" tilted="right">
-        <TimeLog id="sdConcepts" />
-        <Notes id="sdConcepts" placeholder="Cache eviction, partition keys, idempotency tokens — anything weird worth remembering." />
-      </SectionCard>
+      <div className="callout">
+        Start with <a href="https://www.youtube.com/watch?v=Ru54dxzCyD0" target="_blank" rel="noopener">How to Prepare for System Design Interviews</a>, then work the Hello Interview playlists. Mock at <a href="https://www.hellointerview.com" target="_blank" rel="noopener">hellointerview.com</a> after Week 4.
+      </div>
 
-      <SectionCard title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." items={D.sysDesignDeepDives} group="sdDeep">
-        <TimeLog id="sdDeep" />
-      </SectionCard>
+      <ListSection title="5-step delivery framework" lead="Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs." done={fwDone} total={SD_FRAMEWORK.length}>
+        <Checklist items={SD_FRAMEWORK} group="sd-framework" />
+      </ListSection>
 
-      <section className="section-card tilted-r">
-        <h2>Walkthroughs — 2 per week</h2>
-        <p className="lead">Easy → Medium → Hard. Talk through your approach before drawing.</p>
-        <Progress
-          done={D.sysDesignWalkthroughs.filter(w => (loadJSON("done:sdWalk", {}))[w.id]).length}
-          total={D.sysDesignWalkthroughs.length}
-        />
-        <Checklist
-          group="sdWalk"
-          items={D.sysDesignWalkthroughs}
-          renderItem={(it) => (
-            <span>{it.name} <Tag level={it.level} /></span>
-          )}
-        />
-        <TimeLog id="sdWalk" />
+      <ListSection title="Playlists" lead="Curated YouTube playlists — Hello Interview is the canonical source." done={plDone} total={D.sdPlaylists.length}>
+        <Checklist items={D.sdPlaylists} group="sdPlaylists" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." done={cnDone} total={D.sysDesignConcepts.length}>
+        <Checklist items={D.sysDesignConcepts} group="sdConcepts" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." done={ddDone} total={D.sysDesignDeepDives.length}>
+        <Checklist items={D.sysDesignDeepDives} group="sdDeep" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Walkthroughs · 2/week" lead="Easy → Medium → Hard. Talk through your approach before drawing." done={wkDone} total={D.sysDesignWalkthroughs.length}>
+        <Checklist items={D.sysDesignWalkthroughs} group="sdWalk" renderItem={renderWalkthrough} />
+      </ListSection>
+
+      <ListSection title="Channels" lead="Subscribe and dip in." done={chDone} total={D.sdChannels.length}>
+        <Checklist items={D.sdChannels} group="sdChannels" renderItem={renderResource} />
+      </ListSection>
+
+      <ListSection title="Reading & resources" lead="Newsletters, blogs, and reference repos." done={rdDone} total={D.sdReading.length}>
+        <Checklist items={D.sdReading} group="sdReading" renderItem={renderResource} />
+      </ListSection>
+
+      <section className="notes-section">
+        <div className="list-section-head">
+          <h2>Notes</h2>
+          <TimeLog id="sdWalk" />
+        </div>
         <Notes id="sdWalk" placeholder="Patterns you reused: rate limiter for hot keys, CQRS for read-heavy, etc." />
       </section>
     </div>
@@ -170,7 +224,14 @@ function P0_LLDView() {
       </div>
 
       <div className="row-grid-2">
-        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left" />
+        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left"
+          renderItem={(it) => (
+            <span>
+              <ResourceTag type="video" />
+              {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+            </span>
+          )}
+        />
         <SectionCard title="Practice problems" lead="Design + code these end-to-end." items={D.lldPractice} group="lldP" tilted="right" />
       </div>
 
@@ -275,27 +336,6 @@ function P0_DSAView() {
   );
 }
 
-// ───────── PART A — Lifecycle ─────────
-function PartAView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Part A · Full Software Lifecycle</h1>
-        <p className="page-sub">Plan → Code → Build → Deploy → Operate → Maintain → Cost. Short, opinionated bullets.</p>
-      </div>
-      {D.lifecycle.map((grp, i) => (
-        <SectionCard
-          key={grp.group}
-          title={grp.group}
-          items={grp.items}
-          group={"lifecycle"}
-          tilted={i % 2 ? "right" : "left"}
-        />
-      ))}
-    </div>
-  );
-}
-
 // ───────── PART B — Hands-on Phases ─────────
 function PartBView() {
   return (
@@ -319,23 +359,6 @@ function PartBView() {
           <Notes id={"phase-" + p.id} placeholder="Gotchas, links to repos, commands that worked." />
         </section>
       ))}
-    </div>
-  );
-}
-
-// ───────── PART D — System Design for SRE ─────────
-function PartDView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Part D · System Design for SRE</h1>
-        <p className="page-sub">SRE interviewers add reliability, observability, deployment, cost on top of vanilla SD.</p>
-      </div>
-      <SectionCard title="Core books" items={D.sreSysDesignBooks} group="sreBooks" tilted="left" />
-      <SectionCard title="SRE-specific topics" items={D.sreSysDesignTopics} group="sreTopics" tilted="right" />
-      <SectionCard title="SRE-flavor design questions" lead="Practice each in a 45-min mock." items={D.sreFlavorQuestions} group="sreFlavor">
-        <Notes id="sreFlavor" />
-      </SectionCard>
     </div>
   );
 }
@@ -534,7 +557,17 @@ function PartJView() {
         <p className="page-sub">Books + courses to grind through. Tick when finished — or when "good enough for interviews".</p>
       </div>
 
-      <SectionCard title="Must-read books" items={D.books} group="books" tilted="left">
+      <SectionCard title="Must-read books"
+        items={D.books}
+        group="books"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <ResourceTag type="book" />
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <span>{it.name}</span>}
+          </span>
+        )}
+      >
         <TimeLog id="books" />
         <Notes id="books" placeholder="Chapter notes, favorite passages, what to revisit." />
       </SectionCard>
@@ -544,7 +577,9 @@ function PartJView() {
         group="courses"
         tilted="right"
         renderItem={(it) => (
-          <span><strong>{it.name}</strong>
+          <span>
+            <ResourceTag type="course" />
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <strong>{it.name}</strong>}
             <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{it.plat} · {it.cost}</span>
           </span>
         )}
@@ -576,10 +611,13 @@ function PartJView() {
 
 function ResourceTag({ type }) {
   const map = {
-    video:  { l: "VIDEO",  bg: "#fcebe2", c: "var(--red)" },
-    course: { l: "COURSE", bg: "#dfeefb", c: "var(--blue)" },
-    book:   { l: "BOOK",   bg: "#e3f1da", c: "var(--green)" },
-    blog:   { l: "BLOG",   bg: "#fef9e0", c: "#9a6c00" },
+    video:    { l: "VIDEO",    bg: "#fcebe2", c: "var(--red)" },
+    course:   { l: "COURSE",   bg: "#dfeefb", c: "var(--blue)" },
+    book:     { l: "BOOK",     bg: "#e3f1da", c: "var(--green)" },
+    blog:     { l: "BLOG",     bg: "#fef9e0", c: "#9a6c00" },
+    playlist: { l: "PLAYLIST", bg: "#fcebe2", c: "var(--red)" },
+    channel:  { l: "CHANNEL",  bg: "#f0e6ff", c: "#6b3aa1" },
+    github:   { l: "GITHUB",   bg: "#e8eaed", c: "#1f2328" },
   };
   const s = map[type] || { l: "RES", bg: "#eee", c: "#666" };
   return (
@@ -848,7 +886,7 @@ function PartAIView() {
 
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
-  P0_DSAView, PartAView, PartAIView, PartBView, PartDView, PartEView,
+  P0_DSAView, PartAIView, PartBView, PartEView,
   PartGView, PartHView, PartIView, PartJView,
   SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });
