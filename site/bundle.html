@@ -1938,6 +1938,11 @@ function Tag({ level }) {
 // ───────── Checklist ─────────
 function Checklist({ items, group, renderItem }) {
   const [done, toggle] = useDoneSet(group);
+  // Clicks that land on (or inside) a link should navigate, not toggle.
+  const onLabelClick = (e, id) => {
+    if (e.target.closest && e.target.closest("a")) return;
+    toggle(id);
+  };
   return (
     <ul className="checklist">
       {items.map(it => {
@@ -1954,7 +1959,7 @@ function Checklist({ items, group, renderItem }) {
             </div>
             <div
               className={"item-label " + (isDone ? "done" : "")}
-              onClick={() => toggle(it.id)}
+              onClick={(e) => onLabelClick(e, it.id)}
             >
               {renderItem ? renderItem(it, isDone) : it.name}
             </div>
