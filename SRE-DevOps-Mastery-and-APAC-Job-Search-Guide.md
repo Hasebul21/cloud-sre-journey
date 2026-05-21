@@ -693,6 +693,10 @@ FROM employees GROUP BY dept;
 
 **Milestone:** Write a ~200-line CLI in Go or Python — takes structured input (CSV/JSON), transforms it, produces output with proper exit codes, logging, error handling. Seed of every SRE automation script.
 
+**KodeKloud (if gaps):**
+- [DevOps Pre-Requisite Course](https://kodekloud.com/courses/devops-pre-requisite-course) — single sweep over Linux CLI, networking, Git, apps, SSL, YAML/JSON
+- [Programming Fundamentals](https://kodekloud.com/courses/programming-fundamentals) — only if you've never programmed; skip otherwise
+
 **Time:** 1–2 weeks of evening review *only if needed*.
 
 ---
@@ -718,6 +722,18 @@ FROM employees GROUP BY dept;
 | *Beej's Guide to Network Programming* | Free online | [beej.us/guide/bgnet](https://beej.us/guide/bgnet/) |
 | *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog | [brendangregg.com](https://www.brendangregg.com) |
 | OverTheWire — Bandit / Natas | Wargame | [overthewire.org](https://overthewire.org) |
+
+**KodeKloud (lab-first complement to the books)**
+
+| Course | Use for |
+|--------|---------|
+| [Learning Linux Basics Course & Labs](https://kodekloud.com/courses/the-linux-basics-course) | Shell, filesystem, package mgmt, services, perms — browser labs after every lecture |
+| [Shell Scripts for Beginners](https://kodekloud.com/courses/shell-scripts-for-beginners/) | First-pass bash if you've never written a script |
+| [Advanced Bash Scripting](https://kodekloud.com/courses/advanced-bash-scripting/) | `awk`/`sed`, streams, arrays, `set -euo pipefail` patterns |
+| [GIT for Beginners](https://kodekloud.com/courses/git-for-beginners) | Branching, rebase, cherry-pick, internals — instructor: Lydia Hallie |
+| [Networks and Communications](https://kodekloud.com/courses/networks-and-communications) | TCP/IP, DNS, routing, ping/traceroute fundamentals |
+| [RHCSA Prep Course](https://kodekloud.com/courses/red-hat-certified-system-administrator-rhcsa) | Optional cert path; deepens systemd, SELinux, storage |
+| [Python Basics](https://kodekloud.com/courses/python-basics) / [Golang Course](https://kodekloud.com/courses/golang/) | Pick your SRE scripting language and finish one |
 
 **Hands-on milestones**
 - Provision a bare Linux VM (Hetzner, DigitalOcean, or a Raspberry Pi). Harden SSH, set up `ufw`, install nginx, serve a static site via a custom systemd unit, set up log rotation, write a bash + Python script that reports CPU/mem/disk and alerts via webhook
@@ -756,6 +772,8 @@ FROM employees GROUP BY dept;
 | [*Enterprise Roadmap to SRE*](https://sre.google/resources/practices-and-processes/enterprise-roadmap-to-sre/) — Brookbank & McGhee (2022) | Free download; J-curve, Ulysses pact, sublinear scaling, platform of capabilities |
 | Liz Fong-Jones SREcon talks | YouTube/USENIX — SLOs & error budgets |
 | [Coursera SRE & DevOps Specialization (Google)](https://www.coursera.org/specializations/sre-devops) | Paced, structured exposure |
+| [KodeKloud — Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) | Hands-on labs for SLI/SLO, error budgets, incidents, release eng, observability, chaos |
+| [KodeKloud — SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) | Curated multi-course sequence — use as the road map, not as a checklist |
 
 **Hands-on milestones**
 - Write a full **SLO document** + **Error Budget Policy** for a service you can touch (or a side project): SLI spec, measurement method, target, time window, exclusions, freeze policy. The act of writing it is transformative.
@@ -790,6 +808,18 @@ FROM employees GROUP BY dept;
 | *Docker Deep Dive* — Nigel Poulton | Book |
 | [CNCF Cloud Native Glossary](https://glossary.cncf.io) | Bookmark |
 
+**KodeKloud (hands-on labs)**
+
+| Course | Use for |
+|--------|---------|
+| [AWS Solutions Architect Associate (SAA-C03)](https://kodekloud.com/courses/aws-saa) | EC2/S3/IAM/VPC/RDS depth with browser labs in real AWS — pairs with Stephane Maarek's Udemy course |
+| [AWS Networking Fundamentals](https://kodekloud.com/courses/aws-networking-fundamentals) | VPCs, subnets, peering, Transit Gateway, CloudFront, Global Accelerator |
+| [Terraform Basics Training](https://kodekloud.com/courses/terraform-for-beginners) | HCL, providers, state, modules — the prerequisite to the cert course |
+| [HashiCorp Certified: Terraform Associate 004](https://kodekloud.com/courses/hashicorp-certified-terraform-associate-004) | Cert prep — updated for Terraform 1.12 + HCP Terraform |
+| [OpenTofu — Beginner's Guide](https://kodekloud.com/courses/opentofu-a-beginners-guide-to-a-terraform-fork-including-migration-from-terraform/) | Know the fork; migration matters in some APAC orgs |
+| [Ansible Basics](https://kodekloud.com/courses/ansible-for-the-absolute-beginners-course) → [Ansible Advanced](https://kodekloud.com/courses/ansible-advanced-course) | Inventory, playbooks, roles, vault, dynamic inventory, AWS/GCP modules |
+| [Docker Training for the Absolute Beginner](https://kodekloud.com/courses/docker-for-the-absolute-beginner) | Images, layers, Compose, Dockerfile practice in browser labs |
+
 **Hands-on milestones**
 - Build a **three-tier reference architecture** (web → app → DB) entirely in Terraform, one cloud, remote state, modules, staging + prod via workspaces or split state
 - Containerize a small app — Dockerfile under 100 MB, runs as non-root, passes `trivy` or `grype` scanning
@@ -817,9 +847,22 @@ FROM employees GROUP BY dept;
 |----------|------|
 | [kubernetes.io Tutorials](https://kubernetes.io/docs/tutorials/) | Start with "Kubernetes Basics" |
 | *Kubernetes Up & Running* (3rd ed.) — Burns/Beda/Hightower/Villalba | O'Reilly book |
-| KodeKloud / A Cloud Guru CKA prep | Heavily lab-based |
 | [ArgoCD docs](https://argo-cd.readthedocs.io) + [OpenGitOps Principles](https://opengitops.dev) | Free |
 | *Continuous Delivery* — Humble & Farley | Canonical text on release patterns |
+
+**KodeKloud (the densest CKA-prep ecosystem online — Mumshad's courses)**
+
+| Course | Use for |
+|--------|---------|
+| [Kubernetes for the Absolute Beginners — Hands-on](https://kodekloud.com/courses/kubernetes-for-the-absolute-beginners-hands-on) | Start here if K8s is new |
+| [KCNA — Kubernetes & Cloud-native Associate](https://kodekloud.com/courses/kubernetes-and-cloud-native-associate-kcna) | Optional MCQ-format entry cert; good vocab sweep |
+| [CKA — Certified Kubernetes Administrator](https://kodekloud.com/courses/certified-kubernetes-administrator-cka/) | THE K8s cert prep; refreshed quarterly; CNCF-endorsed |
+| [CKAD — Application Developer](https://kodekloud.com/courses/certified-kubernetes-application-developer-ckad) | Pairs well with CKA for SREs who own services |
+| [Helm for Beginners](https://kodekloud.com/courses/helm-for-beginners/) | Charts, templates, releases, dependencies |
+| [GitHub Actions](https://kodekloud.com/courses/github-actions) | Reusable workflows, custom actions, self-hosted runners |
+| [Jenkins](https://kodekloud.com/courses/jenkins) → [Certified Jenkins Engineer](https://kodekloud.com/courses/certified-jenkins-engineer) | Only if your APAC target uses Jenkins (still common at GovTech/Agoda) |
+| [GitOps with ArgoCD](https://kodekloud.com/courses/argocd) | Sealed secrets, Vault, ArgoCD + Jenkins pattern |
+| [GitOps Certified Associate (CGOA)](https://kodekloud.com/courses/gitops-certified-associate-cgoa) | New CNCF cert — optional, signals depth |
 
 **Hands-on milestones**
 - Deploy the Stage 3 app on **kind**/**minikube** with a full Helm chart, then on managed EKS/GKE provisioned by your Terraform
@@ -852,6 +895,16 @@ FROM employees GROUP BY dept;
 | [Grafana Tutorials](https://grafana.com/tutorials/) | Free |
 | *Distributed Systems Observability* — Sridharan | Free O'Reilly report |
 | SRE Workbook Ch 4 (Monitoring) + Ch 5 (Alerting on SLOs) | Free |
+
+**KodeKloud (cert-aligned labs)**
+
+| Course | Use for |
+|--------|---------|
+| [Prometheus Certified Associate (PCA)](https://kodekloud.com/courses/prometheus-certified-associate-pca) | Install/configure/operate Prometheus, PromQL, exporters, Alertmanager, K8s monitoring |
+| [OpenTelemetry Certified Associate (OTCA)](https://kodekloud.com/courses/prep-course-opentelemetry-certified-associate-certification-otca) | Instrument apps, run the OTel Collector in K8s, end-to-end pipelines |
+| [AIOps Foundations — Prometheus & Grafana](https://kodekloud.com/courses/aiops-foundations-intelligent-monitoring-with-prometheus-grafana) | Anomaly detection + forecasting layered on Prom/Grafana |
+| [AIOps in Practice — Logging & Alerting at Scale](https://kodekloud.com/courses/aiops-in-practice-logging-alerting-at-scale) | Grafana Loki + Alloy + Prometheus alerting pipeline |
+| [Advanced AIOps — Distributed Tracing & RCA](https://kodekloud.com/courses/learn-by-doing-advanced-aiops-distributed-tracing-and-rca-curriculum) | OTel + Jaeger trace-driven RCA practice |
 
 **Hands-on milestones**
 - Instrument the Stage 4 app end-to-end with **OpenTelemetry SDKs**. Metrics → Prometheus, logs → Loki, traces → Tempo, unified in Grafana. One dashboard answers "Is the service healthy?" in under 10 seconds.
@@ -889,6 +942,7 @@ FROM employees GROUP BY dept;
 | *Chaos Engineering* — Rosenthal & Jones | O'Reilly book |
 | [PagerDuty Incident Response training](https://response.pagerduty.com/) | Free OSS docs |
 | SREcon talks on YouTube | Search "blameless", "incident command", "on-call" |
+| [KodeKloud — Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | AWS FIS-driven labs on EC2, Aurora, Fargate, EKS — the practical companion to the book |
 
 **Hands-on milestones**
 - Run a **game day** on your Stage 5 stack: kill pods, sever a network link, fill a disk, exhaust a connection pool. Document hypothesis → experiment → result → what you'd change.
@@ -921,6 +975,16 @@ FROM employees GROUP BY dept;
 | *Team Topologies* — Skelton & Pais | Platform-team / stream-aligned-team model |
 | [CNCF Landscape](https://landscape.cncf.io) | To *orient*, not to install |
 | [SLSA framework](https://slsa.dev/) | Supply-chain security |
+
+**KodeKloud (cert-aligned senior-track labs)**
+
+| Course | Use for |
+|--------|---------|
+| [CKS — Certified Kubernetes Security Specialist](https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks) | The depth credential — runtime security, network policies, supply chain, Falco/Trivy |
+| [KCSA — Kubernetes & Cloud-Native Security Associate](https://kodekloud.com/courses/kubernetes-and-cloud-native-security-associate-kcsa) | Lighter MCQ-format cert; vocab pass for DevSecOps |
+| [Istio Service Mesh](https://kodekloud.com/courses/istio-service-mesh) → [Istio Certified Associate (ICA)](https://kodekloud.com/courses/istio-certified-associate) | Traffic shifting, mTLS, observability — pair before deciding mesh tradeoffs |
+| [AWS EKS](https://kodekloud.com/courses/aws-eks) | Karpenter vs node groups vs Fargate, EKS upgrades, persistent storage |
+| [AWS Certified DevOps Engineer — Professional](https://kodekloud.com/courses/aws-certified-devops-engineering) | Optional follow-on after SAA for AWS-heavy APAC roles (Agoda, Grab) |
 
 **Hands-on milestones**
 - Install Linkerd or Istio on your cluster — demonstrate mTLS, 5% canary traffic shift, automatic retries on a service that intermittently fails
@@ -2148,10 +2212,11 @@ jobs:
 
 ### Certification Path
 
-1. **AWS SAA-C03** — Stephane Maarek (Udemy $10–15) + Tutorials Dojo practice exams. 6–8 weeks.
-2. **CKA** — Mumshad Mannambeth (KodeKloud). THE K8s credential. $395 (often $245 with CNCF discounts).
-3. **Terraform Associate** — $70.50. Quick win. HashiCorp Learn (free prep).
-4. **AWS DevOps Pro** — optional next step after SAA for AWS depth; ~3 months prep.
+1. **AWS SAA-C03** — Stephane Maarek (Udemy $10–15) + Tutorials Dojo practice exams. KodeKloud's [AWS SAA course](https://kodekloud.com/courses/aws-saa) for browser labs in real AWS. 6–8 weeks.
+2. **CKA** — Mumshad Mannambeth ([KodeKloud CKA course](https://kodekloud.com/courses/certified-kubernetes-administrator-cka/)). THE K8s credential. $395 (often $245 with CNCF discounts). Quarterly content refresh, CNCF-endorsed.
+3. **Terraform Associate** — $70.50. Quick win. [KodeKloud TA-004 prep](https://kodekloud.com/courses/hashicorp-certified-terraform-associate-004) + free HashiCorp Learn tutorials.
+4. **AWS DevOps Pro** — optional next step after SAA for AWS depth; ~3 months prep. KodeKloud's [AWS DevOps Engineering](https://kodekloud.com/courses/aws-certified-devops-engineering).
+5. **Optional next:** [CKS](https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks) (K8s security), [PCA](https://kodekloud.com/courses/prometheus-certified-associate-pca) (Prometheus), [OTCA](https://kodekloud.com/courses/prep-course-opentelemetry-certified-associate-certification-otca) (OpenTelemetry) — pick the one that matches the job description.
 
 **GCP awareness:** Know GKE, BigQuery, Cloud Run conceptually (Mercari, LINE, Indeed Japan use GCP heavily).
 
@@ -2472,8 +2537,13 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 |--------|----------|------|
 | AWS SAA-C03 (Stephane Maarek) | Udemy | $10–15 on sale |
 | SAA Practice Exams (Jon Bonso) | Tutorials Dojo | $15 |
-| CKA (Mumshad Mannambeth) | KodeKloud | $30/month |
+| [CKA — Mumshad Mannambeth](https://kodekloud.com/courses/certified-kubernetes-administrator-cka/) | KodeKloud | Sub (~$30/mo) |
+| [CKAD](https://kodekloud.com/courses/certified-kubernetes-application-developer-ckad) / [CKS](https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks) | KodeKloud | Same sub |
+| [Terraform Associate 004](https://kodekloud.com/courses/hashicorp-certified-terraform-associate-004) | KodeKloud | Same sub |
 | Terraform AWS Track | learn.hashicorp.com | FREE |
+| [Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) + [Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | KodeKloud | Same sub |
+| [Prometheus (PCA)](https://kodekloud.com/courses/prometheus-certified-associate-pca) + [OpenTelemetry (OTCA)](https://kodekloud.com/courses/prep-course-opentelemetry-certified-associate-certification-otca) | KodeKloud | Same sub |
+| [KodeKloud SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) (full sequence) | KodeKloud | Same sub |
 | A Tour of Go | tour.golang.org | FREE |
 | FinOps Certified Practitioner | finops.org | $325 |
 
