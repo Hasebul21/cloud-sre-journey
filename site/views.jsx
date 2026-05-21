@@ -12,11 +12,11 @@ function OverviewView() {
         <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
 
-      <div className="row-grid-2">
+      <div>
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
           <ul className="checklist">
             {Object.entries({
-              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa","schedule"],
+              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa"],
               "Part A · Lifecycle": ["lifecycle"],
               "Part B · Hands-on Phases": ["phase"],
               "Part D · System Design (SRE)": ["sreBooks","sreTopics","sreFlavor"],
@@ -33,7 +33,7 @@ function OverviewView() {
                   <div style={{flex:1}}>
                     <div style={{display:"flex", justifyContent:"space-between", marginBottom: 3}}>
                       <span>{label}</span>
-                      <span style={{fontFamily:"Caveat, cursive", fontSize: 17, color: "var(--ink-soft)"}}>{done}/{total} · {pct}%</span>
+                      <span style={{fontFamily:"'IBM Plex Mono', monospace", fontSize: 12, fontWeight: 500, color: "var(--ink-soft)"}}>{done}/{total} · {pct}%</span>
                     </div>
                     <div className="progress-track" style={{height: 8}}>
                       <div className="progress-fill" style={{width: pct + "%"}}></div>
@@ -45,11 +45,6 @@ function OverviewView() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="This week's checklist" tilted="left">
-          <p className="lead">Tick these every week. Keeps the gears turning.</p>
-          <Checklist items={D.habits.map(h => ({ id: "ovw-"+h.id, name: h.name + (h.target ? `  — target: ${h.target}` : "") }))} group="overview-week" />
-          <p style={{marginTop:10, fontSize:13, color:"var(--ink-faint)"}}>(Detailed tracking lives in the <strong>Habits</strong> view in the sidebar.)</p>
-        </SectionCard>
       </div>
 
       <section className="section-card">
@@ -141,7 +136,7 @@ function P0_BehaviorView() {
         <p className="lead">Pull up these notes before every behavioral round. Edit until each fits in 2 minutes spoken.</p>
         {D.starStories.map(s => (
           <details key={s.id} style={{marginBottom: 10, borderBottom: "1px dotted var(--paper-line)", paddingBottom: 8}}>
-            <summary style={{cursor: "pointer", fontFamily: "Caveat, cursive", fontSize: 22}}>{s.name}</summary>
+            <summary style={{cursor: "pointer", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.005em"}}>{s.name}</summary>
             <Notes id={"story-" + s.id} placeholder="Situation: ...&#10;Task: ...&#10;Action (I): ...&#10;Result (quantify): ..." />
           </details>
         ))}
@@ -276,28 +271,6 @@ function P0_DSAView() {
           </section>
         );
       })}
-    </div>
-  );
-}
-
-// ───────── 0G Schedule ─────────
-function P0_ScheduleView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">0G · Interview Prep Schedule</h1>
-        <p className="page-sub">24 weeks. Tick each block when its focus is genuinely behind you.</p>
-      </div>
-      <SectionCard
-        items={D.schedule}
-        group="schedule"
-        renderItem={(it) => (
-          <span>
-            <strong style={{fontFamily: "Caveat, cursive", fontSize: 22, marginRight: 10, color: "var(--red)"}}>Wk {it.weeks}</strong>
-            {it.focus}
-          </span>
-        )}
-      />
     </div>
   );
 }
@@ -441,7 +414,7 @@ function PartGView() {
                 <select value={j.stage || "Not yet"} onChange={e => setStage(key, e.target.value)}>
                   {stages.map(s => <option key={s}>{s}</option>)}
                 </select>
-                <span style={{fontSize: 12, color: "var(--ink-faint)", fontFamily: "Caveat, cursive", fontSize: 16}}>{j.stage === "Offer" ? "🎉" : j.stage === "Rejected" ? "—" : ""}</span>
+                <span style={{fontSize: 14, color: "var(--ink-faint)"}}>{j.stage === "Offer" ? "🎉" : j.stage === "Rejected" ? "—" : ""}</span>
               </div>
             );
           })}
@@ -477,7 +450,7 @@ function PartHView() {
       <section className="section-card">
         <h2>Mock interviews log</h2>
         <p className="lead">Aim: 1 every 2 weeks. Pramp (free) → Hello Interview AI → interviewing.io for FAANG mocks.</p>
-        <button onClick={addMock} style={{padding:"6px 14px", border:"1.5px solid var(--ink)", borderRadius: 20, background: "var(--accent)", fontFamily: "Caveat, cursive", fontSize: 20, marginBottom: 10}}>
+        <button onClick={addMock} style={{padding:"6px 14px", border:"1px solid var(--line)", borderRadius: 6, background: "var(--paper)", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 500, color: "var(--ink)", marginBottom: 10}}>
           + Log a mock
         </button>
         {mocks.length === 0 ? (
@@ -486,7 +459,7 @@ function PartHView() {
           <ul className="checklist">
             {mocks.map(m => (
               <li key={m.id}>
-                <span style={{fontFamily: "Caveat, cursive", fontSize: 20, color: "var(--blue)", minWidth: 110}}>{m.date}</span>
+                <span style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, fontWeight: 500, color: "var(--blue)", minWidth: 110}}>{m.date}</span>
                 <Tag level={m.type === "SD" ? "Hard" : m.type === "Coding" ? "Medium" : "Easy"} />
                 <span style={{flex:1, marginLeft: 8}}>{m.notes}</span>
                 <button onClick={() => removeMock(m.id)} style={{color: "var(--red)", fontSize: 14}}>×</button>
@@ -599,70 +572,6 @@ function PartJView() {
   );
 }
 
-// ───────── HABITS ─────────
-function HabitsView() {
-  const { counts, daily, dayIdx, bump, reset, wk } = useHabits();
-  const totalProgress = useMemo(() => {
-    let hit = 0, tgt = 0;
-    D.habits.forEach(h => {
-      tgt += h.target;
-      hit += Math.min(counts[h.id] || 0, h.target);
-    });
-    return { hit, tgt };
-  }, [counts]);
-
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Weekly Habits</h1>
-        <p className="page-sub">Week starting <strong>{wk}</strong>. Bump each habit as you do it. Resets every Sunday.</p>
-      </div>
-
-      <section className="section-card tilted-l">
-        <h2>This week</h2>
-        <Progress done={totalProgress.hit} total={totalProgress.tgt} label="completions" />
-        <button onClick={() => { if (confirm("Reset this week's counters?")) reset(); }}
-          style={{padding:"4px 12px", border:"1.5px solid var(--paper-line)", borderRadius: 16, background: "var(--paper)", fontSize: 12, color: "var(--ink-soft)"}}>
-          Reset week
-        </button>
-
-        <div style={{marginTop: 16}}>
-          {D.habits.map(h => {
-            const c = counts[h.id] || 0;
-            const ratio = Math.min(1, c / h.target);
-            const dailyMap = daily[h.id] || {};
-            return (
-              <div key={h.id} className="habit-row">
-                <div className="habit-name">{h.name}</div>
-                <div className="habit-counter">
-                  <button onClick={() => bump(h.id, -1)}>−</button>
-                  <span className="num">
-                    {c}<span className="target"> / {h.target}</span>
-                  </span>
-                  <button onClick={() => bump(h.id, +1)}>+</button>
-                </div>
-                <div className="week-strip">
-                  {["S","M","T","W","T","F","S"].map((l, i) => (
-                    <div key={i} className={"week-day " + ((dailyMap[i]||0) > 0 ? "done " : "") + (i === dayIdx ? "today" : "")}>{l}</div>
-                  ))}
-                </div>
-                <div style={{width: 30, fontFamily: "Caveat, cursive", fontSize: 22, color: ratio >= 1 ? "var(--green)" : "var(--ink-faint)"}}>
-                  {ratio >= 1 ? "✓" : Math.round(ratio*100)+"%"}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="section-card tilted-r">
-        <h2>Why habits matter</h2>
-        <p>15 hours/week is the budget. Spread it: 5 hrs LeetCode + 5 hrs technical study + 4 hrs hands-on + 1 hr writing/networking. The streak is the goal — daily input beats weekend cramming for skill-building.</p>
-      </section>
-    </div>
-  );
-}
-
 // ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
 
 function ResourceTag({ type }) {
@@ -681,13 +590,39 @@ function ResourceTag({ type }) {
   );
 }
 
+const STAGE_NUM = {
+  foundations: "01",
+  coding:      "02",
+  cloud:       "03",
+  automation:  "04",
+  reliability: "05",
+};
+
+function ColProgress({ done, total }) {
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  return (
+    <div className="learn-col-progress">
+      <span className="pct">{pct}%</span>
+      <span className="mini-bar"><div style={{ width: pct + "%" }} /></span>
+      <span>{done}/{total}</span>
+    </div>
+  );
+}
+
 function SreLearningView({ sectionKey }) {
   const section = D.sreRoadmap[sectionKey];
   if (!section) return null;
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
-  const resDone = D.sreRoadmap[sectionKey].resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
-  const milDone = section.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+  const resDoneSet = useDoneSet(resGroup)[0];
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
+  const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
+
+  // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
+  // and prefix with a clean two-digit number to match the redesign mocks.
+  const stageName = section.title.split(" · ").slice(-1)[0];
+  const heading = (STAGE_NUM[sectionKey] ? STAGE_NUM[sectionKey] + " · " : "") + stageName;
 
   const renderResource = (it) => (
     <span>
@@ -701,31 +636,37 @@ function SreLearningView({ sectionKey }) {
   return (
     <div>
       <div className="page-head">
-        <h1 className="page-title">{section.title}</h1>
+        <h1 className="page-title">{heading}</h1>
         <p className="page-sub">{section.intro}</p>
       </div>
 
       {section.why && <div className="callout">{section.why}</div>}
 
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>📚 Curated resources</h2>
-        <p className="lead">A mix of videos, courses, books, blogs. Tick when you've worked through it (or honestly decided you don't need to).</p>
-        <Progress done={resDone} total={section.resources.length} />
-        <Checklist
-          items={section.resources}
-          group={resGroup}
-          renderItem={renderResource}
-        />
-        <TimeLog id={resGroup} />
-      </section>
+      <div className="learn-two-col">
+        <section className="learn-col">
+          <div className="learn-col-head">
+            <h2>Curated resources</h2>
+            <ColProgress done={resDone} total={section.resources.length} />
+          </div>
+          <p className="lead">A mix of videos, courses, books, blogs.</p>
+          <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
+        </section>
 
-      <section className="section-card tilted-r">
-        <h2>🛠 Hands-on milestones</h2>
-        <p className="lead">Do not tick unless you've actually shipped it. This is the difference between "watched a video" and "I can do this."</p>
-        <Progress done={milDone} total={section.milestones.length} />
-        <Checklist items={section.milestones} group={milGroup} />
-        <Notes id={milGroup} placeholder="Log links to commits, gotchas, gnarly bugs that taught you something." />
+        <section className="learn-col">
+          <div className="learn-col-head">
+            <h2>Hands-on milestones</h2>
+            <ColProgress done={milDone} total={section.milestones.length} />
+          </div>
+          <p className="lead">Tick only when actually shipped.</p>
+          <Checklist items={section.milestones} group={milGroup} />
+        </section>
+      </div>
+
+      <section className="notes-section">
+        <h2>Notes</h2>
+        <p className="lead">Pasted between sessions.</p>
+        <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, things to come back to." />
+        <TimeLog id={resGroup} />
       </section>
     </div>
   );
@@ -738,70 +679,130 @@ const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 
 // Part AI renders 4 difficulty levels on one page (sourced from sreRoadmap.ai-l1..l4)
+function AILevelCard({ levelNum, sectionKey }) {
+  const D = window.SRE_DATA;
+  const sec = D.sreRoadmap[sectionKey];
+  const milGroup = "sreLm_" + sectionKey;
+  const resGroup = "sreLr_" + sectionKey;
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const milTotal = sec.milestones.length;
+  const milPct = milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0;
+  const [showAllMil, setShowAllMil] = useState(false);
+  const [showRes, setShowRes] = useState(false);
+
+  // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
+  const levelTail = sec.title.split(" — ").slice(-1)[0];
+  const heading = `Level ${levelNum} — ${levelTail}`;
+
+  const VISIBLE = 3;
+  const visibleMil = showAllMil ? sec.milestones : sec.milestones.slice(0, VISIBLE);
+  const hiddenCount = sec.milestones.length - visibleMil.length;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? (
+        <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      ) : <span>{it.name}</span>}
+    </span>
+  );
+
+  return (
+    <section id={"ai-l" + levelNum} className="level-card">
+      <div className="level-head">
+        <div style={{flex: 1, minWidth: 0}}>
+          <h2>{heading}</h2>
+          <p className="lead">{sec.intro}</p>
+        </div>
+        <div className="level-progress">
+          <div className="pct">{milPct}%</div>
+          <div className="mini-bar"><div style={{ width: milPct + "%" }} /></div>
+          <div className="frac">{milDone}/{milTotal}</div>
+        </div>
+      </div>
+
+      <Checklist items={visibleMil} group={milGroup} />
+
+      <div style={{display: "flex", gap: 18, marginTop: 4}}>
+        {hiddenCount > 0 && !showAllMil && (
+          <button className="more-link" onClick={() => setShowAllMil(true)}>
+            + {hiddenCount} more milestone{hiddenCount === 1 ? "" : "s"}…
+          </button>
+        )}
+        {showAllMil && hiddenCount === 0 && sec.milestones.length > VISIBLE && (
+          <button className="more-link" onClick={() => setShowAllMil(false)}>
+            show fewer
+          </button>
+        )}
+        <button className="more-link" onClick={() => setShowRes(s => !s)}>
+          {showRes ? "hide" : "show"} {sec.resources.length} resources
+        </button>
+      </div>
+
+      {showRes && (
+        <div className="level-resources">
+          <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+function LevelPill({ levelNum, sectionKey }) {
+  const D = window.SRE_DATA;
+  const sec = D.sreRoadmap[sectionKey];
+  const milGroup = "sreLm_" + sectionKey;
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const done = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const total = sec.milestones.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const target = "ai-l" + levelNum;
+  return (
+    <a href={"#" + target} className="level-pill" onClick={(e) => {
+      e.preventDefault();
+      document.getElementById(target)?.scrollIntoView({behavior: "smooth", block: "start"});
+    }}>
+      <div className="level-pill-head">
+        <span className="lvl">L{levelNum}</span>
+        <span className="pct">{pct}%</span>
+      </div>
+      <div className="level-pill-bar"><div style={{ width: pct + "%" }} /></div>
+    </a>
+  );
+}
+
 function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
-  const tilts = ["tilted-l", "tilted-r", "tilted-l", "tilted-r"];
 
   return (
     <div>
       <div className="page-head">
-        <h1 className="page-title">Part AI — AI Engineering for SRE/DevOps</h1>
-        <p className="page-sub">A horizontal specialization that compounds with Parts SRE + B. AI engineering (using pre-trained models in production), not ML research. Pair with the 6-week plan in the guide.</p>
+        <h1 className="page-title">AI Engineering for SRE</h1>
+        <p className="page-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
       </div>
 
       <div className="callout">
-        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Roadmap to Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
+        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
-      {levelKeys.map((key, idx) => {
-        const sec = D.sreRoadmap[key];
-        if (!sec) return null;
-        const resGroup = "sreLr_" + key;
-        const milGroup = "sreLm_" + key;
-        const resDone = sec.resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
-        const milDone = sec.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+      <div className="level-switcher">
+        {levelKeys.map((key, idx) => (
+          <LevelPill key={key} levelNum={idx + 1} sectionKey={key} />
+        ))}
+      </div>
 
-        const renderResource = (it) => (
-          <span>
-            <ResourceTag type={it.type} />
-            {it.url ? (
-              <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
-            ) : <span>{it.name}</span>}
-          </span>
-        );
-
-        return (
-          <section key={key} className={"section-card " + tilts[idx]}>
-            {idx === 0 && <span className="tape tl"></span>}
-            <h2>{sec.title}</h2>
-            <p className="lead">{sec.intro}</p>
-            {sec.why && <div className="callout" style={{marginBottom: "1rem"}}>{sec.why}</div>}
-
-            <h3 style={{marginTop: "1.5rem"}}>📚 Resources</h3>
-            <Progress done={resDone} total={sec.resources.length} />
-            <Checklist
-              items={sec.resources}
-              group={resGroup}
-              renderItem={renderResource}
-            />
-
-            <h3 style={{marginTop: "1.5rem"}}>🛠 Milestones</h3>
-            <Progress done={milDone} total={sec.milestones.length} />
-            <Checklist items={sec.milestones} group={milGroup} />
-
-            <TimeLog id={resGroup} />
-            <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, eval numbers." />
-          </section>
-        );
-      })}
+      {levelKeys.map((key, idx) => (
+        <AILevelCard key={key} levelNum={idx + 1} sectionKey={key} />
+      ))}
     </div>
   );
 }
 
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
-  P0_DSAView, P0_ScheduleView, PartAView, PartAIView, PartBView, PartDView, PartEView,
-  PartGView, PartHView, PartIView, PartJView, HabitsView,
+  P0_DSAView, PartAView, PartAIView, PartBView, PartDView, PartEView,
+  PartGView, PartHView, PartIView, PartJView,
   SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });

@@ -6,26 +6,26 @@
 <title>SRE Notebook — APAC Study Tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Source+Serif+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ───────── Two-pane TOC — Linear / Notion / GitBook aesthetic ───────── */
 
 :root {
-  --ink: #14171a;
-  --ink-2: #4a5159;
-  --ink-3: #8a9099;
-  --line: #d8dadd;
-  --line-soft: #ebedef;
-  --paper: #fbfbfa;
-  --paper-2: #f4f4f2;
-  --fill: #ececea;
-  --fill-2: #f6f6f4;
-  --hand: #c4502e;
-  --blue: #004081;
-  --green: #57a11f;
-  --green-soft: #e7f0d9;
-  --blue-soft: #dbe6f1;
-  --warn: #b07c00;
+  --ink: #1a1714;
+  --ink-2: #5e5853;
+  --ink-3: #9a948d;
+  --line: #e3dfd6;
+  --line-soft: #edeae2;
+  --paper: #fbfaf6;
+  --paper-2: #f3f1eb;
+  --fill: #ece8de;
+  --fill-2: #f3f1eb;
+  --hand: #c8552c;
+  --blue: #c8552c;
+  --green: #3b7a3f;
+  --green-soft: #e8efe5;
+  --blue-soft: #fae8df;
+  --warn: #a06b00;
 
   /* legacy var names some views may still reference */
   --red: var(--hand);
@@ -50,20 +50,20 @@
 }
 
 :root[data-theme="dark"] {
-  --ink: #e6edf3;
-  --ink-2: #adbac7;
-  --ink-3: #768390;
-  --line: #2d333b;
-  --line-soft: #21262d;
-  --paper: #0d1117;
-  --paper-2: #161b22;
-  --fill: #1c2128;
-  --fill-2: #181d23;
-  --hand: #ff8a5b;
-  --blue: #6ea4ff;
-  --green: #7ec96a;
-  --green-soft: #1c2e18;
-  --blue-soft: #14233b;
+  --ink: #ece7df;
+  --ink-2: #b8b0a4;
+  --ink-3: #7d7569;
+  --line: #2d2925;
+  --line-soft: #1f1c19;
+  --paper: #16130f;
+  --paper-2: #1d1a16;
+  --fill: #25211c;
+  --fill-2: #1f1c18;
+  --hand: #e07a4e;
+  --blue: #e07a4e;
+  --green: #8ab877;
+  --green-soft: #1f2a1c;
+  --blue-soft: #2d1d14;
   --warn: #d4a35a;
 
   --hover-tint: rgba(255,255,255,0.04);
@@ -88,7 +88,7 @@ html, body {
   padding: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 14.5px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -133,9 +133,9 @@ button {
 .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
 
 .brand {
-  font-family: 'Lato', sans-serif;
-  font-weight: 900;
-  font-size: 14px;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
   padding: 18px 18px 14px;
   border-bottom: 1px solid var(--line);
   letter-spacing: -0.005em;
@@ -157,7 +157,7 @@ button {
   color: var(--ink-3);
 }
 .search .kbd-hint {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 10px;
   background: var(--fill-2);
   border: 1px solid var(--line);
@@ -170,11 +170,11 @@ button {
 
 .nav-group-label {
   font-size: 9.5px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--ink-3);
-  padding: 14px 18px 4px;
+  padding: 16px 18px 4px;
 }
 
 .nav-item {
@@ -182,7 +182,8 @@ button {
   align-items: center;
   gap: 8px;
   padding: 5px 14px 5px 18px;
-  font-size: 13px;
+  font-size: 12.5px;
+  line-height: 1.3;
   color: var(--ink-2);
   border-left: 2px solid transparent;
   width: 100%;
@@ -193,18 +194,20 @@ button {
 .nav-item.active {
   background: var(--paper);
   color: var(--ink);
-  font-weight: 700;
-  border-left-color: var(--blue);
+  font-weight: 600;
+  border-left-color: var(--hand);
 }
 .nav-item .icon { display: none; }
 .nav-item .mini-bar {
   margin-left: auto;
   font-size: 10px;
   color: var(--ink-3);
-  font-weight: 700;
-  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  min-width: 24px;
+  text-align: right;
 }
-.nav-item.active .mini-bar { color: var(--blue); }
+.nav-item.active .mini-bar { color: var(--hand); }
 
 .sidebar-foot {
   margin-top: auto;
@@ -242,9 +245,9 @@ button {
   border: none;
 }
 .page-title {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.15;
   margin: 0 0 6px;
@@ -272,20 +275,20 @@ button {
 .section-card.tilted-l,
 .section-card.tilted-r { transform: none !important; }
 .section-card h2 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 600;
   margin: 0 0 6px;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   line-height: 1.25;
   color: var(--ink);
 }
 .section-card h3 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13.5px;
-  font-weight: 900;
+  font-weight: 600;
   margin: 18px 0 8px;
-  letter-spacing: 0;
+  letter-spacing: -0.005em;
   color: var(--ink);
 }
 .section-card .lead {
@@ -307,10 +310,10 @@ button {
 }
 .overall-card h4 {
   margin: 0 0 4px;
-  font-family: 'Lato', sans-serif;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.06em;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -339,16 +342,17 @@ button {
   transition: width .4s ease;
 }
 .progress-pct {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 600;
   min-width: 36px;
   color: var(--ink);
 }
 .progress-frac {
   color: var(--ink-3);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
 }
 
 /* ───────── Checklist ───────── */
@@ -377,9 +381,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 700;
   color: transparent;
   line-height: 1;
   margin-top: 3px;
@@ -411,21 +415,21 @@ button {
   display: inline-block;
   padding: 1px 7px;
   font-size: 9.5px;
-  font-weight: 700;
-  border-radius: 999px;
+  font-weight: 600;
+  border-radius: 3px;
   border: 1px solid;
   margin-left: 6px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
 }
 .tag-easy { color: var(--tag-easy-fg); border-color: var(--tag-easy-bd); background: var(--tag-easy-bg); }
 .tag-medium { color: var(--tag-med-fg); border-color: var(--tag-med-bd); background: var(--tag-med-bg); }
 .tag-hard { color: var(--tag-hard-fg); border-color: var(--tag-hard-bd); background: var(--tag-hard-bg); }
 .tag-num {
   display: inline-block;
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 11px;
   color: var(--ink-3);
   margin-right: 8px;
@@ -461,31 +465,31 @@ button {
   overflow: hidden;
 }
 .stat .v {
-  font-family: 'Lato', sans-serif;
-  font-size: 26px;
-  font-weight: 900;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 24px;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
   margin-bottom: 6px;
   color: var(--ink);
 }
 .stat .v small {
   font-size: 12px;
   color: var(--ink-3);
-  font-weight: 700;
+  font-weight: 500;
 }
 .stat .l {
   font-size: 10px;
   color: var(--ink-3);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 900;
+  letter-spacing: 0.12em;
+  font-weight: 600;
 }
 .stat .sub {
   font-size: 11px;
   color: var(--ink-3);
   margin-top: 4px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
 }
 .stat.streak .v { color: var(--hand); }
 .stat.streak::after { content: none; }
@@ -501,9 +505,9 @@ button {
 }
 .habit-row:last-child { border: none; }
 .habit-name {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 500;
   flex: 1;
   color: var(--ink);
 }
@@ -518,7 +522,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--paper);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 13px;
   line-height: 1;
   color: var(--ink-2);
@@ -528,9 +532,9 @@ button {
   border-color: var(--ink-2);
 }
 .habit-counter .num {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 600;
   min-width: 50px;
   text-align: center;
   color: var(--ink);
@@ -545,12 +549,13 @@ button {
   border-radius: 3px;
   background: var(--paper);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink-3);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
 }
 .week-day.done {
   background: var(--green);
@@ -589,7 +594,7 @@ button {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 4px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.6;
   color: var(--ink);
@@ -610,13 +615,13 @@ button {
 .tab {
   padding: 5px 12px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--paper);
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--ink-2);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   box-shadow: none;
 }
 .tab:hover { border-color: var(--ink-2); }
@@ -638,7 +643,7 @@ button {
 }
 .job-row select {
   font: inherit;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 12px;
   padding: 3px 6px;
   border: 1px solid var(--line);
@@ -652,7 +657,7 @@ button {
 .tape, .pin { display: none !important; }
 
 .legend {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 11.5px;
   color: var(--ink-3);
   margin-bottom: 10px;
@@ -680,13 +685,238 @@ button {
 }
 
 .kbd {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 11px;
   background: var(--fill-2);
   border: 1px solid var(--line);
   border-radius: 3px;
   padding: 1px 5px;
   color: var(--ink-2);
+}
+
+/* ───────── Learn · two-column (resources | milestones) ───────── */
+
+.learn-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 18px 0 18px;
+}
+@media (max-width: 900px) { .learn-two-col { grid-template-columns: 1fr; } }
+
+.learn-col {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 0;
+  box-shadow: none;
+}
+.learn-col-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.learn-col-head h2 {
+  margin: 0;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.learn-col-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.learn-col-progress .pct {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 12px;
+}
+.learn-col-progress .mini-bar {
+  display: inline-block;
+  width: 56px;
+  height: 3px;
+  background: var(--line-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.learn-col-progress .mini-bar > div {
+  height: 100%;
+  background: var(--hand);
+  border-radius: 2px;
+}
+.learn-col .lead {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 0 0 12px;
+}
+
+.notes-section {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-top: 4px;
+}
+.notes-section h2 {
+  margin: 0 0 2px;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.notes-section .lead {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin: 0 0 10px;
+}
+.notes-section .notes {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  background: var(--fill-2);
+  min-height: 96px;
+  line-height: 1.55;
+}
+
+/* ───────── AI Engineering · level switcher + stacked level cards ───────── */
+
+.level-switcher {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin: 18px 0 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.level-pill {
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 4px 4px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: inherit;
+  transition: background .12s;
+}
+.level-pill:hover { background: var(--hover-tint); border-bottom: none; }
+.level-pill-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12.5px;
+  color: var(--ink);
+  font-weight: 600;
+}
+.level-pill-head .lvl {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+}
+.level-pill-head .pct {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  color: var(--ink-3);
+  font-weight: 500;
+  font-size: 11.5px;
+}
+.level-pill-bar {
+  height: 3px;
+  background: var(--line-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.level-pill-bar > div {
+  height: 100%;
+  background: var(--hand);
+  border-radius: 2px;
+}
+
+.level-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin: 0 0 14px;
+  box-shadow: none;
+}
+.level-card h2 {
+  margin: 0;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.level-card .lead {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin: 4px 0 14px;
+  line-height: 1.5;
+}
+.level-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.level-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  padding-top: 4px;
+}
+.level-progress .pct {
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
+}
+.level-progress .mini-bar {
+  width: 80px;
+  height: 3px;
+  background: var(--line-soft);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.level-progress .mini-bar > div {
+  height: 100%;
+  background: var(--hand);
+  border-radius: 2px;
+}
+.level-progress .frac { font-weight: 500; }
+
+.more-link {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 12px;
+  color: var(--ink-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0 0;
+  font-weight: 500;
+}
+.more-link:hover { color: var(--hand); }
+
+.level-resources {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
 }
 
 /* ───────── Mobile ───────── */
@@ -1759,44 +1989,6 @@ function useStreak() {
   return { days, streak, longest };
 }
 
-// ───────── Habit counters ─────────
-// Per week (ISO week, simple Sunday-start) — bumps per habit per day.
-function weekKey(d = new Date()) {
-  const dt = new Date(d);
-  dt.setHours(0,0,0,0);
-  const day = dt.getDay();
-  dt.setDate(dt.getDate() - day); // Sunday
-  return dt.toISOString().slice(0,10);
-}
-function useHabits() {
-  const wk = weekKey();
-  const [counts, setCounts] = useStored("habits:" + wk, {});
-  // also keep daily marks for the strip
-  const [daily, setDaily] = useStored("habit-daily:" + wk, {}); // {habitId: {0..6: count}}
-  const dayIdx = new Date().getDay();
-
-  const bump = (id, delta) => {
-    setCounts(prev => {
-      const cur = (prev[id] || 0) + delta;
-      const next = { ...prev, [id]: Math.max(0, cur) };
-      return next;
-    });
-    setDaily(prev => {
-      const cur = prev[id] || {};
-      const v = (cur[dayIdx] || 0) + delta;
-      return { ...prev, [id]: { ...cur, [dayIdx]: Math.max(0, v) } };
-    });
-    // count toward streak
-    if (delta > 0) {
-      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group: "habit" } }));
-    }
-  };
-
-  const reset = () => { setCounts({}); setDaily({}); };
-
-  return { counts, daily, dayIdx, bump, reset, wk };
-}
-
 // ───────── Compute aggregate progress across all groups ─────────
 function useAllProgress() {
   // collect all item ids by group from SRE_DATA
@@ -1840,7 +2032,6 @@ function buildGroupIndex(D) {
   g.sqlC = D.sqlConcepts.map(i => i.id);
   g.sqlP = D.sqlProblems.map(i => i.id);
   g.dsa = D.dsaTopics.flatMap(t => t.items.map(i => i.id));
-  g.schedule = D.schedule.map(i => i.id);
   g.lifecycle = D.lifecycle.flatMap(t => t.items.map(i => i.id));
   g.phase = D.phases.flatMap(p => p.tasks.map(i => i.id));
   g.sreBooks = D.sreSysDesignBooks.map(i => i.id);
@@ -1874,7 +2065,6 @@ function viewGroups() {
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
-    "p0-sched": ["schedule"],
     "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
     "sre-cod":   ["sreLr_coding",       "sreLm_coding"],
     "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
@@ -1889,7 +2079,6 @@ function viewGroups() {
     "part-h": ["loop","qAsk","star"],
     "part-i": ["repos","blog","certs"],
     "part-j": ["books","courses"],
-    "habits": [],
   };
 }
 
@@ -1897,8 +2086,8 @@ function viewGroups() {
 Object.assign(window, {
   loadJSON, saveJSON, useStored, useDoneSet,
   Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
-  useStreak, useHabits, useAllProgress, viewGroups, buildGroupIndex,
-  todayKey, weekKey,
+  useStreak, useAllProgress, viewGroups, buildGroupIndex,
+  todayKey,
 });
 
 </script>
@@ -1918,11 +2107,11 @@ function OverviewView() {
         <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
 
-      <div className="row-grid-2">
+      <div>
         <SectionCard title="Roadmap at a glance" tilted="right" group="overview-roadmap">
           <ul className="checklist">
             {Object.entries({
-              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa","schedule"],
+              "Part 0 · Interview Prep": ["sdConcepts","sdDeep","sdWalk","star","lldV","lldP","sqlC","sqlP","dsa"],
               "Part A · Lifecycle": ["lifecycle"],
               "Part B · Hands-on Phases": ["phase"],
               "Part D · System Design (SRE)": ["sreBooks","sreTopics","sreFlavor"],
@@ -1939,7 +2128,7 @@ function OverviewView() {
                   <div style={{flex:1}}>
                     <div style={{display:"flex", justifyContent:"space-between", marginBottom: 3}}>
                       <span>{label}</span>
-                      <span style={{fontFamily:"Caveat, cursive", fontSize: 17, color: "var(--ink-soft)"}}>{done}/{total} · {pct}%</span>
+                      <span style={{fontFamily:"'IBM Plex Mono', monospace", fontSize: 12, fontWeight: 500, color: "var(--ink-soft)"}}>{done}/{total} · {pct}%</span>
                     </div>
                     <div className="progress-track" style={{height: 8}}>
                       <div className="progress-fill" style={{width: pct + "%"}}></div>
@@ -1951,11 +2140,6 @@ function OverviewView() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="This week's checklist" tilted="left">
-          <p className="lead">Tick these every week. Keeps the gears turning.</p>
-          <Checklist items={D.habits.map(h => ({ id: "ovw-"+h.id, name: h.name + (h.target ? `  — target: ${h.target}` : "") }))} group="overview-week" />
-          <p style={{marginTop:10, fontSize:13, color:"var(--ink-faint)"}}>(Detailed tracking lives in the <strong>Habits</strong> view in the sidebar.)</p>
-        </SectionCard>
       </div>
 
       <section className="section-card">
@@ -2047,7 +2231,7 @@ function P0_BehaviorView() {
         <p className="lead">Pull up these notes before every behavioral round. Edit until each fits in 2 minutes spoken.</p>
         {D.starStories.map(s => (
           <details key={s.id} style={{marginBottom: 10, borderBottom: "1px dotted var(--paper-line)", paddingBottom: 8}}>
-            <summary style={{cursor: "pointer", fontFamily: "Caveat, cursive", fontSize: 22}}>{s.name}</summary>
+            <summary style={{cursor: "pointer", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.005em"}}>{s.name}</summary>
             <Notes id={"story-" + s.id} placeholder="Situation: ...&#10;Task: ...&#10;Action (I): ...&#10;Result (quantify): ..." />
           </details>
         ))}
@@ -2182,28 +2366,6 @@ function P0_DSAView() {
           </section>
         );
       })}
-    </div>
-  );
-}
-
-// ───────── 0G Schedule ─────────
-function P0_ScheduleView() {
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">0G · Interview Prep Schedule</h1>
-        <p className="page-sub">24 weeks. Tick each block when its focus is genuinely behind you.</p>
-      </div>
-      <SectionCard
-        items={D.schedule}
-        group="schedule"
-        renderItem={(it) => (
-          <span>
-            <strong style={{fontFamily: "Caveat, cursive", fontSize: 22, marginRight: 10, color: "var(--red)"}}>Wk {it.weeks}</strong>
-            {it.focus}
-          </span>
-        )}
-      />
     </div>
   );
 }
@@ -2347,7 +2509,7 @@ function PartGView() {
                 <select value={j.stage || "Not yet"} onChange={e => setStage(key, e.target.value)}>
                   {stages.map(s => <option key={s}>{s}</option>)}
                 </select>
-                <span style={{fontSize: 12, color: "var(--ink-faint)", fontFamily: "Caveat, cursive", fontSize: 16}}>{j.stage === "Offer" ? "🎉" : j.stage === "Rejected" ? "—" : ""}</span>
+                <span style={{fontSize: 14, color: "var(--ink-faint)"}}>{j.stage === "Offer" ? "🎉" : j.stage === "Rejected" ? "—" : ""}</span>
               </div>
             );
           })}
@@ -2383,7 +2545,7 @@ function PartHView() {
       <section className="section-card">
         <h2>Mock interviews log</h2>
         <p className="lead">Aim: 1 every 2 weeks. Pramp (free) → Hello Interview AI → interviewing.io for FAANG mocks.</p>
-        <button onClick={addMock} style={{padding:"6px 14px", border:"1.5px solid var(--ink)", borderRadius: 20, background: "var(--accent)", fontFamily: "Caveat, cursive", fontSize: 20, marginBottom: 10}}>
+        <button onClick={addMock} style={{padding:"6px 14px", border:"1px solid var(--line)", borderRadius: 6, background: "var(--paper)", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 500, color: "var(--ink)", marginBottom: 10}}>
           + Log a mock
         </button>
         {mocks.length === 0 ? (
@@ -2392,7 +2554,7 @@ function PartHView() {
           <ul className="checklist">
             {mocks.map(m => (
               <li key={m.id}>
-                <span style={{fontFamily: "Caveat, cursive", fontSize: 20, color: "var(--blue)", minWidth: 110}}>{m.date}</span>
+                <span style={{fontFamily: "'IBM Plex Mono', monospace", fontSize: 13, fontWeight: 500, color: "var(--blue)", minWidth: 110}}>{m.date}</span>
                 <Tag level={m.type === "SD" ? "Hard" : m.type === "Coding" ? "Medium" : "Easy"} />
                 <span style={{flex:1, marginLeft: 8}}>{m.notes}</span>
                 <button onClick={() => removeMock(m.id)} style={{color: "var(--red)", fontSize: 14}}>×</button>
@@ -2505,70 +2667,6 @@ function PartJView() {
   );
 }
 
-// ───────── HABITS ─────────
-function HabitsView() {
-  const { counts, daily, dayIdx, bump, reset, wk } = useHabits();
-  const totalProgress = useMemo(() => {
-    let hit = 0, tgt = 0;
-    D.habits.forEach(h => {
-      tgt += h.target;
-      hit += Math.min(counts[h.id] || 0, h.target);
-    });
-    return { hit, tgt };
-  }, [counts]);
-
-  return (
-    <div>
-      <div className="page-head">
-        <h1 className="page-title">Weekly Habits</h1>
-        <p className="page-sub">Week starting <strong>{wk}</strong>. Bump each habit as you do it. Resets every Sunday.</p>
-      </div>
-
-      <section className="section-card tilted-l">
-        <h2>This week</h2>
-        <Progress done={totalProgress.hit} total={totalProgress.tgt} label="completions" />
-        <button onClick={() => { if (confirm("Reset this week's counters?")) reset(); }}
-          style={{padding:"4px 12px", border:"1.5px solid var(--paper-line)", borderRadius: 16, background: "var(--paper)", fontSize: 12, color: "var(--ink-soft)"}}>
-          Reset week
-        </button>
-
-        <div style={{marginTop: 16}}>
-          {D.habits.map(h => {
-            const c = counts[h.id] || 0;
-            const ratio = Math.min(1, c / h.target);
-            const dailyMap = daily[h.id] || {};
-            return (
-              <div key={h.id} className="habit-row">
-                <div className="habit-name">{h.name}</div>
-                <div className="habit-counter">
-                  <button onClick={() => bump(h.id, -1)}>−</button>
-                  <span className="num">
-                    {c}<span className="target"> / {h.target}</span>
-                  </span>
-                  <button onClick={() => bump(h.id, +1)}>+</button>
-                </div>
-                <div className="week-strip">
-                  {["S","M","T","W","T","F","S"].map((l, i) => (
-                    <div key={i} className={"week-day " + ((dailyMap[i]||0) > 0 ? "done " : "") + (i === dayIdx ? "today" : "")}>{l}</div>
-                  ))}
-                </div>
-                <div style={{width: 30, fontFamily: "Caveat, cursive", fontSize: 22, color: ratio >= 1 ? "var(--green)" : "var(--ink-faint)"}}>
-                  {ratio >= 1 ? "✓" : Math.round(ratio*100)+"%"}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="section-card tilted-r">
-        <h2>Why habits matter</h2>
-        <p>15 hours/week is the budget. Spread it: 5 hrs LeetCode + 5 hrs technical study + 4 hrs hands-on + 1 hr writing/networking. The streak is the goal — daily input beats weekend cramming for skill-building.</p>
-      </section>
-    </div>
-  );
-}
-
 // ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
 
 function ResourceTag({ type }) {
@@ -2587,13 +2685,39 @@ function ResourceTag({ type }) {
   );
 }
 
+const STAGE_NUM = {
+  foundations: "01",
+  coding:      "02",
+  cloud:       "03",
+  automation:  "04",
+  reliability: "05",
+};
+
+function ColProgress({ done, total }) {
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  return (
+    <div className="learn-col-progress">
+      <span className="pct">{pct}%</span>
+      <span className="mini-bar"><div style={{ width: pct + "%" }} /></span>
+      <span>{done}/{total}</span>
+    </div>
+  );
+}
+
 function SreLearningView({ sectionKey }) {
   const section = D.sreRoadmap[sectionKey];
   if (!section) return null;
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
-  const resDone = D.sreRoadmap[sectionKey].resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
-  const milDone = section.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+  const resDoneSet = useDoneSet(resGroup)[0];
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
+  const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
+
+  // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
+  // and prefix with a clean two-digit number to match the redesign mocks.
+  const stageName = section.title.split(" · ").slice(-1)[0];
+  const heading = (STAGE_NUM[sectionKey] ? STAGE_NUM[sectionKey] + " · " : "") + stageName;
 
   const renderResource = (it) => (
     <span>
@@ -2607,31 +2731,37 @@ function SreLearningView({ sectionKey }) {
   return (
     <div>
       <div className="page-head">
-        <h1 className="page-title">{section.title}</h1>
+        <h1 className="page-title">{heading}</h1>
         <p className="page-sub">{section.intro}</p>
       </div>
 
       {section.why && <div className="callout">{section.why}</div>}
 
-      <section className="section-card tilted-l">
-        <span className="tape tl"></span>
-        <h2>📚 Curated resources</h2>
-        <p className="lead">A mix of videos, courses, books, blogs. Tick when you've worked through it (or honestly decided you don't need to).</p>
-        <Progress done={resDone} total={section.resources.length} />
-        <Checklist
-          items={section.resources}
-          group={resGroup}
-          renderItem={renderResource}
-        />
-        <TimeLog id={resGroup} />
-      </section>
+      <div className="learn-two-col">
+        <section className="learn-col">
+          <div className="learn-col-head">
+            <h2>Curated resources</h2>
+            <ColProgress done={resDone} total={section.resources.length} />
+          </div>
+          <p className="lead">A mix of videos, courses, books, blogs.</p>
+          <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
+        </section>
 
-      <section className="section-card tilted-r">
-        <h2>🛠 Hands-on milestones</h2>
-        <p className="lead">Do not tick unless you've actually shipped it. This is the difference between "watched a video" and "I can do this."</p>
-        <Progress done={milDone} total={section.milestones.length} />
-        <Checklist items={section.milestones} group={milGroup} />
-        <Notes id={milGroup} placeholder="Log links to commits, gotchas, gnarly bugs that taught you something." />
+        <section className="learn-col">
+          <div className="learn-col-head">
+            <h2>Hands-on milestones</h2>
+            <ColProgress done={milDone} total={section.milestones.length} />
+          </div>
+          <p className="lead">Tick only when actually shipped.</p>
+          <Checklist items={section.milestones} group={milGroup} />
+        </section>
+      </div>
+
+      <section className="notes-section">
+        <h2>Notes</h2>
+        <p className="lead">Pasted between sessions.</p>
+        <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, things to come back to." />
+        <TimeLog id={resGroup} />
       </section>
     </div>
   );
@@ -2644,71 +2774,131 @@ const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 
 // Part AI renders 4 difficulty levels on one page (sourced from sreRoadmap.ai-l1..l4)
+function AILevelCard({ levelNum, sectionKey }) {
+  const D = window.SRE_DATA;
+  const sec = D.sreRoadmap[sectionKey];
+  const milGroup = "sreLm_" + sectionKey;
+  const resGroup = "sreLr_" + sectionKey;
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const milTotal = sec.milestones.length;
+  const milPct = milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0;
+  const [showAllMil, setShowAllMil] = useState(false);
+  const [showRes, setShowRes] = useState(false);
+
+  // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
+  const levelTail = sec.title.split(" — ").slice(-1)[0];
+  const heading = `Level ${levelNum} — ${levelTail}`;
+
+  const VISIBLE = 3;
+  const visibleMil = showAllMil ? sec.milestones : sec.milestones.slice(0, VISIBLE);
+  const hiddenCount = sec.milestones.length - visibleMil.length;
+
+  const renderResource = (it) => (
+    <span>
+      <ResourceTag type={it.type} />
+      {it.url ? (
+        <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      ) : <span>{it.name}</span>}
+    </span>
+  );
+
+  return (
+    <section id={"ai-l" + levelNum} className="level-card">
+      <div className="level-head">
+        <div style={{flex: 1, minWidth: 0}}>
+          <h2>{heading}</h2>
+          <p className="lead">{sec.intro}</p>
+        </div>
+        <div className="level-progress">
+          <div className="pct">{milPct}%</div>
+          <div className="mini-bar"><div style={{ width: milPct + "%" }} /></div>
+          <div className="frac">{milDone}/{milTotal}</div>
+        </div>
+      </div>
+
+      <Checklist items={visibleMil} group={milGroup} />
+
+      <div style={{display: "flex", gap: 18, marginTop: 4}}>
+        {hiddenCount > 0 && !showAllMil && (
+          <button className="more-link" onClick={() => setShowAllMil(true)}>
+            + {hiddenCount} more milestone{hiddenCount === 1 ? "" : "s"}…
+          </button>
+        )}
+        {showAllMil && hiddenCount === 0 && sec.milestones.length > VISIBLE && (
+          <button className="more-link" onClick={() => setShowAllMil(false)}>
+            show fewer
+          </button>
+        )}
+        <button className="more-link" onClick={() => setShowRes(s => !s)}>
+          {showRes ? "hide" : "show"} {sec.resources.length} resources
+        </button>
+      </div>
+
+      {showRes && (
+        <div className="level-resources">
+          <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+function LevelPill({ levelNum, sectionKey }) {
+  const D = window.SRE_DATA;
+  const sec = D.sreRoadmap[sectionKey];
+  const milGroup = "sreLm_" + sectionKey;
+  const milDoneSet = useDoneSet(milGroup)[0];
+  const done = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const total = sec.milestones.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const target = "ai-l" + levelNum;
+  return (
+    <a href={"#" + target} className="level-pill" onClick={(e) => {
+      e.preventDefault();
+      document.getElementById(target)?.scrollIntoView({behavior: "smooth", block: "start"});
+    }}>
+      <div className="level-pill-head">
+        <span className="lvl">L{levelNum}</span>
+        <span className="pct">{pct}%</span>
+      </div>
+      <div className="level-pill-bar"><div style={{ width: pct + "%" }} /></div>
+    </a>
+  );
+}
+
 function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
-  const tilts = ["tilted-l", "tilted-r", "tilted-l", "tilted-r"];
 
   return (
     <div>
       <div className="page-head">
-        <h1 className="page-title">Part AI — AI Engineering for SRE/DevOps</h1>
-        <p className="page-sub">A horizontal specialization that compounds with Parts SRE + B. AI engineering (using pre-trained models in production), not ML research. Pair with the 6-week plan in the guide.</p>
+        <h1 className="page-title">AI Engineering for SRE</h1>
+        <p className="page-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
       </div>
 
       <div className="callout">
-        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Roadmap to Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
+        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
-      {levelKeys.map((key, idx) => {
-        const sec = D.sreRoadmap[key];
-        if (!sec) return null;
-        const resGroup = "sreLr_" + key;
-        const milGroup = "sreLm_" + key;
-        const resDone = sec.resources.filter(r => (loadJSON("done:" + resGroup, {}))[r.id]).length;
-        const milDone = sec.milestones.filter(m => (loadJSON("done:" + milGroup, {}))[m.id]).length;
+      <div className="level-switcher">
+        {levelKeys.map((key, idx) => (
+          <LevelPill key={key} levelNum={idx + 1} sectionKey={key} />
+        ))}
+      </div>
 
-        const renderResource = (it) => (
-          <span>
-            <ResourceTag type={it.type} />
-            {it.url ? (
-              <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
-            ) : <span>{it.name}</span>}
-          </span>
-        );
-
-        return (
-          <section key={key} className={"section-card " + tilts[idx]}>
-            {idx === 0 && <span className="tape tl"></span>}
-            <h2>{sec.title}</h2>
-            <p className="lead">{sec.intro}</p>
-            {sec.why && <div className="callout" style={{marginBottom: "1rem"}}>{sec.why}</div>}
-
-            <h3 style={{marginTop: "1.5rem"}}>📚 Resources</h3>
-            <Progress done={resDone} total={sec.resources.length} />
-            <Checklist
-              items={sec.resources}
-              group={resGroup}
-              renderItem={renderResource}
-            />
-
-            <h3 style={{marginTop: "1.5rem"}}>🛠 Milestones</h3>
-            <Progress done={milDone} total={sec.milestones.length} />
-            <Checklist items={sec.milestones} group={milGroup} />
-
-            <TimeLog id={resGroup} />
-            <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, eval numbers." />
-          </section>
-        );
-      })}
+      {levelKeys.map((key, idx) => (
+        <AILevelCard key={key} levelNum={idx + 1} sectionKey={key} />
+      ))}
     </div>
   );
 }
 
 Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
-  P0_DSAView, P0_ScheduleView, PartAView, PartAIView, PartBView, PartDView, PartEView,
-  PartGView, PartHView, PartIView, PartJView, HabitsView,
+  P0_DSAView, PartAView, PartAIView, PartBView, PartDView, PartEView,
+  PartGView, PartHView, PartIView, PartJView,
   SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
 });
 
@@ -2718,47 +2908,41 @@ Object.assign(window, {
 // App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
-  { id: "_daily", label: "Daily", group: "section" },
-  { id: "habits",       label: "Habits",                crumb: "Daily · Habits",                       group: "daily" },
-  { id: "p0-sched",     label: "Schedule",              crumb: "Daily · Schedule",                     group: "daily" },
-
   { id: "_learn", label: "Learn", group: "section" },
-  { id: "sre-fnd",      label: "Foundations",           crumb: "Learn · SRE · Foundations",            group: "learn" },
-  { id: "sre-cod",      label: "Coding",                crumb: "Learn · SRE · Coding",                 group: "learn" },
-  { id: "sre-cloud",    label: "Cloud + K8s",           crumb: "Learn · SRE · Cloud + K8s",            group: "learn" },
-  { id: "sre-auto",     label: "Automation",            crumb: "Learn · SRE · Automation",             group: "learn" },
-  { id: "sre-rel",      label: "Observability + SRE",   crumb: "Learn · SRE · Observability + SRE",    group: "learn" },
-  { id: "part-ai",      label: "AI Engineer · L1–4",    crumb: "Learn · AI Engineering for SRE",       group: "learn" },
-  { id: "part-a",       label: "Lifecycle",             crumb: "Learn · Lifecycle",                    group: "learn" },
+  { id: "sre-fnd",      label: "01 · Foundations",      crumb: "Learn / 01 · Foundations",             group: "learn" },
+  { id: "sre-cod",      label: "02 · Coding",           crumb: "Learn / 02 · Coding",                  group: "learn" },
+  { id: "sre-cloud",    label: "03 · Cloud & K8s",      crumb: "Learn / 03 · Cloud & K8s",             group: "learn" },
+  { id: "sre-auto",     label: "04 · Automation",       crumb: "Learn / 04 · Automation",              group: "learn" },
+  { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
+  { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
+  { id: "part-a",       label: "Lifecycle",             crumb: "Learn / Lifecycle",                    group: "learn" },
 
   { id: "_practice", label: "Practice", group: "section" },
-  { id: "p0-sd",        label: "System Design",         crumb: "Practice · System Design",             group: "practice" },
-  { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice · Behavioral",                group: "practice" },
-  { id: "p0-lld",       label: "LLD",                   crumb: "Practice · Low-Level Design",          group: "practice" },
-  { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice · SQL",                       group: "practice" },
-  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice · DSA",                       group: "practice" },
-  { id: "part-b",       label: "Hands-on",              crumb: "Practice · Hands-on phases",           group: "practice" },
-  { id: "part-d",       label: "SD for SRE",            crumb: "Practice · System Design for SRE",     group: "practice" },
-  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice · Coding (Part E)",           group: "practice" },
+  { id: "p0-sd",        label: "System Design",         crumb: "Practice / System Design",             group: "practice" },
+  { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice / Behavioral",                group: "practice" },
+  { id: "p0-lld",       label: "LLD",                   crumb: "Practice / Low-Level Design",          group: "practice" },
+  { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
+  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice / DSA",                       group: "practice" },
+  { id: "part-b",       label: "Hands-on",              crumb: "Practice / Hands-on phases",           group: "practice" },
+  { id: "part-d",       label: "SD for SRE",            crumb: "Practice / System Design for SRE",     group: "practice" },
+  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice / Coding (Part E)",           group: "practice" },
 
   { id: "_apply", label: "Apply", group: "section" },
-  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply · APAC jobs",                    group: "apply" },
-  { id: "part-h",       label: "Interview loop",        crumb: "Apply · Interview prep",               group: "apply" },
-  { id: "part-i",       label: "Branding",              crumb: "Apply · Personal branding",            group: "apply" },
-  { id: "part-j",       label: "Resources",             crumb: "Apply · Resources",                    group: "apply" },
+  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply / APAC jobs",                    group: "apply" },
+  { id: "part-h",       label: "Interview loop",        crumb: "Apply / Interview prep",               group: "apply" },
+  { id: "part-i",       label: "Branding",              crumb: "Apply / Personal branding",            group: "apply" },
+  { id: "part-j",       label: "Resources",             crumb: "Apply / Resources",                    group: "apply" },
 ];
 
 const DEFAULT_VIEW = "sre-fnd";
 
 const VIEW_MAP = {
   "overview":     OverviewView,
-  "habits":       HabitsView,
   "p0-sd":        P0_SysDesignView,
   "p0-behavior":  P0_BehaviorView,
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
-  "p0-sched":     P0_ScheduleView,
   "sre-fnd":      SRE_FoundationsView,
   "sre-cod":      SRE_CodingView,
   "sre-cloud":    SRE_CloudView,
@@ -2777,9 +2961,9 @@ const VIEW_MAP = {
 
 function renderCrumb(crumb) {
   if (!crumb) return null;
-  const parts = crumb.split(" · ");
+  const parts = crumb.split(" / ");
   if (parts.length === 1) return <span className="leaf">{parts[0]}</span>;
-  const head = parts.slice(0, -1).join(" · ");
+  const head = parts.slice(0, -1).join(" / ");
   const leaf = parts[parts.length - 1];
   return <>{head}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="leaf">{leaf}</span></>;
 }

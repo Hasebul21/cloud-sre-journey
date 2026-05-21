@@ -203,44 +203,6 @@ function useStreak() {
   return { days, streak, longest };
 }
 
-// ───────── Habit counters ─────────
-// Per week (ISO week, simple Sunday-start) — bumps per habit per day.
-function weekKey(d = new Date()) {
-  const dt = new Date(d);
-  dt.setHours(0,0,0,0);
-  const day = dt.getDay();
-  dt.setDate(dt.getDate() - day); // Sunday
-  return dt.toISOString().slice(0,10);
-}
-function useHabits() {
-  const wk = weekKey();
-  const [counts, setCounts] = useStored("habits:" + wk, {});
-  // also keep daily marks for the strip
-  const [daily, setDaily] = useStored("habit-daily:" + wk, {}); // {habitId: {0..6: count}}
-  const dayIdx = new Date().getDay();
-
-  const bump = (id, delta) => {
-    setCounts(prev => {
-      const cur = (prev[id] || 0) + delta;
-      const next = { ...prev, [id]: Math.max(0, cur) };
-      return next;
-    });
-    setDaily(prev => {
-      const cur = prev[id] || {};
-      const v = (cur[dayIdx] || 0) + delta;
-      return { ...prev, [id]: { ...cur, [dayIdx]: Math.max(0, v) } };
-    });
-    // count toward streak
-    if (delta > 0) {
-      window.dispatchEvent(new CustomEvent("sre:activity", { detail: { id, group: "habit" } }));
-    }
-  };
-
-  const reset = () => { setCounts({}); setDaily({}); };
-
-  return { counts, daily, dayIdx, bump, reset, wk };
-}
-
 // ───────── Compute aggregate progress across all groups ─────────
 function useAllProgress() {
   // collect all item ids by group from SRE_DATA
@@ -284,7 +246,6 @@ function buildGroupIndex(D) {
   g.sqlC = D.sqlConcepts.map(i => i.id);
   g.sqlP = D.sqlProblems.map(i => i.id);
   g.dsa = D.dsaTopics.flatMap(t => t.items.map(i => i.id));
-  g.schedule = D.schedule.map(i => i.id);
   g.lifecycle = D.lifecycle.flatMap(t => t.items.map(i => i.id));
   g.phase = D.phases.flatMap(p => p.tasks.map(i => i.id));
   g.sreBooks = D.sreSysDesignBooks.map(i => i.id);
@@ -318,7 +279,6 @@ function viewGroups() {
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
-    "p0-sched": ["schedule"],
     "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
     "sre-cod":   ["sreLr_coding",       "sreLm_coding"],
     "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
@@ -333,7 +293,6 @@ function viewGroups() {
     "part-h": ["loop","qAsk","star"],
     "part-i": ["repos","blog","certs"],
     "part-j": ["books","courses"],
-    "habits": [],
   };
 }
 
@@ -341,6 +300,6 @@ function viewGroups() {
 Object.assign(window, {
   loadJSON, saveJSON, useStored, useDoneSet,
   Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
-  useStreak, useHabits, useAllProgress, viewGroups, buildGroupIndex,
-  todayKey, weekKey,
+  useStreak, useAllProgress, viewGroups, buildGroupIndex,
+  todayKey,
 });

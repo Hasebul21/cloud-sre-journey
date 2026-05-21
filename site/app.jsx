@@ -1,47 +1,41 @@
 // App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
-  { id: "_daily", label: "Daily", group: "section" },
-  { id: "habits",       label: "Habits",                crumb: "Daily · Habits",                       group: "daily" },
-  { id: "p0-sched",     label: "Schedule",              crumb: "Daily · Schedule",                     group: "daily" },
-
   { id: "_learn", label: "Learn", group: "section" },
-  { id: "sre-fnd",      label: "Foundations",           crumb: "Learn · SRE · Foundations",            group: "learn" },
-  { id: "sre-cod",      label: "Coding",                crumb: "Learn · SRE · Coding",                 group: "learn" },
-  { id: "sre-cloud",    label: "Cloud + K8s",           crumb: "Learn · SRE · Cloud + K8s",            group: "learn" },
-  { id: "sre-auto",     label: "Automation",            crumb: "Learn · SRE · Automation",             group: "learn" },
-  { id: "sre-rel",      label: "Observability + SRE",   crumb: "Learn · SRE · Observability + SRE",    group: "learn" },
-  { id: "part-ai",      label: "AI Engineer · L1–4",    crumb: "Learn · AI Engineering for SRE",       group: "learn" },
-  { id: "part-a",       label: "Lifecycle",             crumb: "Learn · Lifecycle",                    group: "learn" },
+  { id: "sre-fnd",      label: "01 · Foundations",      crumb: "Learn / 01 · Foundations",             group: "learn" },
+  { id: "sre-cod",      label: "02 · Coding",           crumb: "Learn / 02 · Coding",                  group: "learn" },
+  { id: "sre-cloud",    label: "03 · Cloud & K8s",      crumb: "Learn / 03 · Cloud & K8s",             group: "learn" },
+  { id: "sre-auto",     label: "04 · Automation",       crumb: "Learn / 04 · Automation",              group: "learn" },
+  { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
+  { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
+  { id: "part-a",       label: "Lifecycle",             crumb: "Learn / Lifecycle",                    group: "learn" },
 
   { id: "_practice", label: "Practice", group: "section" },
-  { id: "p0-sd",        label: "System Design",         crumb: "Practice · System Design",             group: "practice" },
-  { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice · Behavioral",                group: "practice" },
-  { id: "p0-lld",       label: "LLD",                   crumb: "Practice · Low-Level Design",          group: "practice" },
-  { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice · SQL",                       group: "practice" },
-  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice · DSA",                       group: "practice" },
-  { id: "part-b",       label: "Hands-on",              crumb: "Practice · Hands-on phases",           group: "practice" },
-  { id: "part-d",       label: "SD for SRE",            crumb: "Practice · System Design for SRE",     group: "practice" },
-  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice · Coding (Part E)",           group: "practice" },
+  { id: "p0-sd",        label: "System Design",         crumb: "Practice / System Design",             group: "practice" },
+  { id: "p0-behavior",  label: "Behavioral",            crumb: "Practice / Behavioral",                group: "practice" },
+  { id: "p0-lld",       label: "LLD",                   crumb: "Practice / Low-Level Design",          group: "practice" },
+  { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
+  { id: "p0-dsa",       label: "DSA · 150",             crumb: "Practice / DSA",                       group: "practice" },
+  { id: "part-b",       label: "Hands-on",              crumb: "Practice / Hands-on phases",           group: "practice" },
+  { id: "part-d",       label: "SD for SRE",            crumb: "Practice / System Design for SRE",     group: "practice" },
+  { id: "part-e",       label: "Coding (Part E)",       crumb: "Practice / Coding (Part E)",           group: "practice" },
 
   { id: "_apply", label: "Apply", group: "section" },
-  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply · APAC jobs",                    group: "apply" },
-  { id: "part-h",       label: "Interview loop",        crumb: "Apply · Interview prep",               group: "apply" },
-  { id: "part-i",       label: "Branding",              crumb: "Apply · Personal branding",            group: "apply" },
-  { id: "part-j",       label: "Resources",             crumb: "Apply · Resources",                    group: "apply" },
+  { id: "part-g",       label: "Jobs · APAC",           crumb: "Apply / APAC jobs",                    group: "apply" },
+  { id: "part-h",       label: "Interview loop",        crumb: "Apply / Interview prep",               group: "apply" },
+  { id: "part-i",       label: "Branding",              crumb: "Apply / Personal branding",            group: "apply" },
+  { id: "part-j",       label: "Resources",             crumb: "Apply / Resources",                    group: "apply" },
 ];
 
 const DEFAULT_VIEW = "sre-fnd";
 
 const VIEW_MAP = {
   "overview":     OverviewView,
-  "habits":       HabitsView,
   "p0-sd":        P0_SysDesignView,
   "p0-behavior":  P0_BehaviorView,
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
-  "p0-sched":     P0_ScheduleView,
   "sre-fnd":      SRE_FoundationsView,
   "sre-cod":      SRE_CodingView,
   "sre-cloud":    SRE_CloudView,
@@ -60,9 +54,9 @@ const VIEW_MAP = {
 
 function renderCrumb(crumb) {
   if (!crumb) return null;
-  const parts = crumb.split(" · ");
+  const parts = crumb.split(" / ");
   if (parts.length === 1) return <span className="leaf">{parts[0]}</span>;
-  const head = parts.slice(0, -1).join(" · ");
+  const head = parts.slice(0, -1).join(" / ");
   const leaf = parts[parts.length - 1];
   return <>{head}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="leaf">{leaf}</span></>;
 }
