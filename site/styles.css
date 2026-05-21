@@ -1,21 +1,21 @@
 /* ───────── Two-pane TOC — Linear / Notion / GitBook aesthetic ───────── */
 
 :root {
-  --ink: #14171a;
-  --ink-2: #4a5159;
-  --ink-3: #8a9099;
-  --line: #d8dadd;
-  --line-soft: #ebedef;
-  --paper: #fbfbfa;
-  --paper-2: #f4f4f2;
-  --fill: #ececea;
-  --fill-2: #f6f6f4;
-  --hand: #c4502e;
-  --blue: #004081;
-  --green: #57a11f;
-  --green-soft: #e7f0d9;
-  --blue-soft: #dbe6f1;
-  --warn: #b07c00;
+  --ink: #1a1714;
+  --ink-2: #5e5853;
+  --ink-3: #9a948d;
+  --line: #e3dfd6;
+  --line-soft: #edeae2;
+  --paper: #fbfaf6;
+  --paper-2: #f3f1eb;
+  --fill: #ece8de;
+  --fill-2: #f3f1eb;
+  --hand: #c8552c;
+  --blue: #c8552c;
+  --green: #3b7a3f;
+  --green-soft: #e8efe5;
+  --blue-soft: #fae8df;
+  --warn: #a06b00;
 
   /* legacy var names some views may still reference */
   --red: var(--hand);
@@ -40,20 +40,20 @@
 }
 
 :root[data-theme="dark"] {
-  --ink: #e6edf3;
-  --ink-2: #adbac7;
-  --ink-3: #768390;
-  --line: #2d333b;
-  --line-soft: #21262d;
-  --paper: #0d1117;
-  --paper-2: #161b22;
-  --fill: #1c2128;
-  --fill-2: #181d23;
-  --hand: #ff8a5b;
-  --blue: #6ea4ff;
-  --green: #7ec96a;
-  --green-soft: #1c2e18;
-  --blue-soft: #14233b;
+  --ink: #ece7df;
+  --ink-2: #b8b0a4;
+  --ink-3: #7d7569;
+  --line: #2d2925;
+  --line-soft: #1f1c19;
+  --paper: #16130f;
+  --paper-2: #1d1a16;
+  --fill: #25211c;
+  --fill-2: #1f1c18;
+  --hand: #e07a4e;
+  --blue: #e07a4e;
+  --green: #8ab877;
+  --green-soft: #1f2a1c;
+  --blue-soft: #2d1d14;
   --warn: #d4a35a;
 
   --hover-tint: rgba(255,255,255,0.04);
@@ -78,7 +78,7 @@ html, body {
   padding: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 14.5px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
@@ -123,9 +123,9 @@ button {
 .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
 
 .brand {
-  font-family: 'Lato', sans-serif;
-  font-weight: 900;
-  font-size: 14px;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
   padding: 18px 18px 14px;
   border-bottom: 1px solid var(--line);
   letter-spacing: -0.005em;
@@ -147,7 +147,7 @@ button {
   color: var(--ink-3);
 }
 .search .kbd-hint {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 10px;
   background: var(--fill-2);
   border: 1px solid var(--line);
@@ -160,11 +160,11 @@ button {
 
 .nav-group-label {
   font-size: 9.5px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 700;
   color: var(--ink-3);
-  padding: 14px 18px 4px;
+  padding: 16px 18px 4px;
 }
 
 .nav-item {
@@ -172,7 +172,8 @@ button {
   align-items: center;
   gap: 8px;
   padding: 5px 14px 5px 18px;
-  font-size: 13px;
+  font-size: 12.5px;
+  line-height: 1.3;
   color: var(--ink-2);
   border-left: 2px solid transparent;
   width: 100%;
@@ -183,18 +184,20 @@ button {
 .nav-item.active {
   background: var(--paper);
   color: var(--ink);
-  font-weight: 700;
-  border-left-color: var(--blue);
+  font-weight: 600;
+  border-left-color: var(--hand);
 }
 .nav-item .icon { display: none; }
 .nav-item .mini-bar {
   margin-left: auto;
   font-size: 10px;
   color: var(--ink-3);
-  font-weight: 700;
-  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  min-width: 24px;
+  text-align: right;
 }
-.nav-item.active .mini-bar { color: var(--blue); }
+.nav-item.active .mini-bar { color: var(--hand); }
 
 .sidebar-foot {
   margin-top: auto;
@@ -232,9 +235,9 @@ button {
   border: none;
 }
 .page-title {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.15;
   margin: 0 0 6px;
@@ -262,20 +265,20 @@ button {
 .section-card.tilted-l,
 .section-card.tilted-r { transform: none !important; }
 .section-card h2 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 600;
   margin: 0 0 6px;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   line-height: 1.25;
   color: var(--ink);
 }
 .section-card h3 {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13.5px;
-  font-weight: 900;
+  font-weight: 600;
   margin: 18px 0 8px;
-  letter-spacing: 0;
+  letter-spacing: -0.005em;
   color: var(--ink);
 }
 .section-card .lead {
@@ -297,10 +300,10 @@ button {
 }
 .overall-card h4 {
   margin: 0 0 4px;
-  font-family: 'Lato', sans-serif;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.06em;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -329,16 +332,17 @@ button {
   transition: width .4s ease;
 }
 .progress-pct {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 600;
   min-width: 36px;
   color: var(--ink);
 }
 .progress-frac {
   color: var(--ink-3);
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
 }
 
 /* ───────── Checklist ───────── */
@@ -367,9 +371,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 700;
   color: transparent;
   line-height: 1;
   margin-top: 3px;
@@ -401,21 +405,21 @@ button {
   display: inline-block;
   padding: 1px 7px;
   font-size: 9.5px;
-  font-weight: 700;
-  border-radius: 999px;
+  font-weight: 600;
+  border-radius: 3px;
   border: 1px solid;
   margin-left: 6px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
 }
 .tag-easy { color: var(--tag-easy-fg); border-color: var(--tag-easy-bd); background: var(--tag-easy-bg); }
 .tag-medium { color: var(--tag-med-fg); border-color: var(--tag-med-bd); background: var(--tag-med-bg); }
 .tag-hard { color: var(--tag-hard-fg); border-color: var(--tag-hard-bd); background: var(--tag-hard-bg); }
 .tag-num {
   display: inline-block;
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 11px;
   color: var(--ink-3);
   margin-right: 8px;
@@ -451,31 +455,31 @@ button {
   overflow: hidden;
 }
 .stat .v {
-  font-family: 'Lato', sans-serif;
-  font-size: 26px;
-  font-weight: 900;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 24px;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
   margin-bottom: 6px;
   color: var(--ink);
 }
 .stat .v small {
   font-size: 12px;
   color: var(--ink-3);
-  font-weight: 700;
+  font-weight: 500;
 }
 .stat .l {
   font-size: 10px;
   color: var(--ink-3);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 900;
+  letter-spacing: 0.12em;
+  font-weight: 600;
 }
 .stat .sub {
   font-size: 11px;
   color: var(--ink-3);
   margin-top: 4px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
 }
 .stat.streak .v { color: var(--hand); }
 .stat.streak::after { content: none; }
@@ -491,9 +495,9 @@ button {
 }
 .habit-row:last-child { border: none; }
 .habit-name {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13.5px;
-  font-weight: 700;
+  font-weight: 500;
   flex: 1;
   color: var(--ink);
 }
@@ -508,7 +512,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 4px;
   background: var(--paper);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 13px;
   line-height: 1;
   color: var(--ink-2);
@@ -518,9 +522,9 @@ button {
   border-color: var(--ink-2);
 }
 .habit-counter .num {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 14px;
-  font-weight: 900;
+  font-weight: 600;
   min-width: 50px;
   text-align: center;
   color: var(--ink);
@@ -535,12 +539,13 @@ button {
   border-radius: 3px;
   background: var(--paper);
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--ink-3);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
 }
 .week-day.done {
   background: var(--green);
@@ -579,7 +584,7 @@ button {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 4px;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 13px;
   line-height: 1.6;
   color: var(--ink);
@@ -600,13 +605,13 @@ button {
 .tab {
   padding: 5px 12px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--paper);
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 11.5px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--ink-2);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   box-shadow: none;
 }
 .tab:hover { border-color: var(--ink-2); }
@@ -628,7 +633,7 @@ button {
 }
 .job-row select {
   font: inherit;
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 12px;
   padding: 3px 6px;
   border: 1px solid var(--line);
@@ -642,7 +647,7 @@ button {
 .tape, .pin { display: none !important; }
 
 .legend {
-  font-family: 'Lato', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
   font-size: 11.5px;
   color: var(--ink-3);
   margin-bottom: 10px;
@@ -670,7 +675,7 @@ button {
 }
 
 .kbd {
-  font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 11px;
   background: var(--fill-2);
   border: 1px solid var(--line);
