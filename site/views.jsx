@@ -598,14 +598,53 @@ const STAGE_NUM = {
   reliability: "05",
 };
 
-function ColProgress({ done, total }) {
+function StatusPill({ pct }) {
+  let label = "not started", cls = "neutral";
+  if (pct >= 100) { label = "complete"; cls = "done"; }
+  else if (pct > 0) { label = "in progress"; cls = "active"; }
+  return (
+    <span className={"status-pill status-" + cls}>
+      <span className="dot" /> {label}
+    </span>
+  );
+}
+
+function StatTile({ label, value, sub, accent }) {
+  return (
+    <div className="stat-tile">
+      <div className="stat-tile-label">{label}</div>
+      <div className={"stat-tile-value" + (accent ? " accent" : "")}>{value}</div>
+      {sub && <div className="stat-tile-sub">{sub}</div>}
+    </div>
+  );
+}
+
+function Sparkbar({ pct, bars = 14 }) {
+  const filled = Math.round(bars * pct / 100);
+  return (
+    <span className="sparkbar">
+      {Array.from({ length: bars }).map((_, i) => (
+        <span key={i} className={"sparkbar-tick" + (i < filled ? " on" : "")} />
+      ))}
+    </span>
+  );
+}
+
+function ListSection({ title, lead, done, total, children }) {
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   return (
-    <div className="learn-col-progress">
-      <span className="pct">{pct}%</span>
-      <span className="mini-bar"><div style={{ width: pct + "%" }} /></span>
-      <span>{done}/{total}</span>
-    </div>
+    <section className="list-section">
+      <div className="list-section-head">
+        <h2>{title}</h2>
+        <div className="list-section-progress">
+          <Sparkbar pct={pct} />
+          <span className="pct">{pct}%</span>
+          <span className="frac">{done}/{total}</span>
+        </div>
+      </div>
+      {lead && <p className="lead">{lead}</p>}
+      {children}
+    </section>
   );
 }
 
@@ -618,11 +657,15 @@ function SreLearningView({ sectionKey }) {
   const milDoneSet = useDoneSet(milGroup)[0];
   const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
   const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
+  const total = section.resources.length + section.milestones.length;
+  const done = resDone + milDone;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const [hoursLogged] = useStored("time:" + resGroup, 0);
 
   // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
   // and prefix with a clean two-digit number to match the redesign mocks.
   const stageName = section.title.split(" · ").slice(-1)[0];
-  const heading = (STAGE_NUM[sectionKey] ? STAGE_NUM[sectionKey] + " · " : "") + stageName;
+  const stageNum = STAGE_NUM[sectionKey] || "··";
 
   const renderResource = (it) => (
     <span>
@@ -635,38 +678,46 @@ function SreLearningView({ sectionKey }) {
 
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">{heading}</h1>
-        <p className="page-sub">{section.intro}</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">stage</div>
+          <h1 className="dash-title">
+            <span className="dash-num">{stageNum}</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">{stageName}</span>
+          </h1>
+          <p className="dash-sub">{section.intro}</p>
+        </div>
+        <StatusPill pct={pct} />
+      </div>
+
+      <div className="stat-tiles">
+        <StatTile label="Complete" value={pct + "%"} sub={done + " of " + total} accent />
+        <StatTile label="Resources" value={resDone + "/" + section.resources.length}
+          sub={Math.round(resDone / section.resources.length * 100) + "%"} />
+        <StatTile label="Milestones" value={milDone + "/" + section.milestones.length}
+          sub={section.milestones.length > 0 ? Math.round(milDone / section.milestones.length * 100) + "%" : "0%"} />
+        <StatTile label="Time" value={hoursLogged + "h"} sub="logged" />
       </div>
 
       {section.why && <div className="callout">{section.why}</div>}
 
-      <div className="learn-two-col">
-        <section className="learn-col">
-          <div className="learn-col-head">
-            <h2>Curated resources</h2>
-            <ColProgress done={resDone} total={section.resources.length} />
-          </div>
-          <p className="lead">A mix of videos, courses, books, blogs.</p>
-          <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
-        </section>
+      <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
+        done={resDone} total={section.resources.length}>
+        <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
+      </ListSection>
 
-        <section className="learn-col">
-          <div className="learn-col-head">
-            <h2>Hands-on milestones</h2>
-            <ColProgress done={milDone} total={section.milestones.length} />
-          </div>
-          <p className="lead">Tick only when actually shipped.</p>
-          <Checklist items={section.milestones} group={milGroup} />
-        </section>
-      </div>
+      <ListSection title="Hands-on milestones" lead="Tick only when actually shipped."
+        done={milDone} total={section.milestones.length}>
+        <Checklist items={section.milestones} group={milGroup} />
+      </ListSection>
 
       <section className="notes-section">
-        <h2>Notes</h2>
-        <p className="lead">Pasted between sessions.</p>
+        <div className="list-section-head">
+          <h2>Notes</h2>
+          <TimeLog id={resGroup} />
+        </div>
         <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, things to come back to." />
-        <TimeLog id={resGroup} />
       </section>
     </div>
   );
@@ -685,19 +736,14 @@ function AILevelCard({ levelNum, sectionKey }) {
   const milGroup = "sreLm_" + sectionKey;
   const resGroup = "sreLr_" + sectionKey;
   const milDoneSet = useDoneSet(milGroup)[0];
+  const resDoneSet = useDoneSet(resGroup)[0];
   const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const resDone = sec.resources.filter(r => resDoneSet[r.id]).length;
   const milTotal = sec.milestones.length;
-  const milPct = milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0;
-  const [showAllMil, setShowAllMil] = useState(false);
-  const [showRes, setShowRes] = useState(false);
+  const resTotal = sec.resources.length;
 
   // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
   const levelTail = sec.title.split(" — ").slice(-1)[0];
-  const heading = `Level ${levelNum} — ${levelTail}`;
-
-  const VISIBLE = 3;
-  const visibleMil = showAllMil ? sec.milestones : sec.milestones.slice(0, VISIBLE);
-  const hiddenCount = sec.milestones.length - visibleMil.length;
 
   const renderResource = (it) => (
     <span>
@@ -709,47 +755,29 @@ function AILevelCard({ levelNum, sectionKey }) {
   );
 
   return (
-    <section id={"ai-l" + levelNum} className="level-card">
-      <div className="level-head">
-        <div style={{flex: 1, minWidth: 0}}>
-          <h2>{heading}</h2>
-          <p className="lead">{sec.intro}</p>
+    <section id={"ai-l" + levelNum} className="level-card-v2">
+      <div className="level-card-head">
+        <div className="level-card-title">
+          <span className="level-card-num">L{levelNum}</span>
+          <span className="level-card-slash">/</span>
+          <span className="level-card-name">{levelTail}</span>
         </div>
-        <div className="level-progress">
-          <div className="pct">{milPct}%</div>
-          <div className="mini-bar"><div style={{ width: milPct + "%" }} /></div>
-          <div className="frac">{milDone}/{milTotal}</div>
-        </div>
+        <StatusPill pct={milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0} />
       </div>
+      <p className="lead">{sec.intro}</p>
 
-      <Checklist items={visibleMil} group={milGroup} />
+      <ListSection title="Milestones" done={milDone} total={milTotal}>
+        <Checklist items={sec.milestones} group={milGroup} />
+      </ListSection>
 
-      <div style={{display: "flex", gap: 18, marginTop: 4}}>
-        {hiddenCount > 0 && !showAllMil && (
-          <button className="more-link" onClick={() => setShowAllMil(true)}>
-            + {hiddenCount} more milestone{hiddenCount === 1 ? "" : "s"}…
-          </button>
-        )}
-        {showAllMil && hiddenCount === 0 && sec.milestones.length > VISIBLE && (
-          <button className="more-link" onClick={() => setShowAllMil(false)}>
-            show fewer
-          </button>
-        )}
-        <button className="more-link" onClick={() => setShowRes(s => !s)}>
-          {showRes ? "hide" : "show"} {sec.resources.length} resources
-        </button>
-      </div>
-
-      {showRes && (
-        <div className="level-resources">
-          <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
-        </div>
-      )}
+      <ListSection title="Resources" done={resDone} total={resTotal}>
+        <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
+      </ListSection>
     </section>
   );
 }
 
-function LevelPill({ levelNum, sectionKey }) {
+function LevelTile({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
   const milGroup = "sreLm_" + sectionKey;
@@ -758,16 +786,20 @@ function LevelPill({ levelNum, sectionKey }) {
   const total = sec.milestones.length;
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   const target = "ai-l" + levelNum;
+  // Map data title "AI · Level 1 — Foundations" → "Foundations"
+  const levelTail = sec.title.split(" — ").slice(-1)[0];
+
   return (
-    <a href={"#" + target} className="level-pill" onClick={(e) => {
+    <a href={"#" + target} className="level-tile" onClick={(e) => {
       e.preventDefault();
       document.getElementById(target)?.scrollIntoView({behavior: "smooth", block: "start"});
     }}>
-      <div className="level-pill-head">
-        <span className="lvl">L{levelNum}</span>
-        <span className="pct">{pct}%</span>
+      <div className="level-tile-head">
+        <span className="level-tile-num">L{levelNum}</span>
+        <span className="level-tile-pct">{pct}%</span>
       </div>
-      <div className="level-pill-bar"><div style={{ width: pct + "%" }} /></div>
+      <div className="level-tile-name">{levelTail}</div>
+      <Sparkbar pct={pct} bars={18} />
     </a>
   );
 }
@@ -776,20 +808,34 @@ function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
 
+  // Aggregate progress across all 4 levels
+  const allMilDone = ["sreLm_ai-l1","sreLm_ai-l2","sreLm_ai-l3","sreLm_ai-l4"]
+    .reduce((s, g) => s + Object.keys(loadJSON("done:" + g, {})).length, 0);
+  const allMilTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].milestones.length, 0);
+  const allPct = allMilTotal > 0 ? Math.round(allMilDone / allMilTotal * 100) : 0;
+
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">AI Engineering for SRE</h1>
-        <p className="page-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">specialization</div>
+          <h1 className="dash-title">
+            <span className="dash-num">AI</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">Engineering</span>
+          </h1>
+          <p className="dash-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
+        </div>
+        <StatusPill pct={allPct} />
       </div>
 
       <div className="callout">
         Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
-      <div className="level-switcher">
+      <div className="level-tiles">
         {levelKeys.map((key, idx) => (
-          <LevelPill key={key} levelNum={idx + 1} sectionKey={key} />
+          <LevelTile key={key} levelNum={idx + 1} sectionKey={key} />
         ))}
       </div>
 

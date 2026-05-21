@@ -694,40 +694,147 @@ button {
   color: var(--ink-2);
 }
 
-/* ───────── Learn · two-column (resources | milestones) ───────── */
+/* ───────── Dashboard subsection layout ───────── */
 
-.learn-two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.dash-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 18px;
-  margin: 18px 0 18px;
+  margin: 4px 0 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line-soft);
 }
-@media (max-width: 900px) { .learn-two-col { grid-template-columns: 1fr; } }
+.dash-eyebrow {
+  font-size: 10px;
+  color: var(--ink-3);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.dash-title {
+  margin: 0;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.1;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.dash-num {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.dash-slash {
+  color: var(--ink-3);
+  font-weight: 300;
+}
+.dash-name { font-weight: 600; }
+.dash-sub {
+  font-size: 13.5px;
+  color: var(--ink-2);
+  max-width: 640px;
+  margin: 8px 0 0;
+  line-height: 1.55;
+}
 
-.learn-col {
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--fill-2);
+  border: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-2);
+  text-transform: lowercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.status-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.status-pill.status-active { color: var(--hand); border-color: var(--blue-soft); background: var(--blue-soft); }
+.status-pill.status-active .dot { background: var(--hand); }
+.status-pill.status-done { color: var(--green); border-color: var(--green-soft); background: var(--green-soft); }
+.status-pill.status-done .dot { background: var(--green); }
+
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 0 0 20px;
+}
+@media (max-width: 700px) { .stat-tiles { grid-template-columns: 1fr 1fr; } }
+.stat-tile {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 11px 14px;
+}
+.stat-tile-label {
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-bottom: 5px;
+}
+.stat-tile-value {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--ink);
+}
+.stat-tile-value.accent { color: var(--hand); }
+.stat-tile-sub {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.list-section {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 18px 20px;
-  margin: 0;
-  box-shadow: none;
+  padding: 16px 20px 12px;
+  margin: 0 0 14px;
 }
-.learn-col-head {
+.list-section-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 12px;
-  margin-bottom: 4px;
+  gap: 14px;
+  margin-bottom: 2px;
 }
-.learn-col-head h2 {
+.list-section-head h2 {
   margin: 0;
   font-family: 'IBM Plex Sans', system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.005em;
-  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-2);
 }
-.learn-col-progress {
+.list-section-progress {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -737,49 +844,42 @@ button {
   font-weight: 500;
   white-space: nowrap;
 }
-.learn-col-progress .pct {
+.list-section-progress .pct {
   color: var(--ink);
   font-weight: 600;
   font-size: 12px;
 }
-.learn-col-progress .mini-bar {
-  display: inline-block;
-  width: 56px;
-  height: 3px;
-  background: var(--line-soft);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.learn-col-progress .mini-bar > div {
-  height: 100%;
-  background: var(--hand);
-  border-radius: 2px;
-}
-.learn-col .lead {
+.list-section .lead {
   font-size: 12px;
   color: var(--ink-3);
-  margin: 0 0 12px;
+  margin: 4px 0 8px;
 }
+
+.sparkbar {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.sparkbar-tick {
+  width: 2px;
+  height: 6px;
+  background: var(--line);
+  border-radius: 1px;
+  transition: background .12s, height .12s;
+}
+.sparkbar-tick:nth-child(3n)   { height: 8px; }
+.sparkbar-tick:nth-child(4n+1) { height: 10px; }
+.sparkbar-tick.on { background: var(--hand); }
 
 .notes-section {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 18px 20px;
-  margin-top: 4px;
+  padding: 16px 20px;
+  margin: 0 0 4px;
 }
-.notes-section h2 {
-  margin: 0 0 2px;
-  font-family: 'IBM Plex Sans', system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--ink);
-}
-.notes-section .lead {
-  font-size: 12px;
-  color: var(--ink-3);
-  margin: 0 0 10px;
-}
+.notes-section .list-section-head { margin-bottom: 8px; }
 .notes-section .notes {
   font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
   font-size: 12px;
@@ -788,135 +888,100 @@ button {
   line-height: 1.55;
 }
 
-/* ───────── AI Engineering · level switcher + stacked level cards ───────── */
+/* ───────── AI Engineering · 4 level tiles + stacked level cards ───────── */
 
-.level-switcher {
+.level-tiles {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-  margin: 18px 0 18px;
+  gap: 10px;
+  margin: 0 0 20px;
+}
+@media (max-width: 700px) { .level-tiles { grid-template-columns: 1fr 1fr; } }
+.level-tile {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 14px 18px;
-}
-.level-pill {
+  border-radius: 6px;
+  padding: 12px 14px 14px;
   text-decoration: none;
-  background: transparent;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  padding: 4px 4px;
-  border-radius: 4px;
+  color: inherit;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  color: inherit;
-  transition: background .12s;
+  gap: 6px;
+  transition: border-color .12s, background .12s;
 }
-.level-pill:hover { background: var(--hover-tint); border-bottom: none; }
-.level-pill-head {
+.level-tile:hover { border-color: var(--ink-3); background: var(--fill-2); border-bottom: 1px solid var(--ink-3); }
+.level-tile-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 12.5px;
-  color: var(--ink);
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+}
+.level-tile-num {
+  font-size: 13px;
   font-weight: 600;
+  color: var(--ink);
 }
-.level-pill-head .lvl {
-  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+.level-tile-pct {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hand);
 }
-.level-pill-head .pct {
-  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
-  color: var(--ink-3);
-  font-weight: 500;
-  font-size: 11.5px;
-}
-.level-pill-bar {
-  height: 3px;
-  background: var(--line-soft);
-  border-radius: 2px;
+.level-tile-name {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 12px;
+  color: var(--ink-2);
+  white-space: nowrap;
   overflow: hidden;
-}
-.level-pill-bar > div {
-  height: 100%;
-  background: var(--hand);
-  border-radius: 2px;
+  text-overflow: ellipsis;
 }
 
-.level-card {
+.level-card-v2 {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 20px 22px;
+  padding: 18px 20px 14px;
   margin: 0 0 14px;
-  box-shadow: none;
+  scroll-margin-top: 18px;
 }
-.level-card h2 {
-  margin: 0;
-  font-family: 'IBM Plex Sans', system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-.level-card .lead {
-  font-size: 12.5px;
-  color: var(--ink-3);
-  margin: 4px 0 14px;
-  line-height: 1.5;
-}
-.level-head {
+.level-card-head {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   gap: 16px;
+  margin-bottom: 2px;
 }
-.level-progress {
+.level-card-title {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
-  font-size: 11px;
-  color: var(--ink-3);
-  white-space: nowrap;
-  padding-top: 4px;
-}
-.level-progress .pct {
-  color: var(--ink);
-  font-weight: 600;
-  font-size: 13px;
-}
-.level-progress .mini-bar {
-  width: 80px;
-  height: 3px;
-  background: var(--line-soft);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.level-progress .mini-bar > div {
-  height: 100%;
-  background: var(--hand);
-  border-radius: 2px;
-}
-.level-progress .frac { font-weight: 500; }
-
-.more-link {
+  align-items: baseline;
+  gap: 9px;
   font-family: 'IBM Plex Sans', system-ui, sans-serif;
-  font-size: 12px;
-  color: var(--ink-3);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.level-card-num {
+  font-family: 'IBM Plex Mono', 'SF Mono', Menlo, monospace;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+.level-card-slash { color: var(--ink-3); font-weight: 300; }
+.level-card-v2 > .lead {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 4px 0 14px;
+  line-height: 1.55;
+}
+.level-card-v2 .list-section {
   background: transparent;
   border: none;
-  cursor: pointer;
-  padding: 6px 0 0;
-  font-weight: 500;
+  padding: 8px 0 0;
+  margin: 0;
 }
-.more-link:hover { color: var(--hand); }
-
-.level-resources {
-  margin-top: 12px;
-  padding-top: 12px;
+.level-card-v2 .list-section + .list-section {
   border-top: 1px dashed var(--line);
+  margin-top: 8px;
+  padding-top: 10px;
 }
 
 /* ───────── Mobile ───────── */
@@ -2693,14 +2758,53 @@ const STAGE_NUM = {
   reliability: "05",
 };
 
-function ColProgress({ done, total }) {
+function StatusPill({ pct }) {
+  let label = "not started", cls = "neutral";
+  if (pct >= 100) { label = "complete"; cls = "done"; }
+  else if (pct > 0) { label = "in progress"; cls = "active"; }
+  return (
+    <span className={"status-pill status-" + cls}>
+      <span className="dot" /> {label}
+    </span>
+  );
+}
+
+function StatTile({ label, value, sub, accent }) {
+  return (
+    <div className="stat-tile">
+      <div className="stat-tile-label">{label}</div>
+      <div className={"stat-tile-value" + (accent ? " accent" : "")}>{value}</div>
+      {sub && <div className="stat-tile-sub">{sub}</div>}
+    </div>
+  );
+}
+
+function Sparkbar({ pct, bars = 14 }) {
+  const filled = Math.round(bars * pct / 100);
+  return (
+    <span className="sparkbar">
+      {Array.from({ length: bars }).map((_, i) => (
+        <span key={i} className={"sparkbar-tick" + (i < filled ? " on" : "")} />
+      ))}
+    </span>
+  );
+}
+
+function ListSection({ title, lead, done, total, children }) {
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   return (
-    <div className="learn-col-progress">
-      <span className="pct">{pct}%</span>
-      <span className="mini-bar"><div style={{ width: pct + "%" }} /></span>
-      <span>{done}/{total}</span>
-    </div>
+    <section className="list-section">
+      <div className="list-section-head">
+        <h2>{title}</h2>
+        <div className="list-section-progress">
+          <Sparkbar pct={pct} />
+          <span className="pct">{pct}%</span>
+          <span className="frac">{done}/{total}</span>
+        </div>
+      </div>
+      {lead && <p className="lead">{lead}</p>}
+      {children}
+    </section>
   );
 }
 
@@ -2713,11 +2817,15 @@ function SreLearningView({ sectionKey }) {
   const milDoneSet = useDoneSet(milGroup)[0];
   const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
   const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
+  const total = section.resources.length + section.milestones.length;
+  const done = resDone + milDone;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const [hoursLogged] = useStored("time:" + resGroup, 0);
 
   // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
   // and prefix with a clean two-digit number to match the redesign mocks.
   const stageName = section.title.split(" · ").slice(-1)[0];
-  const heading = (STAGE_NUM[sectionKey] ? STAGE_NUM[sectionKey] + " · " : "") + stageName;
+  const stageNum = STAGE_NUM[sectionKey] || "··";
 
   const renderResource = (it) => (
     <span>
@@ -2730,38 +2838,46 @@ function SreLearningView({ sectionKey }) {
 
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">{heading}</h1>
-        <p className="page-sub">{section.intro}</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">stage</div>
+          <h1 className="dash-title">
+            <span className="dash-num">{stageNum}</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">{stageName}</span>
+          </h1>
+          <p className="dash-sub">{section.intro}</p>
+        </div>
+        <StatusPill pct={pct} />
+      </div>
+
+      <div className="stat-tiles">
+        <StatTile label="Complete" value={pct + "%"} sub={done + " of " + total} accent />
+        <StatTile label="Resources" value={resDone + "/" + section.resources.length}
+          sub={Math.round(resDone / section.resources.length * 100) + "%"} />
+        <StatTile label="Milestones" value={milDone + "/" + section.milestones.length}
+          sub={section.milestones.length > 0 ? Math.round(milDone / section.milestones.length * 100) + "%" : "0%"} />
+        <StatTile label="Time" value={hoursLogged + "h"} sub="logged" />
       </div>
 
       {section.why && <div className="callout">{section.why}</div>}
 
-      <div className="learn-two-col">
-        <section className="learn-col">
-          <div className="learn-col-head">
-            <h2>Curated resources</h2>
-            <ColProgress done={resDone} total={section.resources.length} />
-          </div>
-          <p className="lead">A mix of videos, courses, books, blogs.</p>
-          <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
-        </section>
+      <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
+        done={resDone} total={section.resources.length}>
+        <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
+      </ListSection>
 
-        <section className="learn-col">
-          <div className="learn-col-head">
-            <h2>Hands-on milestones</h2>
-            <ColProgress done={milDone} total={section.milestones.length} />
-          </div>
-          <p className="lead">Tick only when actually shipped.</p>
-          <Checklist items={section.milestones} group={milGroup} />
-        </section>
-      </div>
+      <ListSection title="Hands-on milestones" lead="Tick only when actually shipped."
+        done={milDone} total={section.milestones.length}>
+        <Checklist items={section.milestones} group={milGroup} />
+      </ListSection>
 
       <section className="notes-section">
-        <h2>Notes</h2>
-        <p className="lead">Pasted between sessions.</p>
+        <div className="list-section-head">
+          <h2>Notes</h2>
+          <TimeLog id={resGroup} />
+        </div>
         <Notes id={milGroup} placeholder="Links to commits, screenshots, gotchas, things to come back to." />
-        <TimeLog id={resGroup} />
       </section>
     </div>
   );
@@ -2780,19 +2896,14 @@ function AILevelCard({ levelNum, sectionKey }) {
   const milGroup = "sreLm_" + sectionKey;
   const resGroup = "sreLr_" + sectionKey;
   const milDoneSet = useDoneSet(milGroup)[0];
+  const resDoneSet = useDoneSet(resGroup)[0];
   const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
+  const resDone = sec.resources.filter(r => resDoneSet[r.id]).length;
   const milTotal = sec.milestones.length;
-  const milPct = milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0;
-  const [showAllMil, setShowAllMil] = useState(false);
-  const [showRes, setShowRes] = useState(false);
+  const resTotal = sec.resources.length;
 
   // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
   const levelTail = sec.title.split(" — ").slice(-1)[0];
-  const heading = `Level ${levelNum} — ${levelTail}`;
-
-  const VISIBLE = 3;
-  const visibleMil = showAllMil ? sec.milestones : sec.milestones.slice(0, VISIBLE);
-  const hiddenCount = sec.milestones.length - visibleMil.length;
 
   const renderResource = (it) => (
     <span>
@@ -2804,47 +2915,29 @@ function AILevelCard({ levelNum, sectionKey }) {
   );
 
   return (
-    <section id={"ai-l" + levelNum} className="level-card">
-      <div className="level-head">
-        <div style={{flex: 1, minWidth: 0}}>
-          <h2>{heading}</h2>
-          <p className="lead">{sec.intro}</p>
+    <section id={"ai-l" + levelNum} className="level-card-v2">
+      <div className="level-card-head">
+        <div className="level-card-title">
+          <span className="level-card-num">L{levelNum}</span>
+          <span className="level-card-slash">/</span>
+          <span className="level-card-name">{levelTail}</span>
         </div>
-        <div className="level-progress">
-          <div className="pct">{milPct}%</div>
-          <div className="mini-bar"><div style={{ width: milPct + "%" }} /></div>
-          <div className="frac">{milDone}/{milTotal}</div>
-        </div>
+        <StatusPill pct={milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0} />
       </div>
+      <p className="lead">{sec.intro}</p>
 
-      <Checklist items={visibleMil} group={milGroup} />
+      <ListSection title="Milestones" done={milDone} total={milTotal}>
+        <Checklist items={sec.milestones} group={milGroup} />
+      </ListSection>
 
-      <div style={{display: "flex", gap: 18, marginTop: 4}}>
-        {hiddenCount > 0 && !showAllMil && (
-          <button className="more-link" onClick={() => setShowAllMil(true)}>
-            + {hiddenCount} more milestone{hiddenCount === 1 ? "" : "s"}…
-          </button>
-        )}
-        {showAllMil && hiddenCount === 0 && sec.milestones.length > VISIBLE && (
-          <button className="more-link" onClick={() => setShowAllMil(false)}>
-            show fewer
-          </button>
-        )}
-        <button className="more-link" onClick={() => setShowRes(s => !s)}>
-          {showRes ? "hide" : "show"} {sec.resources.length} resources
-        </button>
-      </div>
-
-      {showRes && (
-        <div className="level-resources">
-          <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
-        </div>
-      )}
+      <ListSection title="Resources" done={resDone} total={resTotal}>
+        <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
+      </ListSection>
     </section>
   );
 }
 
-function LevelPill({ levelNum, sectionKey }) {
+function LevelTile({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
   const milGroup = "sreLm_" + sectionKey;
@@ -2853,16 +2946,20 @@ function LevelPill({ levelNum, sectionKey }) {
   const total = sec.milestones.length;
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   const target = "ai-l" + levelNum;
+  // Map data title "AI · Level 1 — Foundations" → "Foundations"
+  const levelTail = sec.title.split(" — ").slice(-1)[0];
+
   return (
-    <a href={"#" + target} className="level-pill" onClick={(e) => {
+    <a href={"#" + target} className="level-tile" onClick={(e) => {
       e.preventDefault();
       document.getElementById(target)?.scrollIntoView({behavior: "smooth", block: "start"});
     }}>
-      <div className="level-pill-head">
-        <span className="lvl">L{levelNum}</span>
-        <span className="pct">{pct}%</span>
+      <div className="level-tile-head">
+        <span className="level-tile-num">L{levelNum}</span>
+        <span className="level-tile-pct">{pct}%</span>
       </div>
-      <div className="level-pill-bar"><div style={{ width: pct + "%" }} /></div>
+      <div className="level-tile-name">{levelTail}</div>
+      <Sparkbar pct={pct} bars={18} />
     </a>
   );
 }
@@ -2871,20 +2968,34 @@ function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
 
+  // Aggregate progress across all 4 levels
+  const allMilDone = ["sreLm_ai-l1","sreLm_ai-l2","sreLm_ai-l3","sreLm_ai-l4"]
+    .reduce((s, g) => s + Object.keys(loadJSON("done:" + g, {})).length, 0);
+  const allMilTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].milestones.length, 0);
+  const allPct = allMilTotal > 0 ? Math.round(allMilDone / allMilTotal * 100) : 0;
+
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">AI Engineering for SRE</h1>
-        <p className="page-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">specialization</div>
+          <h1 className="dash-title">
+            <span className="dash-num">AI</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">Engineering</span>
+          </h1>
+          <p className="dash-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
+        </div>
+        <StatusPill pct={allPct} />
       </div>
 
       <div className="callout">
         Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
-      <div className="level-switcher">
+      <div className="level-tiles">
         {levelKeys.map((key, idx) => (
-          <LevelPill key={key} levelNum={idx + 1} sectionKey={key} />
+          <LevelTile key={key} levelNum={idx + 1} sectionKey={key} />
         ))}
       </div>
 
