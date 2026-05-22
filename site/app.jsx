@@ -9,6 +9,7 @@ const NAV = [
   { id: "sre-edge",     label: "05 · Edge & Gateway",   crumb: "Learn / 05 · Edge Layer (Kong · NGINX · Fastly)", group: "learn" },
   { id: "sre-rel",      label: "06 · Reliability",      crumb: "Learn / 06 · Reliability",             group: "learn" },
   { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
+  { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",         group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -34,6 +35,7 @@ const VIEW_MAP = {
   "sre-edge":     SRE_EdgeView,
   "sre-rel":      SRE_ReliabilityView,
   "sre-varnish":  SRE_VarnishView,
+  "sre-fastly":   SRE_FastlyView,
   "part-ai":      PartAIView,
   "part-b":       PartBView,
   "part-e":       PartEView,
