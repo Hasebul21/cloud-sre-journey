@@ -923,6 +923,8 @@ FROM employees GROUP BY dept;
 - **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
 - **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
 - **NGINX caching:** `proxy_cache`, microcaching (1–10s TTL on dynamic responses), `proxy_cache_lock`, `proxy_cache_use_stale`, conditional GET, vary headers
+- **HAProxy as L4 + L7 LB:** `frontend`/`backend`/`listen` blocks, ACLs, stick tables, slow-start, connection draining, `option httpchk`, `option redispatch`, runtime API + dynamic config reloads, Prometheus exporter
+- **Envoy as L7 proxy / mesh data plane:** xDS APIs (LDS/CDS/RDS/EDS), listeners + filter chains, clusters + endpoints, outlier detection, retry budgets, circuit breakers, gRPC-aware routing, used as the data plane behind Istio / Kong Mesh / AWS App Mesh
 - **Fastly / edge CDN:** VCL basics, surrogate keys, instant purge, stale-while-revalidate, shielding, Compute@Edge (WASM)
 - **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
 - **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
@@ -948,7 +950,35 @@ FROM employees GROUP BY dept;
 | [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
 | [KodeKloud — Nginx for Beginners](https://kodekloud.com/courses/nginx-for-beginners/) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks |
 | [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
+| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
+| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
+| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
 | *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book |
+
+**Resources — HAProxy (L4/L7 load balancer)**
+
+| Resource | Type |
+|----------|------|
+| [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
+| [HAProxy Starter Guide](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/) | The official first-read — covers `frontend`/`backend`, health checks, TLS termination |
+| [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
+| [HAProxy — official YouTube channel](https://www.youtube.com/@haproxytech) | "HAProxyConf" recordings + feature deep dives |
+| [KodeKloud — HAProxy for Beginners](https://kodekloud.com/courses/haproxy-for-beginners/) | Browser-lab format; mirrors the NGINX-for-Beginners track |
+| [Hussein Nasser — HAProxy videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs — L4 vs L7, TLS pass-through vs termination |
+| [*Load Balancing with HAProxy* — Nick Ramirez (free eBook from HAProxy)](https://www.haproxy.com/resources/ebooks) | Short, focused; the canonical one-sit overview |
+
+**Resources — Envoy (L7 proxy + service-mesh data plane)**
+
+| Resource | Type |
+|----------|------|
+| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
+| [Envoy "Getting Started" + sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start) | Runnable docker-compose sandboxes for front-proxy, gRPC, JWT auth, fault injection |
+| [Tetrate Academy — free Envoy + Istio courses](https://academy.tetrate.io/) | The best structured free Envoy curriculum; certs available |
+| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
+| [EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
+| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
+| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
+| *Envoy Fundamentals* — Tetrate (free PDF) | Short eBook; the cleanest intro to xDS |
 
 **Resources — Fastly (CDN + edge cache)**
 
@@ -982,6 +1012,8 @@ FROM employees GROUP BY dept;
 - Install **Kong Ingress Controller** on your kind cluster; replace the existing NGINX Ingress for one service and compare
 - Configure **NGINX** as a reverse proxy in front of the Todo API: TLS termination (Let's Encrypt locally with mkcert), `upstream` with keepalive, `proxy_next_upstream` for retries
 - Turn on **`proxy_cache`** for `GET /todos` with a 5s TTL (microcaching); load-test and graph cache HIT/MISS in Prometheus
+- Stand up **HAProxy** as an alternative L7 LB in front of the Todo API; enable the stats page + Prometheus exporter, write a stick-table rule for per-IP rate-limiting, do a zero-downtime config reload under load
+- Run **Envoy** as a front-proxy via docker-compose: define one listener + cluster, enable outlier detection + retry policy, point Prometheus at the `/stats/prometheus` endpoint, then compare a p99 latency graph against the NGINX setup
 - Write a small **VCL snippet** for Fastly (use Fastly's developer edition / free tier): cache an API response, set a surrogate key, invalidate it via API
 - Implement the **stale-while-revalidate** pattern at the edge — observe behavior when origin returns 5xx
 - Write a runbook: *"p99 latency spiked behind Kong — how do I triage in 10 minutes?"* (gateway logs → upstream healthchecks → plugin overhead → cache hit ratio)
@@ -1926,6 +1958,23 @@ filter {
 - Set a Watcher alert: >10 errors/min → notify
 
 **What you learn:** DaemonSet log collection, structured logging, Logstash pipelines, Kibana dashboards, index lifecycle management (ILM)
+
+**OpenSearch — the AWS fork you'll see in APAC**
+
+After Elastic's 2021 license change, AWS forked Elasticsearch 7.10 + Kibana into **OpenSearch + OpenSearch Dashboards** (Apache 2.0). Grab, Tokopedia, Bukalapak, and most teams on AWS run **Amazon OpenSearch Service** instead of self-hosted Elastic — the API surface is ~95% compatible, so everything you learned above transfers. Worth one focused weekend: spin up OpenSearch via docker-compose, repoint Logstash/Filebeat at it (same `elasticsearch` output, different host), reproduce the Kibana dashboard inside OpenSearch Dashboards.
+
+**Resources — OpenSearch**
+
+| Resource | Type |
+|----------|------|
+| [OpenSearch official docs](https://docs.opensearch.org/) | Authoritative — install, indexing, search, security, ISM (index state management = ILM equivalent) |
+| [OpenSearch Project — getting started](https://docs.opensearch.org/latest/getting-started/) | The "first hour" tutorial — docker-compose, first index, first query |
+| [Amazon OpenSearch Service docs](https://docs.aws.amazon.com/opensearch-service/) | Managed-service specifics: domain sizing, UltraWarm/cold storage tiers, fine-grained access, VPC + SAML |
+| [OpenSearch — official YouTube channel](https://www.youtube.com/@OpenSearchProject) | OpenSearchCon recordings + feature deep dives |
+| [OpenSearch Playground](https://playground.opensearch.org/) | Live demo cluster with sample data — no signup needed |
+| [opensearch-project/opensearch-k8s-operator](https://github.com/opensearch-project/opensearch-k8s-operator) | Kubernetes operator — drop-in replacement for the Elastic ECK pattern |
+| [Elastic vs OpenSearch — feature matrix](https://opensearch.org/faq/) | Read once so you can answer the inevitable "why did you pick X?" interview question |
+| [OpenSearch Benchmark](https://opensearch.org/docs/latest/benchmark/) | The official perf-testing tool — run it against both Elastic and OpenSearch to form your own opinion |
 
 ---
 
