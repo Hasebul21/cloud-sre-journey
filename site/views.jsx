@@ -649,7 +649,8 @@ const STAGE_NUM = {
   coding:      "02",
   cloud:       "03",
   automation:  "04",
-  reliability: "05",
+  edge:        "05",
+  reliability: "06",
 };
 
 function StatusPill({ pct }) {
@@ -781,6 +782,7 @@ const SRE_FoundationsView = () => <SreLearningView sectionKey="foundations" />;
 const SRE_CodingView      = () => <SreLearningView sectionKey="coding" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
+const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 
 // Part AI renders 4 difficulty levels on one page (sourced from sreRoadmap.ai-l1..l4)
@@ -904,5 +906,5 @@ Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView, PartEView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_ReliabilityView,
+  SRE_FoundationsView, SRE_CodingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ReliabilityView,
 });

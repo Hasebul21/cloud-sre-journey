@@ -877,8 +877,55 @@ window.SRE_DATA = {
       ],
     },
 
+    edge: {
+      title: "SRE 5 · Edge Layer — API Gateway, Reverse Proxy & CDN Cache",
+      intro: "Kong for the API gateway. NGINX for the reverse proxy + microcaching. Fastly for the CDN edge. Varnish is intentionally skipped — Fastly's VCL is the modern hosted path that covers the same surface.",
+      why: "Whoever owns the edge owns the SLOs of every service behind it. This is the tool surface the team actually runs (Kong + NGINX + Fastly), so depth here pays off the same week.",
+      resources: [
+        // ───── Kong (API gateway) ─────
+        { id: "sed-r-1",  type: "course", name: "Kong Docs — Get Started with Kong Gateway",                         url: "https://docs.konghq.com/gateway/latest/get-started/" },
+        { id: "sed-r-2",  type: "course", name: "Kong Education portal — official courses + certifications",         url: "https://education.konghq.com" },
+        { id: "sed-r-3",  type: "course", name: "Hussein Nasser — Kong API Gateway (Udemy)",                         url: "https://www.udemy.com/course/kong-api-gateway/" },
+        { id: "sed-r-4",  type: "video",  name: "Hussein Nasser — YouTube (Kong + API Gateway deep dives)",          url: "https://www.youtube.com/@hnasr" },
+        { id: "sed-r-5",  type: "video",  name: "Kong Inc. — official YouTube (Kong Summit, plugin walkthroughs)",   url: "https://www.youtube.com/@KongInc" },
+        { id: "sed-r-6",  type: "blog",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
+        { id: "sed-r-7",  type: "book",   name: "Kong Learning Center — whitepapers + Mastering Kong eBooks",        url: "https://konghq.com/learning-center" },
+
+        // ───── NGINX (reverse proxy + cache) ─────
+        { id: "sed-r-8",  type: "course", name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                       url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        { id: "sed-r-9",  type: "book",   name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",              url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
+        { id: "sed-r-10", type: "blog",   name: "Official NGINX docs (module reference)",                            url: "https://nginx.org/en/docs/" },
+        { id: "sed-r-11", type: "course", name: "KodeKloud — Nginx for Beginners",                                   url: "https://kodekloud.com/courses/nginx-for-beginners/" },
+        { id: "sed-r-12", type: "blog",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
+        { id: "sed-r-13", type: "book",   name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                    url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
+
+        // ───── Fastly (CDN + edge cache) ─────
+        { id: "sed-r-14", type: "course", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
+        { id: "sed-r-15", type: "course", name: "Fastly Learning Center (CDN / caching / edge primers)",              url: "https://www.fastly.com/learning" },
+        { id: "sed-r-16", type: "blog",   name: "Fastly VCL reference (modern successor to Varnish VCL)",             url: "https://www.fastly.com/documentation/reference/vcl/" },
+        { id: "sed-r-17", type: "video",  name: "Fastly — official YouTube (Altitude conf recordings)",               url: "https://www.youtube.com/@FastlyInc" },
+        { id: "sed-r-18", type: "blog",   name: "Fastly Engineering blog (postmortems + cache engineering)",          url: "https://www.fastly.com/blog/" },
+
+        // ───── HTTP caching theory (cross-cutting) ─────
+        { id: "sed-r-19", type: "book",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
+        { id: "sed-r-20", type: "blog",   name: "MDN — HTTP Caching reference",                                       url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+        { id: "sed-r-21", type: "blog",   name: "Cloudflare Learning Center — Caching & CDN primers",                 url: "https://www.cloudflare.com/learning/cdn/what-is-caching/" },
+      ],
+      milestones: [
+        { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
+        { id: "sed-m-2",  name: "Add rate-limit + JWT plugins to Todo API through Kong; load-test to trip the limiter" },
+        { id: "sed-m-3",  name: "Install Kong Ingress Controller on kind; swap one Ingress for KIC; compare behaviour" },
+        { id: "sed-m-4",  name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
+        { id: "sed-m-5",  name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
+        { id: "sed-m-6",  name: "Write a Fastly VCL snippet (free dev tier): cache an API response, set a surrogate key, instant-purge it" },
+        { id: "sed-m-7",  name: "Implement stale-while-revalidate at the edge; verify behavior when origin returns 5xx" },
+        { id: "sed-m-8",  name: "Runbook: 'p99 spiked behind Kong — triage in 10 min' (gateway logs → upstreams → plugins → cache hit ratio)" },
+        { id: "sed-m-9",  name: "1-page tradeoff doc: NGINX vs Envoy vs Kong as L7 — when each wins, be opinionated" },
+      ],
+    },
+
     reliability: {
-      title: "SRE 5 · Observability & Reliability Practice",
+      title: "SRE 6 · Observability & Reliability Practice",
       intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
       why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [

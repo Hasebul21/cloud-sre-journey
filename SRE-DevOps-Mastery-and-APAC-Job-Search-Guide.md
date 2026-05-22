@@ -914,6 +914,75 @@ FROM employees GROUP BY dept;
 
 ---
 
+#### Stage 5.5 — Edge Layer: API Gateway, Reverse Proxy & CDN Cache
+
+> **Why it matters:** Most APAC platforms put one or more of an API gateway (Kong / AWS API Gateway / Apigee), an L7 reverse proxy (NGINX / Envoy), and a CDN edge cache (Fastly / CloudFront / Cloudflare) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Kong + NGINX + Fastly**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface).
+
+**Key topics**
+- **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
+- **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
+- **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
+- **NGINX caching:** `proxy_cache`, microcaching (1–10s TTL on dynamic responses), `proxy_cache_lock`, `proxy_cache_use_stale`, conditional GET, vary headers
+- **Fastly / edge CDN:** VCL basics, surrogate keys, instant purge, stale-while-revalidate, shielding, Compute@Edge (WASM)
+- **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
+- **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
+
+**Resources — Kong (API gateway)**
+
+| Resource | Type |
+|----------|------|
+| [Kong Docs — Get Started with Kong Gateway](https://docs.konghq.com/gateway/latest/get-started/) | Official tutorial |
+| [Kong Education portal — courses & certs (Kong Gateway Operator, KCNA-style)](https://education.konghq.com) | Official training (free + paid certs) |
+| [Hussein Nasser — Kong API Gateway course (Udemy)](https://www.udemy.com/course/kong-api-gateway/) | Hands-on course — the canonical Kong walkthrough for backend/SRE folks |
+| [Hussein Nasser — YouTube channel (Kong / API Gateway / NGINX deep dives)](https://www.youtube.com/@hnasr) | Free, dense, protocol-level |
+| [Kong Inc. — official YouTube channel](https://www.youtube.com/@KongInc) | Webinars, "Kong Summit" recordings, plugin walkthroughs |
+| [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs |
+| [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
+
+**Resources — NGINX (reverse proxy + cache)**
+
+| Resource | Type |
+|----------|------|
+| [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
+| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
+| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
+| [KodeKloud — Nginx for Beginners](https://kodekloud.com/courses/nginx-for-beginners/) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks |
+| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
+| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book |
+
+**Resources — Fastly (CDN + edge cache)**
+
+| Resource | Type |
+|----------|------|
+| [Fastly Documentation hub](https://www.fastly.com/documentation/) | The whole Fastly knowledge tree — start with "Concepts" + "VCL" |
+| [Fastly Learning Center](https://www.fastly.com/learning) | Concept primers — CDN, caching, edge compute |
+| [Fastly VCL reference](https://www.fastly.com/documentation/reference/vcl/) | Authoritative VCL surface (same syntax Varnish uses — the only piece of Varnish worth keeping) |
+| [Fastly — official YouTube channel](https://www.youtube.com/@FastlyInc) | "Fastly Altitude" conference recordings — production CDN stories |
+| [Fastly Engineering Blog](https://www.fastly.com/blog/) | Outage postmortems + cache engineering posts |
+
+**Resources — HTTP caching theory (cross-cutting)**
+
+| Resource | Type |
+|----------|------|
+| [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
+| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics |
+| [Cloudflare Learning Center — Caching & CDN](https://www.cloudflare.com/learning/cdn/what-is-caching/) | Vendor-neutral primers; useful even if you're on Fastly |
+
+**Hands-on milestones**
+- Run **Kong** locally via docker-compose (DB-less mode), declare two upstream services in `kong.yml`, route them at `/api/todos` and `/api/users`
+- Add **rate-limit + JWT** plugins to your Todo API through Kong; verify with a load test that the limiter actually trips
+- Install **Kong Ingress Controller** on your kind cluster; replace the existing NGINX Ingress for one service and compare
+- Configure **NGINX** as a reverse proxy in front of the Todo API: TLS termination (Let's Encrypt locally with mkcert), `upstream` with keepalive, `proxy_next_upstream` for retries
+- Turn on **`proxy_cache`** for `GET /todos` with a 5s TTL (microcaching); load-test and graph cache HIT/MISS in Prometheus
+- Write a small **VCL snippet** for Fastly (use Fastly's developer edition / free tier): cache an API response, set a surrogate key, invalidate it via API
+- Implement the **stale-while-revalidate** pattern at the edge — observe behavior when origin returns 5xx
+- Write a runbook: *"p99 latency spiked behind Kong — how do I triage in 10 minutes?"* (gateway logs → upstream healthchecks → plugin overhead → cache hit ratio)
+- One-page tradeoff doc: **NGINX vs Envoy vs Kong** as L7 — when each one wins (be opinionated)
+
+**Time:** 3–4 weeks if focused. Can run in parallel with Stage 5 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
+
+---
+
 ### Level 3 — Advanced SRE (Stages 6–7)
 
 > **Senior-track tier.** Goal: lead incidents, design reliable distributed systems, build internal platforms. Senior SRE roles at Grab/Mercari/Agoda target this level. ~10–16 weeks.
@@ -1226,6 +1295,8 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 | **VCS hosting** | GitHub | GitLab, Bitbucket |
 | **Containers** | Docker | Podman, LXC |
 | **Web server / proxy** | nginx | Caddy, Apache, Traefik |
+| **API gateway** | Kong (OSS) | AWS API Gateway, Apigee, Tyk, Envoy Gateway, Krakend |
+| **CDN / edge cache** | Fastly | CloudFront, Cloudflare, Akamai *(Varnish — legacy, skip; Fastly's VCL is the modern path)* |
 | **Cloud provider** | AWS | GCP, Azure, DigitalOcean, Hetzner |
 | **Serverless** | AWS Lambda | Cloudflare Workers, Vercel, GCP Functions |
 | **Config mgmt** | Ansible | Chef, Salt, Puppet |
