@@ -626,21 +626,14 @@ function PartJView() {
 // ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
 
 function ResourceTag({ type }) {
-  const map = {
-    video:    { l: "VIDEO",    bg: "#fcebe2", c: "var(--red)" },
-    course:   { l: "COURSE",   bg: "#dfeefb", c: "var(--blue)" },
-    book:     { l: "BOOK",     bg: "#e3f1da", c: "var(--green)" },
-    blog:     { l: "BLOG",     bg: "#fef9e0", c: "#9a6c00" },
-    playlist: { l: "PLAYLIST", bg: "#fcebe2", c: "var(--red)" },
-    channel:  { l: "CHANNEL",  bg: "#f0e6ff", c: "#6b3aa1" },
-    github:   { l: "GITHUB",   bg: "#e8eaed", c: "#1f2328" },
+  const labels = {
+    video: "VIDEO", course: "COURSE", book: "BOOK", blog: "BLOG",
+    playlist: "PLAYLIST", channel: "CHANNEL", github: "GITHUB",
   };
-  const s = map[type] || { l: "RES", bg: "#eee", c: "#666" };
   return (
-    <span
-      className="tag"
-      style={{ background: s.bg, color: s.c, borderColor: s.c, marginRight: 8, marginLeft: 0 }}
-    >{s.l}</span>
+    <span className={"htag htag-" + (type || "res")}>
+      {labels[type] || "RES"}
+    </span>
   );
 }
 
@@ -743,16 +736,13 @@ function SreLearningView({ sectionKey }) {
           </h1>
           <p className="dash-sub">{section.intro}</p>
         </div>
-        <StatusPill pct={pct} />
-      </div>
-
-      <div className="stat-tiles">
-        <StatTile label="Complete" value={pct + "%"} sub={done + " of " + total} accent />
-        <StatTile label="Resources" value={resDone + "/" + section.resources.length}
-          sub={Math.round(resDone / section.resources.length * 100) + "%"} />
-        <StatTile label="Milestones" value={milDone + "/" + section.milestones.length}
-          sub={section.milestones.length > 0 ? Math.round(milDone / section.milestones.length * 100) + "%" : "0%"} />
-        <StatTile label="Time" value={hoursLogged + "h"} sub="logged" />
+        <aside className="dash-rail">
+          <h4>where you are</h4>
+          <div className="row"><span>Complete</span><b className="accent">{pct}%</b></div>
+          <div className="row"><span>Resources</span><b>{resDone}/{section.resources.length}</b></div>
+          <div className="row"><span>Milestones</span><b>{milDone}/{section.milestones.length}</b></div>
+          <div className="row"><span>Hours logged</span><b>{hoursLogged}h</b></div>
+        </aside>
       </div>
 
       {section.why && <div className="callout">{section.why}</div>}
