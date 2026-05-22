@@ -288,6 +288,7 @@ function viewGroups() {
     "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
     "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
     "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
+    "sre-varnish": ["sreLr_varnish",    "sreLm_varnish"],
     "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
     "part-b": ["phase"],
     "part-e": ["goPath","otherSk"],
