@@ -957,16 +957,24 @@ FROM employees GROUP BY dept;
 | [Fastly Documentation hub](https://www.fastly.com/documentation/) | The whole Fastly knowledge tree — start with "Concepts" + "VCL" |
 | [Fastly Learning Center](https://www.fastly.com/learning) | Concept primers — CDN, caching, edge compute |
 | [Fastly VCL reference](https://www.fastly.com/documentation/reference/vcl/) | Authoritative VCL surface (same syntax Varnish uses — the only piece of Varnish worth keeping) |
+| [Fastly Fiddle — in-browser VCL + Compute@Edge playground](https://fiddle.fastly.dev) | The fastest way to *actually try* edge logic — no account needed. Share fiddles via URL |
+| [Fastly GitHub organization](https://github.com/fastly) | Production-grade VCL recipes, Compute starter kits (Rust / Go / JS / AssemblyScript), `fastly-go` / `fastly-py` SDKs |
+| [Fastly Developer Hub](https://www.fastly.com/documentation/developers/) | Developer-focused docs — APIs, Terraform provider, CLI, language SDKs |
+| [Fastly Help Center](https://support.fastly.com/) | Searchable knowledge base + community Q&A — gold for "why is my cache MISSing?" debugging |
 | [Fastly — official YouTube channel](https://www.youtube.com/@FastlyInc) | "Fastly Altitude" conference recordings — production CDN stories |
 | [Fastly Engineering Blog](https://www.fastly.com/blog/) | Outage postmortems + cache engineering posts |
+| [Fastly status & past incidents](https://www.fastlystatus.com) | Real production CDN postmortems — read these alongside your own incidents |
 
 **Resources — HTTP caching theory (cross-cutting)**
 
 | Resource | Type |
 |----------|------|
 | [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
+| [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
+| [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
 | [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics |
 | [Cloudflare Learning Center — Caching & CDN](https://www.cloudflare.com/learning/cdn/what-is-caching/) | Vendor-neutral primers; useful even if you're on Fastly |
+| [Hussein Nasser — CDN & HTTP cache videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs of `Cache-Control`, `Vary`, conditional GET — same channel as the NGINX / Kong picks |
 
 **Hands-on milestones**
 - Run **Kong** locally via docker-compose (DB-less mode), declare two upstream services in `kong.yml`, route them at `/api/todos` and `/api/users`
