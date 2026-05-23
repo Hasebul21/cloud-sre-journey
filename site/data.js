@@ -673,40 +673,8 @@ window.SRE_DATA = {
       ],
     },
 
-    coding: {
-      title: "SRE 2 · Coding for SRE",
-      intro: "Python for glue + tooling. Go for control planes + CLIs. Pick one to fluency, learn the other to read.",
-      why: "An SRE who can't read or write code is an oncall responder, not an engineer. Most modern reliability tools (Prometheus, Terraform, Kubernetes) are written in Go.",
-      resources: [
-        { id: "src-r-1",  type: "video",  name: "Python Full Course — Mosh",                                     url: "https://www.youtube.com/watch?v=_uQrJ0TkZlc" },
-        { id: "src-r-2",  type: "video",  name: "Python OOP Series — Corey Schafer",                             url: "https://www.youtube.com/playlist?list=PL-osiE80TeTsqhIuOqKhwlXsIBIdSeYtc" },
-        { id: "src-r-3",  type: "video",  name: "Learn Go Programming — TechWorld with Nana",                    url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
-        { id: "src-r-4",  type: "video",  name: "Go in 100 Seconds — Fireship",                                  url: "https://www.youtube.com/watch?v=446E-r0rXHI" },
-        { id: "src-r-5",  type: "video",  name: "Go Concurrency Patterns — Rob Pike (Google I/O)",               url: "https://www.youtube.com/watch?v=f6kdp27TYZs" },
-        { id: "src-r-6",  type: "course", name: "A Tour of Go (official, free)",                                 url: "https://go.dev/tour/" },
-        { id: "src-r-7",  type: "course", name: "Boot.dev — Learn Go by building",                               url: "https://www.boot.dev/" },
-        { id: "src-r-8",  type: "course", name: "Real Python — articles + courses",                              url: "https://realpython.com/" },
-        { id: "src-r-9",  type: "book",   name: "Automate the Boring Stuff with Python — Al Sweigart (free)",    url: "https://automatetheboringstuff.com/" },
-        { id: "src-r-10", type: "book",   name: "Fluent Python — Luciano Ramalho",                               url: "https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" },
-        { id: "src-r-11", type: "book",   name: "Learning Go — Jon Bodner (2nd ed)",                             url: "https://www.oreilly.com/library/view/learning-go-2nd/9781098139285/" },
-        { id: "src-r-12", type: "book",   name: "The Go Programming Language — Donovan & Kernighan",             url: "https://www.gopl.io/" },
-        { id: "src-r-13", type: "blog",   name: "Effective Go (official idioms)",                                url: "https://go.dev/doc/effective_go" },
-        { id: "src-r-14", type: "blog",   name: "Dave Cheney — Go internals + practical articles",               url: "https://dave.cheney.net/" },
-      ],
-      milestones: [
-        { id: "src-m-1", name: "Python: parse /var/log/nginx/access.log into JSON via stdlib only" },
-        { id: "src-m-2", name: "Python: build a CLI with argparse (3 subcommands)" },
-        { id: "src-m-3", name: "Python: wrap a REST API client with retries + exponential backoff" },
-        { id: "src-m-4", name: "Go: write an HTTP server with /healthz + /metrics handlers" },
-        { id: "src-m-5", name: "Go: use context.Context for cancellation across goroutines" },
-        { id: "src-m-6", name: "Go: write table-driven unit tests + run with -race" },
-        { id: "src-m-7", name: "Go: build a Cobra CLI with auto-completion + nested commands" },
-        { id: "src-m-8", name: "Go: profile a program with pprof — find a CPU or heap hotspot" },
-      ],
-    },
-
     cloud: {
-      title: "SRE 3 · Cloud, Containers & K8s",
+      title: "SRE 2 · Cloud, Containers & K8s",
       intro: "AWS first — most APAC SRE roles ask for it. Then Docker. Then Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
       why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services. You'll touch this every shift.",
       resources: [
@@ -742,7 +710,7 @@ window.SRE_DATA = {
     },
 
     automation: {
-      title: "SRE 4 · Automation — IaC + CI/CD + GitOps",
+      title: "SRE 3 · Automation — IaC + CI/CD + GitOps",
       intro: "Terraform for cloud infra. Ansible for VM config (still very common). GitHub Actions / Argo for delivery. GitOps for K8s. The goal: nothing manual in prod.",
       why: "An incident at 3am is fine. An incident at 3am because someone clicked the wrong button isn't. If it can run twice, automate it.",
       resources: [
@@ -878,46 +846,58 @@ window.SRE_DATA = {
     },
 
     edge: {
-      title: "SRE 5 · Edge Layer — API Gateway, Reverse Proxy & CDN Cache",
-      intro: "Kong for the API gateway. NGINX for the reverse proxy + microcaching. Fastly for the CDN edge. Varnish is intentionally skipped — Fastly's VCL is the modern hosted path that covers the same surface.",
-      why: "Whoever owns the edge owns the SLOs of every service behind it. This is the tool surface the team actually runs (Kong + NGINX + Fastly), so depth here pays off the same week.",
+      title: "SRE 4 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
+      intro: "Two halves of one edge story: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway behind it. NGINX, HAProxy, and Envoy fill in as L7 reverse proxies and load balancers. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 06 & 07.",
+      why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
-        // ───── Kong (API gateway) ─────
-        { id: "sed-r-1",  type: "course", name: "Kong Docs — Get Started with Kong Gateway",                         url: "https://docs.konghq.com/gateway/latest/get-started/" },
-        { id: "sed-r-2",  type: "course", name: "Kong Education portal — official courses + certifications",         url: "https://education.konghq.com" },
+        // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
+        { id: "sed-r-15", type: "course", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
+        { id: "sed-r-14", type: "course", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
+        { id: "sed-r-17", type: "course", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground",           url: "https://fiddle.fastly.dev" },
+        { id: "sed-r-21", type: "video",  name: "Fastly — official YouTube (Altitude conf recordings)",               url: "https://www.youtube.com/@FastlyInc" },
+        { id: "sed-r-16", type: "blog",   name: "Fastly VCL reference (modern successor to Varnish VCL)",             url: "https://www.fastly.com/documentation/reference/vcl/" },
+        { id: "sed-r-19", type: "course", name: "Fastly Developer Hub (APIs, Terraform provider, CLI, SDKs)",         url: "https://www.fastly.com/documentation/developers/" },
+        { id: "sed-r-18", type: "blog",   name: "Fastly GitHub — VCL recipes, Compute starter kits, official SDKs",   url: "https://github.com/fastly" },
+        { id: "sed-r-20", type: "blog",   name: "Fastly Help Center (searchable KB + community Q&A)",                 url: "https://support.fastly.com/" },
+        { id: "sed-r-22", type: "blog",   name: "Fastly Engineering blog (postmortems + cache engineering)",          url: "https://www.fastly.com/blog/" },
+        { id: "sed-r-23", type: "blog",   name: "Fastly status & past incidents (real CDN postmortems)",              url: "https://www.fastlystatus.com" },
+
+        // ───── Kong — K8s ingress + API gateway — sorted: learn-first → architecture deep-reads ─────
+        { id: "sed-r-1",  type: "course", name: "Kong Docs — Get Started with Kong Gateway — Start here",            url: "https://docs.konghq.com/gateway/latest/get-started/" },
         { id: "sed-r-3",  type: "course", name: "Hussein Nasser — Kong API Gateway (Udemy)",                         url: "https://www.udemy.com/course/kong-api-gateway/" },
+        { id: "sed-r-2",  type: "course", name: "Kong Education portal — official courses + certifications",         url: "https://education.konghq.com" },
         { id: "sed-r-4",  type: "video",  name: "Hussein Nasser — YouTube (Kong + API Gateway deep dives)",          url: "https://www.youtube.com/@hnasr" },
         { id: "sed-r-5",  type: "video",  name: "Kong Inc. — official YouTube (Kong Summit, plugin walkthroughs)",   url: "https://www.youtube.com/@KongInc" },
         { id: "sed-r-6",  type: "blog",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
         { id: "sed-r-7",  type: "book",   name: "Kong Learning Center — whitepapers + Mastering Kong eBooks",        url: "https://konghq.com/learning-center" },
 
-        // ───── NGINX (reverse proxy + cache) ─────
+        // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
+        { id: "sed-r-11", type: "course", name: "KodeKloud — Nginx for Beginners — Start here",                      url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
+        { id: "sed-r-30", type: "video",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)", url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
         { id: "sed-r-8",  type: "course", name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                       url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        { id: "sed-r-12", type: "blog",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
         { id: "sed-r-9",  type: "book",   name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",              url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
         { id: "sed-r-10", type: "blog",   name: "Official NGINX docs (module reference)",                            url: "https://nginx.org/en/docs/" },
-        { id: "sed-r-11", type: "course", name: "KodeKloud — Nginx for Beginners",                                   url: "https://kodekloud.com/courses/nginx-for-beginners/" },
-        { id: "sed-r-12", type: "blog",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
         { id: "sed-r-13", type: "book",   name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                    url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
 
-        // ───── Fastly (CDN + edge cache) ─────
-        { id: "sed-r-14", type: "course", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
-        { id: "sed-r-15", type: "course", name: "Fastly Learning Center (CDN / caching / edge primers)",              url: "https://www.fastly.com/learning" },
-        { id: "sed-r-16", type: "blog",   name: "Fastly VCL reference (modern successor to Varnish VCL)",             url: "https://www.fastly.com/documentation/reference/vcl/" },
-        { id: "sed-r-17", type: "course", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground",           url: "https://fiddle.fastly.dev" },
-        { id: "sed-r-18", type: "blog",   name: "Fastly GitHub — VCL recipes, Compute starter kits, official SDKs",   url: "https://github.com/fastly" },
-        { id: "sed-r-19", type: "course", name: "Fastly Developer Hub (APIs, Terraform provider, CLI, SDKs)",         url: "https://www.fastly.com/documentation/developers/" },
-        { id: "sed-r-20", type: "blog",   name: "Fastly Help Center (searchable KB + community Q&A)",                 url: "https://support.fastly.com/" },
-        { id: "sed-r-21", type: "video",  name: "Fastly — official YouTube (Altitude conf recordings)",               url: "https://www.youtube.com/@FastlyInc" },
-        { id: "sed-r-22", type: "blog",   name: "Fastly Engineering blog (postmortems + cache engineering)",          url: "https://www.fastly.com/blog/" },
-        { id: "sed-r-23", type: "blog",   name: "Fastly status & past incidents (real CDN postmortems)",              url: "https://www.fastlystatus.com" },
+        // ───── HAProxy (L4/L7 load balancer) — sorted: learn-first → reference ─────
+        { id: "sed-r-31", type: "course", name: "KodeKloud — HAProxy for Beginners — Start here",                    url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
+        { id: "sed-r-32", type: "video",  name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)",    url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
+        { id: "sed-r-33", type: "course", name: "HAProxy Starter Guide (official first-read)",                       url: "https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/" },
+        { id: "sed-r-34", type: "blog",   name: "HAProxy official docs (configuration manual)",                      url: "https://docs.haproxy.org/" },
 
-        // ───── HTTP caching theory (cross-cutting) ─────
-        { id: "sed-r-24", type: "book",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
-        { id: "sed-r-25", type: "blog",   name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
-        { id: "sed-r-26", type: "blog",   name: "RFC 9111 — HTTP Caching (current standard, short + readable)",       url: "https://www.rfc-editor.org/rfc/rfc9111" },
-        { id: "sed-r-27", type: "blog",   name: "MDN — HTTP Caching reference",                                       url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+        // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → reference ─────
+        { id: "sed-r-35", type: "course", name: "Tetrate Academy — free Envoy + Istio courses — Start here",         url: "https://academy.tetrate.io/" },
+        { id: "sed-r-36", type: "course", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose)",     url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
+        { id: "sed-r-37", type: "blog",   name: "Envoy official docs ('Life of a Request' + xDS concepts)",          url: "https://www.envoyproxy.io/docs/envoy/latest/" },
+
+        // ───── HTTP caching theory (cross-cutting) — sorted: learn-first → tutorials → book/spec ─────
+        { id: "sed-r-27", type: "blog",   name: "MDN — HTTP Caching reference — Start here",                          url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
         { id: "sed-r-28", type: "blog",   name: "Cloudflare Learning Center — Caching & CDN primers",                 url: "https://www.cloudflare.com/learning/cdn/what-is-caching/" },
         { id: "sed-r-29", type: "video",  name: "Hussein Nasser — CDN & HTTP cache videos (YouTube)",                 url: "https://www.youtube.com/@hnasr" },
+        { id: "sed-r-25", type: "blog",   name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
+        { id: "sed-r-24", type: "book",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
+        { id: "sed-r-26", type: "blog",   name: "RFC 9111 — HTTP Caching (current standard, short + readable)",       url: "https://www.rfc-editor.org/rfc/rfc9111" },
       ],
       milestones: [
         { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
@@ -933,7 +913,7 @@ window.SRE_DATA = {
     },
 
     reliability: {
-      title: "SRE 6 · Observability & Reliability Practice",
+      title: "SRE 5 · Observability & Reliability Practice",
       intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
       why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [
@@ -972,7 +952,7 @@ window.SRE_DATA = {
     },
 
     varnish: {
-      title: "SRE 7 · Edge Caching with Varnish & VCL",
+      title: "SRE 6 · Edge Caching with Varnish & VCL",
       intro: "Varnish Cache sits in front of origin servers and turns the request hot path into RAM-speed responses. This track walks VCL — Varnish's request/response programming language — from `vcl 4.1` syntax through grace mode, purging, and the multi-site config pattern used by real publishers. The hands-on labs rebuild, piece by piece, the same edge-caching stack that fronts a real Norwegian newspaper (dn.no via NHST).",
       why: "Edge caching is what lets news sites, e-commerce fronts, and APIs survive traffic spikes. SREs typically own this layer end-to-end: misconfigure it and you serve stale paywalled content to logged-out users; tune it well and you cut backend traffic by 90%+ and absorb spikes the origin couldn't.",
       resources: [
@@ -1027,7 +1007,7 @@ window.SRE_DATA = {
     },
 
     fastly: {
-      title: "SRE 8 · Fastly CDN & VCL on Terraform",
+      title: "SRE 7 · Fastly CDN & VCL on Terraform",
       intro: "Fastly is a managed CDN built on a fork of Varnish — same VCL dialect as the previous track, but with global POPs, Image Optimizer, Edge Rate Limiting, and a Next-Gen WAF (Signal Sciences) wired in via Terraform. The 18 hands-on labs rebuild, session by session, the `dngroup-fastly` reference architecture: multi-backend routing through the `x-backend` header pattern, snippet auto-loading via `fileset`+`regex()`, NGWAF integration, three-workspace Terraform deploy via GitHub Actions.",
       why: "Fastly is the production CDN for many APAC and European publishers (and a sibling of the open-source Varnish track). Knowing how managed CDN differs from on-prem Varnish — snippets vs includes, Terraform vs Puppet, NGWAF vs no WAF, shielding vs grace — is a real interview differentiator. Companion notes: `fastly-notes.md` in this repo.",
       resources: [

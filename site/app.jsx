@@ -1,15 +1,15 @@
 // App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
+  { id: "mental",       label: "Mental Model",          crumb: "Mental Model · Where each tech fits",  group: "learn" },
   { id: "_learn", label: "Learn", group: "section" },
   { id: "sre-fnd",      label: "01 · Foundations",      crumb: "Learn / 01 · Foundations",             group: "learn" },
-  { id: "sre-cod",      label: "02 · Coding",           crumb: "Learn / 02 · Coding",                  group: "learn" },
-  { id: "sre-cloud",    label: "03 · Cloud & K8s",      crumb: "Learn / 03 · Cloud & K8s",             group: "learn" },
-  { id: "sre-auto",     label: "04 · Automation",       crumb: "Learn / 04 · Automation",              group: "learn" },
-  { id: "sre-edge",     label: "05 · Edge & Gateway",   crumb: "Learn / 05 · Edge Layer (Kong · NGINX · Fastly)", group: "learn" },
-  { id: "sre-rel",      label: "06 · Reliability",      crumb: "Learn / 06 · Reliability",             group: "learn" },
-  { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
-  { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",         group: "learn" },
+  { id: "sre-cloud",    label: "02 · Cloud & K8s",      crumb: "Learn / 02 · Cloud & K8s",             group: "learn" },
+  { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
+  { id: "sre-edge",     label: "04 · CDN & Edge Cache", crumb: "Learn / 04 · CDN & Edge Cache (Fastly / VCL / K8s ingress)", group: "learn" },
+  { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
+  { id: "sre-varnish",  label: "06 · Varnish & VCL",    crumb: "Learn / 06 · Varnish & VCL",           group: "learn" },
+  { id: "sre-fastly",   label: "07 · Fastly CDN",       crumb: "Learn / 07 · Fastly CDN & VCL",        group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -19,17 +19,17 @@ const NAV = [
   { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
 ];
 
-const DEFAULT_VIEW = "sre-fnd";
+const DEFAULT_VIEW = "mental";
 
 const VIEW_MAP = {
   "overview":     OverviewView,
+  "mental":       MentalModelView,
   "p0-sd":        P0_SysDesignView,
   "p0-behavior":  P0_BehaviorView,
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
   "sre-fnd":      SRE_FoundationsView,
-  "sre-cod":      SRE_CodingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
   "sre-edge":     SRE_EdgeView,
@@ -38,7 +38,6 @@ const VIEW_MAP = {
   "sre-fastly":   SRE_FastlyView,
   "part-ai":      PartAIView,
   "part-b":       PartBView,
-  "part-e":       PartEView,
   "part-g":       PartGView,
   "part-h":       PartHView,
   "part-i":       PartIView,

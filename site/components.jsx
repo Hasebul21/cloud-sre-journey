@@ -283,8 +283,8 @@ function viewGroups() {
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
+    "mental":    [],
     "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
-    "sre-cod":   ["sreLr_coding",       "sreLm_coding"],
     "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
     "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
     "sre-edge":  ["sreLr_edge",         "sreLm_edge"],
@@ -293,7 +293,6 @@ function viewGroups() {
     "sre-fastly":  ["sreLr_fastly",     "sreLm_fastly"],
     "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
     "part-b": ["phase"],
-    "part-e": ["goPath","otherSk"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],
     "part-i": ["repos","blog","certs"],

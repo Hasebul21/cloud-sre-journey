@@ -8,6 +8,7 @@
 
 ## Table of Contents
 
+0. [Mental Model — Where Each Technology Fits](#mental-model)
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
    - **Level 1 — Foundations** (Stages 0–2)
@@ -37,11 +38,82 @@
      - [Phase 7 — CI/CD Pipeline](#phase-7--cicd-pipeline-github-actions)
 6. [Part D — System Design for SRE Interviews](#part-d)
    - **Level 1 — Foundations** · **Level 2 — Core** · **Level 3 — Advanced** · **Level 4 — Specialist**
-7. [Part E — Coding & Programming](#part-e)
-8. [Part G — APAC Job Search](#part-g)
-9. [Part H — Interview Preparation](#part-h)
-10. [Part I — Personal Branding](#part-i)
-11. [Part J — Resources](#part-j)
+7. [Part G — APAC Job Search](#part-g)
+8. [Part H — Interview Preparation](#part-h)
+9. [Part I — Personal Branding](#part-i)
+10. [Part J — Resources](#part-j)
+
+---
+
+## <a id="mental-model"></a>Mental Model — Where Each Technology Fits
+
+> **Read this first.** It is the map for the rest of the guide. Every Stage / Phase / Level you learn slots into one of these tiers — when you finish one, come back here and ask *"which tier did I just deepen, and which is still weakest?"*
+
+### The request path (vertical stack)
+
+```
+TIER                  CLASS        TECH YOU'RE LEARNING            WHERE YOU LEARN IT
+─────────────────────────────────────────────────────────────────────────────────────
+User / browser        FRONTEND     (out of scope — you're SRE)     —
+        │
+        ▼
+CDN edge              EDGE         Fastly + VCL                    Stage 5.5 (Fastly / VCL)
+                                   CloudFront                      Part B Phase 5 (AWS)
+                                   Cloudflare (vocab only)
+        │
+        ▼
+Load balancer         EDGE (L4/L7) HAProxy                         Stage 5.5 (HAProxy)
+                                   AWS ALB / NLB                   Part B Phase 5
+                                   Envoy as L7 LB                  Stage 5.5 (Envoy)
+        │
+        ▼
+API gateway           EDGE → APP   Kong + Kong Ingress Controller  Stage 5.5 (Kong / K8s ingress)
+(K8s ingress)
+        │
+        ▼
+Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 5.5 (NGINX)
+                                   Envoy (sidecar / mesh)          Stage 7 (service mesh)
+        │
+        ▼
+Cache layer           DATA         Redis / Memcached (in-mem)      Part D L2 (caching), Part B Phase 4
+                                   (Varnish skipped — Fastly
+                                    covers VCL at the edge)
+        │
+        ▼
+App servers           BACKEND      Go (Todo API — primary)         Part B Phase 1–2
+(horizontally                      Python (scripts, Lambda)
+scaled in K8s)                     Running on:
+                                     • kind (local)                Part B Phase 2
+                                     • EKS (prod)                  Part B Phase 5, Stage 4
+                                   Containerized via Docker        Stage 3, Part B Phase 1
+        │
+        ▼
+Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 2, 5
+                                   Redis (cache + sessions)        Part D L2
+                                   DDIA mental model               Stage 7, Part D L2–L3
+```
+
+### Cross-cutting layers (touch every tier above)
+
+| Layer | Where you learn it | Tools |
+|-------|--------------------|-------|
+| **Observability** | Stage 5 + Part B Phase 3–4 | Prometheus + Grafana (metrics) · Loki / ELK (logs) · OpenTelemetry + Jaeger (traces) · multi-window burn-rate SLO alerts |
+| **CI/CD + GitOps** | Stage 4 + Part B Phase 7 | GitHub Actions (build/push) · ArgoCD (reconcile K8s) · Helm + Kustomize (templating) |
+| **IaC** | Stage 3 + Part B Phase 6 | Terraform → CDN, ALB, EKS, RDS, IAM |
+| **Reliability practice** | Stage 6 | Incident command, chaos game days, runbooks, capacity planning, PRRs |
+| **DevSecOps + Security** | Stage 7 | WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets Operator · SBOM/Sigstore in CI |
+| **AI layer (optional)** | Part AI L3.3 | vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path |
+
+### Frontend / Edge / Backend / Data boundaries
+
+- **Frontend** (browser, JS/CSS/HTML, mobile clients) — you don't study this; it sits above the CDN. Know enough to talk to FE engineers, no more.
+- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** owns this entire vertical block. This is the merged "CDN & Edge Cache" + L7-proxy tier — whoever owns the edge owns the SLOs for everyone behind it.
+- **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 3 (containers), 4 (K8s/CI), 5 (observability), 7 (mesh) all wrap this tier.
+- **Data** (cache + database) — **Part D L2** covers the design patterns; **Part B Phase 2 / 5** covers the implementation.
+
+### How to use this map
+
+When you finish a Stage or Phase, point at this diagram and ask: *"Which tier did I just deepen, and which tier is still my weakest?"* For the APAC SRE bar, you want depth in **Edge → Backend → Observability**; the other tiers can stay at "explain it well in an interview" level.
 
 ---
 
@@ -712,16 +784,16 @@ FROM employees GROUP BY dept;
 - **Shell:** robust bash (`set -euo pipefail`, traps) — but prefer Python/Go for non-trivial scripts
 - **Git deepening:** `reflog`, `bisect`, `cherry-pick`, signed commits, trunk-based development
 
-**Resources**
+**Resources** *(sorted: beginner books → hands-on → networking → advanced)*
 
 | Resource | Type | Where |
 |----------|------|-------|
 | *The Linux Command Line* — Shotts | Book (free PDF) | [linuxcommand.org](https://linuxcommand.org) |
+| OverTheWire — Bandit / Natas | Wargame | [overthewire.org](https://overthewire.org) |
 | *How Linux Works* (3rd ed.) — Ward | Book | No Starch Press |
 | *Computer Networking: A Top-Down Approach* — Kurose & Ross | Book | Chapters 1, 2, 3, 5, 6 |
 | *Beej's Guide to Network Programming* | Free online | [beej.us/guide/bgnet](https://beej.us/guide/bgnet/) |
-| *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog | [brendangregg.com](https://www.brendangregg.com) |
-| OverTheWire — Bandit / Natas | Wargame | [overthewire.org](https://overthewire.org) |
+| *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog (advanced) | [brendangregg.com](https://www.brendangregg.com) |
 
 **KodeKloud (lab-first complement to the books)**
 
@@ -763,17 +835,17 @@ FROM employees GROUP BY dept;
 - **Sublinear scaling:** SRE headcount should grow *more slowly* than the systems supported. If you hire an SRE per new service, you've built ops, not SRE.
 - **J-curve of transformation:** automation increases test requirements → tech debt blocks progress → relentless improvement → elite performance. Brief leadership before the curve starts.
 
-**Resources**
+**Resources** *(sorted: structured course → hands-on → canon → applied → talks)*
 
 | Resource | Why |
 |----------|-----|
+| [KodeKloud — Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) | Hands-on labs for SLI/SLO, error budgets, incidents, release eng, observability, chaos. **Start here.** |
+| [KodeKloud — SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) | Curated multi-course sequence — use as the road map, not as a checklist |
+| [Coursera SRE & DevOps Specialization (Google)](https://www.coursera.org/specializations/sre-devops) | Paced, structured exposure |
 | [*Site Reliability Engineering*](https://sre.google/sre-book/) — Google (2016) | Ch 1–6 mandatory; Ch 4 (SLOs) is the single highest-leverage chapter |
 | [*The Site Reliability Workbook*](https://sre.google/workbook/) — Google (2018) | "Implementing SLOs", "Alerting on SLOs", "Eliminating Toil" |
 | [*Enterprise Roadmap to SRE*](https://sre.google/resources/practices-and-processes/enterprise-roadmap-to-sre/) — Brookbank & McGhee (2022) | Free download; J-curve, Ulysses pact, sublinear scaling, platform of capabilities |
 | Liz Fong-Jones SREcon talks | YouTube/USENIX — SLOs & error budgets |
-| [Coursera SRE & DevOps Specialization (Google)](https://www.coursera.org/specializations/sre-devops) | Paced, structured exposure |
-| [KodeKloud — Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) | Hands-on labs for SLI/SLO, error budgets, incidents, release eng, observability, chaos |
-| [KodeKloud — SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) | Curated multi-course sequence — use as the road map, not as a checklist |
 
 **Hands-on milestones**
 - Write a full **SLO document** + **Error Budget Policy** for a service you can touch (or a side project): SLI spec, measurement method, target, time window, exclusions, freeze policy. The act of writing it is transformative.
@@ -798,15 +870,15 @@ FROM employees GROUP BY dept;
 - **Containers:** Docker / Podman — images, layers, OCI spec, multi-stage builds, slim images, container security (non-root, read-only FS, capabilities)
 - **Secrets:** never in Git; Vault, SOPS, cloud KMS, External Secrets Operator
 
-**Resources**
+**Resources** *(sorted: official tutorials → cloud labs → books → reference)*
 
 | Resource | Type |
 |----------|------|
-| [Terraform "Get Started"](https://developer.hashicorp.com/terraform/tutorials) | Official tutorials |
+| [Terraform "Get Started"](https://developer.hashicorp.com/terraform/tutorials) | Official tutorials. **Start here.** |
 | AWS Skill Builder (free tier) / GCP Skills Boost | Labs, not just videos |
-| *Terraform: Up & Running* (3rd ed.) — Brikman | O'Reilly book |
-| *Docker Deep Dive* — Nigel Poulton | Book |
-| [CNCF Cloud Native Glossary](https://glossary.cncf.io) | Bookmark |
+| *Docker Deep Dive* — Nigel Poulton | Book — containers first |
+| *Terraform: Up & Running* (3rd ed.) — Brikman | O'Reilly book — IaC depth |
+| [CNCF Cloud Native Glossary](https://glossary.cncf.io) | Bookmark for vocab |
 
 **KodeKloud (hands-on labs)**
 
@@ -841,14 +913,14 @@ FROM employees GROUP BY dept;
 - **Release engineering:** blue/green, canary, feature flags, rollback strategy, schema migrations, deploy ≠ release
 - **Progressive delivery tools:** Argo Rollouts, Flagger, LaunchDarkly / OpenFeature
 
-**Resources**
+**Resources** *(sorted: official tutorials → book → GitOps → release theory)*
 
 | Resource | Type |
 |----------|------|
-| [kubernetes.io Tutorials](https://kubernetes.io/docs/tutorials/) | Start with "Kubernetes Basics" |
+| [kubernetes.io Tutorials](https://kubernetes.io/docs/tutorials/) | Start with "Kubernetes Basics". **Start here.** |
 | *Kubernetes Up & Running* (3rd ed.) — Burns/Beda/Hightower/Villalba | O'Reilly book |
-| [ArgoCD docs](https://argo-cd.readthedocs.io) + [OpenGitOps Principles](https://opengitops.dev) | Free |
-| *Continuous Delivery* — Humble & Farley | Canonical text on release patterns |
+| [ArgoCD docs](https://argo-cd.readthedocs.io) + [OpenGitOps Principles](https://opengitops.dev) | Free — GitOps depth |
+| *Continuous Delivery* — Humble & Farley | Canonical text on release patterns (advanced) |
 
 **KodeKloud (the densest CKA-prep ecosystem online — Mumshad's courses)**
 
@@ -885,16 +957,16 @@ FROM employees GROUP BY dept;
 - **Alerting that doesn't suck:** alert on *symptoms* (SLO burn rate), not *causes*. Multi-window, multi-burn-rate (SRE Workbook Ch 5) is best practice.
 - **Dashboards as docs:** RED (Rate/Errors/Duration) for request-driven, USE (Utilization/Saturation/Errors) for resources
 
-**Resources**
+**Resources** *(sorted: free tutorials → primers → books → reference)*
 
 | Resource | Type |
 |----------|------|
-| *Observability Engineering* — Majors/Fong-Jones/Miranda | O'Reilly book |
-| *Prometheus: Up & Running* (2nd ed.) — Brazil | Book |
-| [opentelemetry.io](https://opentelemetry.io) + CNCF Observability TAG | Free docs |
-| [Grafana Tutorials](https://grafana.com/tutorials/) | Free |
-| *Distributed Systems Observability* — Sridharan | Free O'Reilly report |
-| SRE Workbook Ch 4 (Monitoring) + Ch 5 (Alerting on SLOs) | Free |
+| [Grafana Tutorials](https://grafana.com/tutorials/) | Free — get hands-on first. **Start here.** |
+| *Distributed Systems Observability* — Sridharan | Free O'Reilly report — the concepts primer |
+| SRE Workbook Ch 4 (Monitoring) + Ch 5 (Alerting on SLOs) | Free — alerting theory |
+| [opentelemetry.io](https://opentelemetry.io) + CNCF Observability TAG | Free docs — OTel reference |
+| *Prometheus: Up & Running* (2nd ed.) — Brazil | Book — Prometheus depth |
+| *Observability Engineering* — Majors/Fong-Jones/Miranda | O'Reilly book — full conceptual depth |
 
 **KodeKloud (cert-aligned labs)**
 
@@ -929,82 +1001,88 @@ FROM employees GROUP BY dept;
 - **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
 - **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
 
-**Resources — Kong (API gateway)**
+**Resources — CDN & Edge Cache (Fastly / VCL / K8s ingress)**
+
+> Two halves of the same edge story: **Fastly** owns the global CDN + VCL at POPs; **Kong** owns the K8s ingress + API gateway behind it. Same SRE rotation owns both — learn them together. Varnish itself is intentionally skipped (legacy on-prem); Fastly's hosted VCL is the modern path.
+
+*Fastly / VCL — global CDN edge* *(sorted: learn-first → reference → war-stories)*
 
 | Resource | Type |
 |----------|------|
-| [Kong Docs — Get Started with Kong Gateway](https://docs.konghq.com/gateway/latest/get-started/) | Official tutorial |
-| [Kong Education portal — courses & certs (Kong Gateway Operator, KCNA-style)](https://education.konghq.com) | Official training (free + paid certs) |
-| [Hussein Nasser — Kong API Gateway course (Udemy)](https://www.udemy.com/course/kong-api-gateway/) | Hands-on course — the canonical Kong walkthrough for backend/SRE folks |
-| [Hussein Nasser — YouTube channel (Kong / API Gateway / NGINX deep dives)](https://www.youtube.com/@hnasr) | Free, dense, protocol-level |
-| [Kong Inc. — official YouTube channel](https://www.youtube.com/@KongInc) | Webinars, "Kong Summit" recordings, plugin walkthroughs |
-| [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs |
-| [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
-
-**Resources — NGINX (reverse proxy + cache)**
-
-| Resource | Type |
-|----------|------|
-| [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
-| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
-| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
-| [KodeKloud — Nginx for Beginners](https://kodekloud.com/courses/nginx-for-beginners/) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks |
-| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
-| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
-| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
-| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
-| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book |
-
-**Resources — HAProxy (L4/L7 load balancer)**
-
-| Resource | Type |
-|----------|------|
-| [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
-| [HAProxy Starter Guide](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/) | The official first-read — covers `frontend`/`backend`, health checks, TLS termination |
-| [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
-| [HAProxy — official YouTube channel](https://www.youtube.com/@haproxytech) | "HAProxyConf" recordings + feature deep dives |
-| [KodeKloud — HAProxy for Beginners](https://kodekloud.com/courses/haproxy-for-beginners/) | Browser-lab format; mirrors the NGINX-for-Beginners track |
-| [Hussein Nasser — HAProxy videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs — L4 vs L7, TLS pass-through vs termination |
-| [*Load Balancing with HAProxy* — Nick Ramirez (free eBook from HAProxy)](https://www.haproxy.com/resources/ebooks) | Short, focused; the canonical one-sit overview |
-
-**Resources — Envoy (L7 proxy + service-mesh data plane)**
-
-| Resource | Type |
-|----------|------|
-| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
-| [Envoy "Getting Started" + sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start) | Runnable docker-compose sandboxes for front-proxy, gRPC, JWT auth, fault injection |
-| [Tetrate Academy — free Envoy + Istio courses](https://academy.tetrate.io/) | The best structured free Envoy curriculum; certs available |
-| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
-| [EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
-| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
-| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
-| *Envoy Fundamentals* — Tetrate (free PDF) | Short eBook; the cleanest intro to xDS |
-
-**Resources — Fastly (CDN + edge cache)**
-
-| Resource | Type |
-|----------|------|
-| [Fastly Documentation hub](https://www.fastly.com/documentation/) | The whole Fastly knowledge tree — start with "Concepts" + "VCL" |
-| [Fastly Learning Center](https://www.fastly.com/learning) | Concept primers — CDN, caching, edge compute |
-| [Fastly VCL reference](https://www.fastly.com/documentation/reference/vcl/) | Authoritative VCL surface (same syntax Varnish uses — the only piece of Varnish worth keeping) |
+| [Fastly Learning Center](https://www.fastly.com/learning) | Concept primers — CDN, caching, edge compute. **Start here.** |
+| [Fastly Documentation hub](https://www.fastly.com/documentation/) | The whole Fastly knowledge tree — read "Concepts" first, then "VCL" |
 | [Fastly Fiddle — in-browser VCL + Compute@Edge playground](https://fiddle.fastly.dev) | The fastest way to *actually try* edge logic — no account needed. Share fiddles via URL |
-| [Fastly GitHub organization](https://github.com/fastly) | Production-grade VCL recipes, Compute starter kits (Rust / Go / JS / AssemblyScript), `fastly-go` / `fastly-py` SDKs |
-| [Fastly Developer Hub](https://www.fastly.com/documentation/developers/) | Developer-focused docs — APIs, Terraform provider, CLI, language SDKs |
-| [Fastly Help Center](https://support.fastly.com/) | Searchable knowledge base + community Q&A — gold for "why is my cache MISSing?" debugging |
 | [Fastly — official YouTube channel](https://www.youtube.com/@FastlyInc) | "Fastly Altitude" conference recordings — production CDN stories |
+| [Fastly VCL reference](https://www.fastly.com/documentation/reference/vcl/) | Authoritative VCL surface (same syntax Varnish uses — the only piece of Varnish worth keeping) |
+| [Fastly Developer Hub](https://www.fastly.com/documentation/developers/) | Developer-focused docs — APIs, Terraform provider, CLI, language SDKs |
+| [Fastly GitHub organization](https://github.com/fastly) | Production-grade VCL recipes, Compute starter kits (Rust / Go / JS / AssemblyScript), `fastly-go` / `fastly-py` SDKs |
+| [Fastly Help Center](https://support.fastly.com/) | Searchable knowledge base + community Q&A — gold for "why is my cache MISSing?" debugging |
 | [Fastly Engineering Blog](https://www.fastly.com/blog/) | Outage postmortems + cache engineering posts |
 | [Fastly status & past incidents](https://www.fastlystatus.com) | Real production CDN postmortems — read these alongside your own incidents |
 
-**Resources — HTTP caching theory (cross-cutting)**
+*Kong — K8s ingress + API gateway* *(sorted: learn-first → reference → architecture deep-reads)*
 
 | Resource | Type |
 |----------|------|
-| [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
-| [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
-| [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
-| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics |
+| [Kong Docs — Get Started with Kong Gateway](https://docs.konghq.com/gateway/latest/get-started/) | Official tutorial. **Start here.** |
+| [Hussein Nasser — Kong API Gateway course (Udemy)](https://www.udemy.com/course/kong-api-gateway/) | Hands-on course — the canonical Kong walkthrough for backend/SRE folks |
+| [Kong Education portal — courses & certs (Kong Gateway Operator, KCNA-style)](https://education.konghq.com) | Official training (free + paid certs) |
+| [Hussein Nasser — YouTube channel (Kong / API Gateway / NGINX deep dives)](https://www.youtube.com/@hnasr) | Free, dense, protocol-level |
+| [Kong Inc. — official YouTube channel](https://www.youtube.com/@KongInc) | Webinars, "Kong Summit" recordings, plugin walkthroughs |
+| [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs — read once you're comfortable with vanilla Kong |
+| [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
+
+**Resources — NGINX (reverse proxy + cache)** *(sorted: learn-first → recipes → reference → deep dive)*
+
+| Resource | Type |
+|----------|------|
+| [KodeKloud — Nginx for Beginners](https://learn.kodekloud.com/user/courses/nginx-for-beginners) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks. **Start here.** |
+| [Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)](https://www.youtube.com/watch?v=q8OleYuqntY) | ~1-hour project video — install, reverse proxy, static + dynamic, Docker, end-to-end |
+| [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
+| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
+| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
+| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
+| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
+| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
+| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
+| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book — advanced |
+
+**Resources — HAProxy (L4/L7 load balancer)** *(sorted: learn-first → reference → production patterns)*
+
+| Resource | Type |
+|----------|------|
+| [KodeKloud — HAProxy for Beginners](https://kodekloud.com/courses/haproxy-for-beginners/) | Browser-lab format; mirrors the NGINX-for-Beginners track. **Start here.** |
+| [Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)](https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-) | Full crash-course playlist — install, config anatomy, TLS termination, HTTP/2, modes. Watch right after KodeKloud |
+| [HAProxy Starter Guide](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/) | The official first-read — covers `frontend`/`backend`, health checks, TLS termination |
+| [Hussein Nasser — HAProxy videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs — L4 vs L7, TLS pass-through vs termination |
+| [HAProxy — official YouTube channel](https://www.youtube.com/@haproxytech) | "HAProxyConf" recordings + feature deep dives |
+| [*Load Balancing with HAProxy* — Nick Ramirez (free eBook from HAProxy)](https://www.haproxy.com/resources/ebooks) | Short, focused; the canonical one-sit overview |
+| [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
+| [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
+
+**Resources — Envoy (L7 proxy + service-mesh data plane)** *(sorted: learn-first → hands-on → reference → architecture deep-reads)*
+
+| Resource | Type |
+|----------|------|
+| [Tetrate Academy — free Envoy + Istio courses](https://academy.tetrate.io/) | The best structured free Envoy curriculum; certs available. **Start here.** |
+| *Envoy Fundamentals* — Tetrate (free PDF) | Short eBook; the cleanest intro to xDS |
+| [Envoy "Getting Started" + sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start) | Runnable docker-compose sandboxes for front-proxy, gRPC, JWT auth, fault injection |
+| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
+| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
+| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
+| [EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
+| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
+
+**Resources — HTTP caching theory (cross-cutting)** *(sorted: learn-first → tutorials → book/spec)*
+
+| Resource | Type |
+|----------|------|
+| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics. **Start here.** |
 | [Cloudflare Learning Center — Caching & CDN](https://www.cloudflare.com/learning/cdn/what-is-caching/) | Vendor-neutral primers; useful even if you're on Fastly |
 | [Hussein Nasser — CDN & HTTP cache videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs of `Cache-Control`, `Vary`, conditional GET — same channel as the NGINX / Kong picks |
+| [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
+| [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
+| [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
 
 **Hands-on milestones**
 - Run **Kong** locally via docker-compose (DB-less mode), declare two upstream services in `kong.yml`, route them at `/api/todos` and `/api/users`
@@ -1042,16 +1120,16 @@ FROM employees GROUP BY dept;
 - **Production Readiness Reviews (PRRs):** before SRE takes ownership of a service
 - **Wheel of Misfortune / tabletop exercises** — practice incident response in low-stakes settings
 
-**Resources**
+**Resources** *(sorted: applied guides → canon → labs → advanced reading → talks)*
 
 | Resource | Type |
 |----------|------|
-| SRE Book Ch 11–15 (on-call, troubleshooting, emergency response, incident mgmt, postmortems) | Free |
-| [learningfromincidents.io](https://www.learningfromincidents.io/) | Etsy/Adaptive Capacity Labs — modern human-factors flavor |
-| *Chaos Engineering* — Rosenthal & Jones | O'Reilly book |
-| [PagerDuty Incident Response training](https://response.pagerduty.com/) | Free OSS docs |
-| SREcon talks on YouTube | Search "blameless", "incident command", "on-call" |
+| [PagerDuty Incident Response training](https://response.pagerduty.com/) | Free OSS docs — most actionable starter. **Start here.** |
+| SRE Book Ch 11–15 (on-call, troubleshooting, emergency response, incident mgmt, postmortems) | Free — the canon |
 | [KodeKloud — Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | AWS FIS-driven labs on EC2, Aurora, Fargate, EKS — the practical companion to the book |
+| *Chaos Engineering* — Rosenthal & Jones | O'Reilly book |
+| [learningfromincidents.io](https://www.learningfromincidents.io/) | Etsy/Adaptive Capacity Labs — modern human-factors flavor |
+| SREcon talks on YouTube | Search "blameless", "incident command", "on-call" |
 
 **Hands-on milestones**
 - Run a **game day** on your Stage 5 stack: kill pods, sever a network link, fill a disk, exhaust a connection pool. Document hypothesis → experiment → result → what you'd change.
@@ -1074,16 +1152,16 @@ FROM employees GROUP BY dept;
 - **Cost / FinOps:** rightsizing, spot/preemptible, autoscaling policy, the cost/reliability/velocity triangle
 - **AI in SRE (2025–2026):** AIOps for anomaly detection, LLMs as on-call *copilot* (not autopilot — Heinrich Hartmann's framing)
 
-**Resources**
+**Resources** *(sorted: orient → primary book → team models → deep references)*
 
 | Resource | Type |
 |----------|------|
+| [CNCF Landscape](https://landscape.cncf.io) | To *orient*, not to install. **Start here.** |
 | *Designing Data-Intensive Applications* — Kleppmann | The single most useful book for advanced SRE thinking |
-| *Database Internals* — Petrov | Book |
-| *Seeking SRE* — Blank-Edelman (ed.) | O'Reilly book; ch 23 has antipatterns catalog |
 | *Team Topologies* — Skelton & Pais | Platform-team / stream-aligned-team model |
-| [CNCF Landscape](https://landscape.cncf.io) | To *orient*, not to install |
-| [SLSA framework](https://slsa.dev/) | Supply-chain security |
+| *Seeking SRE* — Blank-Edelman (ed.) | O'Reilly book; ch 23 has antipatterns catalog |
+| [SLSA framework](https://slsa.dev/) | Supply-chain security reference |
+| *Database Internals* — Petrov | Book — storage-engine depth |
 
 **KodeKloud (cert-aligned senior-track labs)**
 
@@ -1120,15 +1198,15 @@ FROM employees GROUP BY dept;
 - **Five team dynamics** (Google Project Aristotle): psychological safety, dependability, structure/clarity, meaning, impact
 - **Peacetime vs Wartime** investment modes; **Code Yellow / Code Red** priority codes
 
-**Resources**
+**Resources** *(sorted: re-read → applied culture → DORA → soft skills → original paper)*
 
 | Resource | Type |
 |----------|------|
-| *Enterprise Roadmap to SRE* — Brookbank & McGhee | **Re-read after Stages 1–7** — the second pass is vastly more useful |
+| *Enterprise Roadmap to SRE* — Brookbank & McGhee | **Re-read after Stages 1–7** — the second pass is vastly more useful. **Start here.** |
+| *The DevOps Handbook* (2nd ed.) — Kim et al. | Book — applied culture |
 | *Accelerate* — Forsgren/Humble/Kim | DORA data |
-| *The DevOps Handbook* (2nd ed.) — Kim et al. | Book |
-| Ron Westrum, "A typology of organisational cultures" (2004) | Free academic paper |
 | *Crucial Conversations* — Patterson et al. | Soft-skills foundation for hard reliability conversations |
+| Ron Westrum, "A typology of organisational cultures" (2004) | Free academic paper — original source |
 
 **Hands-on milestones**
 - Lead a postmortem for your team. Coach a peer through writing the next one.
@@ -1481,20 +1559,22 @@ Prompt engineering  →  RAG  →  Fine-tuning  →  Agents (+ MCP)
 
 > Watch these before diving into frameworks. Pick the English playlists below; the Krishna Naik link in L2.4 has Hindi alternatives if you prefer.
 
+*Sorted: visual intuition → 1-hour primer → coding deep-dives → academic/applied courses*
+
 | Topic | Video | Channel | Link |
 |-------|-------|---------|------|
-| Math intuition for ML | Essence of Linear Algebra | 3Blue1Brown | https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab |
 | Neural net intuition | But what is a Neural Network? | 3Blue1Brown | https://www.youtube.com/watch?v=aircAruvnKk |
 | Transformers — visual | But what is a GPT? Visual intro to Transformers | 3Blue1Brown | https://www.youtube.com/watch?v=wjZofJX0v4M |
+| Math intuition for ML | Essence of Linear Algebra | 3Blue1Brown | https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab |
+| Intro to LLMs (1 hr) | Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
+| State of GPT | State of GPT — Microsoft Build | Andrej Karpathy | https://www.youtube.com/watch?v=bZQun8Y4L2A |
 | Build a GPT from scratch | Let's build GPT: from scratch, in code, spelled out | Andrej Karpathy | https://www.youtube.com/watch?v=kCc8FmEb1nY |
 | Tokenizer deep dive | Let's build the GPT Tokenizer | Andrej Karpathy | https://www.youtube.com/watch?v=zduSFxRajkE |
 | Full series | Neural Networks: Zero to Hero | Andrej Karpathy | https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ |
-| Intro to LLMs (1 hr) | Intro to Large Language Models | Andrej Karpathy | https://www.youtube.com/watch?v=zjkBMFhNj_g |
-| State of GPT | State of GPT — Microsoft Build | Andrej Karpathy | https://www.youtube.com/watch?v=bZQun8Y4L2A |
+| Practical DL | Practical Deep Learning for Coders (2022) | fast.ai | https://www.youtube.com/playlist?list=PLfYUBJiXbdtSvpQjSnJJ_PmDQB_VyT5iU |
+| HF NLP course (video) | Hugging Face NLP Course | HuggingFace | https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o |
 | Attention paper | Attention Is All You Need — paper walkthrough | Yannic Kilcher | https://www.youtube.com/watch?v=iDulhoQ2pro |
 | Transformers United | Stanford CS25 — Transformers United | Stanford Online | https://www.youtube.com/playlist?list=PLoROMvodv4rNiJRchCzutFw5ItR_Z27CM |
-| HF NLP course (video) | Hugging Face NLP Course | HuggingFace | https://www.youtube.com/playlist?list=PLo2EIpI_JMQvWfQndUesu0nPBAtZ9gP1o |
-| Practical DL | Practical Deep Learning for Coders (2022) | fast.ai | https://www.youtube.com/playlist?list=PLfYUBJiXbdtSvpQjSnJJ_PmDQB_VyT5iU |
 
 #### L1.3 Books — start here
 
@@ -2440,31 +2520,6 @@ SRE system design differs from SWE — interviewers also ask about reliability, 
 
 ---
 
-## <a id="part-e"></a>Part E — Coding & Programming
-
-### Language Choice
-**Go** (primary) — K8s, Docker, Terraform, Prometheus, Helm all written in Go. SRE lingua franca at Grab, Mercari, PayPay, ByteDance.
-**Python** (secondary) — scripting, automation, AWS Lambda. Keep it as your shell tool.
-
-**Go learning path (~40 hrs):**
-1. A Tour of Go (tour.golang.org) — 5 hrs
-2. "Learning Go" (Jon Bodner, O'Reilly) — best intermediate book
-3. Go by Example (gobyexample.com) — pattern reference
-4. Build a small CLI tool (e.g., kubectl plugin or log parser)
-5. 30 LeetCode problems in Go to build fluency
-
-### LeetCode Strategy
-- **NeetCode 150** (neetcode.io) — the optimal curated list for time-constrained prep
-- Focus: Arrays, Strings, Hash Maps, Two Pointers, Sliding Window, Binary Search, Trees (BFS/DFS), Heaps, Graphs
-- Skip: DP-hard, advanced graph theory (unless extra time)
-- **1 hr/day × 5 days × 12 weeks ≈ 150 problems** — enough for SRE coding bars (EASY + MEDIUM only)
-
-### Other Skills
-- **Bash:** parse logs with `awk`/`sed`/`grep`/`jq`/`yq`; write `Makefile` for project tasks. "The Linux Command Line" (free at linuxcommand.org).
-- **SQL:** JOINs, GROUP BY, window functions (`ROW_NUMBER`, `LAG`, `LEAD`), EXPLAIN plans. LeetCode Top 50 SQL.
-
----
-
 ## <a id="part-g"></a>Part G — APAC Job Search
 
 ### Singapore
@@ -2659,20 +2714,20 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 7. **"System Design Interview Vol 1 & 2"** (Alex Xu)
 8. **"The Phoenix Project"** (Gene Kim) — fiction; fast read; essential DevOps culture context
 
-### Courses
+### Courses *(sorted: free starters → cloud fundamentals → K8s → IaC → observability → specialty)*
 
 | Course | Platform | Cost |
 |--------|----------|------|
+| A Tour of Go | tour.golang.org | FREE |
+| Terraform AWS Track | learn.hashicorp.com | FREE |
+| [KodeKloud SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) (full sequence) | KodeKloud | Same sub |
+| [Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) + [Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | KodeKloud | Same sub |
 | AWS SAA-C03 (Stephane Maarek) | Udemy | $10–15 on sale |
 | SAA Practice Exams (Jon Bonso) | Tutorials Dojo | $15 |
+| [Terraform Associate 004](https://kodekloud.com/courses/hashicorp-certified-terraform-associate-004) | KodeKloud | Same sub |
 | [CKA — Mumshad Mannambeth](https://kodekloud.com/courses/certified-kubernetes-administrator-cka/) | KodeKloud | Sub (~$30/mo) |
 | [CKAD](https://kodekloud.com/courses/certified-kubernetes-application-developer-ckad) / [CKS](https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks) | KodeKloud | Same sub |
-| [Terraform Associate 004](https://kodekloud.com/courses/hashicorp-certified-terraform-associate-004) | KodeKloud | Same sub |
-| Terraform AWS Track | learn.hashicorp.com | FREE |
-| [Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) + [Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | KodeKloud | Same sub |
 | [Prometheus (PCA)](https://kodekloud.com/courses/prometheus-certified-associate-pca) + [OpenTelemetry (OTCA)](https://kodekloud.com/courses/prep-course-opentelemetry-certified-associate-certification-otca) | KodeKloud | Same sub |
-| [KodeKloud SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) (full sequence) | KodeKloud | Same sub |
-| A Tour of Go | tour.golang.org | FREE |
 | FinOps Certified Practitioner | finops.org | $325 |
 
 ### Job Platforms
@@ -2846,15 +2901,15 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 
 ### Extra System Design Resources (Mid-Level Interview Focus)
 
-#### YouTube Channels
+#### YouTube Channels *(sorted: visual primers → walkthroughs → deep technical → debate)*
 | Channel | Best for | Link |
 |---------|----------|------|
-| **Hello Interview** | Full mock walkthroughs + deep dives (all playlists above) | https://www.youtube.com/@hello_interview |
-| **ByteByteGo** | Visual system design explainers, newsletter | https://www.youtube.com/@ByteByteGo |
-| **Exponent** | Mock interviews, behavioral + system design combo | https://www.youtube.com/@tryExponent |
-| **Jordan Has No Life** | Deep whiteboard-style system design | https://www.youtube.com/@jordanhasnolife5163 |
+| **ByteByteGo** | Visual system design explainers, newsletter — easiest entry | https://www.youtube.com/@ByteByteGo |
 | **Gaurav Sen** | Distributed systems fundamentals | https://www.youtube.com/@gkcs |
+| **Hello Interview** | Full mock walkthroughs + deep dives (all playlists above) | https://www.youtube.com/@hello_interview |
+| **Exponent** | Mock interviews, behavioral + system design combo | https://www.youtube.com/@tryExponent |
 | **Hussein Nasser** | Networking, databases, backend deep dives | https://www.youtube.com/@hnasr |
+| **Jordan Has No Life** | Deep whiteboard-style system design | https://www.youtube.com/@jordanhasnolife5163 |
 | **System Design Fight Club** | Competitive walkthroughs with trade-off debate | https://www.youtube.com/@SDFC |
 
 #### Written Resources

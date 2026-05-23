@@ -1157,6 +1157,99 @@ button {
   padding-top: 10px;
 }
 
+/* ───────── Mental model view ───────── */
+
+.mm-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0 4px;
+}
+.mm-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 220px;
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  max-width: 760px;
+  padding: 12px 16px;
+  border: 1.4px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper-2);
+}
+.mm-row .mm-tier-name {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink);
+}
+.mm-row .mm-tier-tech {
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+.mm-row .mm-tier-where {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  text-align: right;
+}
+.mm-row-edge    { border-left: 4px solid var(--accent); }
+.mm-row-backend { border-left: 4px solid #2d7a4f; }
+.mm-row-data    { border-left: 4px solid #b68421; }
+.mm-row-neutral { border-left: 4px solid var(--line-soft); opacity: 0.85; }
+
+.mm-arrow {
+  font-size: 18px;
+  color: var(--ink-soft);
+  line-height: 1;
+  margin: 2px 0;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.mm-cross {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 4px;
+}
+.mm-cross th, .mm-cross td {
+  text-align: left;
+  vertical-align: top;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.mm-cross th {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1.4px solid var(--line);
+}
+.mm-cross td b { color: var(--ink); }
+
+.mm-boundary {
+  margin: 6px 0 8px;
+  padding: 0 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.mm-boundary li { margin: 6px 0; }
+.mm-boundary b { color: var(--ink); }
+
+@media (max-width: 700px) {
+  .mm-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .mm-row .mm-tier-where { text-align: left; }
+  .mm-cross { font-size: 12px; }
+  .mm-cross th, .mm-cross td { padding: 6px 8px; }
+}
+
 /* ───────── Mobile ───────── */
 
 @media (max-width: 800px) {
