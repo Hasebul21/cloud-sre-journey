@@ -1169,6 +1169,63 @@ button {
 
 /* ───────── Mental model view ───────── */
 
+.mm-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mm-head > div:first-child { flex: 1; min-width: 0; }
+
+.daily-streak-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1.4px solid var(--line);
+  border-radius: 5px;
+  background: var(--paper-2);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 120ms ease, border-color 120ms ease, transform 80ms ease;
+}
+.daily-streak-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.daily-streak-btn:active { transform: translateY(1px); }
+.daily-streak-btn.ticked {
+  border-color: var(--accent);
+}
+.daily-streak-label {
+  color: var(--ink);
+}
+.daily-streak-count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+.daily-streak-btn.ticked .daily-streak-count {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+@media (max-width: 700px) {
+  .mm-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .daily-streak-btn { align-self: flex-start; }
+}
+
 .mm-stack {
   display: flex;
   flex-direction: column;
@@ -2771,12 +2828,47 @@ const MM_CROSS = [
   { layer: "AI layer (optional)",    where: "Part AI L3.3",                tools: "vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path" },
 ];
 
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+
+function DailyStreakButton() {
+  const [streak, setStreak] = useStored("leetcode:streak", { count: 0, last: null });
+  const t = todayStr();
+  const tickedToday = streak.last === t;
+
+  const handleClick = () => {
+    if (!tickedToday) {
+      const y = new Date(); y.setDate(y.getDate() - 1);
+      const yStr = y.getFullYear() + "-" + String(y.getMonth() + 1).padStart(2, "0") + "-" + String(y.getDate()).padStart(2, "0");
+      const nextCount = streak.last === yStr ? (streak.count || 0) + 1 : 1;
+      setStreak({ count: nextCount, last: t });
+    }
+    window.open("https://leetcode.com/problemset/?Daily%20Question=Daily%20Question", "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <button
+      className={"daily-streak-btn" + (tickedToday ? " ticked" : "")}
+      onClick={handleClick}
+      title={tickedToday ? "Already counted today — opens daily again" : "Opens today's LeetCode daily and bumps the streak"}
+    >
+      <span className="daily-streak-label">Daily streak</span>
+      <span className="daily-streak-count">{(streak.count || 0)}d{tickedToday ? " ✓" : ""}</span>
+    </button>
+  );
+}
+
 function MentalModelView() {
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">Mental model · Where each technology fits</h1>
-        <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
+      <div className="page-head mm-head">
+        <div>
+          <h1 className="page-title">Mental model · Where each technology fits</h1>
+          <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
+        </div>
+        <DailyStreakButton />
       </div>
 
       <section className="section-card">

@@ -73,12 +73,47 @@ const MM_CROSS = [
   { layer: "AI layer (optional)",    where: "Part AI L3.3",                tools: "vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path" },
 ];
 
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+
+function DailyStreakButton() {
+  const [streak, setStreak] = useStored("leetcode:streak", { count: 0, last: null });
+  const t = todayStr();
+  const tickedToday = streak.last === t;
+
+  const handleClick = () => {
+    if (!tickedToday) {
+      const y = new Date(); y.setDate(y.getDate() - 1);
+      const yStr = y.getFullYear() + "-" + String(y.getMonth() + 1).padStart(2, "0") + "-" + String(y.getDate()).padStart(2, "0");
+      const nextCount = streak.last === yStr ? (streak.count || 0) + 1 : 1;
+      setStreak({ count: nextCount, last: t });
+    }
+    window.open("https://leetcode.com/problemset/?Daily%20Question=Daily%20Question", "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <button
+      className={"daily-streak-btn" + (tickedToday ? " ticked" : "")}
+      onClick={handleClick}
+      title={tickedToday ? "Already counted today — opens daily again" : "Opens today's LeetCode daily and bumps the streak"}
+    >
+      <span className="daily-streak-label">Daily streak</span>
+      <span className="daily-streak-count">{(streak.count || 0)}d{tickedToday ? " ✓" : ""}</span>
+    </button>
+  );
+}
+
 function MentalModelView() {
   return (
     <div>
-      <div className="page-head">
-        <h1 className="page-title">Mental model · Where each technology fits</h1>
-        <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
+      <div className="page-head mm-head">
+        <div>
+          <h1 className="page-title">Mental model · Where each technology fits</h1>
+          <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
+        </div>
+        <DailyStreakButton />
       </div>
 
       <section className="section-card">
