@@ -264,6 +264,7 @@ function buildGroupIndex(D) {
   g.certs = D.certs.map(i => i.id);
   g.books = D.books.map(i => i.id);
   g.courses = D.courses.map(i => i.id);
+  if (D.aiDatacampCourses) g.aiDatacamp = D.aiDatacampCourses.map(i => i.id);
   // SRE Learning sections (each view has resources + milestones)
   if (D.sreRoadmap) {
     for (const [key, sec] of Object.entries(D.sreRoadmap)) {
@@ -290,7 +291,7 @@ function viewGroups() {
     "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
     "sre-varnish": ["sreLr_varnish",    "sreLm_varnish"],
     "sre-fastly":  ["sreLr_fastly",     "sreLm_fastly"],
-    "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
+    "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4","aiDatacamp"],
     "part-b": ["phase"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],

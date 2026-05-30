@@ -831,6 +831,44 @@ function LevelTile({ levelNum, sectionKey }) {
   );
 }
 
+// Full DataCamp Artificial Intelligence catalog (115 courses), sorted beginner → advanced.
+function AiDatacampCatalog() {
+  const D = window.SRE_DATA;
+  const courses = D.aiDatacampCourses || [];
+  const doneSet = useDoneSet("aiDatacamp")[0];
+  const done = courses.filter(c => doneSet[c.id]).length;
+  const total = courses.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  const renderCourse = (it) => (
+    <span>
+      <ResourceTag type="course" />
+      <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      <span style={{ color: "var(--ink-faint)", marginLeft: 8, fontSize: 13 }}>{it.level} · {it.hours}h</span>
+    </span>
+  );
+
+  return (
+    <section id="ai-datacamp" className="level-card-v2">
+      <div className="level-card-head">
+        <div className="level-card-title">
+          <span className="level-card-num">DC</span>
+          <span className="level-card-slash">/</span>
+          <span className="level-card-name">DataCamp AI catalog</span>
+        </div>
+        <StatusPill pct={pct} />
+      </div>
+      <p className="lead">
+        Every course in DataCamp's Artificial Intelligence track ({total}), sorted beginner → advanced.{" "}
+        <a href="https://www.datacamp.com/category/artificial-intelligence" target="_blank" rel="noopener">source</a>
+      </p>
+      <ListSection title="Courses" done={done} total={total}>
+        <Checklist items={courses} group="aiDatacamp" renderItem={renderCourse} />
+      </ListSection>
+    </section>
+  );
+}
+
 function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
@@ -869,6 +907,8 @@ function PartAIView() {
       {levelKeys.map((key, idx) => (
         <AILevelCard key={key} levelNum={idx + 1} sectionKey={key} />
       ))}
+
+      <AiDatacampCatalog />
     </div>
   );
 }
