@@ -704,6 +704,16 @@ function SreLearningView({ sectionKey }) {
     </span>
   );
 
+  // Group resources into ordered topic subsections by their `sub` label.
+  const resSubs = [];
+  const subIndex = {};
+  section.resources.forEach(r => {
+    const label = r.sub || "Resources";
+    if (subIndex[label] === undefined) { subIndex[label] = resSubs.length; resSubs.push({ label, items: [] }); }
+    resSubs[subIndex[label]].items.push(r);
+  });
+  const showSubHeads = resSubs.length > 1 || (resSubs[0] && resSubs[0].label !== "Resources");
+
   return (
     <div>
       <div className="dash-head">
@@ -729,7 +739,14 @@ function SreLearningView({ sectionKey }) {
 
       <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
         done={resDone} total={section.resources.length}>
-        <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
+        {resSubs.map(g => (
+          <div key={g.label} className="res-subgroup">
+            {showSubHeads && (
+              <h4 className="res-subgroup-head">{g.label}<span className="res-subgroup-count">{g.items.length}</span></h4>
+            )}
+            <Checklist items={g.items} group={resGroup} renderItem={renderResource} />
+          </div>
+        ))}
       </ListSection>
 
       <ListSection title="Hands-on milestones" lead="Tick only when actually shipped."
@@ -844,9 +861,14 @@ function AiDatacampCatalog() {
     <span>
       <ResourceTag type="course" />
       <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
-      <span style={{ color: "var(--ink-faint)", marginLeft: 8, fontSize: 13 }}>{it.level} · {it.hours}h</span>
+      <span style={{ color: "var(--ink-faint)", marginLeft: 8, fontSize: 13 }}>{it.hours}h</span>
     </span>
   );
+
+  // Group by level: Basic → Intermediate → Advanced.
+  const byLevel = ["Basic", "Intermediate", "Advanced"]
+    .map(level => ({ level, items: courses.filter(c => c.level === level) }))
+    .filter(g => g.items.length > 0);
 
   return (
     <section id="ai-datacamp" className="level-card-v2">
@@ -859,11 +881,16 @@ function AiDatacampCatalog() {
         <StatusPill pct={pct} />
       </div>
       <p className="lead">
-        Every course in DataCamp's Artificial Intelligence track ({total}), sorted beginner → advanced.{" "}
+        Every course in DataCamp's Artificial Intelligence track ({total}), grouped by level.{" "}
         <a href="https://www.datacamp.com/category/artificial-intelligence" target="_blank" rel="noopener">source</a>
       </p>
       <ListSection title="Courses" done={done} total={total}>
-        <Checklist items={courses} group="aiDatacamp" renderItem={renderCourse} />
+        {byLevel.map(g => (
+          <div key={g.level} className="res-subgroup">
+            <h4 className="res-subgroup-head">{g.level}<span className="res-subgroup-count">{g.items.length}</span></h4>
+            <Checklist items={g.items} group="aiDatacamp" renderItem={renderCourse} />
+          </div>
+        ))}
       </ListSection>
     </section>
   );

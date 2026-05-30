@@ -1323,3 +1323,26 @@ button {
   }
   .page-title { font-size: 24px; }
 }
+
+/* Topic subsections within a resource list */
+.res-subgroup + .res-subgroup { margin-top: 6px; }
+.res-subgroup-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 7px;
+}
+.res-subgroup:first-child .res-subgroup-head { margin-top: 4px; }
+.res-subgroup-count {
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+}
