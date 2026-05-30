@@ -682,12 +682,9 @@ function SreLearningView({ sectionKey }) {
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
   const resDoneSet = useDoneSet(resGroup)[0];
-  const milDoneSet = useDoneSet(milGroup)[0];
   const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
-  const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
-  const total = section.resources.length + section.milestones.length;
-  const done = resDone + milDone;
-  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const total = section.resources.length;
+  const pct = total > 0 ? Math.round(resDone / total * 100) : 0;
   const [hoursLogged] = useStored("time:" + resGroup, 0);
 
   // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
@@ -730,7 +727,6 @@ function SreLearningView({ sectionKey }) {
           <h4>where you are</h4>
           <div className="row"><span>Complete</span><b className="accent">{pct}%</b></div>
           <div className="row"><span>Resources</span><b>{resDone}/{section.resources.length}</b></div>
-          <div className="row"><span>Milestones</span><b>{milDone}/{section.milestones.length}</b></div>
           <div className="row"><span>Hours logged</span><b>{hoursLogged}h</b></div>
         </aside>
       </div>
@@ -747,11 +743,6 @@ function SreLearningView({ sectionKey }) {
             <Checklist items={g.items} group={resGroup} renderItem={renderResource} />
           </div>
         ))}
-      </ListSection>
-
-      <ListSection title="Hands-on milestones" lead="Tick only when actually shipped."
-        done={milDone} total={section.milestones.length}>
-        <Checklist items={section.milestones} group={milGroup} />
       </ListSection>
 
       <section className="notes-section">
@@ -925,6 +916,8 @@ function PartAIView() {
         Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
+      <AiDatacampCatalog />
+
       <div className="level-tiles">
         {levelKeys.map((key, idx) => (
           <LevelTile key={key} levelNum={idx + 1} sectionKey={key} />
@@ -934,8 +927,6 @@ function PartAIView() {
       {levelKeys.map((key, idx) => (
         <AILevelCard key={key} levelNum={idx + 1} sectionKey={key} />
       ))}
-
-      <AiDatacampCatalog />
     </div>
   );
 }
