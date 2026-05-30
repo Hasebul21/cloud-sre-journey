@@ -1,13 +1,12 @@
 // App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
-  { id: "mental",       label: "Mental Model",          crumb: "Mental Model · Where each tech fits",  group: "learn" },
   { id: "_learn", label: "Learn", group: "section" },
-  { id: "sre-fnd",      label: "01 · Foundations",      crumb: "Learn / 01 · Foundations",             group: "learn" },
+  { id: "sre-net",      label: "01 · Networking",       crumb: "Learn / 01 · Networking",              group: "learn" },
   { id: "sre-cloud",    label: "02 · Cloud & K8s",      crumb: "Learn / 02 · Cloud & K8s",             group: "learn" },
   { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
-  { id: "sre-edge",     label: "04 · CDN & Edge Cache", crumb: "Learn / 04 · CDN & Edge Cache (Fastly / VCL / K8s ingress)", group: "learn" },
-  { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
+  { id: "sre-rel",      label: "04 · Reliability",      crumb: "Learn / 04 · Reliability",             group: "learn" },
+  { id: "sre-edge",     label: "05 · CDN & Edge Cache", crumb: "Learn / 05 · CDN & Edge Cache (Fastly / VCL / K8s ingress)", group: "learn" },
   { id: "sre-varnish",  label: "06 · Varnish & VCL",    crumb: "Learn / 06 · Varnish & VCL",           group: "learn" },
   { id: "sre-fastly",   label: "07 · Fastly CDN",       crumb: "Learn / 07 · Fastly CDN & VCL",        group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
@@ -19,17 +18,16 @@ const NAV = [
   { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
 ];
 
-const DEFAULT_VIEW = "mental";
+const DEFAULT_VIEW = "overview";
 
 const VIEW_MAP = {
   "overview":     OverviewView,
-  "mental":       MentalModelView,
   "p0-sd":        P0_SysDesignView,
   "p0-behavior":  P0_BehaviorView,
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
-  "sre-fnd":      SRE_FoundationsView,
+  "sre-net":      SRE_NetworkingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
   "sre-edge":     SRE_EdgeView,

@@ -224,6 +224,8 @@ window.SRE_DATA = {
     { id: "sdrd-cf",      type: "blog",   name: "Cloudflare Blog",                                  url: "https://blog.cloudflare.com" },
     { id: "sdrd-mf",      type: "blog",   name: "Martin Fowler · microservices, CQRS, event sourcing", url: "https://martinfowler.com" },
     { id: "sdrd-hi-site", type: "course", name: "hellointerview.com · AI-powered SD mocks",         url: "https://www.hellointerview.com" },
+    { id: "sdrd-mit6824", type: "video",  name: "MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)",      url: "https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB" },
+    { id: "sdrd-mit6033", type: "course", name: "MIT 6.033 Computer System Engineering (OCW, 2018 — readings only)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
   ],
   starStories: [
     { id: "star-incident", name: "Production incident — diagnose → fix → prevent" },
@@ -635,48 +637,27 @@ window.SRE_DATA = {
   // Inserted between Part 0 (Interview Prep) and Mastery in the sidebar.
   // ────────────────────────────────────────────────────────────────
   sreRoadmap: {
-    foundations: {
-      title: "SRE 1 · Foundations",
-      intro: "Linux, networking, the terminal. Every reliability incident eventually pulls you to a shell, a packet capture, or a /proc file. Build the floor first.",
-      why: "If you can't read top, strace, lsof, dig, tcpdump fluently, you're locked out of root-causing real production problems.",
+    networking: {
+      title: "SRE 1 · Networking",
+      intro: "How a request actually travels — DNS resolution, the TCP handshake, TLS, HTTP semantics, and the packet path everything else in this guide rides on. Learn to read the wire before you try to scale it.",
+      why: "Every latency spike, timeout, and 'works on my machine' eventually comes down to the network. If you can't trace a request with dig, tcpdump, and ss, you can't debug the systems built on top of it.",
       resources: [
-        { id: "srf-r-1",  type: "video",  name: "Linux in 100 Seconds — Fireship",                                url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
-        { id: "srf-r-2",  type: "video",  name: "Linux Crash Course — Learn Linux TV",                            url: "https://www.youtube.com/playlist?list=PLT98CRl2KxKHaKA9-4_I38sLzK134p4GJ" },
-        { id: "srf-r-3",  type: "video",  name: "Linux for Hackers — NetworkChuck",                               url: "https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL" },
-        { id: "srf-r-4",  type: "video",  name: "Computer Networking Full Course — freeCodeCamp",                 url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
-        { id: "srf-r-5",  type: "video",  name: "Bash Scripting Tutorial — TechWorld with Nana",                  url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
-        { id: "srf-r-6",  type: "video",  name: "USE Method — Brendan Gregg",                                     url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
-        { id: "srf-r-7",  type: "course", name: "MIT Missing Semester (shell, vim, git, ssh)",                    url: "https://missing.csail.mit.edu/" },
-        { id: "srf-r-8",  type: "course", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",           url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
-        { id: "srf-r-9",  type: "course", name: "Beej's Guide to Network Programming (free)",                     url: "https://beej.us/guide/bgnet/" },
-        { id: "srf-r-10", type: "book",   name: "The Linux Command Line — William Shotts (free PDF)",             url: "https://linuxcommand.org/tlcl.php" },
-        { id: "srf-r-11", type: "book",   name: "Systems Performance — Brendan Gregg (2nd ed)",                   url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
-        { id: "srf-r-12", type: "book",   name: "TCP/IP Illustrated Vol 1 — Stevens",                             url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
-        { id: "srf-r-13", type: "blog",   name: "Brendan Gregg's homepage (perf gold)",                           url: "https://www.brendangregg.com/" },
-        { id: "srf-r-14", type: "blog",   name: "Julia Evans — Wizard Zines",                                     url: "https://wizardzines.com/" },
-        { id: "srf-r-15", type: "blog",   name: "Linux Kernel docs",                                              url: "https://www.kernel.org/doc/html/latest/" },
-        { id: "srf-r-16", type: "video",  name: "MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)",     url: "https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB" },
-        { id: "srf-r-17", type: "video",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
-        { id: "srf-r-18", type: "course", name: "MIT 6.033 Computer System Engineering (OCW, 2018 — readings only, no videos)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
+        { id: "net-r-1", type: "video",  name: "Computer Networking Full Course — freeCodeCamp",                   url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+        { id: "net-r-2", type: "video",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
+        { id: "net-r-3", type: "course", name: "Beej's Guide to Network Programming (free)",                        url: "https://beej.us/guide/bgnet/" },
+        { id: "net-r-4", type: "book",   name: "TCP/IP Illustrated Vol 1 — Stevens",                                url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
       ],
       milestones: [
-        { id: "srf-m-1",  name: "Run Ubuntu in a VM (UTM / Multipass / WSL)" },
-        { id: "srf-m-2",  name: "Write 5 one-liners combining awk + sed + jq + grep" },
-        { id: "srf-m-3",  name: "Use strace to debug a hung process" },
-        { id: "srf-m-4",  name: "Use tcpdump or Wireshark to inspect a HTTP request" },
-        { id: "srf-m-5",  name: "Trace a DNS lookup end-to-end with dig +trace" },
-        { id: "srf-m-6",  name: "Use ss / lsof to find what's listening on a port" },
-        { id: "srf-m-7",  name: "Configure SSH keys and harden sshd_config" },
-        { id: "srf-m-8",  name: "Read top, htop, iostat, vmstat fluently (USE method)" },
-        { id: "srf-m-9",  name: "Write + enable a systemd service unit" },
-        { id: "srf-m-10", name: "Set up a cron job that emits a daily disk-usage report" },
+        { id: "net-m-1", name: "Use tcpdump or Wireshark to inspect a HTTP request" },
+        { id: "net-m-2", name: "Trace a DNS lookup end-to-end with dig +trace" },
+        { id: "net-m-3", name: "Use ss / lsof to find what's listening on a port" },
       ],
     },
 
     cloud: {
       title: "SRE 2 · Cloud, Containers & K8s",
-      intro: "AWS first — most APAC SRE roles ask for it. Then Docker. Then Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
-      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services. You'll touch this every shift.",
+      intro: "Linux and the shell first — the terminal tools every reliability incident eventually pulls you to — then AWS (most APAC SRE roles ask for it), Docker, and Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
+      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services — but if you can't read a shell, a process tree, or a /proc file, you're locked out of root-causing what runs on them. You'll touch this every shift.",
       resources: [
         { id: "scl-r-1",  type: "video",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
         { id: "scl-r-2",  type: "video",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
@@ -695,6 +676,16 @@ window.SRE_DATA = {
         { id: "scl-r-15", type: "blog",   name: "AWS Architecture Center",                                       url: "https://aws.amazon.com/architecture/" },
         { id: "scl-r-16", type: "blog",   name: "Kubernetes official docs",                                      url: "https://kubernetes.io/docs/" },
         { id: "scl-r-17", type: "blog",   name: "Learnk8s — Kubernetes deep dives",                              url: "https://learnk8s.io/" },
+
+        // ───── Linux, shell & OS foundations (terminal fluency comes before orchestration) ─────
+        { id: "scl-r-18", type: "video",  name: "Linux in 100 Seconds — Fireship",                               url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
+        { id: "scl-r-19", type: "video",  name: "Linux Crash Course — Learn Linux TV",                           url: "https://www.youtube.com/playlist?list=PLT98CRl2KxKHaKA9-4_I38sLzK134p4GJ" },
+        { id: "scl-r-20", type: "video",  name: "Linux for Hackers — NetworkChuck",                              url: "https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL" },
+        { id: "scl-r-21", type: "video",  name: "Bash Scripting Tutorial — TechWorld with Nana",                 url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
+        { id: "scl-r-22", type: "course", name: "MIT Missing Semester (shell, vim, git, ssh)",                   url: "https://missing.csail.mit.edu/" },
+        { id: "scl-r-23", type: "course", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",          url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
+        { id: "scl-r-24", type: "book",   name: "The Linux Command Line — William Shotts (free PDF)",            url: "https://linuxcommand.org/tlcl.php" },
+        { id: "scl-r-25", type: "blog",   name: "Linux Kernel docs",                                             url: "https://www.kernel.org/doc/html/latest/" },
       ],
       milestones: [
         { id: "scl-m-1", name: "Pass AWS Cloud Practitioner (or finish 50% of SAA course)" },
@@ -706,6 +697,11 @@ window.SRE_DATA = {
         { id: "scl-m-7", name: "Set up HPA + ClusterAutoscaler (or Karpenter on EKS)" },
         { id: "scl-m-8", name: "Deploy to EKS: VPC + node group + IAM Roles for Service Accounts (IRSA)" },
         { id: "scl-m-9", name: "Debug a failing Pod with k9s or Lens (events + describe + logs)" },
+        { id: "scl-m-10", name: "Run Ubuntu in a VM (UTM / Multipass / WSL)" },
+        { id: "scl-m-11", name: "Write 5 one-liners combining awk + sed + jq + grep" },
+        { id: "scl-m-12", name: "Configure SSH keys and harden sshd_config" },
+        { id: "scl-m-13", name: "Write + enable a systemd service unit" },
+        { id: "scl-m-14", name: "Set up a cron job that emits a daily disk-usage report" },
       ],
     },
 
@@ -846,7 +842,7 @@ window.SRE_DATA = {
     },
 
     edge: {
-      title: "SRE 4 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
+      title: "SRE 5 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
       intro: "Two halves of one edge story: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway behind it. NGINX, HAProxy, and Envoy fill in as L7 reverse proxies and load balancers. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 06 & 07.",
       why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
@@ -913,7 +909,7 @@ window.SRE_DATA = {
     },
 
     reliability: {
-      title: "SRE 5 · Observability & Reliability Practice",
+      title: "SRE 4 · Observability & Reliability Practice",
       intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
       why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [
@@ -935,6 +931,12 @@ window.SRE_DATA = {
         { id: "srl-r-16", type: "blog",   name: "PagerDuty Incident Response docs",                              url: "https://response.pagerduty.com/" },
         { id: "srl-r-17", type: "blog",   name: "Increment magazine — On-Call issue",                            url: "https://increment.com/on-call/" },
         { id: "srl-r-18", type: "blog",   name: "USE Method — Brendan Gregg",                                    url: "https://www.brendangregg.com/usemethod.html" },
+
+        // ───── Performance & packet-level debugging (the skills that turn an alert into a root cause) ─────
+        { id: "srl-r-19", type: "video",  name: "USE Method — Brendan Gregg (talk)",                             url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
+        { id: "srl-r-20", type: "book",   name: "Systems Performance — Brendan Gregg (2nd ed)",                  url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
+        { id: "srl-r-21", type: "blog",   name: "Brendan Gregg's homepage (perf gold)",                          url: "https://www.brendangregg.com/" },
+        { id: "srl-r-22", type: "blog",   name: "Julia Evans — Wizard Zines (debugging, perf, networking)",      url: "https://wizardzines.com/" },
       ],
       milestones: [
         { id: "srl-m-1",  name: "Instrument a Go/Python service with the Prometheus client library" },
@@ -948,6 +950,8 @@ window.SRE_DATA = {
         { id: "srl-m-9",  name: "Write a blameless postmortem template + practice on a real incident" },
         { id: "srl-m-10", name: "Read SRE book ch 3–5 (Embracing Risk · SLOs · Eliminating Toil)" },
         { id: "srl-m-11", name: "Read SRE book ch 13–15 (Emergency Response · Managing Incidents · Postmortems)" },
+        { id: "srl-m-12", name: "Use strace to debug a hung process" },
+        { id: "srl-m-13", name: "Read top, htop, iostat, vmstat fluently (USE method)" },
       ],
     },
 

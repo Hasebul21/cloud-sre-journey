@@ -52,122 +52,6 @@ function OverviewView() {
   );
 }
 
-// ───────── MENTAL MODEL — where each tech fits ─────────
-const MM_TIERS = [
-  { tier: "User / browser",    cls: "neutral", tech: "(out of scope — you're SRE)",                             where: "—" },
-  { tier: "CDN edge",          cls: "edge",    tech: "Fastly + VCL · CloudFront · Cloudflare (vocab only)",     where: "Stage 04 (Fastly / VCL) · Part B Phase 5" },
-  { tier: "Load balancer",     cls: "edge",    tech: "HAProxy · AWS ALB / NLB · Envoy as L7 LB",                where: "Stage 04 (HAProxy + Envoy)" },
-  { tier: "API gateway",       cls: "edge",    tech: "Kong + Kong Ingress Controller (K8s)",                    where: "Stage 04 (Kong · K8s ingress)" },
-  { tier: "Reverse proxy",     cls: "edge",    tech: "NGINX (proxy_pass, microcache) · Envoy (sidecar)",        where: "Stage 04 (NGINX) · Stage 05 (mesh)" },
-  { tier: "Cache layer",       cls: "data",    tech: "Redis · Memcached (in-mem) — Varnish skipped",            where: "Part D L2 · Part B Phase 4" },
-  { tier: "App servers",       cls: "backend", tech: "Go (Todo API · primary) · Python (scripts) — on K8s",     where: "Part B Phase 1–2 · Stages 02 + 03" },
-  { tier: "Database",          cls: "data",    tech: "PostgreSQL (RDS in prod) · Redis (cache + sessions)",     where: "Part B Phase 2, 5 · Part D L2" },
-];
-
-const MM_CROSS = [
-  { layer: "Observability",          where: "Stage 05 + Part B Phase 3–4", tools: "Prometheus + Grafana · Loki / ELK · OpenTelemetry + Jaeger · multi-window burn-rate SLO alerts" },
-  { layer: "CI/CD + GitOps",         where: "Stage 03 + Part B Phase 7",   tools: "GitHub Actions · ArgoCD · Helm + Kustomize" },
-  { layer: "IaC",                    where: "Stage 02 + Part B Phase 6",   tools: "Terraform → CDN, ALB, EKS, RDS, IAM" },
-  { layer: "Reliability practice",   where: "Stage 05",                    tools: "Incident command · chaos game days · runbooks · capacity planning · PRRs" },
-  { layer: "DevSecOps + Security",   where: "Stage 05 (advanced)",         tools: "WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets · SBOM/Sigstore" },
-  { layer: "AI layer (optional)",    where: "Part AI L3.3",                tools: "vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path" },
-];
-
-function todayStr() {
-  const d = new Date();
-  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-}
-
-function DailyStreakButton() {
-  const [streak, setStreak] = useStored("leetcode:streak", { count: 0, last: null });
-  const t = todayStr();
-  const tickedToday = streak.last === t;
-
-  const handleClick = () => {
-    if (!tickedToday) {
-      const y = new Date(); y.setDate(y.getDate() - 1);
-      const yStr = y.getFullYear() + "-" + String(y.getMonth() + 1).padStart(2, "0") + "-" + String(y.getDate()).padStart(2, "0");
-      const nextCount = streak.last === yStr ? (streak.count || 0) + 1 : 1;
-      setStreak({ count: nextCount, last: t });
-    }
-    window.open("https://leetcode.com/problemset/?Daily%20Question=Daily%20Question", "_blank", "noopener,noreferrer");
-  };
-
-  return (
-    <button
-      className={"daily-streak-btn" + (tickedToday ? " ticked" : "")}
-      onClick={handleClick}
-      title={tickedToday ? "Already counted today — opens daily again" : "Opens today's LeetCode daily and bumps the streak"}
-    >
-      <span className="daily-streak-label">Daily streak</span>
-      <span className="daily-streak-count">{(streak.count || 0)}d{tickedToday ? " ✓" : ""}</span>
-    </button>
-  );
-}
-
-function MentalModelView() {
-  return (
-    <div>
-      <div className="page-head mm-head">
-        <div>
-          <h1 className="page-title">Mental model · Where each technology fits</h1>
-          <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
-        </div>
-        <DailyStreakButton />
-      </div>
-
-      <section className="section-card">
-        <h2>The request path</h2>
-        <p className="lead">A request flows top→bottom through the stack. Edge tier is Stage 04. Backend tier is Part B's Todo App. Data tier is Part D L2 + Part B's Postgres/Redis.</p>
-        <div className="mm-stack">
-          {MM_TIERS.map((t, i) => (
-            <React.Fragment key={t.tier}>
-              <div className={"mm-row mm-row-" + t.cls}>
-                <div className="mm-tier-name">{t.tier}</div>
-                <div className="mm-tier-tech">{t.tech}</div>
-                <div className="mm-tier-where">{t.where}</div>
-              </div>
-              {i < MM_TIERS.length - 1 && <div className="mm-arrow">↓</div>}
-            </React.Fragment>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-card">
-        <h2>Cross-cutting layers</h2>
-        <p className="lead">These touch every tier in the stack above — observability, automation, security, and AI.</p>
-        <table className="mm-cross">
-          <thead>
-            <tr><th>Layer</th><th>Where you learn it</th><th>Tools</th></tr>
-          </thead>
-          <tbody>
-            {MM_CROSS.map(r => (
-              <tr key={r.layer}>
-                <td><b>{r.layer}</b></td>
-                <td>{r.where}</td>
-                <td>{r.tools}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-
-      <section className="section-card">
-        <h2>Boundary cheat-sheet</h2>
-        <ul className="mm-boundary">
-          <li><b>Frontend</b> (browser, JS/CSS/HTML, mobile) — out of scope. Sits above the CDN. Know enough to talk to FE engineers.</li>
-          <li><b>Edge</b> (CDN → LB → API gateway → reverse proxy) — <b>Stage 04</b> owns this whole vertical block. Whoever owns the edge owns the SLOs.</li>
-          <li><b>Backend</b> (app servers + orchestration) — <b>Part B Todo App</b> is the worked example. Stages 02 (cloud/K8s), 03 (CI/automation), 05 (observability + mesh) wrap this tier.</li>
-          <li><b>Data</b> (cache + database) — <b>Part D L2</b> for design patterns; <b>Part B Phase 2 / 5</b> for the implementation.</li>
-        </ul>
-        <div className="callout">
-          For the APAC SRE bar, depth in <b>Edge → Backend → Observability</b> wins interviews. Other tiers can stay at "explain it well" level.
-        </div>
-      </section>
-    </div>
-  );
-}
-
 // ───────── PART 0A — SYSTEM DESIGN ─────────
 const SD_FRAMEWORK = [
   { id: "sdf-clarify",  name: "Clarify Requirements — functional + non-functional (5 min)" },
@@ -718,7 +602,7 @@ function PartJView() {
   );
 }
 
-// ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
+// ───────── SRE LEARNING (the curated path: networking → fastly) ─────────
 
 function ResourceTag({ type }) {
   const labels = {
@@ -733,11 +617,11 @@ function ResourceTag({ type }) {
 }
 
 const STAGE_NUM = {
-  foundations: "01",
+  networking:  "01",
   cloud:       "02",
   automation:  "03",
-  edge:        "04",
-  reliability: "05",
+  reliability: "04",
+  edge:        "05",
   varnish:     "06",
   fastly:      "07",
 };
@@ -864,7 +748,7 @@ function SreLearningView({ sectionKey }) {
   );
 }
 
-const SRE_FoundationsView = () => <SreLearningView sectionKey="foundations" />;
+const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
@@ -990,9 +874,9 @@ function PartAIView() {
 }
 
 Object.assign(window, {
-  OverviewView, MentalModelView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
+  OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_FoundationsView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView,
 });
