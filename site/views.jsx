@@ -768,13 +768,9 @@ const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
 function AILevelCard({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
-  const milGroup = "sreLm_" + sectionKey;
   const resGroup = "sreLr_" + sectionKey;
-  const milDoneSet = useDoneSet(milGroup)[0];
   const resDoneSet = useDoneSet(resGroup)[0];
-  const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
   const resDone = sec.resources.filter(r => resDoneSet[r.id]).length;
-  const milTotal = sec.milestones.length;
   const resTotal = sec.resources.length;
 
   // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
@@ -797,13 +793,9 @@ function AILevelCard({ levelNum, sectionKey }) {
           <span className="level-card-slash">/</span>
           <span className="level-card-name">{levelTail}</span>
         </div>
-        <StatusPill pct={milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0} />
+        <StatusPill pct={resTotal > 0 ? Math.round(resDone / resTotal * 100) : 0} />
       </div>
       <p className="lead">{sec.intro}</p>
-
-      <ListSection title="Milestones" done={milDone} total={milTotal}>
-        <Checklist items={sec.milestones} group={milGroup} />
-      </ListSection>
 
       <ListSection title="Resources" done={resDone} total={resTotal}>
         <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
@@ -815,10 +807,10 @@ function AILevelCard({ levelNum, sectionKey }) {
 function LevelTile({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
-  const milGroup = "sreLm_" + sectionKey;
-  const milDoneSet = useDoneSet(milGroup)[0];
-  const done = sec.milestones.filter(m => milDoneSet[m.id]).length;
-  const total = sec.milestones.length;
+  const resGroup = "sreLr_" + sectionKey;
+  const resDoneSet = useDoneSet(resGroup)[0];
+  const done = sec.resources.filter(r => resDoneSet[r.id]).length;
+  const total = sec.resources.length;
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   const target = "ai-l" + levelNum;
   // Map data title "AI · Level 1 — Foundations" → "Foundations"
@@ -891,11 +883,11 @@ function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
 
-  // Aggregate progress across all 4 levels
-  const allMilDone = ["sreLm_ai-l1","sreLm_ai-l2","sreLm_ai-l3","sreLm_ai-l4"]
+  // Aggregate resource progress across all 4 levels
+  const allResDone = ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4"]
     .reduce((s, g) => s + Object.keys(loadJSON("done:" + g, {})).length, 0);
-  const allMilTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].milestones.length, 0);
-  const allPct = allMilTotal > 0 ? Math.round(allMilDone / allMilTotal * 100) : 0;
+  const allResTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].resources.length, 0);
+  const allPct = allResTotal > 0 ? Math.round(allResDone / allResTotal * 100) : 0;
 
   return (
     <div>

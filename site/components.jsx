@@ -291,7 +291,7 @@ function viewGroups() {
     "sre-rel":   ["sreLr_reliability"],
     "sre-varnish": ["sreLr_varnish"],
     "sre-fastly":  ["sreLr_fastly"],
-    "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4","aiDatacamp"],
+    "part-ai":   ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4","aiDatacamp"],
     "part-b": ["phase"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],
