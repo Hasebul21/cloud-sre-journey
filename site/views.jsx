@@ -758,6 +758,72 @@ function SreLearningView({ sectionKey }) {
   );
 }
 
+function RoadmapView() {
+  const r = window.SRE_DATA.hldRoadmap;
+  return (
+    <div>
+      <div className="dash-head">
+        <div>
+          <div className="dash-eyebrow">roadmap</div>
+          <h1 className="dash-title">
+            <span className="dash-num">00</span>
+            <span className="dash-slash">/</span>
+            <span className="dash-name">Build-It-Up HLDs</span>
+          </h1>
+          <p className="dash-sub">{r.intro}</p>
+        </div>
+        <aside className="dash-rail">
+          <h4>how to use</h4>
+          <div className="row"><span>HLDs</span><b className="accent">{r.hlds.length}</b></div>
+          <div className="row"><span>Stages mapped</span><b>{r.stageMap.length}</b></div>
+          <div className="row"><span>Read order</span><b>sequential</b></div>
+        </aside>
+      </div>
+
+      <section className="list-section">
+        <div className="list-section-head"><h2>Sidebar stages at a glance</h2></div>
+        <table className="hld-stagemap">
+          <thead><tr><th>#</th><th>Sidebar stage</th><th>What's in it</th></tr></thead>
+          <tbody>
+            {r.stageMap.map(s => (
+              <tr key={s.num}>
+                <td className="hld-stagemap-num">{s.num}</td>
+                <td className="hld-stagemap-name">{s.name}</td>
+                <td className="hld-stagemap-desc">{s.desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {r.hlds.map(h => (
+        <section key={h.id} className="hld-card">
+          <div className="hld-card-head">
+            <h2>{h.title}</h2>
+            <div className="hld-unlocks">Unlocks: {h.unlocks}</div>
+          </div>
+          <pre className="hld-diagram">{h.diagram}</pre>
+          <p className="hld-body">{h.body}</p>
+          <div className="hld-why-list">
+            {h.why.map((w, i) => (
+              <div key={i} className="hld-why">
+                <div className="hld-why-stage">Why learn {w.stage}</div>
+                <div className="hld-why-text">{w.text}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+
+      <section className="list-section">
+        <div className="list-section-head"><h2>Reading order at a glance</h2></div>
+        <pre className="hld-diagram">{r.readingOrder.diagram}</pre>
+        <p className="hld-body">{r.readingOrder.note}</p>
+      </section>
+    </div>
+  );
+}
+
 const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
@@ -932,5 +998,5 @@ Object.assign(window, {
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
   SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
-  SRE_VarnishView, SRE_FastlyView,
+  SRE_VarnishView, SRE_FastlyView, RoadmapView,
 });

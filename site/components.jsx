@@ -284,6 +284,7 @@ function viewGroups() {
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
+    "sre-roadmap": [],
     "sre-net":   ["sreLr_networking"],
     "sre-cloud": ["sreLr_cloud"],
     "sre-auto":  ["sreLr_automation"],

@@ -2,6 +2,7 @@
 
 const NAV = [
   { id: "_learn", label: "Learn", group: "section" },
+  { id: "sre-roadmap",  label: "00 · Roadmap (HLDs)",   crumb: "Learn / 00 · Build-It-Up Roadmap (HLDs)", group: "learn" },
   { id: "sre-net",      label: "01 · Networking",       crumb: "Learn / 01 · Networking",              group: "learn" },
   { id: "sre-cloud",    label: "02 · Cloud & K8s",      crumb: "Learn / 02 · Cloud & K8s",             group: "learn" },
   { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
@@ -29,6 +30,7 @@ const VIEW_MAP = {
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
+  "sre-roadmap":  RoadmapView,
   "sre-net":      SRE_NetworkingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
