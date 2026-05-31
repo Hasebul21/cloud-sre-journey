@@ -1334,6 +1334,29 @@ button {
   .page-title { font-size: 24px; }
 }
 
+/* Topic subsections within a resource list */
+.res-subgroup + .res-subgroup { margin-top: 6px; }
+.res-subgroup-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 22px 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 7px;
+}
+.res-subgroup:first-child .res-subgroup-head { margin-top: 4px; }
+.res-subgroup-count {
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--ink-faint);
+}
+
 </style>
 <script>
 // Apply theme synchronously before paint to avoid flash.
@@ -1515,6 +1538,34 @@ window.SRE_DATA = {
         { id: "sdpl-engdig-v34", type: "video", name: "Dropbox / Google Drive system design in Hindi",                                      url: "https://www.youtube.com/watch?v=k8AObcX8azM" },
       ],
     },
+
+    {
+      key: "sdpl-mit6824",
+      name: "MIT 6.824 · Distributed Systems (Spring 2020, Robert Morris)",
+      url: "https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB",
+      videos: [
+        { id: "sdpl-mit6824-v1",  type: "video", name: "Lecture 1: Introduction",                              url: "https://www.youtube.com/watch?v=cQP8WApzIQQ" },
+        { id: "sdpl-mit6824-v2",  type: "video", name: "Lecture 2: RPC and Threads",                           url: "https://www.youtube.com/watch?v=gA4YXUJX7t8" },
+        { id: "sdpl-mit6824-v3",  type: "video", name: "Lecture 3: GFS",                                       url: "https://www.youtube.com/watch?v=EpIgvowZr00" },
+        { id: "sdpl-mit6824-v4",  type: "video", name: "Lecture 4: Primary-Backup Replication",                url: "https://www.youtube.com/watch?v=M_teob23ZzY" },
+        { id: "sdpl-mit6824-v5",  type: "video", name: "Lecture 5: Go, Threads, and Raft",                     url: "https://www.youtube.com/watch?v=UzzcUS2OHqo" },
+        { id: "sdpl-mit6824-v6",  type: "video", name: "Lecture 6: Fault Tolerance: Raft (1)",                 url: "https://www.youtube.com/watch?v=64Zp3tzNbpE" },
+        { id: "sdpl-mit6824-v7",  type: "video", name: "Lecture 7: Fault Tolerance: Raft (2)",                 url: "https://www.youtube.com/watch?v=4r8Mz3MMivY" },
+        { id: "sdpl-mit6824-v8",  type: "video", name: "Lecture 8: Zookeeper",                                 url: "https://www.youtube.com/watch?v=pbmyrNjzdDk" },
+        { id: "sdpl-mit6824-v9",  type: "video", name: "Lecture 9: More Replication, CRAQ",                    url: "https://www.youtube.com/watch?v=IXHzbCuADt0" },
+        { id: "sdpl-mit6824-v10", type: "video", name: "Lecture 10: Cloud Replicated DB, Aurora",              url: "https://www.youtube.com/watch?v=jJSh54J1s5o" },
+        { id: "sdpl-mit6824-v11", type: "video", name: "Lecture 11: Cache Consistency: Frangipani",            url: "https://www.youtube.com/watch?v=-pKNCjUhPjQ" },
+        { id: "sdpl-mit6824-v12", type: "video", name: "Lecture 12: Distributed Transactions",                 url: "https://www.youtube.com/watch?v=aDp99WDIM_4" },
+        { id: "sdpl-mit6824-v13", type: "video", name: "Lecture 13: Spanner",                                  url: "https://www.youtube.com/watch?v=4eW5SWBi7vs" },
+        { id: "sdpl-mit6824-v14", type: "video", name: "Lecture 14: Optimistic Concurrency Control",           url: "https://www.youtube.com/watch?v=Cw6Nj2evjSs" },
+        { id: "sdpl-mit6824-v15", type: "video", name: "Lecture 15: Big Data: Spark",                          url: "https://www.youtube.com/watch?v=mzIoSW-cInA" },
+        { id: "sdpl-mit6824-v16", type: "video", name: "Lecture 16: Cache Consistency: Memcached at Facebook", url: "https://www.youtube.com/watch?v=Myp8z0ybdzM" },
+        { id: "sdpl-mit6824-v17", type: "video", name: "Lecture 17: COPS, Causal Consistency",                 url: "https://www.youtube.com/watch?v=fR_NB714EAI" },
+        { id: "sdpl-mit6824-v18", type: "video", name: "Lecture 18: Fork Consistency, Certificate Transparency", url: "https://www.youtube.com/watch?v=UKdLJ7-0iFM" },
+        { id: "sdpl-mit6824-v19", type: "video", name: "Lecture 19: Bitcoin",                                  url: "https://www.youtube.com/watch?v=K_euhRou98Y" },
+        { id: "sdpl-mit6824-v20", type: "video", name: "Lecture 20: Blockstack",                               url: "https://www.youtube.com/watch?v=XvXK_vZ0BNw" },
+      ],
+    },
   ],
   sysDesignConcepts: [
     { id: "sd-prep",            type: "video", name: "How to Prepare for System Design Interviews",         url: "https://www.youtube.com/watch?v=Ru54dxzCyD0" },
@@ -1580,6 +1631,7 @@ window.SRE_DATA = {
     { id: "sdrd-cf",      type: "blog",   name: "Cloudflare Blog",                                  url: "https://blog.cloudflare.com" },
     { id: "sdrd-mf",      type: "blog",   name: "Martin Fowler · microservices, CQRS, event sourcing", url: "https://martinfowler.com" },
     { id: "sdrd-hi-site", type: "course", name: "hellointerview.com · AI-powered SD mocks",         url: "https://www.hellointerview.com" },
+    { id: "sdrd-mit6033", type: "course", name: "MIT 6.033 Computer System Engineering (OCW, 2018 — readings only)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
   ],
   starStories: [
     { id: "star-incident", name: "Production incident — diagnose → fix → prevent" },
@@ -1990,67 +2042,174 @@ window.SRE_DATA = {
   // SRE LEARNING — Become an SRE (curated path with resources)
   // Inserted between Part 0 (Interview Prep) and Mastery in the sidebar.
   // ────────────────────────────────────────────────────────────────
+  aiDatacampCourses: [
+    { id: "dc-ai-1", type: "course", level: "Basic", hours: 1.5, name: "Introduction to AI Agents", url: "https://www.datacamp.com/courses/introduction-to-ai-agents" },
+    { id: "dc-ai-2", type: "course", level: "Basic", hours: 2, name: "Introduction to AI for Work", url: "https://www.datacamp.com/courses/introduction-to-ai-for-work" },
+    { id: "dc-ai-3", type: "course", level: "Basic", hours: 1, name: "Understanding Prompt Engineering", url: "https://www.datacamp.com/courses/understanding-prompt-engineering" },
+    { id: "dc-ai-4", type: "course", level: "Basic", hours: 1, name: "AI Ethics", url: "https://www.datacamp.com/courses/ai-ethics" },
+    { id: "dc-ai-5", type: "course", level: "Basic", hours: 3, name: "Working with the OpenAI API", url: "https://www.datacamp.com/courses/working-with-the-openai-api" },
+    { id: "dc-ai-6", type: "course", level: "Basic", hours: 2, name: "Understanding Artificial Intelligence", url: "https://www.datacamp.com/courses/understanding-artificial-intelligence" },
+    { id: "dc-ai-7", type: "course", level: "Basic", hours: 1, name: "Understanding ChatGPT", url: "https://www.datacamp.com/courses/understanding-chatgpt" },
+    { id: "dc-ai-8", type: "course", level: "Basic", hours: 2, name: "Generative AI Concepts", url: "https://www.datacamp.com/courses/generative-ai-concepts" },
+    { id: "dc-ai-9", type: "course", level: "Basic", hours: 2, name: "Large Language Models (LLMs) Concepts", url: "https://www.datacamp.com/courses/large-language-models-llms-concepts" },
+    { id: "dc-ai-10", type: "course", level: "Basic", hours: 1, name: "Introduction to Microsoft Copilot", url: "https://www.datacamp.com/courses/introduction-to-microsoft-copilot" },
+    { id: "dc-ai-11", type: "course", level: "Basic", hours: 3, name: "Claude Code 101", url: "https://www.datacamp.com/courses/claude-code-101" },
+    { id: "dc-ai-12", type: "course", level: "Basic", hours: 1, name: "Generative AI for Business", url: "https://www.datacamp.com/courses/generative-ai-for-business" },
+    { id: "dc-ai-13", type: "course", level: "Basic", hours: 2, name: "Working with Microsoft Copilot", url: "https://www.datacamp.com/courses/working-with-microsoft-copilot" },
+    { id: "dc-ai-14", type: "course", level: "Basic", hours: 1, name: "Introduction to ChatGPT", url: "https://www.datacamp.com/courses/introduction-to-chatgpt" },
+    { id: "dc-ai-15", type: "course", level: "Basic", hours: 4, name: "Prompt Engineering with the OpenAI API", url: "https://www.datacamp.com/courses/prompt-engineering-with-the-openai-api" },
+    { id: "dc-ai-16", type: "course", level: "Basic", hours: 2, name: "Working with Hugging Face", url: "https://www.datacamp.com/courses/working-with-hugging-face" },
+    { id: "dc-ai-17", type: "course", level: "Basic", hours: 1.5, name: "Building Scalable Agentic Systems", url: "https://www.datacamp.com/courses/building-scalable-agentic-systems" },
+    { id: "dc-ai-18", type: "course", level: "Basic", hours: 3, name: "Introduction to Workflow Automation with n8n", url: "https://www.datacamp.com/courses/introduction-to-workflow-automation-with-n8n" },
+    { id: "dc-ai-19", type: "course", level: "Basic", hours: 2, name: "Implementing AI Solutions in Business", url: "https://www.datacamp.com/courses/implementing-ai-solutions-in-business" },
+    { id: "dc-ai-20", type: "course", level: "Basic", hours: 1, name: "Intermediate ChatGPT", url: "https://www.datacamp.com/courses/intermediate-chatgpt" },
+    { id: "dc-ai-21", type: "course", level: "Basic", hours: 2, name: "Practical AI with Google Gemini and NotebookLM", url: "https://www.datacamp.com/courses/practical-ai-with-google-gemini-and-notebooklm" },
+    { id: "dc-ai-22", type: "course", level: "Basic", hours: 3, name: "Artificial Intelligence (AI) Strategy", url: "https://www.datacamp.com/courses/artificial-intelligence-ai-strategy" },
+    { id: "dc-ai-23", type: "course", level: "Basic", hours: 1, name: "Large Language Models for Business", url: "https://www.datacamp.com/courses/large-language-models-for-business" },
+    { id: "dc-ai-24", type: "course", level: "Basic", hours: 1, name: "LLMOps Concepts", url: "https://www.datacamp.com/courses/llmops-concepts" },
+    { id: "dc-ai-25", type: "course", level: "Basic", hours: 1, name: "Cleaning Data with Generative AI", url: "https://www.datacamp.com/courses/cleaning-data-with-generative-ai" },
+    { id: "dc-ai-26", type: "course", level: "Basic", hours: 2, name: "Responsible AI Practices", url: "https://www.datacamp.com/courses/responsible-ai-practices" },
+    { id: "dc-ai-27", type: "course", level: "Basic", hours: 3, name: "AI for Finance", url: "https://www.datacamp.com/courses/ai-for-finance" },
+    { id: "dc-ai-28", type: "course", level: "Basic", hours: 3, name: "Microsoft Copilot in Excel", url: "https://www.datacamp.com/courses/microsoft-copilot-in-excel" },
+    { id: "dc-ai-29", type: "course", level: "Basic", hours: 2, name: "Vibe Coding with Replit", url: "https://www.datacamp.com/courses/vibe-coding-with-replit" },
+    { id: "dc-ai-30", type: "course", level: "Basic", hours: 1, name: "Understanding the EU AI Act", url: "https://www.datacamp.com/courses/understanding-the-eu-ai-act" },
+    { id: "dc-ai-31", type: "course", level: "Basic", hours: 1, name: "Monetizing Artificial Intelligence", url: "https://www.datacamp.com/courses/monetizing-artificial-intelligence" },
+    { id: "dc-ai-32", type: "course", level: "Basic", hours: 2, name: "AI Security and Risk Management", url: "https://www.datacamp.com/courses/ai-security-and-risk-management" },
+    { id: "dc-ai-33", type: "course", level: "Basic", hours: 1, name: "Introduction to GPTs", url: "https://www.datacamp.com/courses/introduction-to-gpts" },
+    { id: "dc-ai-34", type: "course", level: "Basic", hours: 1, name: "Explainable Artificial Intelligence (XAI) Concepts", url: "https://www.datacamp.com/courses/explainable-artificial-intelligence-xai-concepts" },
+    { id: "dc-ai-35", type: "course", level: "Basic", hours: 2, name: "Artificial Intelligence Governance", url: "https://www.datacamp.com/courses/artificial-intelligence-governance" },
+    { id: "dc-ai-36", type: "course", level: "Basic", hours: 0.5, name: "Introduction to Google Workspace with Gemini", url: "https://www.datacamp.com/courses/introduction-to-google-workspace-with-gemini" },
+    { id: "dc-ai-37", type: "course", level: "Basic", hours: 2, name: "Microsoft Copilot in PowerPoint", url: "https://www.datacamp.com/courses/microsoft-copilot-in-powerpoint" },
+    { id: "dc-ai-38", type: "course", level: "Basic", hours: 3, name: "Microsoft Copilot in Word", url: "https://www.datacamp.com/courses/microsoft-copilot-in-word" },
+    { id: "dc-ai-39", type: "course", level: "Basic", hours: 3, name: "AI for Marketing", url: "https://www.datacamp.com/courses/ai-for-marketing" },
+    { id: "dc-ai-40", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Gmail", url: "https://www.datacamp.com/courses/gemini-in-gmail" },
+    { id: "dc-ai-41", type: "course", level: "Basic", hours: 3, name: "AI for Human Resources", url: "https://www.datacamp.com/courses/ai-for-human-resources" },
+    { id: "dc-ai-42", type: "course", level: "Basic", hours: 1, name: "Generate a Study Guide", url: "https://www.datacamp.com/courses/generate-a-study-guide" },
+    { id: "dc-ai-43", type: "course", level: "Basic", hours: 3, name: "AI for Consulting", url: "https://www.datacamp.com/courses/ai-for-consulting" },
+    { id: "dc-ai-44", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Google Slides", url: "https://www.datacamp.com/courses/gemini-in-google-slides" },
+    { id: "dc-ai-45", type: "course", level: "Basic", hours: 1, name: "Building a Go-To-Market Strategy", url: "https://www.datacamp.com/courses/building-a-go-to-market-strategy" },
+    { id: "dc-ai-46", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Google Docs", url: "https://www.datacamp.com/courses/gemini-in-google-docs" },
+    { id: "dc-ai-47", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Google Meet", url: "https://www.datacamp.com/courses/gemini-in-google-meet" },
+    { id: "dc-ai-48", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Google Sheets", url: "https://www.datacamp.com/courses/gemini-in-google-sheets" },
+    { id: "dc-ai-49", type: "course", level: "Basic", hours: 0.5, name: "Gemini in Google Drive", url: "https://www.datacamp.com/courses/gemini-in-google-drive" },
+    { id: "dc-ai-50", type: "course", level: "Basic", hours: 1.67, name: "AI for Sales", url: "https://www.datacamp.com/courses/ai-for-sales" },
+    { id: "dc-ai-51", type: "course", level: "Basic", hours: 1, name: "AI-Assisted Travel Planning", url: "https://www.datacamp.com/courses/ai-assisted-travel-planning" },
+    { id: "dc-ai-52", type: "course", level: "Basic", hours: 3, name: "Building Marketing Workflows with n8n", url: "https://www.datacamp.com/courses/building-marketing-workflows-with-n8n" },
+    { id: "dc-ai-53", type: "course", level: "Basic", hours: 1, name: "Recommending Skincare Products", url: "https://www.datacamp.com/courses/recommending-skincare-products" },
+    { id: "dc-ai-54", type: "course", level: "Basic", hours: 1, name: "AI-Assisted Product Launch", url: "https://www.datacamp.com/courses/ai-assisted-product-launch" },
+    { id: "dc-ai-55", type: "course", level: "Basic", hours: 1, name: "AI-Assisted Restaurant Planning", url: "https://www.datacamp.com/courses/ai-assisted-restaurant-planning" },
+    { id: "dc-ai-56", type: "course", level: "Basic", hours: 3, name: "Working with DeepSeek in Python", url: "https://www.datacamp.com/courses/working-with-deepseek-in-python" },
+    { id: "dc-ai-57", type: "course", level: "Intermediate", hours: 4, name: "Introduction to Deep Learning with PyTorch", url: "https://www.datacamp.com/courses/introduction-to-deep-learning-with-pytorch" },
+    { id: "dc-ai-58", type: "course", level: "Intermediate", hours: 3, name: "Developing LLM Applications with LangChain", url: "https://www.datacamp.com/courses/developing-llm-applications-with-langchain" },
+    { id: "dc-ai-59", type: "course", level: "Intermediate", hours: 3, name: "Developing AI Systems with the OpenAI API", url: "https://www.datacamp.com/courses/developing-ai-systems-with-the-openai-api" },
+    { id: "dc-ai-60", type: "course", level: "Intermediate", hours: 4, name: "Intermediate Deep Learning with PyTorch", url: "https://www.datacamp.com/courses/intermediate-deep-learning-with-pytorch" },
+    { id: "dc-ai-61", type: "course", level: "Intermediate", hours: 3, name: "Introduction to LLMs in Python", url: "https://www.datacamp.com/courses/introduction-to-llms-in-python" },
+    { id: "dc-ai-62", type: "course", level: "Intermediate", hours: 3, name: "Introduction to Embeddings with the OpenAI API", url: "https://www.datacamp.com/courses/introduction-to-embeddings-with-the-openai-api" },
+    { id: "dc-ai-63", type: "course", level: "Intermediate", hours: 1.5, name: "Software Development with GitHub Copilot", url: "https://www.datacamp.com/courses/software-development-with-github-copilot" },
+    { id: "dc-ai-64", type: "course", level: "Intermediate", hours: 3, name: "Retrieval Augmented Generation (RAG) with LangChain", url: "https://www.datacamp.com/courses/retrieval-augmented-generation-rag-with-langchain" },
+    { id: "dc-ai-65", type: "course", level: "Intermediate", hours: 1.5, name: "AI-Assisted Coding for Developers", url: "https://www.datacamp.com/courses/ai-assisted-coding-for-developers" },
+    { id: "dc-ai-66", type: "course", level: "Intermediate", hours: 4, name: "Natural Language Processing (NLP) in Python", url: "https://www.datacamp.com/courses/natural-language-processing-nlp-in-python" },
+    { id: "dc-ai-67", type: "course", level: "Intermediate", hours: 3, name: "Introduction to Model Context Protocol (MCP)", url: "https://www.datacamp.com/courses/introduction-to-model-context-protocol-mcp" },
+    { id: "dc-ai-68", type: "course", level: "Intermediate", hours: 3, name: "Designing Agentic Systems with LangChain", url: "https://www.datacamp.com/courses/designing-agentic-systems-with-langchain" },
+    { id: "dc-ai-69", type: "course", level: "Intermediate", hours: 3, name: "Vector Databases for Embeddings with Pinecone", url: "https://www.datacamp.com/courses/vector-databases-for-embeddings-with-pinecone" },
+    { id: "dc-ai-70", type: "course", level: "Intermediate", hours: 4, name: "Introduction to Deep Learning in Python", url: "https://www.datacamp.com/courses/introduction-to-deep-learning-in-python" },
+    { id: "dc-ai-71", type: "course", level: "Intermediate", hours: 2, name: "Working with Llama 3", url: "https://www.datacamp.com/courses/working-with-llama-3" },
+    { id: "dc-ai-72", type: "course", level: "Intermediate", hours: 1, name: "Building AI Agents with Google ADK", url: "https://www.datacamp.com/courses/building-ai-agents-with-google-adk" },
+    { id: "dc-ai-73", type: "course", level: "Intermediate", hours: 1.5, name: "Software Development with Cursor", url: "https://www.datacamp.com/courses/software-development-with-cursor" },
+    { id: "dc-ai-74", type: "course", level: "Intermediate", hours: 1, name: "Responsible AI Data Management", url: "https://www.datacamp.com/courses/responsible-ai-data-management" },
+    { id: "dc-ai-75", type: "course", level: "Intermediate", hours: 4, name: "Explainable AI in Python", url: "https://www.datacamp.com/courses/explainable-ai-in-python" },
+    { id: "dc-ai-76", type: "course", level: "Intermediate", hours: 4, name: "Introduction to Deep Learning with Keras", url: "https://www.datacamp.com/courses/introduction-to-deep-learning-with-keras" },
+    { id: "dc-ai-77", type: "course", level: "Intermediate", hours: 1.5, name: "Software Development with Windsurf", url: "https://www.datacamp.com/courses/software-development-with-windsurf" },
+    { id: "dc-ai-78", type: "course", level: "Intermediate", hours: 2, name: "Introduction to Generative AI in Snowflake", url: "https://www.datacamp.com/courses/introduction-to-generative-ai-in-snowflake" },
+    { id: "dc-ai-79", type: "course", level: "Intermediate", hours: 2, name: "Multi-Modal Systems with the OpenAI API", url: "https://www.datacamp.com/courses/multi-modal-systems-with-the-openai-api" },
+    { id: "dc-ai-80", type: "course", level: "Intermediate", hours: 2, name: "Fine-Tuning with Llama 3", url: "https://www.datacamp.com/courses/fine-tuning-with-llama-3" },
+    { id: "dc-ai-81", type: "course", level: "Intermediate", hours: 1, name: "Building AI Agents with CrewAI", url: "https://www.datacamp.com/courses/building-ai-agents-with-crewai" },
+    { id: "dc-ai-82", type: "course", level: "Intermediate", hours: 4, name: "Advanced Deep Learning with Keras", url: "https://www.datacamp.com/courses/advanced-deep-learning-with-keras" },
+    { id: "dc-ai-83", type: "course", level: "Intermediate", hours: 3, name: "Introduction to Amazon Bedrock", url: "https://www.datacamp.com/courses/introduction-to-amazon-bedrock" },
+    { id: "dc-ai-84", type: "course", level: "Intermediate", hours: 4, name: "Intermediate Workflow Automation with n8n", url: "https://www.datacamp.com/courses/intermediate-workflow-automation-with-n8n" },
+    { id: "dc-ai-85", type: "course", level: "Intermediate", hours: 4, name: "Multi-Modal Models with Hugging Face", url: "https://www.datacamp.com/courses/multi-modal-models-with-hugging-face" },
+    { id: "dc-ai-86", type: "course", level: "Intermediate", hours: 3, name: "Scalable AI Models with PyTorch Lightning", url: "https://www.datacamp.com/courses/scalable-ai-models-with-pytorch-lightning" },
+    { id: "dc-ai-87", type: "course", level: "Intermediate", hours: 3, name: "Working with the OpenAI Responses API", url: "https://www.datacamp.com/courses/working-with-the-openai-responses-api" },
+    { id: "dc-ai-88", type: "course", level: "Intermediate", hours: 1.5, name: "Building AI Agents with Haystack", url: "https://www.datacamp.com/courses/building-ai-agents-with-haystack" },
+    { id: "dc-ai-89", type: "course", level: "Intermediate", hours: 2, name: "End-to-End RAG with Weaviate", url: "https://www.datacamp.com/courses/end-to-end-rag-with-weaviate" },
+    { id: "dc-ai-90", type: "course", level: "Intermediate", hours: 2.5, name: "Introduction to Agent Skills", url: "https://www.datacamp.com/courses/introduction-to-agent-skills" },
+    { id: "dc-ai-91", type: "course", level: "Intermediate", hours: 2, name: "Text-to-Query Agents with MongoDB and LangGraph", url: "https://www.datacamp.com/courses/text-to-query-agents-with-mongodb-and-langgraph" },
+    { id: "dc-ai-92", type: "course", level: "Intermediate", hours: 2, name: "Introduction to Subagents", url: "https://www.datacamp.com/courses/introduction-to-subagents" },
+    { id: "dc-ai-93", type: "course", level: "Intermediate", hours: 2, name: "Retrieval-Augmented Generation with LangChain", url: "https://www.datacamp.com/courses/retrieval-augmented-generation-with-langchain" },
+    { id: "dc-ai-94", type: "course", level: "Intermediate", hours: 2, name: "LLM Application Evaluation with LangSmith", url: "https://www.datacamp.com/courses/llm-application-evaluation-with-langsmith" },
+    { id: "dc-ai-95", type: "course", level: "Intermediate", hours: 3, name: "LLM Application Fundamentals with LangChain", url: "https://www.datacamp.com/courses/llm-application-fundamentals-with-langchain" },
+    { id: "dc-ai-96", type: "course", level: "Intermediate", hours: 3, name: "LLM Tool Use with LangChain", url: "https://www.datacamp.com/courses/llm-tool-use-with-langchain" },
+    { id: "dc-ai-97", type: "course", level: "Intermediate", hours: 2, name: "Prompt Engineering with LangChain", url: "https://www.datacamp.com/courses/prompt-engineering-with-langchain" },
+    { id: "dc-ai-98", type: "course", level: "Intermediate", hours: 3, name: "Agentic Systems with LangGraph", url: "https://www.datacamp.com/courses/agentic-systems-with-langgraph" },
+    { id: "dc-ai-99", type: "course", level: "Advanced", hours: 4, name: "Deep Learning for Images with PyTorch", url: "https://www.datacamp.com/courses/deep-learning-for-images-with-pytorch" },
+    { id: "dc-ai-100", type: "course", level: "Advanced", hours: 2.75, name: "Multi-Agent Systems with LangGraph", url: "https://www.datacamp.com/courses/multi-agent-systems-with-langgraph" },
+    { id: "dc-ai-101", type: "course", level: "Advanced", hours: 2, name: "Transformer Models with PyTorch", url: "https://www.datacamp.com/courses/transformer-models-with-pytorch" },
+    { id: "dc-ai-102", type: "course", level: "Advanced", hours: 4, name: "Deep Learning for Text with PyTorch", url: "https://www.datacamp.com/courses/deep-learning-for-text-with-pytorch" },
+    { id: "dc-ai-103", type: "course", level: "Advanced", hours: 4, name: "Reinforcement Learning with Gymnasium in Python", url: "https://www.datacamp.com/courses/reinforcement-learning-with-gymnasium-in-python" },
+    { id: "dc-ai-104", type: "course", level: "Advanced", hours: 4, name: "Image Modeling with Keras", url: "https://www.datacamp.com/courses/image-modeling-with-keras" },
+    { id: "dc-ai-105", type: "course", level: "Advanced", hours: 4, name: "Deploying AI into Production with FastAPI", url: "https://www.datacamp.com/courses/deploying-ai-into-production-with-fastapi" },
+    { id: "dc-ai-106", type: "course", level: "Advanced", hours: 4, name: "Deep Reinforcement Learning in Python", url: "https://www.datacamp.com/courses/deep-reinforcement-learning-in-python" },
+    { id: "dc-ai-107", type: "course", level: "Advanced", hours: 3, name: "AI Agents with Hugging Face smolagents", url: "https://www.datacamp.com/courses/ai-agents-with-hugging-face-smolagents" },
+    { id: "dc-ai-108", type: "course", level: "Advanced", hours: 3, name: "Graph RAG with LangChain and Neo4j", url: "https://www.datacamp.com/courses/graph-rag-with-langchain-and-neo4j" },
+    { id: "dc-ai-109", type: "course", level: "Advanced", hours: 4, name: "Reinforcement Learning from Human Feedback (RLHF)", url: "https://www.datacamp.com/courses/reinforcement-learning-from-human-feedback-rlhf" },
+    { id: "dc-ai-110", type: "course", level: "Advanced", hours: 4, name: "Recurrent Neural Networks (RNNs) for Language Modeling with Keras", url: "https://www.datacamp.com/courses/recurrent-neural-networks-rnn-for-language-modeling-with-keras" },
+    { id: "dc-ai-111", type: "course", level: "Advanced", hours: 1.5, name: "Advanced AI-Assisted Coding for Developers", url: "https://www.datacamp.com/courses/advanced-ai-assisted-coding-for-developers" },
+    { id: "dc-ai-112", type: "course", level: "Advanced", hours: 3, name: "Databricks with the Python SDK", url: "https://www.datacamp.com/courses/databricks-with-the-python-sdk" },
+    { id: "dc-ai-113", type: "course", level: "Advanced", hours: 2, name: "Building Agentic Workflows with LlamaIndex", url: "https://www.datacamp.com/courses/building-agentic-workflows-with-llamaindex" },
+    { id: "dc-ai-114", type: "course", level: "Advanced", hours: 4, name: "Efficient AI Model Training with PyTorch", url: "https://www.datacamp.com/courses/efficient-ai-model-training-with-pytorch" },
+    { id: "dc-ai-115", type: "course", level: "Advanced", hours: 4, name: "Machine Translation with Keras", url: "https://www.datacamp.com/courses/machine-translation-with-keras" },
+  ],
+
   sreRoadmap: {
-    foundations: {
-      title: "SRE 1 · Foundations",
-      intro: "Linux, networking, the terminal. Every reliability incident eventually pulls you to a shell, a packet capture, or a /proc file. Build the floor first.",
-      why: "If you can't read top, strace, lsof, dig, tcpdump fluently, you're locked out of root-causing real production problems.",
+    networking: {
+      title: "SRE 1 · Networking",
+      intro: "How a request actually travels — DNS resolution, the TCP handshake, TLS, HTTP semantics, and the packet path everything else in this guide rides on. Learn to read the wire before you try to scale it.",
+      why: "Every latency spike, timeout, and 'works on my machine' eventually comes down to the network. If you can't trace a request with dig, tcpdump, and ss, you can't debug the systems built on top of it.",
       resources: [
-        { id: "srf-r-1",  type: "video",  name: "Linux in 100 Seconds — Fireship",                                url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
-        { id: "srf-r-2",  type: "video",  name: "Linux Crash Course — Learn Linux TV",                            url: "https://www.youtube.com/playlist?list=PLT98CRl2KxKHaKA9-4_I38sLzK134p4GJ" },
-        { id: "srf-r-3",  type: "video",  name: "Linux for Hackers — NetworkChuck",                               url: "https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL" },
-        { id: "srf-r-4",  type: "video",  name: "Computer Networking Full Course — freeCodeCamp",                 url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
-        { id: "srf-r-5",  type: "video",  name: "Bash Scripting Tutorial — TechWorld with Nana",                  url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
-        { id: "srf-r-6",  type: "video",  name: "USE Method — Brendan Gregg",                                     url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
-        { id: "srf-r-7",  type: "course", name: "MIT Missing Semester (shell, vim, git, ssh)",                    url: "https://missing.csail.mit.edu/" },
-        { id: "srf-r-8",  type: "course", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",           url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
-        { id: "srf-r-9",  type: "course", name: "Beej's Guide to Network Programming (free)",                     url: "https://beej.us/guide/bgnet/" },
-        { id: "srf-r-10", type: "book",   name: "The Linux Command Line — William Shotts (free PDF)",             url: "https://linuxcommand.org/tlcl.php" },
-        { id: "srf-r-11", type: "book",   name: "Systems Performance — Brendan Gregg (2nd ed)",                   url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
-        { id: "srf-r-12", type: "book",   name: "TCP/IP Illustrated Vol 1 — Stevens",                             url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
-        { id: "srf-r-13", type: "blog",   name: "Brendan Gregg's homepage (perf gold)",                           url: "https://www.brendangregg.com/" },
-        { id: "srf-r-14", type: "blog",   name: "Julia Evans — Wizard Zines",                                     url: "https://wizardzines.com/" },
-        { id: "srf-r-15", type: "blog",   name: "Linux Kernel docs",                                              url: "https://www.kernel.org/doc/html/latest/" },
-        { id: "srf-r-16", type: "video",  name: "MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)",     url: "https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB" },
-        { id: "srf-r-17", type: "video",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
-        { id: "srf-r-18", type: "course", name: "MIT 6.033 Computer System Engineering (OCW, 2018 — readings only, no videos)", url: "https://ocw.mit.edu/courses/6-033-computer-system-engineering-spring-2018/" },
+        { id: "net-r-1", type: "video", sub: "Core networking & protocols",  name: "Computer Networking Full Course — freeCodeCamp",                   url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+        { id: "net-r-2", type: "video", sub: "Core networking & protocols",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
+        { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)",                        url: "https://beej.us/guide/bgnet/" },
+        { id: "net-r-4", type: "book", sub: "Core networking & protocols",   name: "TCP/IP Illustrated Vol 1 — Stevens",                                url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
       ],
       milestones: [
-        { id: "srf-m-1",  name: "Run Ubuntu in a VM (UTM / Multipass / WSL)" },
-        { id: "srf-m-2",  name: "Write 5 one-liners combining awk + sed + jq + grep" },
-        { id: "srf-m-3",  name: "Use strace to debug a hung process" },
-        { id: "srf-m-4",  name: "Use tcpdump or Wireshark to inspect a HTTP request" },
-        { id: "srf-m-5",  name: "Trace a DNS lookup end-to-end with dig +trace" },
-        { id: "srf-m-6",  name: "Use ss / lsof to find what's listening on a port" },
-        { id: "srf-m-7",  name: "Configure SSH keys and harden sshd_config" },
-        { id: "srf-m-8",  name: "Read top, htop, iostat, vmstat fluently (USE method)" },
-        { id: "srf-m-9",  name: "Write + enable a systemd service unit" },
-        { id: "srf-m-10", name: "Set up a cron job that emits a daily disk-usage report" },
+        { id: "net-m-1", name: "Use tcpdump or Wireshark to inspect a HTTP request" },
+        { id: "net-m-2", name: "Trace a DNS lookup end-to-end with dig +trace" },
+        { id: "net-m-3", name: "Use ss / lsof to find what's listening on a port" },
       ],
     },
 
     cloud: {
       title: "SRE 2 · Cloud, Containers & K8s",
-      intro: "AWS first — most APAC SRE roles ask for it. Then Docker. Then Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
-      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services. You'll touch this every shift.",
+      intro: "Linux and the shell first — the terminal tools every reliability incident eventually pulls you to — then AWS (most APAC SRE roles ask for it), Docker, and Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
+      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services — but if you can't read a shell, a process tree, or a /proc file, you're locked out of root-causing what runs on them. You'll touch this every shift.",
       resources: [
-        { id: "scl-r-1",  type: "video",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
-        { id: "scl-r-2",  type: "video",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
-        { id: "scl-r-3",  type: "video",  name: "Kubernetes Full Course — TechWorld with Nana (4h)",             url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
-        { id: "scl-r-4",  type: "video",  name: "Helm Crash Course — KodeKloud",                                 url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
-        { id: "scl-r-5",  type: "video",  name: "Bret Fisher — Docker Live Shows (channel)",                     url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
-        { id: "scl-r-6",  type: "video",  name: "Kelsey Hightower — Kubernetes The Hard Way (talks)",            url: "https://www.youtube.com/results?search_query=kelsey+hightower+kubernetes" },
-        { id: "scl-r-7",  type: "course", name: "AWS SAA-C03 — Stephane Maarek (Udemy)",                         url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
-        { id: "scl-r-8",  type: "course", name: "Tutorials Dojo — SAA practice exams",                           url: "https://portal.tutorialsdojo.com/" },
-        { id: "scl-r-9",  type: "course", name: "KodeKloud — Certified Kubernetes Administrator (CKA)",          url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
-        { id: "scl-r-10", type: "course", name: "Docker Mastery — Bret Fisher (Udemy)",                          url: "https://www.udemy.com/course/docker-mastery/" },
-        { id: "scl-r-11", type: "course", name: "AWS Skill Builder (free official)",                             url: "https://skillbuilder.aws/" },
-        { id: "scl-r-12", type: "course", name: "Kubernetes The Hard Way — Kelsey Hightower (free GitHub)",      url: "https://github.com/kelseyhightower/kubernetes-the-hard-way" },
-        { id: "scl-r-13", type: "book",   name: "Kubernetes Up & Running — Burns / Beda / Hightower",            url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781098110192/" },
-        { id: "scl-r-14", type: "book",   name: "Cloud Native Patterns — Cornelia Davis",                        url: "https://www.manning.com/books/cloud-native-patterns" },
-        { id: "scl-r-15", type: "blog",   name: "AWS Architecture Center",                                       url: "https://aws.amazon.com/architecture/" },
-        { id: "scl-r-16", type: "blog",   name: "Kubernetes official docs",                                      url: "https://kubernetes.io/docs/" },
-        { id: "scl-r-17", type: "blog",   name: "Learnk8s — Kubernetes deep dives",                              url: "https://learnk8s.io/" },
+        { id: "scl-r-1",  type: "video", sub: "AWS & cloud-native",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
+        { id: "scl-r-2",  type: "video", sub: "Docker",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
+        { id: "scl-r-3",  type: "video", sub: "Kubernetes & Helm",  name: "Kubernetes Full Course — TechWorld with Nana (4h)",             url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
+        { id: "scl-r-4",  type: "video", sub: "Kubernetes & Helm",  name: "Helm Crash Course — KodeKloud",                                 url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
+        { id: "scl-r-5",  type: "video", sub: "Docker",  name: "Bret Fisher — Docker Live Shows (channel)",                     url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
+        { id: "scl-r-6",  type: "video", sub: "Kubernetes & Helm",  name: "Kelsey Hightower — Kubernetes The Hard Way (talks)",            url: "https://www.youtube.com/results?search_query=kelsey+hightower+kubernetes" },
+        { id: "scl-r-7",  type: "course", sub: "AWS & cloud-native", name: "AWS SAA-C03 — Stephane Maarek (Udemy)",                         url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
+        { id: "scl-r-8",  type: "course", sub: "AWS & cloud-native", name: "Tutorials Dojo — SAA practice exams",                           url: "https://portal.tutorialsdojo.com/" },
+        { id: "scl-r-9",  type: "course", sub: "Kubernetes & Helm", name: "KodeKloud — Certified Kubernetes Administrator (CKA)",          url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
+        { id: "scl-r-10", type: "course", sub: "Docker", name: "Docker Mastery — Bret Fisher (Udemy)",                          url: "https://www.udemy.com/course/docker-mastery/" },
+        { id: "scl-r-11", type: "course", sub: "AWS & cloud-native", name: "AWS Skill Builder (free official)",                             url: "https://skillbuilder.aws/" },
+        { id: "scl-r-12", type: "course", sub: "Kubernetes & Helm", name: "Kubernetes The Hard Way — Kelsey Hightower (free GitHub)",      url: "https://github.com/kelseyhightower/kubernetes-the-hard-way" },
+        { id: "scl-r-13", type: "book", sub: "Kubernetes & Helm",   name: "Kubernetes Up & Running — Burns / Beda / Hightower",            url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781098110192/" },
+        { id: "scl-r-14", type: "book", sub: "AWS & cloud-native",   name: "Cloud Native Patterns — Cornelia Davis",                        url: "https://www.manning.com/books/cloud-native-patterns" },
+        { id: "scl-r-15", type: "blog", sub: "AWS & cloud-native",   name: "AWS Architecture Center",                                       url: "https://aws.amazon.com/architecture/" },
+        { id: "scl-r-16", type: "blog", sub: "Kubernetes & Helm",   name: "Kubernetes official docs",                                      url: "https://kubernetes.io/docs/" },
+        { id: "scl-r-17", type: "blog", sub: "Kubernetes & Helm",   name: "Learnk8s — Kubernetes deep dives",                              url: "https://learnk8s.io/" },
+
+        // ───── Linux, shell & OS foundations (terminal fluency comes before orchestration) ─────
+        { id: "scl-r-18", type: "video", sub: "Linux & shell",  name: "Linux in 100 Seconds — Fireship",                               url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
+        { id: "scl-r-19", type: "video", sub: "Linux & shell",  name: "Linux Crash Course — Learn Linux TV",                           url: "https://www.youtube.com/playlist?list=PLT98CRl2KxKHaKA9-4_I38sLzK134p4GJ" },
+        { id: "scl-r-20", type: "video", sub: "Linux & shell",  name: "Linux for Hackers — NetworkChuck",                              url: "https://www.youtube.com/playlist?list=PLIhvC56v63IJIujb5cyE13oLuyORZpdkL" },
+        { id: "scl-r-21", type: "video", sub: "Linux & shell",  name: "Bash Scripting Tutorial — TechWorld with Nana",                 url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
+        { id: "scl-r-22", type: "course", sub: "Linux & shell", name: "MIT Missing Semester (shell, vim, git, ssh)",                   url: "https://missing.csail.mit.edu/" },
+        { id: "scl-r-23", type: "course", sub: "Linux & shell", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",          url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
+        { id: "scl-r-24", type: "book", sub: "Linux & shell",   name: "The Linux Command Line — William Shotts (free PDF)",            url: "https://linuxcommand.org/tlcl.php" },
+        { id: "scl-r-25", type: "blog", sub: "Linux & shell",   name: "Linux Kernel docs",                                             url: "https://www.kernel.org/doc/html/latest/" },
       ],
       milestones: [
         { id: "scl-m-1", name: "Pass AWS Cloud Practitioner (or finish 50% of SAA course)" },
@@ -2062,6 +2221,11 @@ window.SRE_DATA = {
         { id: "scl-m-7", name: "Set up HPA + ClusterAutoscaler (or Karpenter on EKS)" },
         { id: "scl-m-8", name: "Deploy to EKS: VPC + node group + IAM Roles for Service Accounts (IRSA)" },
         { id: "scl-m-9", name: "Debug a failing Pod with k9s or Lens (events + describe + logs)" },
+        { id: "scl-m-10", name: "Run Ubuntu in a VM (UTM / Multipass / WSL)" },
+        { id: "scl-m-11", name: "Write 5 one-liners combining awk + sed + jq + grep" },
+        { id: "scl-m-12", name: "Configure SSH keys and harden sshd_config" },
+        { id: "scl-m-13", name: "Write + enable a systemd service unit" },
+        { id: "scl-m-14", name: "Set up a cron job that emits a daily disk-usage report" },
       ],
     },
 
@@ -2070,20 +2234,20 @@ window.SRE_DATA = {
       intro: "Terraform for cloud infra. Ansible for VM config (still very common). GitHub Actions / Argo for delivery. GitOps for K8s. The goal: nothing manual in prod.",
       why: "An incident at 3am is fine. An incident at 3am because someone clicked the wrong button isn't. If it can run twice, automate it.",
       resources: [
-        { id: "sau-r-1",  type: "video",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
-        { id: "sau-r-2",  type: "video",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
-        { id: "sau-r-3",  type: "video",  name: "GitHub Actions in 100 Seconds — Fireship",                      url: "https://www.youtube.com/watch?v=cP0I9w2coGU" },
-        { id: "sau-r-4",  type: "video",  name: "GitHub Actions Full Course — TechWorld with Nana",              url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
-        { id: "sau-r-5",  type: "video",  name: "ArgoCD GitOps — KodeKloud",                                     url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
-        { id: "sau-r-6",  type: "course", name: "HashiCorp Learn — Terraform (free)",                            url: "https://developer.hashicorp.com/terraform/tutorials" },
-        { id: "sau-r-7",  type: "course", name: "Terraform Associate Cert prep — Bryan Krausen (Udemy)",         url: "https://www.udemy.com/course/terraform-associate-practice-exam/" },
-        { id: "sau-r-8",  type: "course", name: "KodeKloud — Ansible for the Absolute Beginner",                 url: "https://kodekloud.com/courses/learn-ansible-basics-beginners-course/" },
-        { id: "sau-r-9",  type: "course", name: "GitHub Actions — Learning Path (free official)",                url: "https://docs.github.com/en/actions/learn-github-actions" },
-        { id: "sau-r-10", type: "book",   name: "Terraform: Up & Running — Yevgeniy Brikman (3rd ed)",           url: "https://www.oreilly.com/library/view/terraform-up/9781098116736/" },
-        { id: "sau-r-11", type: "book",   name: "Infrastructure as Code — Kief Morris (2nd ed)",                 url: "https://www.oreilly.com/library/view/infrastructure-as-code/9781098114664/" },
-        { id: "sau-r-12", type: "blog",   name: "Terraform Best Practices — Anton Babenko",                      url: "https://www.terraform-best-practices.com/" },
-        { id: "sau-r-13", type: "blog",   name: "ArgoCD Operator Manual — Best Practices",                       url: "https://argo-cd.readthedocs.io/en/stable/operator-manual/best_practices/" },
-        { id: "sau-r-14", type: "blog",   name: "Google DORA — DevOps research papers",                          url: "https://dora.dev/" },
+        { id: "sau-r-1",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
+        { id: "sau-r-2",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
+        { id: "sau-r-3",  type: "video", sub: "CI/CD & GitOps",  name: "GitHub Actions in 100 Seconds — Fireship",                      url: "https://www.youtube.com/watch?v=cP0I9w2coGU" },
+        { id: "sau-r-4",  type: "video", sub: "CI/CD & GitOps",  name: "GitHub Actions Full Course — TechWorld with Nana",              url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
+        { id: "sau-r-5",  type: "video", sub: "CI/CD & GitOps",  name: "ArgoCD GitOps — KodeKloud",                                     url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
+        { id: "sau-r-6",  type: "course", sub: "IaC — Terraform & Ansible", name: "HashiCorp Learn — Terraform (free)",                            url: "https://developer.hashicorp.com/terraform/tutorials" },
+        { id: "sau-r-7",  type: "course", sub: "IaC — Terraform & Ansible", name: "Terraform Associate Cert prep — Bryan Krausen (Udemy)",         url: "https://www.udemy.com/course/terraform-associate-practice-exam/" },
+        { id: "sau-r-8",  type: "course", sub: "IaC — Terraform & Ansible", name: "KodeKloud — Ansible for the Absolute Beginner",                 url: "https://kodekloud.com/courses/learn-ansible-basics-beginners-course/" },
+        { id: "sau-r-9",  type: "course", sub: "CI/CD & GitOps", name: "GitHub Actions — Learning Path (free official)",                url: "https://docs.github.com/en/actions/learn-github-actions" },
+        { id: "sau-r-10", type: "book", sub: "IaC — Terraform & Ansible",   name: "Terraform: Up & Running — Yevgeniy Brikman (3rd ed)",           url: "https://www.oreilly.com/library/view/terraform-up/9781098116736/" },
+        { id: "sau-r-11", type: "book", sub: "IaC — Terraform & Ansible",   name: "Infrastructure as Code — Kief Morris (2nd ed)",                 url: "https://www.oreilly.com/library/view/infrastructure-as-code/9781098114664/" },
+        { id: "sau-r-12", type: "blog", sub: "IaC — Terraform & Ansible",   name: "Terraform Best Practices — Anton Babenko",                      url: "https://www.terraform-best-practices.com/" },
+        { id: "sau-r-13", type: "blog", sub: "CI/CD & GitOps",   name: "ArgoCD Operator Manual — Best Practices",                       url: "https://argo-cd.readthedocs.io/en/stable/operator-manual/best_practices/" },
+        { id: "sau-r-14", type: "blog", sub: "CI/CD & GitOps",   name: "Google DORA — DevOps research papers",                          url: "https://dora.dev/" },
       ],
       milestones: [
         { id: "sau-m-1", name: "Write a Terraform module with vars + outputs + remote state (S3 + DynamoDB lock)" },
@@ -2202,58 +2366,58 @@ window.SRE_DATA = {
     },
 
     edge: {
-      title: "SRE 4 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
+      title: "SRE 5 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
       intro: "Two halves of one edge story: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway behind it. NGINX, HAProxy, and Envoy fill in as L7 reverse proxies and load balancers. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 06 & 07.",
       why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
         // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
-        { id: "sed-r-15", type: "course", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
-        { id: "sed-r-14", type: "course", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
-        { id: "sed-r-17", type: "course", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground",           url: "https://fiddle.fastly.dev" },
-        { id: "sed-r-21", type: "video",  name: "Fastly — official YouTube (Altitude conf recordings)",               url: "https://www.youtube.com/@FastlyInc" },
-        { id: "sed-r-16", type: "blog",   name: "Fastly VCL reference (modern successor to Varnish VCL)",             url: "https://www.fastly.com/documentation/reference/vcl/" },
-        { id: "sed-r-19", type: "course", name: "Fastly Developer Hub (APIs, Terraform provider, CLI, SDKs)",         url: "https://www.fastly.com/documentation/developers/" },
-        { id: "sed-r-18", type: "blog",   name: "Fastly GitHub — VCL recipes, Compute starter kits, official SDKs",   url: "https://github.com/fastly" },
-        { id: "sed-r-20", type: "blog",   name: "Fastly Help Center (searchable KB + community Q&A)",                 url: "https://support.fastly.com/" },
-        { id: "sed-r-22", type: "blog",   name: "Fastly Engineering blog (postmortems + cache engineering)",          url: "https://www.fastly.com/blog/" },
-        { id: "sed-r-23", type: "blog",   name: "Fastly status & past incidents (real CDN postmortems)",              url: "https://www.fastlystatus.com" },
+        { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
+        { id: "sed-r-14", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
+        { id: "sed-r-17", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground",           url: "https://fiddle.fastly.dev" },
+        { id: "sed-r-21", type: "video", sub: "CDN (Fastly / VCL)",  name: "Fastly — official YouTube (Altitude conf recordings)",               url: "https://www.youtube.com/@FastlyInc" },
+        { id: "sed-r-16", type: "blog", sub: "CDN (Fastly / VCL)",   name: "Fastly VCL reference (modern successor to Varnish VCL)",             url: "https://www.fastly.com/documentation/reference/vcl/" },
+        { id: "sed-r-19", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Developer Hub (APIs, Terraform provider, CLI, SDKs)",         url: "https://www.fastly.com/documentation/developers/" },
+        { id: "sed-r-18", type: "blog", sub: "CDN (Fastly / VCL)",   name: "Fastly GitHub — VCL recipes, Compute starter kits, official SDKs",   url: "https://github.com/fastly" },
+        { id: "sed-r-20", type: "blog", sub: "CDN (Fastly / VCL)",   name: "Fastly Help Center (searchable KB + community Q&A)",                 url: "https://support.fastly.com/" },
+        { id: "sed-r-22", type: "blog", sub: "CDN (Fastly / VCL)",   name: "Fastly Engineering blog (postmortems + cache engineering)",          url: "https://www.fastly.com/blog/" },
+        { id: "sed-r-23", type: "blog", sub: "CDN (Fastly / VCL)",   name: "Fastly status & past incidents (real CDN postmortems)",              url: "https://www.fastlystatus.com" },
 
         // ───── Kong — K8s ingress + API gateway — sorted: learn-first → architecture deep-reads ─────
-        { id: "sed-r-1",  type: "course", name: "Kong Docs — Get Started with Kong Gateway — Start here",            url: "https://docs.konghq.com/gateway/latest/get-started/" },
-        { id: "sed-r-3",  type: "course", name: "Hussein Nasser — Kong API Gateway (Udemy)",                         url: "https://www.udemy.com/course/kong-api-gateway/" },
-        { id: "sed-r-2",  type: "course", name: "Kong Education portal — official courses + certifications",         url: "https://education.konghq.com" },
-        { id: "sed-r-4",  type: "video",  name: "Hussein Nasser — YouTube (Kong + API Gateway deep dives)",          url: "https://www.youtube.com/@hnasr" },
-        { id: "sed-r-5",  type: "video",  name: "Kong Inc. — official YouTube (Kong Summit, plugin walkthroughs)",   url: "https://www.youtube.com/@KongInc" },
-        { id: "sed-r-6",  type: "blog",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
-        { id: "sed-r-7",  type: "book",   name: "Kong Learning Center — whitepapers + Mastering Kong eBooks",        url: "https://konghq.com/learning-center" },
+        { id: "sed-r-1",  type: "course", sub: "API Gateway (Kong)", name: "Kong Docs — Get Started with Kong Gateway — Start here",            url: "https://docs.konghq.com/gateway/latest/get-started/" },
+        { id: "sed-r-3",  type: "course", sub: "API Gateway (Kong)", name: "Hussein Nasser — Kong API Gateway (Udemy)",                         url: "https://www.udemy.com/course/kong-api-gateway/" },
+        { id: "sed-r-2",  type: "course", sub: "API Gateway (Kong)", name: "Kong Education portal — official courses + certifications",         url: "https://education.konghq.com" },
+        { id: "sed-r-4",  type: "video", sub: "API Gateway (Kong)",  name: "Hussein Nasser — YouTube (Kong + API Gateway deep dives)",          url: "https://www.youtube.com/@hnasr" },
+        { id: "sed-r-5",  type: "video", sub: "API Gateway (Kong)",  name: "Kong Inc. — official YouTube (Kong Summit, plugin walkthroughs)",   url: "https://www.youtube.com/@KongInc" },
+        { id: "sed-r-6",  type: "blog", sub: "API Gateway (Kong)",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
+        { id: "sed-r-7",  type: "book", sub: "API Gateway (Kong)",   name: "Kong Learning Center — whitepapers + Mastering Kong eBooks",        url: "https://konghq.com/learning-center" },
 
         // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
-        { id: "sed-r-11", type: "course", name: "KodeKloud — Nginx for Beginners — Start here",                      url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
-        { id: "sed-r-30", type: "video",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)", url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
-        { id: "sed-r-8",  type: "course", name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                       url: "https://www.udemy.com/course/nginx-fundamentals/" },
-        { id: "sed-r-12", type: "blog",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
-        { id: "sed-r-9",  type: "book",   name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",              url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
-        { id: "sed-r-10", type: "blog",   name: "Official NGINX docs (module reference)",                            url: "https://nginx.org/en/docs/" },
-        { id: "sed-r-13", type: "book",   name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                    url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
+        { id: "sed-r-11", type: "course", sub: "Proxy (NGINX & Envoy)", name: "KodeKloud — Nginx for Beginners — Start here",                      url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
+        { id: "sed-r-30", type: "video", sub: "Proxy (NGINX & Envoy)",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)", url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
+        { id: "sed-r-8",  type: "course", sub: "Proxy (NGINX & Envoy)", name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                       url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        { id: "sed-r-12", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
+        { id: "sed-r-9",  type: "book", sub: "Proxy (NGINX & Envoy)",   name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",              url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
+        { id: "sed-r-10", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "Official NGINX docs (module reference)",                            url: "https://nginx.org/en/docs/" },
+        { id: "sed-r-13", type: "book", sub: "Proxy (NGINX & Envoy)",   name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                    url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
 
         // ───── HAProxy (L4/L7 load balancer) — sorted: learn-first → reference ─────
-        { id: "sed-r-31", type: "course", name: "KodeKloud — HAProxy for Beginners — Start here",                    url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
-        { id: "sed-r-32", type: "video",  name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)",    url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
-        { id: "sed-r-33", type: "course", name: "HAProxy Starter Guide (official first-read)",                       url: "https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/" },
-        { id: "sed-r-34", type: "blog",   name: "HAProxy official docs (configuration manual)",                      url: "https://docs.haproxy.org/" },
+        { id: "sed-r-31", type: "course", sub: "Load Balancer (HAProxy)", name: "KodeKloud — HAProxy for Beginners — Start here",                    url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
+        { id: "sed-r-32", type: "video", sub: "Load Balancer (HAProxy)",  name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)",    url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
+        { id: "sed-r-33", type: "course", sub: "Load Balancer (HAProxy)", name: "HAProxy Starter Guide (official first-read)",                       url: "https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/" },
+        { id: "sed-r-34", type: "blog", sub: "Load Balancer (HAProxy)",   name: "HAProxy official docs (configuration manual)",                      url: "https://docs.haproxy.org/" },
 
         // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → reference ─────
-        { id: "sed-r-35", type: "course", name: "Tetrate Academy — free Envoy + Istio courses — Start here",         url: "https://academy.tetrate.io/" },
-        { id: "sed-r-36", type: "course", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose)",     url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
-        { id: "sed-r-37", type: "blog",   name: "Envoy official docs ('Life of a Request' + xDS concepts)",          url: "https://www.envoyproxy.io/docs/envoy/latest/" },
+        { id: "sed-r-35", type: "course", sub: "Proxy (NGINX & Envoy)", name: "Tetrate Academy — free Envoy + Istio courses — Start here",         url: "https://academy.tetrate.io/" },
+        { id: "sed-r-36", type: "course", sub: "Proxy (NGINX & Envoy)", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose)",     url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
+        { id: "sed-r-37", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "Envoy official docs ('Life of a Request' + xDS concepts)",          url: "https://www.envoyproxy.io/docs/envoy/latest/" },
 
         // ───── HTTP caching theory (cross-cutting) — sorted: learn-first → tutorials → book/spec ─────
-        { id: "sed-r-27", type: "blog",   name: "MDN — HTTP Caching reference — Start here",                          url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
-        { id: "sed-r-28", type: "blog",   name: "Cloudflare Learning Center — Caching & CDN primers",                 url: "https://www.cloudflare.com/learning/cdn/what-is-caching/" },
-        { id: "sed-r-29", type: "video",  name: "Hussein Nasser — CDN & HTTP cache videos (YouTube)",                 url: "https://www.youtube.com/@hnasr" },
-        { id: "sed-r-25", type: "blog",   name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
-        { id: "sed-r-24", type: "book",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
-        { id: "sed-r-26", type: "blog",   name: "RFC 9111 — HTTP Caching (current standard, short + readable)",       url: "https://www.rfc-editor.org/rfc/rfc9111" },
+        { id: "sed-r-27", type: "blog", sub: "HTTP caching theory",   name: "MDN — HTTP Caching reference — Start here",                          url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+        { id: "sed-r-28", type: "blog", sub: "HTTP caching theory",   name: "Cloudflare Learning Center — Caching & CDN primers",                 url: "https://www.cloudflare.com/learning/cdn/what-is-caching/" },
+        { id: "sed-r-29", type: "video", sub: "HTTP caching theory",  name: "Hussein Nasser — CDN & HTTP cache videos (YouTube)",                 url: "https://www.youtube.com/@hnasr" },
+        { id: "sed-r-25", type: "blog", sub: "HTTP caching theory",   name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
+        { id: "sed-r-24", type: "book", sub: "HTTP caching theory",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
+        { id: "sed-r-26", type: "blog", sub: "HTTP caching theory",   name: "RFC 9111 — HTTP Caching (current standard, short + readable)",       url: "https://www.rfc-editor.org/rfc/rfc9111" },
       ],
       milestones: [
         { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
@@ -2269,28 +2433,34 @@ window.SRE_DATA = {
     },
 
     reliability: {
-      title: "SRE 5 · Observability & Reliability Practice",
+      title: "SRE 4 · Observability & Reliability Practice",
       intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
       why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [
-        { id: "srl-r-1",  type: "video",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
-        { id: "srl-r-2",  type: "video",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
-        { id: "srl-r-3",  type: "video",  name: "Charity Majors — Observability is for Humans",                  url: "https://www.youtube.com/watch?v=oGC8C9z7TN4" },
-        { id: "srl-r-4",  type: "video",  name: "Class SRE Implements DevOps — Liz Fong-Jones",                  url: "https://www.youtube.com/watch?v=uTEL8Ff1Zvk" },
-        { id: "srl-r-5",  type: "video",  name: "Loki + Grafana logging — Grafana Labs",                         url: "https://www.youtube.com/watch?v=h_GGd7HfKQ8" },
-        { id: "srl-r-6",  type: "course", name: "Google SRE Course — Measuring & Managing Reliability (Coursera, free audit)", url: "https://www.coursera.org/learn/site-reliability-engineering-slos" },
-        { id: "srl-r-7",  type: "course", name: "KodeKloud — Prometheus Certified Associate (PCA)",              url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/" },
-        { id: "srl-r-8",  type: "course", name: "Linux Foundation — LFS162 Intro to SRE & DevOps (free)",        url: "https://training.linuxfoundation.org/training/introduction-to-site-reliability-engineering-and-devops-lfs162/" },
-        { id: "srl-r-9",  type: "book",   name: "Site Reliability Engineering — Google (free online)",           url: "https://sre.google/sre-book/table-of-contents/" },
-        { id: "srl-r-10", type: "book",   name: "The Site Reliability Workbook — Google (free online)",          url: "https://sre.google/workbook/table-of-contents/" },
-        { id: "srl-r-11", type: "book",   name: "Observability Engineering — Majors / Fong-Jones / Miranda",     url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
-        { id: "srl-r-12", type: "book",   name: "Implementing Service Level Objectives — Alex Hidalgo",          url: "https://www.oreilly.com/library/view/implementing-service-level/9781492076803/" },
-        { id: "srl-r-13", type: "book",   name: "Seeking SRE — David Blank-Edelman (ed)",                        url: "https://www.oreilly.com/library/view/seeking-sre/9781491978856/" },
-        { id: "srl-r-14", type: "blog",   name: "sre.google — articles, talks, papers",                          url: "https://sre.google/" },
-        { id: "srl-r-15", type: "blog",   name: "Honeycomb blog (observability)",                                url: "https://www.honeycomb.io/blog" },
-        { id: "srl-r-16", type: "blog",   name: "PagerDuty Incident Response docs",                              url: "https://response.pagerduty.com/" },
-        { id: "srl-r-17", type: "blog",   name: "Increment magazine — On-Call issue",                            url: "https://increment.com/on-call/" },
-        { id: "srl-r-18", type: "blog",   name: "USE Method — Brendan Gregg",                                    url: "https://www.brendangregg.com/usemethod.html" },
+        { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
+        { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
+        { id: "srl-r-3",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Charity Majors — Observability is for Humans",                  url: "https://www.youtube.com/watch?v=oGC8C9z7TN4" },
+        { id: "srl-r-4",  type: "video", sub: "SRE practice — SLOs, incidents, on-call",  name: "Class SRE Implements DevOps — Liz Fong-Jones",                  url: "https://www.youtube.com/watch?v=uTEL8Ff1Zvk" },
+        { id: "srl-r-5",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Loki + Grafana logging — Grafana Labs",                         url: "https://www.youtube.com/watch?v=h_GGd7HfKQ8" },
+        { id: "srl-r-6",  type: "course", sub: "SRE practice — SLOs, incidents, on-call", name: "Google SRE Course — Measuring & Managing Reliability (Coursera, free audit)", url: "https://www.coursera.org/learn/site-reliability-engineering-slos" },
+        { id: "srl-r-7",  type: "course", sub: "Observability — metrics, logs, traces", name: "KodeKloud — Prometheus Certified Associate (PCA)",              url: "https://kodekloud.com/courses/prometheus-certified-associate-pca/" },
+        { id: "srl-r-8",  type: "course", sub: "SRE practice — SLOs, incidents, on-call", name: "Linux Foundation — LFS162 Intro to SRE & DevOps (free)",        url: "https://training.linuxfoundation.org/training/introduction-to-site-reliability-engineering-and-devops-lfs162/" },
+        { id: "srl-r-9",  type: "book", sub: "SRE practice — SLOs, incidents, on-call",   name: "Site Reliability Engineering — Google (free online)",           url: "https://sre.google/sre-book/table-of-contents/" },
+        { id: "srl-r-10", type: "book", sub: "SRE practice — SLOs, incidents, on-call",   name: "The Site Reliability Workbook — Google (free online)",          url: "https://sre.google/workbook/table-of-contents/" },
+        { id: "srl-r-11", type: "book", sub: "Observability — metrics, logs, traces",   name: "Observability Engineering — Majors / Fong-Jones / Miranda",     url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
+        { id: "srl-r-12", type: "book", sub: "SRE practice — SLOs, incidents, on-call",   name: "Implementing Service Level Objectives — Alex Hidalgo",          url: "https://www.oreilly.com/library/view/implementing-service-level/9781492076803/" },
+        { id: "srl-r-13", type: "book", sub: "SRE practice — SLOs, incidents, on-call",   name: "Seeking SRE — David Blank-Edelman (ed)",                        url: "https://www.oreilly.com/library/view/seeking-sre/9781491978856/" },
+        { id: "srl-r-14", type: "blog", sub: "SRE practice — SLOs, incidents, on-call",   name: "sre.google — articles, talks, papers",                          url: "https://sre.google/" },
+        { id: "srl-r-15", type: "blog", sub: "Observability — metrics, logs, traces",   name: "Honeycomb blog (observability)",                                url: "https://www.honeycomb.io/blog" },
+        { id: "srl-r-16", type: "blog", sub: "SRE practice — SLOs, incidents, on-call",   name: "PagerDuty Incident Response docs",                              url: "https://response.pagerduty.com/" },
+        { id: "srl-r-17", type: "blog", sub: "SRE practice — SLOs, incidents, on-call",   name: "Increment magazine — On-Call issue",                            url: "https://increment.com/on-call/" },
+        { id: "srl-r-18", type: "blog", sub: "Performance & debugging",   name: "USE Method — Brendan Gregg",                                    url: "https://www.brendangregg.com/usemethod.html" },
+
+        // ───── Performance & packet-level debugging (the skills that turn an alert into a root cause) ─────
+        { id: "srl-r-19", type: "video", sub: "Performance & debugging",  name: "USE Method — Brendan Gregg (talk)",                             url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
+        { id: "srl-r-20", type: "book", sub: "Performance & debugging",   name: "Systems Performance — Brendan Gregg (2nd ed)",                  url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
+        { id: "srl-r-21", type: "blog", sub: "Performance & debugging",   name: "Brendan Gregg's homepage (perf gold)",                          url: "https://www.brendangregg.com/" },
+        { id: "srl-r-22", type: "blog", sub: "Performance & debugging",   name: "Julia Evans — Wizard Zines (debugging, perf, networking)",      url: "https://wizardzines.com/" },
       ],
       milestones: [
         { id: "srl-m-1",  name: "Instrument a Go/Python service with the Prometheus client library" },
@@ -2304,6 +2474,8 @@ window.SRE_DATA = {
         { id: "srl-m-9",  name: "Write a blameless postmortem template + practice on a real incident" },
         { id: "srl-m-10", name: "Read SRE book ch 3–5 (Embracing Risk · SLOs · Eliminating Toil)" },
         { id: "srl-m-11", name: "Read SRE book ch 13–15 (Emergency Response · Managing Incidents · Postmortems)" },
+        { id: "srl-m-12", name: "Use strace to debug a hung process" },
+        { id: "srl-m-13", name: "Read top, htop, iostat, vmstat fluently (USE method)" },
       ],
     },
 
@@ -2312,21 +2484,21 @@ window.SRE_DATA = {
       intro: "Varnish Cache sits in front of origin servers and turns the request hot path into RAM-speed responses. This track walks VCL — Varnish's request/response programming language — from `vcl 4.1` syntax through grace mode, purging, and the multi-site config pattern used by real publishers. The hands-on labs rebuild, piece by piece, the same edge-caching stack that fronts a real Norwegian newspaper (dn.no via NHST).",
       why: "Edge caching is what lets news sites, e-commerce fronts, and APIs survive traffic spikes. SREs typically own this layer end-to-end: misconfigure it and you serve stale paywalled content to logged-out users; tune it well and you cut backend traffic by 90%+ and absorb spikes the origin couldn't.",
       resources: [
-        { id: "vrn-r-1",  type: "video",  name: "Varnish in 100 Seconds (mental model)" },
-        { id: "vrn-r-2",  type: "video",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
-        { id: "vrn-r-3",  type: "video",  name: "Fastly / Varnish Software — VCL conference talks (search NDC, Velocity)" },
-        { id: "vrn-r-4",  type: "course", name: "Varnish 6 Official Documentation — User Guide",                    url: "https://varnish-cache.org/docs/6.0/users-guide/index.html" },
-        { id: "vrn-r-5",  type: "course", name: "Varnish 6 — VCL Reference",                                        url: "https://varnish-cache.org/docs/6.0/reference/vcl.html" },
-        { id: "vrn-r-6",  type: "course", name: "Varnish 6 — VCL Built-in Subroutines (vcl_recv, vcl_hash, …)",     url: "https://varnish-cache.org/docs/6.0/reference/vcl-step.html" },
-        { id: "vrn-r-7",  type: "course", name: "Varnish 6 — VCL Variables (req, bereq, beresp, obj, resp)",        url: "https://varnish-cache.org/docs/6.0/reference/vcl-var.html" },
-        { id: "vrn-r-8",  type: "course", name: "Varnish Modules (vmod-cookie, xkey, saintmode, header, var, …)",   url: "https://github.com/varnish/varnish-modules" },
-        { id: "vrn-r-9",  type: "course", name: "varnishtest / VTC framework — built-in HTTP test harness",         url: "https://varnish-cache.org/docs/6.0/reference/varnishtest.html" },
-        { id: "vrn-r-10", type: "book",   name: "The Varnish Book — Varnish Software (free PDF, definitive guide)", url: "https://info.varnish-software.com/the-varnish-book" },
-        { id: "vrn-r-11", type: "book",   name: "Varnish Cache — Per Buer / Linpro (intro book)" },
-        { id: "vrn-r-12", type: "blog",   name: "Varnish Software blog — VCL recipes, perf, releases",              url: "https://www.varnish-software.com/community/blog/" },
-        { id: "vrn-r-13", type: "blog",   name: "varnish-cache.org — Users' Guide: Grace, Purging, Hit-for-pass",   url: "https://varnish-cache.org/docs/6.0/users-guide/vcl.html" },
-        { id: "vrn-r-14", type: "blog",   name: "Fastly VCL docs — same VCL dialect, well-written reference",       url: "https://www.fastly.com/documentation/reference/vcl/" },
-        { id: "vrn-r-15", type: "blog",   name: "Hitch — TLS terminator that pairs with Varnish (UDS pattern)",     url: "https://github.com/varnish/hitch" },
+        { id: "vrn-r-1",  type: "video", sub: "Intro & concepts",  name: "Varnish in 100 Seconds (mental model)" },
+        { id: "vrn-r-2",  type: "video", sub: "Intro & concepts",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
+        { id: "vrn-r-3",  type: "video", sub: "Intro & concepts",  name: "Fastly / Varnish Software — VCL conference talks (search NDC, Velocity)" },
+        { id: "vrn-r-4",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 Official Documentation — User Guide",                    url: "https://varnish-cache.org/docs/6.0/users-guide/index.html" },
+        { id: "vrn-r-5",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Reference",                                        url: "https://varnish-cache.org/docs/6.0/reference/vcl.html" },
+        { id: "vrn-r-6",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Built-in Subroutines (vcl_recv, vcl_hash, …)",     url: "https://varnish-cache.org/docs/6.0/reference/vcl-step.html" },
+        { id: "vrn-r-7",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Variables (req, bereq, beresp, obj, resp)",        url: "https://varnish-cache.org/docs/6.0/reference/vcl-var.html" },
+        { id: "vrn-r-8",  type: "course", sub: "Modules & testing", name: "Varnish Modules (vmod-cookie, xkey, saintmode, header, var, …)",   url: "https://github.com/varnish/varnish-modules" },
+        { id: "vrn-r-9",  type: "course", sub: "Modules & testing", name: "varnishtest / VTC framework — built-in HTTP test harness",         url: "https://varnish-cache.org/docs/6.0/reference/varnishtest.html" },
+        { id: "vrn-r-10", type: "book", sub: "Books & guides",   name: "The Varnish Book — Varnish Software (free PDF, definitive guide)", url: "https://info.varnish-software.com/the-varnish-book" },
+        { id: "vrn-r-11", type: "book", sub: "Books & guides",   name: "Varnish Cache — Per Buer / Linpro (intro book)" },
+        { id: "vrn-r-12", type: "blog", sub: "Books & guides",   name: "Varnish Software blog — VCL recipes, perf, releases",              url: "https://www.varnish-software.com/community/blog/" },
+        { id: "vrn-r-13", type: "blog", sub: "VCL reference & docs",   name: "varnish-cache.org — Users' Guide: Grace, Purging, Hit-for-pass",   url: "https://varnish-cache.org/docs/6.0/users-guide/vcl.html" },
+        { id: "vrn-r-14", type: "blog", sub: "Books & guides",   name: "Fastly VCL docs — same VCL dialect, well-written reference",       url: "https://www.fastly.com/documentation/reference/vcl/" },
+        { id: "vrn-r-15", type: "blog", sub: "Books & guides",   name: "Hitch — TLS terminator that pairs with Varnish (UDS pattern)",     url: "https://github.com/varnish/hitch" },
       ],
       milestones: [
         { id: "vrn-m-1",  name: "Run Varnish 6 locally in Docker; point it at a Hello-World nginx origin" },
@@ -2367,24 +2539,24 @@ window.SRE_DATA = {
       intro: "Fastly is a managed CDN built on a fork of Varnish — same VCL dialect as the previous track, but with global POPs, Image Optimizer, Edge Rate Limiting, and a Next-Gen WAF (Signal Sciences) wired in via Terraform. The 18 hands-on labs rebuild, session by session, the `dngroup-fastly` reference architecture: multi-backend routing through the `x-backend` header pattern, snippet auto-loading via `fileset`+`regex()`, NGWAF integration, three-workspace Terraform deploy via GitHub Actions.",
       why: "Fastly is the production CDN for many APAC and European publishers (and a sibling of the open-source Varnish track). Knowing how managed CDN differs from on-prem Varnish — snippets vs includes, Terraform vs Puppet, NGWAF vs no WAF, shielding vs grace — is a real interview differentiator. Companion notes: `fastly-notes.md` in this repo.",
       resources: [
-        { id: "fst-r-1",  type: "course", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
-        { id: "fst-r-2",  type: "course", name: "Fastly VCL Variables (req / bereq / beresp / obj / resp / client)", url: "https://www.fastly.com/documentation/reference/vcl/variables/" },
-        { id: "fst-r-3",  type: "course", name: "Fastly VCL Functions (regsub, subfield, digest.base64_decode, …)",  url: "https://www.fastly.com/documentation/reference/vcl/functions/" },
-        { id: "fst-r-4",  type: "course", name: "Fastly Image Optimizer docs",                                       url: "https://www.fastly.com/documentation/reference/io/" },
-        { id: "fst-r-5",  type: "course", name: "Fastly Shielding guide",                                            url: "https://www.fastly.com/documentation/guides/full-site-delivery/shielding/" },
-        { id: "fst-r-6",  type: "course", name: "Fastly Edge Rate Limiting guide (penaltybox + ratecounter)",        url: "https://www.fastly.com/documentation/guides/full-site-delivery/rate-limiting/" },
-        { id: "fst-r-7",  type: "course", name: "Fastly Caching guide (TTL, stale-if-error, Surrogate-Control)",     url: "https://www.fastly.com/documentation/guides/full-site-delivery/caching/" },
-        { id: "fst-r-8",  type: "course", name: "Fastly Datacenter / POP codes (lookup table)",                      url: "https://www.fastly.com/documentation/reference/tools/datacenters/" },
-        { id: "fst-r-9",  type: "course", name: "Fastly Fiddle — VCL playground (no account required)",              url: "https://fiddle.fastly.dev" },
-        { id: "fst-r-10", type: "course", name: "Fastly Developer Hub — Learning + VCL tutorials",                   url: "https://developer.fastly.com/learning/vcl/" },
-        { id: "fst-r-11", type: "course", name: "Fastly Terraform Provider (registry, examples)",                    url: "https://registry.terraform.io/providers/fastly/fastly/latest/docs" },
-        { id: "fst-r-12", type: "course", name: "Signal Sciences (NGWAF) Terraform Provider",                        url: "https://registry.terraform.io/providers/signalsciences/sigsci/latest/docs" },
-        { id: "fst-r-13", type: "course", name: "Fastly CLI (brew install / config / deploy)",                       url: "https://www.fastly.com/documentation/reference/tools/fastly-cli/" },
-        { id: "fst-r-14", type: "course", name: "hashicorp/setup-terraform GitHub Action",                           url: "https://github.com/hashicorp/setup-terraform" },
-        { id: "fst-r-15", type: "blog",   name: "Fastly Blog — Stronger Security with a Unified CDN and WAF",        url: "https://www.fastly.com/blog/stronger-security-with-a-unified-cdn-and-waf" },
-        { id: "fst-r-16", type: "blog",   name: "Fastly Blog — main feed (release notes, perf, VCL recipes)",        url: "https://www.fastly.com/blog" },
-        { id: "fst-r-17", type: "blog",   name: "Fastly Documentation — main index",                                 url: "https://www.fastly.com/documentation/" },
-        { id: "fst-r-18", type: "blog",   name: "Terraform Workspaces (HashiCorp Learn)",                            url: "https://developer.hashicorp.com/terraform/language/state/workspaces" },
+        { id: "fst-r-1",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
+        { id: "fst-r-2",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Variables (req / bereq / beresp / obj / resp / client)", url: "https://www.fastly.com/documentation/reference/vcl/variables/" },
+        { id: "fst-r-3",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Functions (regsub, subfield, digest.base64_decode, …)",  url: "https://www.fastly.com/documentation/reference/vcl/functions/" },
+        { id: "fst-r-4",  type: "course", sub: "CDN features & security", name: "Fastly Image Optimizer docs",                                       url: "https://www.fastly.com/documentation/reference/io/" },
+        { id: "fst-r-5",  type: "course", sub: "CDN features & security", name: "Fastly Shielding guide",                                            url: "https://www.fastly.com/documentation/guides/full-site-delivery/shielding/" },
+        { id: "fst-r-6",  type: "course", sub: "CDN features & security", name: "Fastly Edge Rate Limiting guide (penaltybox + ratecounter)",        url: "https://www.fastly.com/documentation/guides/full-site-delivery/rate-limiting/" },
+        { id: "fst-r-7",  type: "course", sub: "CDN features & security", name: "Fastly Caching guide (TTL, stale-if-error, Surrogate-Control)",     url: "https://www.fastly.com/documentation/guides/full-site-delivery/caching/" },
+        { id: "fst-r-8",  type: "course", sub: "CDN features & security", name: "Fastly Datacenter / POP codes (lookup table)",                      url: "https://www.fastly.com/documentation/reference/tools/datacenters/" },
+        { id: "fst-r-9",  type: "course", sub: "VCL reference & playground", name: "Fastly Fiddle — VCL playground (no account required)",              url: "https://fiddle.fastly.dev" },
+        { id: "fst-r-10", type: "course", sub: "VCL reference & playground", name: "Fastly Developer Hub — Learning + VCL tutorials",                   url: "https://developer.fastly.com/learning/vcl/" },
+        { id: "fst-r-11", type: "course", sub: "Terraform & CI/CD", name: "Fastly Terraform Provider (registry, examples)",                    url: "https://registry.terraform.io/providers/fastly/fastly/latest/docs" },
+        { id: "fst-r-12", type: "course", sub: "Terraform & CI/CD", name: "Signal Sciences (NGWAF) Terraform Provider",                        url: "https://registry.terraform.io/providers/signalsciences/sigsci/latest/docs" },
+        { id: "fst-r-13", type: "course", sub: "Terraform & CI/CD", name: "Fastly CLI (brew install / config / deploy)",                       url: "https://www.fastly.com/documentation/reference/tools/fastly-cli/" },
+        { id: "fst-r-14", type: "course", sub: "Terraform & CI/CD", name: "hashicorp/setup-terraform GitHub Action",                           url: "https://github.com/hashicorp/setup-terraform" },
+        { id: "fst-r-15", type: "blog", sub: "CDN features & security",   name: "Fastly Blog — Stronger Security with a Unified CDN and WAF",        url: "https://www.fastly.com/blog/stronger-security-with-a-unified-cdn-and-waf" },
+        { id: "fst-r-16", type: "blog", sub: "Blog & docs",   name: "Fastly Blog — main feed (release notes, perf, VCL recipes)",        url: "https://www.fastly.com/blog" },
+        { id: "fst-r-17", type: "blog", sub: "Blog & docs",   name: "Fastly Documentation — main index",                                 url: "https://www.fastly.com/documentation/" },
+        { id: "fst-r-18", type: "blog", sub: "Terraform & CI/CD",   name: "Terraform Workspaces (HashiCorp Learn)",                            url: "https://developer.hashicorp.com/terraform/language/state/workspaces" },
       ],
       milestones: [
         { id: "fst-m-1",  name: "S1 · Free dev account; first VCL service via UI; add domain + httpbin backend; activate; curl through Fastly" },
@@ -2706,6 +2878,7 @@ function buildGroupIndex(D) {
   g.certs = D.certs.map(i => i.id);
   g.books = D.books.map(i => i.id);
   g.courses = D.courses.map(i => i.id);
+  if (D.aiDatacampCourses) g.aiDatacamp = D.aiDatacampCourses.map(i => i.id);
   // SRE Learning sections (each view has resources + milestones)
   if (D.sreRoadmap) {
     for (const [key, sec] of Object.entries(D.sreRoadmap)) {
@@ -2725,15 +2898,14 @@ function viewGroups() {
     "p0-lld": ["lldV","lldP"],
     "p0-sql": ["sqlC","sqlP"],
     "p0-dsa": ["dsa"],
-    "mental":    [],
-    "sre-fnd":   ["sreLr_foundations",  "sreLm_foundations"],
-    "sre-cloud": ["sreLr_cloud",        "sreLm_cloud"],
-    "sre-auto":  ["sreLr_automation",   "sreLm_automation"],
-    "sre-edge":  ["sreLr_edge",         "sreLm_edge"],
-    "sre-rel":   ["sreLr_reliability",  "sreLm_reliability"],
-    "sre-varnish": ["sreLr_varnish",    "sreLm_varnish"],
-    "sre-fastly":  ["sreLr_fastly",     "sreLm_fastly"],
-    "part-ai":   ["sreLr_ai-l1","sreLm_ai-l1","sreLr_ai-l2","sreLm_ai-l2","sreLr_ai-l3","sreLm_ai-l3","sreLr_ai-l4","sreLm_ai-l4"],
+    "sre-net":   ["sreLr_networking"],
+    "sre-cloud": ["sreLr_cloud"],
+    "sre-auto":  ["sreLr_automation"],
+    "sre-edge":  ["sreLr_edge"],
+    "sre-rel":   ["sreLr_reliability"],
+    "sre-varnish": ["sreLr_varnish"],
+    "sre-fastly":  ["sreLr_fastly"],
+    "part-ai":   ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4","aiDatacamp"],
     "part-b": ["phase"],
     "part-g": [], // tracked via job-status
     "part-h": ["loop","qAsk","star"],
@@ -2801,122 +2973,6 @@ function OverviewView() {
         <p className="lead">Every section in your study guide → a view here. Tick items, log hours per section, leave notes. Everything persists in your browser.</p>
         <div className="callout">
           15 hrs/week · 6-month timeline · Bangladesh → SG / JP / MY / TH. Comp follows skill. Don't optimize for highest salary on day one.
-        </div>
-      </section>
-    </div>
-  );
-}
-
-// ───────── MENTAL MODEL — where each tech fits ─────────
-const MM_TIERS = [
-  { tier: "User / browser",    cls: "neutral", tech: "(out of scope — you're SRE)",                             where: "—" },
-  { tier: "CDN edge",          cls: "edge",    tech: "Fastly + VCL · CloudFront · Cloudflare (vocab only)",     where: "Stage 04 (Fastly / VCL) · Part B Phase 5" },
-  { tier: "Load balancer",     cls: "edge",    tech: "HAProxy · AWS ALB / NLB · Envoy as L7 LB",                where: "Stage 04 (HAProxy + Envoy)" },
-  { tier: "API gateway",       cls: "edge",    tech: "Kong + Kong Ingress Controller (K8s)",                    where: "Stage 04 (Kong · K8s ingress)" },
-  { tier: "Reverse proxy",     cls: "edge",    tech: "NGINX (proxy_pass, microcache) · Envoy (sidecar)",        where: "Stage 04 (NGINX) · Stage 05 (mesh)" },
-  { tier: "Cache layer",       cls: "data",    tech: "Redis · Memcached (in-mem) — Varnish skipped",            where: "Part D L2 · Part B Phase 4" },
-  { tier: "App servers",       cls: "backend", tech: "Go (Todo API · primary) · Python (scripts) — on K8s",     where: "Part B Phase 1–2 · Stages 02 + 03" },
-  { tier: "Database",          cls: "data",    tech: "PostgreSQL (RDS in prod) · Redis (cache + sessions)",     where: "Part B Phase 2, 5 · Part D L2" },
-];
-
-const MM_CROSS = [
-  { layer: "Observability",          where: "Stage 05 + Part B Phase 3–4", tools: "Prometheus + Grafana · Loki / ELK · OpenTelemetry + Jaeger · multi-window burn-rate SLO alerts" },
-  { layer: "CI/CD + GitOps",         where: "Stage 03 + Part B Phase 7",   tools: "GitHub Actions · ArgoCD · Helm + Kustomize" },
-  { layer: "IaC",                    where: "Stage 02 + Part B Phase 6",   tools: "Terraform → CDN, ALB, EKS, RDS, IAM" },
-  { layer: "Reliability practice",   where: "Stage 05",                    tools: "Incident command · chaos game days · runbooks · capacity planning · PRRs" },
-  { layer: "DevSecOps + Security",   where: "Stage 05 (advanced)",         tools: "WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets · SBOM/Sigstore" },
-  { layer: "AI layer (optional)",    where: "Part AI L3.3",                tools: "vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path" },
-];
-
-function todayStr() {
-  const d = new Date();
-  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-}
-
-function DailyStreakButton() {
-  const [streak, setStreak] = useStored("leetcode:streak", { count: 0, last: null });
-  const t = todayStr();
-  const tickedToday = streak.last === t;
-
-  const handleClick = () => {
-    if (!tickedToday) {
-      const y = new Date(); y.setDate(y.getDate() - 1);
-      const yStr = y.getFullYear() + "-" + String(y.getMonth() + 1).padStart(2, "0") + "-" + String(y.getDate()).padStart(2, "0");
-      const nextCount = streak.last === yStr ? (streak.count || 0) + 1 : 1;
-      setStreak({ count: nextCount, last: t });
-    }
-    window.open("https://leetcode.com/problemset/?Daily%20Question=Daily%20Question", "_blank", "noopener,noreferrer");
-  };
-
-  return (
-    <button
-      className={"daily-streak-btn" + (tickedToday ? " ticked" : "")}
-      onClick={handleClick}
-      title={tickedToday ? "Already counted today — opens daily again" : "Opens today's LeetCode daily and bumps the streak"}
-    >
-      <span className="daily-streak-label">Daily streak</span>
-      <span className="daily-streak-count">{(streak.count || 0)}d{tickedToday ? " ✓" : ""}</span>
-    </button>
-  );
-}
-
-function MentalModelView() {
-  return (
-    <div>
-      <div className="page-head mm-head">
-        <div>
-          <h1 className="page-title">Mental model · Where each technology fits</h1>
-          <p className="page-sub">Read this first. Every Stage / Phase / Level slots into one of these tiers. After you finish one, come back and ask: <em>"which tier did I just deepen, and which is still weakest?"</em></p>
-        </div>
-        <DailyStreakButton />
-      </div>
-
-      <section className="section-card">
-        <h2>The request path</h2>
-        <p className="lead">A request flows top→bottom through the stack. Edge tier is Stage 04. Backend tier is Part B's Todo App. Data tier is Part D L2 + Part B's Postgres/Redis.</p>
-        <div className="mm-stack">
-          {MM_TIERS.map((t, i) => (
-            <React.Fragment key={t.tier}>
-              <div className={"mm-row mm-row-" + t.cls}>
-                <div className="mm-tier-name">{t.tier}</div>
-                <div className="mm-tier-tech">{t.tech}</div>
-                <div className="mm-tier-where">{t.where}</div>
-              </div>
-              {i < MM_TIERS.length - 1 && <div className="mm-arrow">↓</div>}
-            </React.Fragment>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-card">
-        <h2>Cross-cutting layers</h2>
-        <p className="lead">These touch every tier in the stack above — observability, automation, security, and AI.</p>
-        <table className="mm-cross">
-          <thead>
-            <tr><th>Layer</th><th>Where you learn it</th><th>Tools</th></tr>
-          </thead>
-          <tbody>
-            {MM_CROSS.map(r => (
-              <tr key={r.layer}>
-                <td><b>{r.layer}</b></td>
-                <td>{r.where}</td>
-                <td>{r.tools}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
-
-      <section className="section-card">
-        <h2>Boundary cheat-sheet</h2>
-        <ul className="mm-boundary">
-          <li><b>Frontend</b> (browser, JS/CSS/HTML, mobile) — out of scope. Sits above the CDN. Know enough to talk to FE engineers.</li>
-          <li><b>Edge</b> (CDN → LB → API gateway → reverse proxy) — <b>Stage 04</b> owns this whole vertical block. Whoever owns the edge owns the SLOs.</li>
-          <li><b>Backend</b> (app servers + orchestration) — <b>Part B Todo App</b> is the worked example. Stages 02 (cloud/K8s), 03 (CI/automation), 05 (observability + mesh) wrap this tier.</li>
-          <li><b>Data</b> (cache + database) — <b>Part D L2</b> for design patterns; <b>Part B Phase 2 / 5</b> for the implementation.</li>
-        </ul>
-        <div className="callout">
-          For the APAC SRE bar, depth in <b>Edge → Backend → Observability</b> wins interviews. Other tiers can stay at "explain it well" level.
         </div>
       </section>
     </div>
@@ -3473,7 +3529,7 @@ function PartJView() {
   );
 }
 
-// ───────── SRE LEARNING (the curated path: foundations → reliability) ─────────
+// ───────── SRE LEARNING (the curated path: networking → fastly) ─────────
 
 function ResourceTag({ type }) {
   const labels = {
@@ -3488,11 +3544,11 @@ function ResourceTag({ type }) {
 }
 
 const STAGE_NUM = {
-  foundations: "01",
+  networking:  "01",
   cloud:       "02",
   automation:  "03",
-  edge:        "04",
-  reliability: "05",
+  reliability: "04",
+  edge:        "05",
   varnish:     "06",
   fastly:      "07",
 };
@@ -3553,12 +3609,9 @@ function SreLearningView({ sectionKey }) {
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
   const resDoneSet = useDoneSet(resGroup)[0];
-  const milDoneSet = useDoneSet(milGroup)[0];
   const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
-  const milDone = section.milestones.filter(m => milDoneSet[m.id]).length;
-  const total = section.resources.length + section.milestones.length;
-  const done = resDone + milDone;
-  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const total = section.resources.length;
+  const pct = total > 0 ? Math.round(resDone / total * 100) : 0;
   const [hoursLogged] = useStored("time:" + resGroup, 0);
 
   // Existing titles look like "SRE 1 · Foundations" — pull the stage name out
@@ -3574,6 +3627,16 @@ function SreLearningView({ sectionKey }) {
       ) : <span>{it.name}</span>}
     </span>
   );
+
+  // Group resources into ordered topic subsections by their `sub` label.
+  const resSubs = [];
+  const subIndex = {};
+  section.resources.forEach(r => {
+    const label = r.sub || "Resources";
+    if (subIndex[label] === undefined) { subIndex[label] = resSubs.length; resSubs.push({ label, items: [] }); }
+    resSubs[subIndex[label]].items.push(r);
+  });
+  const showSubHeads = resSubs.length > 1 || (resSubs[0] && resSubs[0].label !== "Resources");
 
   return (
     <div>
@@ -3591,7 +3654,6 @@ function SreLearningView({ sectionKey }) {
           <h4>where you are</h4>
           <div className="row"><span>Complete</span><b className="accent">{pct}%</b></div>
           <div className="row"><span>Resources</span><b>{resDone}/{section.resources.length}</b></div>
-          <div className="row"><span>Milestones</span><b>{milDone}/{section.milestones.length}</b></div>
           <div className="row"><span>Hours logged</span><b>{hoursLogged}h</b></div>
         </aside>
       </div>
@@ -3600,12 +3662,14 @@ function SreLearningView({ sectionKey }) {
 
       <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
         done={resDone} total={section.resources.length}>
-        <Checklist items={section.resources} group={resGroup} renderItem={renderResource} />
-      </ListSection>
-
-      <ListSection title="Hands-on milestones" lead="Tick only when actually shipped."
-        done={milDone} total={section.milestones.length}>
-        <Checklist items={section.milestones} group={milGroup} />
+        {resSubs.map(g => (
+          <div key={g.label} className="res-subgroup">
+            {showSubHeads && (
+              <h4 className="res-subgroup-head">{g.label}<span className="res-subgroup-count">{g.items.length}</span></h4>
+            )}
+            <Checklist items={g.items} group={resGroup} renderItem={renderResource} />
+          </div>
+        ))}
       </ListSection>
 
       <section className="notes-section">
@@ -3619,7 +3683,7 @@ function SreLearningView({ sectionKey }) {
   );
 }
 
-const SRE_FoundationsView = () => <SreLearningView sectionKey="foundations" />;
+const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
@@ -3631,13 +3695,9 @@ const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
 function AILevelCard({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
-  const milGroup = "sreLm_" + sectionKey;
   const resGroup = "sreLr_" + sectionKey;
-  const milDoneSet = useDoneSet(milGroup)[0];
   const resDoneSet = useDoneSet(resGroup)[0];
-  const milDone = sec.milestones.filter(m => milDoneSet[m.id]).length;
   const resDone = sec.resources.filter(r => resDoneSet[r.id]).length;
-  const milTotal = sec.milestones.length;
   const resTotal = sec.resources.length;
 
   // Level title: data has "AI · Level 1 — Foundations" → use the part after "— "
@@ -3660,13 +3720,9 @@ function AILevelCard({ levelNum, sectionKey }) {
           <span className="level-card-slash">/</span>
           <span className="level-card-name">{levelTail}</span>
         </div>
-        <StatusPill pct={milTotal > 0 ? Math.round(milDone / milTotal * 100) : 0} />
+        <StatusPill pct={resTotal > 0 ? Math.round(resDone / resTotal * 100) : 0} />
       </div>
       <p className="lead">{sec.intro}</p>
-
-      <ListSection title="Milestones" done={milDone} total={milTotal}>
-        <Checklist items={sec.milestones} group={milGroup} />
-      </ListSection>
 
       <ListSection title="Resources" done={resDone} total={resTotal}>
         <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
@@ -3678,10 +3734,10 @@ function AILevelCard({ levelNum, sectionKey }) {
 function LevelTile({ levelNum, sectionKey }) {
   const D = window.SRE_DATA;
   const sec = D.sreRoadmap[sectionKey];
-  const milGroup = "sreLm_" + sectionKey;
-  const milDoneSet = useDoneSet(milGroup)[0];
-  const done = sec.milestones.filter(m => milDoneSet[m.id]).length;
-  const total = sec.milestones.length;
+  const resGroup = "sreLr_" + sectionKey;
+  const resDoneSet = useDoneSet(resGroup)[0];
+  const done = sec.resources.filter(r => resDoneSet[r.id]).length;
+  const total = sec.resources.length;
   const pct = total > 0 ? Math.round(done / total * 100) : 0;
   const target = "ai-l" + levelNum;
   // Map data title "AI · Level 1 — Foundations" → "Foundations"
@@ -3702,15 +3758,63 @@ function LevelTile({ levelNum, sectionKey }) {
   );
 }
 
+// Full DataCamp Artificial Intelligence catalog (115 courses), sorted beginner → advanced.
+function AiDatacampCatalog() {
+  const D = window.SRE_DATA;
+  const courses = D.aiDatacampCourses || [];
+  const doneSet = useDoneSet("aiDatacamp")[0];
+  const done = courses.filter(c => doneSet[c.id]).length;
+  const total = courses.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  const renderCourse = (it) => (
+    <span>
+      <ResourceTag type="course" />
+      <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
+      <span style={{ color: "var(--ink-faint)", marginLeft: 8, fontSize: 13 }}>{it.hours}h</span>
+    </span>
+  );
+
+  // Group by level: Basic → Intermediate → Advanced.
+  const byLevel = ["Basic", "Intermediate", "Advanced"]
+    .map(level => ({ level, items: courses.filter(c => c.level === level) }))
+    .filter(g => g.items.length > 0);
+
+  return (
+    <section id="ai-datacamp" className="level-card-v2">
+      <div className="level-card-head">
+        <div className="level-card-title">
+          <span className="level-card-num">DC</span>
+          <span className="level-card-slash">/</span>
+          <span className="level-card-name">DataCamp AI catalog</span>
+        </div>
+        <StatusPill pct={pct} />
+      </div>
+      <p className="lead">
+        Every course in DataCamp's Artificial Intelligence track ({total}), grouped by level.{" "}
+        <a href="https://www.datacamp.com/category/artificial-intelligence" target="_blank" rel="noopener">source</a>
+      </p>
+      <ListSection title="Courses" done={done} total={total}>
+        {byLevel.map(g => (
+          <div key={g.level} className="res-subgroup">
+            <h4 className="res-subgroup-head">{g.level}<span className="res-subgroup-count">{g.items.length}</span></h4>
+            <Checklist items={g.items} group="aiDatacamp" renderItem={renderCourse} />
+          </div>
+        ))}
+      </ListSection>
+    </section>
+  );
+}
+
 function PartAIView() {
   const D = window.SRE_DATA;
   const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
 
-  // Aggregate progress across all 4 levels
-  const allMilDone = ["sreLm_ai-l1","sreLm_ai-l2","sreLm_ai-l3","sreLm_ai-l4"]
+  // Aggregate resource progress across all 4 levels
+  const allResDone = ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4"]
     .reduce((s, g) => s + Object.keys(loadJSON("done:" + g, {})).length, 0);
-  const allMilTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].milestones.length, 0);
-  const allPct = allMilTotal > 0 ? Math.round(allMilDone / allMilTotal * 100) : 0;
+  const allResTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].resources.length, 0);
+  const allPct = allResTotal > 0 ? Math.round(allResDone / allResTotal * 100) : 0;
 
   return (
     <div>
@@ -3731,6 +3835,8 @@ function PartAIView() {
         Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
+      <AiDatacampCatalog />
+
       <div className="level-tiles">
         {levelKeys.map((key, idx) => (
           <LevelTile key={key} levelNum={idx + 1} sectionKey={key} />
@@ -3745,10 +3851,10 @@ function PartAIView() {
 }
 
 Object.assign(window, {
-  OverviewView, MentalModelView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
+  OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_FoundationsView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView,
 });
 
@@ -3758,13 +3864,12 @@ Object.assign(window, {
 // App shell — two-pane TOC. Persists current view in URL hash.
 
 const NAV = [
-  { id: "mental",       label: "Mental Model",          crumb: "Mental Model · Where each tech fits",  group: "learn" },
   { id: "_learn", label: "Learn", group: "section" },
-  { id: "sre-fnd",      label: "01 · Foundations",      crumb: "Learn / 01 · Foundations",             group: "learn" },
+  { id: "sre-net",      label: "01 · Networking",       crumb: "Learn / 01 · Networking",              group: "learn" },
   { id: "sre-cloud",    label: "02 · Cloud & K8s",      crumb: "Learn / 02 · Cloud & K8s",             group: "learn" },
   { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
-  { id: "sre-edge",     label: "04 · CDN & Edge Cache", crumb: "Learn / 04 · CDN & Edge Cache (Fastly / VCL / K8s ingress)", group: "learn" },
-  { id: "sre-rel",      label: "05 · Reliability",      crumb: "Learn / 05 · Reliability",             group: "learn" },
+  { id: "sre-rel",      label: "04 · Reliability",      crumb: "Learn / 04 · Reliability",             group: "learn" },
+  { id: "sre-edge",     label: "05 · CDN & Edge Cache", crumb: "Learn / 05 · CDN & Edge Cache (Fastly / VCL / K8s ingress)", group: "learn" },
   { id: "sre-varnish",  label: "06 · Varnish & VCL",    crumb: "Learn / 06 · Varnish & VCL",           group: "learn" },
   { id: "sre-fastly",   label: "07 · Fastly CDN",       crumb: "Learn / 07 · Fastly CDN & VCL",        group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
@@ -3776,17 +3881,16 @@ const NAV = [
   { id: "p0-sql",       label: "SQL · 30",              crumb: "Practice / SQL",                       group: "practice" },
 ];
 
-const DEFAULT_VIEW = "mental";
+const DEFAULT_VIEW = "overview";
 
 const VIEW_MAP = {
   "overview":     OverviewView,
-  "mental":       MentalModelView,
   "p0-sd":        P0_SysDesignView,
   "p0-behavior":  P0_BehaviorView,
   "p0-lld":       P0_LLDView,
   "p0-sql":       P0_SQLView,
   "p0-dsa":       P0_DSAView,
-  "sre-fnd":      SRE_FoundationsView,
+  "sre-net":      SRE_NetworkingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
   "sre-edge":     SRE_EdgeView,
