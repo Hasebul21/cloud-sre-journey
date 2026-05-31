@@ -2416,45 +2416,83 @@ window.SRE_DATA = {
       ],
     },
 
-    proxy: {
-      title: "SRE 6 · Proxy & Reverse Proxy (NGINX / Envoy)",
-      intro: "Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. NGINX is the de-facto choice for HTTP-first stacks; Envoy is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other.",
-      why: "Whoever knows the proxy can explain p99 spikes, configure zero-downtime reloads, and turn on microcaching without breaking auth. Resources below are sorted learn-first within each tool group.",
+    revproxy: {
+      title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
+      intro: "Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. NGINX is the de-facto choice for HTTP-first stacks; Envoy is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. Forward proxies (egress / Squid / mitmproxy) live in Stage 07.",
+      why: "Whoever knows the reverse proxy can explain p99 spikes, configure zero-downtime reloads, and turn on microcaching without breaking auth. Resources below are sorted learn-first within each tool group.",
       resources: [
         // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
-        { id: "prx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
-        { id: "prx-r-2",  type: "video",  sub: "NGINX",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)",            url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
-        { id: "prx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
-        { id: "prx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
-        { id: "prx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
-        { id: "prx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
-        { id: "prx-r-7",  type: "blog",   sub: "NGINX",  name: "DigitalOcean — NGINX tutorials (reverse proxy, LB, Let's Encrypt, microcache)", url: "https://www.digitalocean.com/community/tags/nginx" },
-        { id: "prx-r-8",  type: "blog",   sub: "NGINX",  name: "nginxconfig.io — interactive config generator (TLS, HTTP/2, gzip, headers)",    url: "https://www.digitalocean.com/community/tools/nginx" },
-        { id: "prx-r-9",  type: "blog",   sub: "NGINX",  name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",                 url: "https://www.nginx.com/blog/" },
-        { id: "prx-r-10", type: "book",   sub: "NGINX",  name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",                          url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
-        { id: "prx-r-11", type: "blog",   sub: "NGINX",  name: "Official NGINX docs — module reference",                                        url: "https://nginx.org/en/docs/" },
-        { id: "prx-r-12", type: "blog",   sub: "NGINX",  name: "agentzh's nginx tutorials — request lifecycle, variables, rewrite phase",       url: "https://openresty.org/download/agentzh-nginx-tutorials-en.html" },
-        { id: "prx-r-13", type: "book",   sub: "NGINX",  name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                                url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
+        { id: "rprx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
+        { id: "rprx-r-2",  type: "video",  sub: "NGINX",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)",            url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
+        { id: "rprx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
+        { id: "rprx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
+        { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        { id: "rprx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
+        { id: "rprx-r-7",  type: "blog",   sub: "NGINX",  name: "DigitalOcean — NGINX tutorials (reverse proxy, LB, Let's Encrypt, microcache)", url: "https://www.digitalocean.com/community/tags/nginx" },
+        { id: "rprx-r-8",  type: "blog",   sub: "NGINX",  name: "nginxconfig.io — interactive config generator (TLS, HTTP/2, gzip, headers)",    url: "https://www.digitalocean.com/community/tools/nginx" },
+        { id: "rprx-r-9",  type: "blog",   sub: "NGINX",  name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",                 url: "https://www.nginx.com/blog/" },
+        { id: "rprx-r-10", type: "book",   sub: "NGINX",  name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",                          url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
+        { id: "rprx-r-11", type: "blog",   sub: "NGINX",  name: "Official NGINX docs — module reference",                                        url: "https://nginx.org/en/docs/" },
+        { id: "rprx-r-12", type: "blog",   sub: "NGINX",  name: "agentzh's nginx tutorials — request lifecycle, variables, rewrite phase",       url: "https://openresty.org/download/agentzh-nginx-tutorials-en.html" },
+        { id: "rprx-r-13", type: "book",   sub: "NGINX",  name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                                url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
 
         // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → hands-on → reference → architecture deep-reads ─────
-        { id: "prx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },
-        { id: "prx-r-21", type: "book",   sub: "Envoy",  name: "Envoy Fundamentals — Tetrate (free PDF, the cleanest intro to xDS)" },
-        { id: "prx-r-22", type: "course", sub: "Envoy",  name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)",        url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
-        { id: "prx-r-23", type: "video",  sub: "Envoy",  name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)",              url: "https://www.youtube.com/@MarcelDempers" },
-        { id: "prx-r-24", type: "video",  sub: "Envoy",  name: "Tetrate — official YouTube channel (Daniel Bryant + Envoy/Istio talks)",        url: "https://www.youtube.com/@tetrateio" },
-        { id: "prx-r-25", type: "video",  sub: "Envoy",  name: "KubeCon EnvoyCon talks (CNCF YouTube) — Lyft, Pinterest, Reddit, Booking",      url: "https://www.youtube.com/@cncf" },
-        { id: "prx-r-26", type: "course", sub: "Envoy",  name: "Solo.io Academy — Envoy / Gloo courses (free tier hands-on labs)",              url: "https://academy.solo.io/" },
-        { id: "prx-r-27", type: "blog",   sub: "Envoy",  name: "Envoy official docs — 'Life of a Request' + listener/cluster/route concepts",   url: "https://www.envoyproxy.io/docs/envoy/latest/" },
-        { id: "prx-r-28", type: "blog",   sub: "Envoy",  name: "envoyproxy/envoy GitHub — examples directory (front-proxy, gRPC, JWT, ext_authz)", url: "https://github.com/envoyproxy/envoy/tree/main/examples" },
-        { id: "prx-r-29", type: "blog",   sub: "Envoy",  name: "Matt Klein (Envoy creator) — talks & blog posts (xDS, filter chains rationale)", url: "https://blog.envoyproxy.io/" },
+        { id: "rprx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },
+        { id: "rprx-r-21", type: "book",   sub: "Envoy",  name: "Envoy Fundamentals — Tetrate (free PDF, the cleanest intro to xDS)" },
+        { id: "rprx-r-22", type: "course", sub: "Envoy",  name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)",        url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
+        { id: "rprx-r-23", type: "video",  sub: "Envoy",  name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)",              url: "https://www.youtube.com/@MarcelDempers" },
+        { id: "rprx-r-24", type: "video",  sub: "Envoy",  name: "Tetrate — official YouTube channel (Daniel Bryant + Envoy/Istio talks)",        url: "https://www.youtube.com/@tetrateio" },
+        { id: "rprx-r-25", type: "video",  sub: "Envoy",  name: "KubeCon EnvoyCon talks (CNCF YouTube) — Lyft, Pinterest, Reddit, Booking",      url: "https://www.youtube.com/@cncf" },
+        { id: "rprx-r-26", type: "course", sub: "Envoy",  name: "Solo.io Academy — Envoy / Gloo courses (free tier hands-on labs)",              url: "https://academy.solo.io/" },
+        { id: "rprx-r-27", type: "blog",   sub: "Envoy",  name: "Envoy official docs — 'Life of a Request' + listener/cluster/route concepts",   url: "https://www.envoyproxy.io/docs/envoy/latest/" },
+        { id: "rprx-r-28", type: "blog",   sub: "Envoy",  name: "envoyproxy/envoy GitHub — examples directory (front-proxy, gRPC, JWT, ext_authz)", url: "https://github.com/envoyproxy/envoy/tree/main/examples" },
+        { id: "rprx-r-29", type: "blog",   sub: "Envoy",  name: "Matt Klein (Envoy creator) — talks & blog posts (xDS, filter chains rationale)", url: "https://blog.envoyproxy.io/" },
       ],
       milestones: [
-        { id: "prx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
-        { id: "prx-m-2", name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
-        { id: "prx-m-3", name: "Reproduce a zero-downtime config reload under load (SIGHUP); confirm no dropped requests via load-tester" },
-        { id: "prx-m-4", name: "Envoy as a front-proxy via docker-compose: 1 listener + cluster, outlier detection, retry policy, /stats/prometheus" },
-        { id: "prx-m-5", name: "Compare a p99 latency graph for the Todo API behind NGINX vs Envoy under identical load" },
-        { id: "prx-m-6", name: "Walk through an xDS update path: change a route via static config, then via the control-plane snapshot pattern" },
+        { id: "rprx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
+        { id: "rprx-m-2", name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
+        { id: "rprx-m-3", name: "Reproduce a zero-downtime config reload under load (SIGHUP); confirm no dropped requests via load-tester" },
+        { id: "rprx-m-4", name: "Envoy as a front-proxy via docker-compose: 1 listener + cluster, outlier detection, retry policy, /stats/prometheus" },
+        { id: "rprx-m-5", name: "Compare a p99 latency graph for the Todo API behind NGINX vs Envoy under identical load" },
+        { id: "rprx-m-6", name: "Walk through an xDS update path: change a route via static config, then via the control-plane snapshot pattern" },
+      ],
+    },
+
+    fwdproxy: {
+      title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
+      intro: "A forward proxy sits in front of the CLIENT, not the server — it shapes, caches, filters, or audits outbound traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio EgressGateway, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). Reverse proxies (NGINX / Envoy in front of a backend) live in Stage 06.",
+      why: "Different hot path from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. Most SREs need reading-level fluency unless they own corporate egress or a mesh's egress gateway.",
+      resources: [
+        // ───── Concepts — forward vs reverse proxy mental model ─────
+        { id: "fprx-r-1",  type: "blog",   sub: "Concepts",          name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here",        url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
+        { id: "fprx-r-2",  type: "video",  sub: "Concepts",          name: "Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube, protocol-level walkthrough)", url: "https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy" },
+
+        // ───── Squid (classic forward + caching proxy) ─────
+        { id: "fprx-r-3",  type: "course", sub: "Squid",             name: "Squid official documentation — squid.conf directives, ACLs, cache peering",        url: "http://www.squid-cache.org/Doc/" },
+        { id: "fprx-r-4",  type: "blog",   sub: "Squid",             name: "Squid Wiki — Squid in 10 minutes / Beginners FAQ — fastest path to working squid.conf", url: "https://wiki.squid-cache.org/SquidFaq/BeginnersFaq" },
+        { id: "fprx-r-5",  type: "book",   sub: "Squid",             name: "Squid: The Definitive Guide — Duane Wessels (O'Reilly classic, deep dive)",       url: "https://www.oreilly.com/library/view/squid-the-definitive/0596001622/" },
+
+        // ───── mitmproxy (debug & test egress) ─────
+        { id: "fprx-r-6",  type: "course", sub: "mitmproxy",         name: "mitmproxy official docs — intercept, modify, replay HTTP/2/gRPC — Start here for testing", url: "https://docs.mitmproxy.org/stable/" },
+        { id: "fprx-r-7",  type: "video",  sub: "mitmproxy",         name: "mitmproxy — YouTube channel (TLS bumping, addons, transparent mode)",              url: "https://www.youtube.com/@mitmproxy" },
+
+        // ───── Cloud egress (AWS / GCP) ─────
+        { id: "fprx-r-8",  type: "course", sub: "Cloud egress",      name: "AWS — NAT Gateway documentation (bandwidth, cost per AZ, port exhaustion)",        url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" },
+        { id: "fprx-r-9",  type: "course", sub: "Cloud egress",      name: "AWS — VPC Endpoints (Interface / Gateway / PrivateLink) — stop paying NAT for S3", url: "https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html" },
+
+        // ───── Service-mesh egress (Istio / Envoy) ─────
+        { id: "fprx-r-10", type: "course", sub: "Mesh egress",       name: "Istio — EgressGateway docs (ServiceEntry, mTLS to external services, audit)",     url: "https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/" },
+        { id: "fprx-r-11", type: "blog",   sub: "Mesh egress",       name: "Envoy — security/egress filter reference (auth filters, RBAC, ext_authz)",        url: "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro" },
+
+        // ───── TLS interception trade-offs ─────
+        { id: "fprx-r-12", type: "blog",   sub: "TLS interception",  name: "Julia Evans — How HTTPS Works zine + corporate-proxy posts (approachable)",       url: "https://wizardzines.com/zines/https/" },
+      ],
+      milestones: [
+        { id: "fprx-m-1", name: "Stand up Squid in Docker as a caching forward proxy; route a curl through it; verify HIT/MISS in access.log" },
+        { id: "fprx-m-2", name: "Lock Squid down with ACLs: allow only one internal CIDR + one destination domain; verify others get 403" },
+        { id: "fprx-m-3", name: "Use mitmproxy to intercept HTTPS calls from a local app; install the mitmproxy CA; replay one request with a modified body" },
+        { id: "fprx-m-4", name: "On AWS, place a private subnet behind a NAT Gateway; add a VPC Gateway Endpoint for S3; compare NAT bytes before/after" },
+        { id: "fprx-m-5", name: "One-page tradeoff doc: when to use a forward proxy (Squid) vs cloud-native egress (NAT + VPC endpoints) vs mesh EgressGateway" },
       ],
     },
 
@@ -2928,7 +2966,8 @@ function viewGroups() {
     "sre-cloud": ["sreLr_cloud"],
     "sre-auto":  ["sreLr_automation"],
     "sre-edge":  ["sreLr_edge"],
-    "sre-proxy": ["sreLr_proxy"],
+    "sre-revproxy": ["sreLr_revproxy"],
+    "sre-fwdproxy": ["sreLr_fwdproxy"],
     "sre-rel":   ["sreLr_reliability"],
     "sre-varnish": ["sreLr_varnish"],
     "sre-fastly":  ["sreLr_fastly"],
@@ -3576,9 +3615,10 @@ const STAGE_NUM = {
   automation:  "03",
   reliability: "04",
   edge:        "05",
-  proxy:       "06",
-  varnish:     "07",
-  fastly:      "08",
+  revproxy:    "06",
+  fwdproxy:    "07",
+  varnish:     "08",
+  fastly:      "09",
 };
 
 function StatusPill({ pct }) {
@@ -3715,7 +3755,8 @@ const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
-const SRE_ProxyView       = () => <SreLearningView sectionKey="proxy" />;
+const SRE_RevProxyView    = () => <SreLearningView sectionKey="revproxy" />;
+const SRE_FwdProxyView    = () => <SreLearningView sectionKey="fwdproxy" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 const SRE_VarnishView     = () => <SreLearningView sectionKey="varnish" />;
 const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
@@ -3883,7 +3924,7 @@ Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ProxyView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView,
 });
 
@@ -3899,9 +3940,10 @@ const NAV = [
   { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
   { id: "sre-rel",      label: "04 · Reliability",      crumb: "Learn / 04 · Reliability",             group: "learn" },
   { id: "sre-edge",     label: "05 · CDN, API Gateway & HTTP Caching", crumb: "Learn / 05 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)", group: "learn" },
-  { id: "sre-proxy",    label: "06 · Proxy & Reverse Proxy", crumb: "Learn / 06 · Proxy & Reverse Proxy (NGINX / Envoy)", group: "learn" },
-  { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
-  { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",        group: "learn" },
+  { id: "sre-revproxy", label: "06 · Reverse Proxy",    crumb: "Learn / 06 · Reverse Proxy (NGINX / Envoy)",          group: "learn" },
+  { id: "sre-fwdproxy", label: "07 · Proxy (Forward / Egress)", crumb: "Learn / 07 · Proxy (Forward / Egress) (Squid / mitmproxy / NAT)", group: "learn" },
+  { id: "sre-varnish",  label: "08 · Varnish & VCL",    crumb: "Learn / 08 · Varnish & VCL",           group: "learn" },
+  { id: "sre-fastly",   label: "09 · Fastly CDN",       crumb: "Learn / 09 · Fastly CDN & VCL",        group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -3924,7 +3966,8 @@ const VIEW_MAP = {
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
   "sre-edge":     SRE_EdgeView,
-  "sre-proxy":    SRE_ProxyView,
+  "sre-revproxy": SRE_RevProxyView,
+  "sre-fwdproxy": SRE_FwdProxyView,
   "sre-rel":      SRE_ReliabilityView,
   "sre-varnish":  SRE_VarnishView,
   "sre-fastly":   SRE_FastlyView,

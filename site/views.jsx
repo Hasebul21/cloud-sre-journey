@@ -622,9 +622,10 @@ const STAGE_NUM = {
   automation:  "03",
   reliability: "04",
   edge:        "05",
-  proxy:       "06",
-  varnish:     "07",
-  fastly:      "08",
+  revproxy:    "06",
+  fwdproxy:    "07",
+  varnish:     "08",
+  fastly:      "09",
 };
 
 function StatusPill({ pct }) {
@@ -761,7 +762,8 @@ const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
-const SRE_ProxyView       = () => <SreLearningView sectionKey="proxy" />;
+const SRE_RevProxyView    = () => <SreLearningView sectionKey="revproxy" />;
+const SRE_FwdProxyView    = () => <SreLearningView sectionKey="fwdproxy" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 const SRE_VarnishView     = () => <SreLearningView sectionKey="varnish" />;
 const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
@@ -929,6 +931,6 @@ Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_ProxyView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView,
 });

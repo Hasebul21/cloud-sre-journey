@@ -76,6 +76,11 @@ Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 5.6 (
                                    Envoy (sidecar / mesh)          Stage 7 (service mesh)
         │
         ▼
+Forward proxy         APP → INTERNET Squid + mitmproxy              Stage 5.7 (forward / egress)
+(outbound / egress)                NAT Gateway / Cloud NAT
+                                   Istio EgressGateway             Stage 7 (service mesh)
+        │
+        ▼
 Cache layer           DATA         Redis / Memcached (in-mem)      Part D L2 (caching), Part B Phase 4
                                    (Varnish skipped — Fastly
                                     covers VCL at the edge)
@@ -108,7 +113,7 @@ Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 
 ### Frontend / Edge / Backend / Data boundaries
 
 - **Frontend** (browser, JS/CSS/HTML, mobile clients) — you don't study this; it sits above the CDN. Know enough to talk to FE engineers, no more.
-- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** (CDN + API gateway + HAProxy) and **Stage 5.6** (NGINX + Envoy reverse proxies) own this vertical block. Whoever owns the edge owns the SLOs for everyone behind it.
+- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** (CDN + API gateway + HAProxy) and **Stage 5.6** (NGINX + Envoy reverse proxies) own this inbound vertical block. **Stage 5.7** covers the outbound/egress mirror (forward proxies, Squid, NAT, mesh egress). Whoever owns the edge owns the SLOs for everyone behind it.
 - **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 3 (containers), 4 (K8s/CI), 5 (observability), 7 (mesh) all wrap this tier.
 - **Data** (cache + database) — **Part D L2** covers the design patterns; **Part B Phase 2 / 5** covers the implementation.
 
@@ -1077,9 +1082,9 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 5.6 — Proxy & Reverse Proxy
+#### Stage 5.6 — Reverse Proxy (NGINX / Envoy)
 
-> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other.
+> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. *Forward proxies (egress / corporate / Squid) are a different beast — see Stage 5.7.*
 
 **Key topics**
 - **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
@@ -1123,6 +1128,41 @@ FROM employees GROUP BY dept;
 | [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
 
 **Time:** 2–3 weeks if focused. Pairs naturally with Stage 5.5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
+
+---
+
+#### Stage 5.7 — Proxy (Forward / Egress)
+
+> **Why it matters:** A *forward* proxy sits in front of the **client**, not the server — it shapes, caches, filters, or audits *outbound* traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio `EgressGateway`, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). The hot path is different from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. *Reverse proxies — NGINX / Envoy in front of a backend — live in Stage 5.6.*
+
+**Key topics**
+- **Forward vs reverse proxy mental model:** *who* initiates the connection, *who* is hidden, *which side* sets the cache key — read the `Via` and `X-Forwarded-*` headers from both sides
+- **Squid as classic forward + caching proxy:** ACLs, `cache_peer`, parent/sibling hierarchies, authentication helpers (LDAP/NTLM/Kerberos), SSL bumping, transparent intercept (`tproxy` / WCCP), access logging
+- **mitmproxy / mitmweb / mitmdump:** debug outbound traffic from a pod or laptop; TLS MITM via local CA; scripting interceptors in Python; pairing with `iptables` REDIRECT for transparent mode
+- **Cloud egress patterns:** AWS **NAT Gateway** vs **NAT instance** vs **VPC Endpoints** (Interface / Gateway / PrivateLink); GCP **Cloud NAT**; per-AZ NAT cost trap; VPC flow logs as your egress observability
+- **Service-mesh egress:** Istio `EgressGateway`, Envoy as an egress proxy in a sidecar mesh, registering external services as a `ServiceEntry`, policy enforcement at the edge of the mesh
+- **TLS interception trade-offs:** when MITM is appropriate (DLP, compliance) vs when it breaks pinned clients (mobile apps, gRPC), corporate root-CA distribution
+- **NGINX / HAProxy as forward proxies:** rare but possible — when each makes sense and when to reach for Squid instead
+- **Operational gotchas:** PAC-file pinning to one upstream proxy (no failover), HTTPS-only via `CONNECT` (no caching unless you bump), DNS leaks, authentication state in long-lived sessions, NAT port-exhaustion under burst
+
+**Resources — Forward proxy (Squid + mitmproxy + cloud/mesh egress)** *(sorted: learn-first → reference → cloud/mesh specifics)*
+
+| Resource | Type |
+|----------|------|
+| [Cloudflare Learning Center — Forward proxy vs reverse proxy](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) | Mental model first. **Start here** — vendor-neutral and short |
+| [Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube)](https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy) | Protocol-level walkthrough — same channel as the NGINX / HAProxy picks |
+| [Squid official documentation](http://www.squid-cache.org/Doc/) | The canonical reference — `squid.conf` directives, ACLs, cache peering |
+| [Squid Wiki — Squid in 10 minutes / Beginners FAQ](https://wiki.squid-cache.org/SquidFaq/BeginnersFaq) | Concept primers and the fastest path to a working `squid.conf` |
+| [*Squid: The Definitive Guide* — Duane Wessels (O'Reilly)](https://www.oreilly.com/library/view/squid-the-definitive/0596001622/) | The classic book. Older but still the single best deep dive on Squid internals + ACL design |
+| [mitmproxy — official docs](https://docs.mitmproxy.org/stable/) | Intercept, modify, replay HTTP/2/gRPC. **Start here** for testing/debugging egress |
+| [mitmproxy — YouTube channel (workshops + tutorials)](https://www.youtube.com/@mitmproxy) | Short, focused screencasts — TLS bumping, scripting addons, transparent mode |
+| [AWS — NAT Gateway documentation](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) | Authoritative — bandwidth, cost per AZ, port exhaustion behavior |
+| [AWS — VPC Endpoints (Interface, Gateway, PrivateLink)](https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html) | Replace egress to AWS APIs with private endpoints — the canonical "stop paying NAT for S3 traffic" pattern |
+| [Istio — EgressGateway documentation](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/) | Centralized egress in a service mesh: `ServiceEntry`, mTLS to external services, audit + policy |
+| [Envoy — egress proxy filter reference](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro) | How Envoy enforces egress policy in a sidecar mesh — auth filters, RBAC, ext_authz |
+| [Julia Evans — *How HTTPS works* zine + corporate-proxy posts](https://wizardzines.com/zines/https/) | Approachable explanation of TLS interception trade-offs and how MITM proxies work |
+
+**Time:** 1–2 weeks. Lighter than Stage 5.6 — most SREs need *reading-level* fluency unless they own corporate egress or a service mesh's egress gateway. Pairs with Stage 7 (service mesh) when you get there.
 
 ---
 
