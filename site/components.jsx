@@ -288,6 +288,7 @@ function viewGroups() {
     "sre-cloud": ["sreLr_cloud"],
     "sre-auto":  ["sreLr_automation"],
     "sre-edge":  ["sreLr_edge"],
+    "sre-proxy": ["sreLr_proxy"],
     "sre-rel":   ["sreLr_reliability"],
     "sre-varnish": ["sreLr_varnish"],
     "sre-fastly":  ["sreLr_fastly"],

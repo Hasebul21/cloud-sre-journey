@@ -987,8 +987,8 @@ window.SRE_DATA = {
     },
 
     edge: {
-      title: "SRE 5 · CDN & Edge Cache (Fastly / VCL / K8s ingress)",
-      intro: "Two halves of one edge story: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway behind it. NGINX, HAProxy, and Envoy fill in as L7 reverse proxies and load balancers. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 06 & 07.",
+      title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
+      intro: "The front of the request path: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway; HAProxy fronts the cluster as L4/L7 load balancer. L7 reverse proxies (NGINX / Envoy) live in their own track — see Stage 06. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 07 & 08.",
       why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
         // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
@@ -1012,25 +1012,11 @@ window.SRE_DATA = {
         { id: "sed-r-6",  type: "blog", sub: "API Gateway (Kong)",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
         { id: "sed-r-7",  type: "book", sub: "API Gateway (Kong)",   name: "Kong Learning Center — whitepapers + Mastering Kong eBooks",        url: "https://konghq.com/learning-center" },
 
-        // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
-        { id: "sed-r-11", type: "course", sub: "Proxy (NGINX & Envoy)", name: "KodeKloud — Nginx for Beginners — Start here",                      url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
-        { id: "sed-r-30", type: "video", sub: "Proxy (NGINX & Envoy)",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)", url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
-        { id: "sed-r-8",  type: "course", sub: "Proxy (NGINX & Envoy)", name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                       url: "https://www.udemy.com/course/nginx-fundamentals/" },
-        { id: "sed-r-12", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",     url: "https://www.nginx.com/blog/" },
-        { id: "sed-r-9",  type: "book", sub: "Proxy (NGINX & Envoy)",   name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",              url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
-        { id: "sed-r-10", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "Official NGINX docs (module reference)",                            url: "https://nginx.org/en/docs/" },
-        { id: "sed-r-13", type: "book", sub: "Proxy (NGINX & Envoy)",   name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                    url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
-
         // ───── HAProxy (L4/L7 load balancer) — sorted: learn-first → reference ─────
         { id: "sed-r-31", type: "course", sub: "Load Balancer (HAProxy)", name: "KodeKloud — HAProxy for Beginners — Start here",                    url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
         { id: "sed-r-32", type: "video", sub: "Load Balancer (HAProxy)",  name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)",    url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
         { id: "sed-r-33", type: "course", sub: "Load Balancer (HAProxy)", name: "HAProxy Starter Guide (official first-read)",                       url: "https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/" },
         { id: "sed-r-34", type: "blog", sub: "Load Balancer (HAProxy)",   name: "HAProxy official docs (configuration manual)",                      url: "https://docs.haproxy.org/" },
-
-        // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → reference ─────
-        { id: "sed-r-35", type: "course", sub: "Proxy (NGINX & Envoy)", name: "Tetrate Academy — free Envoy + Istio courses — Start here",         url: "https://academy.tetrate.io/" },
-        { id: "sed-r-36", type: "course", sub: "Proxy (NGINX & Envoy)", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose)",     url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
-        { id: "sed-r-37", type: "blog", sub: "Proxy (NGINX & Envoy)",   name: "Envoy official docs ('Life of a Request' + xDS concepts)",          url: "https://www.envoyproxy.io/docs/envoy/latest/" },
 
         // ───── HTTP caching theory (cross-cutting) — sorted: learn-first → tutorials → book/spec ─────
         { id: "sed-r-27", type: "blog", sub: "HTTP caching theory",   name: "MDN — HTTP Caching reference — Start here",                          url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
@@ -1044,12 +1030,52 @@ window.SRE_DATA = {
         { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
         { id: "sed-m-2",  name: "Add rate-limit + JWT plugins to Todo API through Kong; load-test to trip the limiter" },
         { id: "sed-m-3",  name: "Install Kong Ingress Controller on kind; swap one Ingress for KIC; compare behaviour" },
-        { id: "sed-m-4",  name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
-        { id: "sed-m-5",  name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
         { id: "sed-m-6",  name: "Write a Fastly VCL snippet (free dev tier): cache an API response, set a surrogate key, instant-purge it" },
         { id: "sed-m-7",  name: "Implement stale-while-revalidate at the edge; verify behavior when origin returns 5xx" },
         { id: "sed-m-8",  name: "Runbook: 'p99 spiked behind Kong — triage in 10 min' (gateway logs → upstreams → plugins → cache hit ratio)" },
         { id: "sed-m-9",  name: "1-page tradeoff doc: NGINX vs Envoy vs Kong as L7 — when each wins, be opinionated" },
+      ],
+    },
+
+    proxy: {
+      title: "SRE 6 · Proxy & Reverse Proxy (NGINX / Envoy)",
+      intro: "Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. NGINX is the de-facto choice for HTTP-first stacks; Envoy is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other.",
+      why: "Whoever knows the proxy can explain p99 spikes, configure zero-downtime reloads, and turn on microcaching without breaking auth. Resources below are sorted learn-first within each tool group.",
+      resources: [
+        // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
+        { id: "prx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
+        { id: "prx-r-2",  type: "video",  sub: "NGINX",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)",            url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
+        { id: "prx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
+        { id: "prx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
+        { id: "prx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        { id: "prx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
+        { id: "prx-r-7",  type: "blog",   sub: "NGINX",  name: "DigitalOcean — NGINX tutorials (reverse proxy, LB, Let's Encrypt, microcache)", url: "https://www.digitalocean.com/community/tags/nginx" },
+        { id: "prx-r-8",  type: "blog",   sub: "NGINX",  name: "nginxconfig.io — interactive config generator (TLS, HTTP/2, gzip, headers)",    url: "https://www.digitalocean.com/community/tools/nginx" },
+        { id: "prx-r-9",  type: "blog",   sub: "NGINX",  name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",                 url: "https://www.nginx.com/blog/" },
+        { id: "prx-r-10", type: "book",   sub: "NGINX",  name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",                          url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
+        { id: "prx-r-11", type: "blog",   sub: "NGINX",  name: "Official NGINX docs — module reference",                                        url: "https://nginx.org/en/docs/" },
+        { id: "prx-r-12", type: "blog",   sub: "NGINX",  name: "agentzh's nginx tutorials — request lifecycle, variables, rewrite phase",       url: "https://openresty.org/download/agentzh-nginx-tutorials-en.html" },
+        { id: "prx-r-13", type: "book",   sub: "NGINX",  name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                                url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
+
+        // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → hands-on → reference → architecture deep-reads ─────
+        { id: "prx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },
+        { id: "prx-r-21", type: "book",   sub: "Envoy",  name: "Envoy Fundamentals — Tetrate (free PDF, the cleanest intro to xDS)" },
+        { id: "prx-r-22", type: "course", sub: "Envoy",  name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)",        url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
+        { id: "prx-r-23", type: "video",  sub: "Envoy",  name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)",              url: "https://www.youtube.com/@MarcelDempers" },
+        { id: "prx-r-24", type: "video",  sub: "Envoy",  name: "Tetrate — official YouTube channel (Daniel Bryant + Envoy/Istio talks)",        url: "https://www.youtube.com/@tetrateio" },
+        { id: "prx-r-25", type: "video",  sub: "Envoy",  name: "KubeCon EnvoyCon talks (CNCF YouTube) — Lyft, Pinterest, Reddit, Booking",      url: "https://www.youtube.com/@cncf" },
+        { id: "prx-r-26", type: "course", sub: "Envoy",  name: "Solo.io Academy — Envoy / Gloo courses (free tier hands-on labs)",              url: "https://academy.solo.io/" },
+        { id: "prx-r-27", type: "blog",   sub: "Envoy",  name: "Envoy official docs — 'Life of a Request' + listener/cluster/route concepts",   url: "https://www.envoyproxy.io/docs/envoy/latest/" },
+        { id: "prx-r-28", type: "blog",   sub: "Envoy",  name: "envoyproxy/envoy GitHub — examples directory (front-proxy, gRPC, JWT, ext_authz)", url: "https://github.com/envoyproxy/envoy/tree/main/examples" },
+        { id: "prx-r-29", type: "blog",   sub: "Envoy",  name: "Matt Klein (Envoy creator) — talks & blog posts (xDS, filter chains rationale)", url: "https://blog.envoyproxy.io/" },
+      ],
+      milestones: [
+        { id: "prx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
+        { id: "prx-m-2", name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
+        { id: "prx-m-3", name: "Reproduce a zero-downtime config reload under load (SIGHUP); confirm no dropped requests via load-tester" },
+        { id: "prx-m-4", name: "Envoy as a front-proxy via docker-compose: 1 listener + cluster, outlier detection, retry policy, /stats/prometheus" },
+        { id: "prx-m-5", name: "Compare a p99 latency graph for the Todo API behind NGINX vs Envoy under identical load" },
+        { id: "prx-m-6", name: "Walk through an xDS update path: change a route via static config, then via the control-plane snapshot pattern" },
       ],
     },
 

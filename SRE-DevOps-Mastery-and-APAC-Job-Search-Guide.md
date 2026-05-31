@@ -71,7 +71,8 @@ API gateway           EDGE → APP   Kong + Kong Ingress Controller  Stage 5.5 (
 (K8s ingress)
         │
         ▼
-Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 5.5 (NGINX)
+Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 5.6 (NGINX)
+                                   Envoy (L7 front-proxy)          Stage 5.6 (Envoy)
                                    Envoy (sidecar / mesh)          Stage 7 (service mesh)
         │
         ▼
@@ -107,7 +108,7 @@ Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 
 ### Frontend / Edge / Backend / Data boundaries
 
 - **Frontend** (browser, JS/CSS/HTML, mobile clients) — you don't study this; it sits above the CDN. Know enough to talk to FE engineers, no more.
-- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** owns this entire vertical block. This is the merged "CDN & Edge Cache" + L7-proxy tier — whoever owns the edge owns the SLOs for everyone behind it.
+- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** (CDN + API gateway + HAProxy) and **Stage 5.6** (NGINX + Envoy reverse proxies) own this vertical block. Whoever owns the edge owns the SLOs for everyone behind it.
 - **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 3 (containers), 4 (K8s/CI), 5 (observability), 7 (mesh) all wrap this tier.
 - **Data** (cache + database) — **Part D L2** covers the design patterns; **Part B Phase 2 / 5** covers the implementation.
 
@@ -1005,22 +1006,19 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 5.5 — Edge Layer: API Gateway, Reverse Proxy & CDN Cache
+#### Stage 5.5 — CDN, API Gateway & HTTP Caching
 
-> **Why it matters:** Most APAC platforms put one or more of an API gateway (Kong / AWS API Gateway / Apigee), an L7 reverse proxy (NGINX / Envoy), and a CDN edge cache (Fastly / CloudFront / Cloudflare) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Kong + NGINX + Fastly**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface).
+> **Why it matters:** Most APAC platforms put a CDN edge cache (Fastly / CloudFront / Cloudflare) and an API gateway (Kong / AWS API Gateway / Apigee) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Fastly + Kong**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface). HAProxy is included here as the L4/L7 load balancer that often sits at the same tier. *L7 reverse proxies (NGINX / Envoy) live in their own stage — see Stage 5.6.*
 
 **Key topics**
 - **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
 - **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
-- **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
-- **NGINX caching:** `proxy_cache`, microcaching (1–10s TTL on dynamic responses), `proxy_cache_lock`, `proxy_cache_use_stale`, conditional GET, vary headers
 - **HAProxy as L4 + L7 LB:** `frontend`/`backend`/`listen` blocks, ACLs, stick tables, slow-start, connection draining, `option httpchk`, `option redispatch`, runtime API + dynamic config reloads, Prometheus exporter
-- **Envoy as L7 proxy / mesh data plane:** xDS APIs (LDS/CDS/RDS/EDS), listeners + filter chains, clusters + endpoints, outlier detection, retry budgets, circuit breakers, gRPC-aware routing, used as the data plane behind Istio / Kong Mesh / AWS App Mesh
 - **Fastly / edge CDN:** VCL basics, surrogate keys, instant purge, stale-while-revalidate, shielding, Compute@Edge (WASM)
 - **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
 - **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
 
-**Resources — CDN & Edge Cache (Fastly / VCL / K8s ingress)**
+**Resources — CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)**
 
 > Two halves of the same edge story: **Fastly** owns the global CDN + VCL at POPs; **Kong** owns the K8s ingress + API gateway behind it. Same SRE rotation owns both — learn them together. Varnish itself is intentionally skipped (legacy on-prem); Fastly's hosted VCL is the modern path.
 
@@ -1051,21 +1049,6 @@ FROM employees GROUP BY dept;
 | [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs — read once you're comfortable with vanilla Kong |
 | [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
 
-**Resources — NGINX (reverse proxy + cache)** *(sorted: learn-first → recipes → reference → deep dive)*
-
-| Resource | Type |
-|----------|------|
-| [KodeKloud — Nginx for Beginners](https://learn.kodekloud.com/user/courses/nginx-for-beginners) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks. **Start here.** |
-| [Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)](https://www.youtube.com/watch?v=q8OleYuqntY) | ~1-hour project video — install, reverse proxy, static + dynamic, Docker, end-to-end |
-| [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
-| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
-| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
-| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
-| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
-| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
-| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
-| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book — advanced |
-
 **Resources — HAProxy (L4/L7 load balancer)** *(sorted: learn-first → reference → production patterns)*
 
 | Resource | Type |
@@ -1079,19 +1062,6 @@ FROM employees GROUP BY dept;
 | [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
 | [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
 
-**Resources — Envoy (L7 proxy + service-mesh data plane)** *(sorted: learn-first → hands-on → reference → architecture deep-reads)*
-
-| Resource | Type |
-|----------|------|
-| [Tetrate Academy — free Envoy + Istio courses](https://academy.tetrate.io/) | The best structured free Envoy curriculum; certs available. **Start here.** |
-| *Envoy Fundamentals* — Tetrate (free PDF) | Short eBook; the cleanest intro to xDS |
-| [Envoy "Getting Started" + sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start) | Runnable docker-compose sandboxes for front-proxy, gRPC, JWT auth, fault injection |
-| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
-| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
-| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
-| [EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
-| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
-
 **Resources — HTTP caching theory (cross-cutting)** *(sorted: learn-first → tutorials → book/spec)*
 
 | Resource | Type |
@@ -1104,6 +1074,55 @@ FROM employees GROUP BY dept;
 | [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
 
 **Time:** 3–4 weeks if focused. Can run in parallel with Stage 5 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
+
+---
+
+#### Stage 5.6 — Proxy & Reverse Proxy
+
+> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other.
+
+**Key topics**
+- **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
+- **NGINX caching:** `proxy_cache`, microcaching (1–10s TTL on dynamic responses), `proxy_cache_lock`, `proxy_cache_use_stale`, conditional GET, vary headers
+- **NGINX request lifecycle:** rewrite vs access vs content phases, variables, `map` blocks, `if` gotchas, `try_files` order
+- **Envoy as L7 proxy / mesh data plane:** xDS APIs (LDS/CDS/RDS/EDS), listeners + filter chains, clusters + endpoints, outlier detection, retry budgets, circuit breakers, gRPC-aware routing
+- **Envoy in service meshes:** used as the data plane behind Istio / Kong Mesh / AWS App Mesh — sidecar pattern, mTLS, policy enforcement
+- **Operational gotchas:** zero-downtime reloads (NGINX `SIGHUP` vs Envoy hot restart), upstream connection pooling, header buffer sizes, p99 spikes from blocking upstream lookups
+
+**Resources — NGINX (reverse proxy + cache)** *(sorted: learn-first → recipes → reference → deep dive)*
+
+| Resource | Type |
+|----------|------|
+| [KodeKloud — Nginx for Beginners](https://learn.kodekloud.com/user/courses/nginx-for-beginners) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks. **Start here.** |
+| [Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)](https://www.youtube.com/watch?v=q8OleYuqntY) | ~1-hour project video — install, reverse proxy, static + dynamic, Docker, end-to-end |
+| [freeCodeCamp — NGINX Tutorial for Beginners (full course, YouTube)](https://www.youtube.com/watch?v=7VAI73roXaY) | Free ~3-hour course — config anatomy, reverse proxy, load balancing, TLS. Good if you want a structured deep walkthrough without a Udemy account |
+| [TechWorld with Nana — NGINX in 60 Minutes](https://www.youtube.com/watch?v=9t9Mp0BGnyI) | Beginner-friendly visual explanation — concepts → install → reverse proxy → load balancer in one sitting |
+| [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
+| [NGINX, Inc. — official YouTube channel](https://www.youtube.com/@nginx) | NGINX Conf talks, deep-dive webinars on modules, ingress, NGINX Plus features |
+| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
+| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
+| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
+| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
+| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
+| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
+| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book — advanced |
+
+**Resources — Envoy (L7 proxy + service-mesh data plane)** *(sorted: learn-first → hands-on → reference → architecture deep-reads)*
+
+| Resource | Type |
+|----------|------|
+| [Tetrate Academy — free Envoy + Istio courses](https://academy.tetrate.io/) | The best structured free Envoy curriculum; certs available. **Start here.** |
+| *Envoy Fundamentals* — Tetrate (free PDF) | Short eBook; the cleanest intro to xDS |
+| [Envoy "Getting Started" + sandboxes](https://www.envoyproxy.io/docs/envoy/latest/start/start) | Runnable docker-compose sandboxes for front-proxy, gRPC, JWT auth, fault injection |
+| [Marcel Dempers (That DevOps Guy) — Envoy series (YouTube)](https://www.youtube.com/@MarcelDempers) | Free hands-on series — install, front-proxy, observability, mesh data plane. Pairs well with the Tetrate Academy course |
+| [Tetrate — official YouTube channel](https://www.youtube.com/@tetrateio) | Daniel Bryant + community talks on Envoy / Istio in production; the "Envoy Fundamentals" recorded sessions live here |
+| [KubeCon EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
+| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
+| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
+| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
+| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
+
+**Time:** 2–3 weeks if focused. Pairs naturally with Stage 5.5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
 
 ---
 
