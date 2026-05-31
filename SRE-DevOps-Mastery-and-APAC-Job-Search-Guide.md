@@ -130,16 +130,6 @@ When you finish a Stage or Phase, point at this diagram and ask: *"Which tier di
 
 > Start here: [How to Prepare for System Design Interviews](https://www.youtube.com/watch?v=Ru54dxzCyD0)
 
-**5-Step Delivery Framework (applies to all levels):**
-
-| Step | What you do | Time |
-|------|-------------|------|
-| 1. Clarify Requirements | Functional + Non-functional (scale, latency, consistency) | 5 min |
-| 2. Estimate Scale | DAU, QPS, storage, bandwidth — back-of-envelope math | 3 min |
-| 3. High-Level Design | Core components, data flow, API contracts | 10 min |
-| 4. Deep Dives | Bottlenecks, failure modes, specific components | 20 min |
-| 5. Trade-offs | Why X over Y; behavior at 10× scale | 5 min |
-
 #### Level 1 — Foundations
 
 > Master these before any walkthrough. ~2 weeks.
@@ -1112,19 +1102,6 @@ FROM employees GROUP BY dept;
 | [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
 | [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
 | [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
-
-**Hands-on milestones**
-- Run **Kong** locally via docker-compose (DB-less mode), declare two upstream services in `kong.yml`, route them at `/api/todos` and `/api/users`
-- Add **rate-limit + JWT** plugins to your Todo API through Kong; verify with a load test that the limiter actually trips
-- Install **Kong Ingress Controller** on your kind cluster; replace the existing NGINX Ingress for one service and compare
-- Configure **NGINX** as a reverse proxy in front of the Todo API: TLS termination (Let's Encrypt locally with mkcert), `upstream` with keepalive, `proxy_next_upstream` for retries
-- Turn on **`proxy_cache`** for `GET /todos` with a 5s TTL (microcaching); load-test and graph cache HIT/MISS in Prometheus
-- Stand up **HAProxy** as an alternative L7 LB in front of the Todo API; enable the stats page + Prometheus exporter, write a stick-table rule for per-IP rate-limiting, do a zero-downtime config reload under load
-- Run **Envoy** as a front-proxy via docker-compose: define one listener + cluster, enable outlier detection + retry policy, point Prometheus at the `/stats/prometheus` endpoint, then compare a p99 latency graph against the NGINX setup
-- Write a small **VCL snippet** for Fastly (use Fastly's developer edition / free tier): cache an API response, set a surrogate key, invalidate it via API
-- Implement the **stale-while-revalidate** pattern at the edge — observe behavior when origin returns 5xx
-- Write a runbook: *"p99 latency spiked behind Kong — how do I triage in 10 minutes?"* (gateway logs → upstream healthchecks → plugin overhead → cache hit ratio)
-- One-page tradeoff doc: **NGINX vs Envoy vs Kong** as L7 — when each one wins (be opinionated)
 
 **Time:** 3–4 weeks if focused. Can run in parallel with Stage 5 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
 
