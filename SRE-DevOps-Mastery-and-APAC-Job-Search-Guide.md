@@ -239,6 +239,35 @@ When you finish a Stage or Phase, point at this diagram and ask: *"Which tier di
 
 Cross-reference: see **Part D Level 4 (SRE Flavor)** for SRE-specific senior questions (multi-region active-active, log pipeline at 10TB/day, etc.).
 
+#### Distributed Systems Deep Dive — MIT 6.824 (Spring 2020)
+
+> Robert Morris's canonical distributed systems course. Covers Raft, GFS, Spanner, Aurora, Spark, and the core papers behind every modern data system. Strongest signal for L3–L4 system design rounds and paper-driven follow-ups. 20 lectures; pair each lecture with the assigned paper from the [course site](https://pdos.csail.mit.edu/6.824/schedule.html).
+>
+> [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
+
+| # | Lecture | Link |
+|---|---------|------|
+| 1 | Introduction | https://www.youtube.com/watch?v=cQP8WApzIQQ |
+| 2 | RPC and Threads | https://www.youtube.com/watch?v=gA4YXUJX7t8 |
+| 3 | GFS | https://www.youtube.com/watch?v=EpIgvowZr00 |
+| 4 | Primary-Backup Replication | https://www.youtube.com/watch?v=M_teob23ZzY |
+| 5 | Go, Threads, and Raft | https://www.youtube.com/watch?v=UzzcUS2OHqo |
+| 6 | Fault Tolerance: Raft (1) | https://www.youtube.com/watch?v=64Zp3tzNbpE |
+| 7 | Fault Tolerance: Raft (2) | https://www.youtube.com/watch?v=4r8Mz3MMivY |
+| 8 | Zookeeper | https://www.youtube.com/watch?v=pbmyrNjzdDk |
+| 9 | More Replication, CRAQ | https://www.youtube.com/watch?v=IXHzbCuADt0 |
+| 10 | Cloud Replicated DB, Aurora | https://www.youtube.com/watch?v=jJSh54J1s5o |
+| 11 | Cache Consistency: Frangipani | https://www.youtube.com/watch?v=-pKNCjUhPjQ |
+| 12 | Distributed Transactions | https://www.youtube.com/watch?v=aDp99WDIM_4 |
+| 13 | Spanner | https://www.youtube.com/watch?v=4eW5SWBi7vs |
+| 14 | Optimistic Concurrency Control | https://www.youtube.com/watch?v=Cw6Nj2evjSs |
+| 15 | Big Data: Spark | https://www.youtube.com/watch?v=mzIoSW-cInA |
+| 16 | Cache Consistency: Memcached at Facebook | https://www.youtube.com/watch?v=Myp8z0ybdzM |
+| 17 | COPS, Causal Consistency | https://www.youtube.com/watch?v=fR_NB714EAI |
+| 18 | Fork Consistency, Certificate Transparency | https://www.youtube.com/watch?v=UKdLJ7-0iFM |
+| 19 | Bitcoin | https://www.youtube.com/watch?v=K_euhRou98Y |
+| 20 | Blockstack | https://www.youtube.com/watch?v=XvXK_vZ0BNw |
+
 ---
 
 ### 0B. Behavioral Interviews
@@ -1268,30 +1297,7 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 #### Course 1 — MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)
 
-> 20 lectures · the canonical graduate distributed-systems course; pairs directly with Stage 7. [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
-
-| # | Lecture | Link |
-|---|---------|------|
-| 1 | Introduction | https://www.youtube.com/watch?v=cQP8WApzIQQ |
-| 2 | RPC and Threads | https://www.youtube.com/watch?v=gA4YXUJX7t8 |
-| 3 | GFS | https://www.youtube.com/watch?v=EpIgvowZr00 |
-| 4 | Primary-Backup Replication | https://www.youtube.com/watch?v=M_teob23ZzY |
-| 5 | Go, Threads, and Raft | https://www.youtube.com/watch?v=UzzcUS2OHqo |
-| 6 | Fault Tolerance: Raft (1) | https://www.youtube.com/watch?v=64Zp3tzNbpE |
-| 7 | Fault Tolerance: Raft (2) | https://www.youtube.com/watch?v=4r8Mz3MMivY |
-| 8 | Zookeeper | https://www.youtube.com/watch?v=pbmyrNjzdDk |
-| 9 | More Replication, CRAQ | https://www.youtube.com/watch?v=IXHzbCuADt0 |
-| 10 | Cloud Replicated DB, Aurora | https://www.youtube.com/watch?v=jJSh54J1s5o |
-| 11 | Cache Consistency: Frangipani | https://www.youtube.com/watch?v=-pKNCjUhPjQ |
-| 12 | Distributed Transactions | https://www.youtube.com/watch?v=aDp99WDIM_4 |
-| 13 | Spanner | https://www.youtube.com/watch?v=4eW5SWBi7vs |
-| 14 | Optimistic Concurrency Control | https://www.youtube.com/watch?v=Cw6Nj2evjSs |
-| 15 | Big Data: Spark | https://www.youtube.com/watch?v=mzIoSW-cInA |
-| 16 | Cache Consistency: Memcached at Facebook | https://www.youtube.com/watch?v=Myp8z0ybdzM |
-| 17 | COPS, Causal Consistency | https://www.youtube.com/watch?v=fR_NB714EAI |
-| 18 | Fork Consistency, Certificate Transparency | https://www.youtube.com/watch?v=UKdLJ7-0iFM |
-| 19 | Bitcoin | https://www.youtube.com/watch?v=K_euhRou98Y |
-| 20 | Blockstack | https://www.youtube.com/watch?v=XvXK_vZ0BNw |
+> 20 lectures · the canonical graduate distributed-systems course; pairs directly with Stage 7. Full lecture-by-lecture table lives in [Part 0A → Distributed Systems Deep Dive — MIT 6.824](#part-0). [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
 
 #### Course 2 — Stanford CS144 Introduction to Computer Networking (Fall 2013, Philip Levis & Nick McKeown)
 
