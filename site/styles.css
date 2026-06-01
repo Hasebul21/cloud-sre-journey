@@ -494,6 +494,108 @@ button {
   color: var(--ink-3);
 }
 
+/* ───────── Explore-now button (per checklist item) ───────── */
+.explore-btn {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: color 120ms, border-color 120ms, background 120ms, opacity 120ms;
+}
+.checklist li:hover .explore-btn,
+.explore-btn:focus-visible { opacity: 1; }
+.explore-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.explore-btn.active {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ───────── Currently-exploring sidebar panel ───────── */
+.exploring-panel {
+  margin: 10px 14px 4px;
+  padding: 8px 10px 6px;
+  background: var(--paper);
+  border: 1px dashed var(--accent);
+  border-radius: 5px;
+}
+.exploring-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono-font);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.exploring-count {
+  background: var(--accent);
+  color: var(--paper);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1px 6px;
+  min-width: 16px;
+  text-align: center;
+}
+.exploring-panel ul { list-style: none; margin: 0; padding: 0; }
+.exploring-panel li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 0;
+}
+.exploring-item {
+  flex: 1;
+  text-align: left;
+  font-family: var(--hand-font);
+  font-size: 13.5px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 4px;
+  border-radius: 3px;
+  line-height: 1.3;
+}
+.exploring-item:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.exploring-item:disabled { cursor: default; color: var(--ink-3); }
+.exploring-x {
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--ink-3);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.exploring-x:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
 /* ───────── Tag pills ───────── */
 
 .tag {

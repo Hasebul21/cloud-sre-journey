@@ -2993,19 +2993,19 @@ Week 11–12: Company-specific prep (Grab → ride-sharing; Shopee → e-commerc
 
 > **Read this before you start the Learn track.** Eight progressively-richer high-level designs, one per sidebar stage. Each HLD adds *one capability* on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to a globally cached, observable, IaC-provisioned, mesh-egressed system. Tackle the Learn stages in this order: every stage answers "how do I actually build the box I just drew."
 >
-> The 9 sidebar stages (after the Forward/Reverse Proxy split): 01 Networking · 02 Cloud & K8s · 03 Automation · 04 Reliability · 05 CDN, API Gateway & HTTP Caching · 06 Reverse Proxy · 07 Proxy (Forward / Egress) · 08 Varnish & VCL · 09 Fastly CDN.
+> The 9 sidebar stages (Automation moved to the end so the request-path stages flow naturally): 01 Networking · 02 Cloud & K8s · 03 Reliability · 04 CDN, API Gateway & HTTP Caching · 05 Reverse Proxy · 06 Proxy (Forward / Egress) · 07 Varnish & VCL · 08 Fastly CDN · 09 Automation.
 
 | # | Sidebar stage | What's in it (one line) |
 |---|---|---|
 | 01 | Networking | TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything |
 | 02 | Cloud & K8s | Docker, Kubernetes, AWS basics — where every box in the diagram lives |
-| 03 | Automation | Terraform, Ansible, Python/Bash — provisions everything |
-| 04 | Reliability | Prometheus, Grafana, Loki, OTel, SLOs — observes everything |
-| 05 | CDN, API Gateway & HTTP Caching | Fastly (concepts) + Kong + HAProxy + RFC 9111 |
-| 06 | Reverse Proxy | NGINX + Envoy in front of backends |
-| 07 | Proxy (Forward / Egress) | Squid, mitmproxy, NAT, mesh EgressGateway |
-| 08 | Varnish & VCL | On-prem VCL deep dive |
-| 09 | Fastly CDN | Hosted VCL + Compute@Edge — the dedicated Fastly course |
+| 03 | Reliability | Prometheus, Grafana, Loki, OTel, SLOs — observes everything |
+| 04 | CDN, API Gateway & HTTP Caching | Fastly (concepts) + Kong + HAProxy + RFC 9111 |
+| 05 | Reverse Proxy | NGINX + Envoy in front of backends |
+| 06 | Proxy (Forward / Egress) | Squid, mitmproxy, NAT, mesh EgressGateway |
+| 07 | Varnish & VCL | On-prem VCL deep dive |
+| 08 | Fastly CDN | Hosted VCL + Compute@Edge — the dedicated Fastly course |
+| 09 | Automation | Terraform, Ansible, Python/Bash — provisions everything |
 
 ---
 
@@ -3036,7 +3036,7 @@ The smallest thing that can serve a request. Client speaks TCP / TLS / HTTP (**S
 
 ### HLD 2 — Add a reverse proxy in front of the app
 
-**Stage it unlocks:** 06 Reverse Proxy
+**Stage it unlocks:** 05 Reverse Proxy
 
 ```
                   ┌─── TLS terminates here
@@ -3051,19 +3051,19 @@ The smallest thing that can serve a request. Client speaks TCP / TLS / HTTP (**S
                        │                          ▼
                        │                     [PostgreSQL]
                        │
-                       └── Stage 06: zero-downtime reloads,
+                       └── Stage 05: zero-downtime reloads,
                             xDS dynamic config, gRPC routing
 ```
 
 The first layer you put in front of your app. **NGINX** (HTTP-first stacks) or **Envoy** (gRPC + service-mesh data planes) terminates TLS once, fans requests across multiple app pods, retries when an upstream dies, and can microcache hot GETs to absorb traffic spikes.
 
-**Why learn 06 Reverse Proxy** — the moment you have more than one backend pod or want to terminate TLS in one place instead of in every app, you need a reverse proxy. NGINX is the SRE baseline; Envoy is mandatory the moment you touch a service mesh (Istio / Kong Mesh / AWS App Mesh).
+**Why learn 05 Reverse Proxy** — the moment you have more than one backend pod or want to terminate TLS in one place instead of in every app, you need a reverse proxy. NGINX is the SRE baseline; Envoy is mandatory the moment you touch a service mesh (Istio / Kong Mesh / AWS App Mesh).
 
 ---
 
 ### HLD 3 — Add API gateway + L4 load balancer
 
-**Stage it unlocks:** 05 CDN, API Gateway & HTTP Caching *(the Kong + HAProxy + caching-theory parts)*
+**Stage it unlocks:** 04 CDN, API Gateway & HTTP Caching *(the Kong + HAProxy + caching-theory parts)*
 
 ```
                     ┌─── L4 LB: connection-level fan-out, stick tables,
@@ -3077,18 +3077,18 @@ The first layer you put in front of your app. **NGINX** (HTTP-first stacks) or *
                                             Request transforms
                                             Routes /api/v1/todos → todo-svc
                                             Routes /api/v1/users  → user-svc
-                                            (Stage 05)
+                                            (Stage 04)
 ```
 
 Production stacks rarely have just one microservice. **HAProxy** sits in front as a connection-level load balancer (or AWS ALB does this in cloud); **Kong** sits inside the cluster doing JWT auth, rate-limiting, and routing across many backends. NGINX/Envoy still terminates TLS and proxies into the actual app pod.
 
-**Why learn 05 CDN, API Gateway & HTTP Caching** — at any APAC platform (Grab, Mercari, Agoda) someone owns "the edge" — and that's Kong/Apigee for auth + rate-limit, plus HTTP caching theory (`Cache-Control`, `ETag`, `Vary`, `stale-while-revalidate`, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it.
+**Why learn 04 CDN, API Gateway & HTTP Caching** — at any APAC platform (Grab, Mercari, Agoda) someone owns "the edge" — and that's Kong/Apigee for auth + rate-limit, plus HTTP caching theory (`Cache-Control`, `ETag`, `Vary`, `stale-while-revalidate`, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it.
 
 ---
 
 ### HLD 4 — Add a CDN at the global edge
 
-**Stages it unlocks:** 09 Fastly CDN *(and the Fastly piece of Stage 05)*
+**Stages it unlocks:** 08 Fastly CDN *(and the Fastly piece of Stage 04)*
 
 ```
                      ┌── Global edge POPs (Tokyo, Singapore, Sydney…)
@@ -3105,13 +3105,13 @@ Production stacks rarely have just one microservice. **HAProxy** sits in front a
 
 Now you have **two request paths** — the **cache-HIT path** (served at the edge, never touches origin) and the **cache-MISS path** (traverses every layer below). Fastly's POPs sit close to users globally; on a HIT, user-perceived latency drops to single-digit ms regardless of where origin is.
 
-**Why learn 09 Fastly CDN** — Stage 05 covers CDN concepts vendor-neutrally; **Stage 09** is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack.
+**Why learn 08 Fastly CDN** — Stage 04 covers CDN concepts vendor-neutrally; **Stage 08** is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack.
 
 ---
 
 ### HLD 5 — Add observability everywhere
 
-**Stage it unlocks:** 04 Reliability
+**Stage it unlocks:** 03 Reliability
 
 ```
 [Client] ──▶ [Fastly] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
@@ -3144,13 +3144,13 @@ Now you have **two request paths** — the **cache-HIT path** (served at the edg
 
 Every box in HLDs 1–4 now emits metrics (Prometheus exporters or `/metrics` endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall *before* the customer notices the SLO breach.
 
-**Why learn 04 Reliability** — this is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every "SRE" job description tests this in the interview, and *every* incident is graded on how fast you went from page → root cause → fix.
+**Why learn 03 Reliability** — this is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every "SRE" job description tests this in the interview, and *every* incident is graded on how fast you went from page → root cause → fix.
 
 ---
 
 ### HLD 6 — Provision everything as code (no console clicks)
 
-**Stage it unlocks:** 03 Automation
+**Stage it unlocks:** 09 Automation
 
 ```
                   [git repo: terraform/ + ansible/ + helm/ + fastly-vcl/]
@@ -3178,13 +3178,13 @@ Every box in HLDs 1–4 now emits metrics (Prometheus exporters or `/metrics` en
 
 Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Fastly VCL service, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK / fastly-cli running in CI. Drift-free, reviewable, reproducible.
 
-**Why learn 03 Automation** — "the SRE who clicks in the console" is a junior who can't be trusted with prod. The SRE who ships infra via PR with a `terraform plan` diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team).
+**Why learn 09 Automation** — "the SRE who clicks in the console" is a junior who can't be trusted with prod. The SRE who ships infra via PR with a `terraform plan` diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team).
 
 ---
 
 ### HLD 7 — Add on-prem VCL caching (when you can't use a hosted CDN)
 
-**Stage it unlocks:** 08 Varnish & VCL
+**Stage it unlocks:** 07 Varnish & VCL
 
 ```
 Use case: on-prem newspaper / publisher stack (e.g. dn.no via NHST)
@@ -3204,13 +3204,13 @@ Use case: on-prem newspaper / publisher stack (e.g. dn.no via NHST)
 
 The on-prem mirror of HLD 4. When you can't ship every cache fill through a hosted CDN — because of data residency, on-prem-only architecture, or budget — you run **Varnish** on bare metal. Same VCL dialect as Fastly (modulo a few extensions), so the skill transfers in both directions.
 
-**Why learn 08 Varnish & VCL** — directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the `dn.no` reference architecture: multi-backend routing via the `x-backend` header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 09.
+**Why learn 07 Varnish & VCL** — directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the `dn.no` reference architecture: multi-backend routing via the `x-backend` header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 08.
 
 ---
 
 ### HLD 8 — Control outbound traffic (forward proxy / egress)
 
-**Stage it unlocks:** 07 Proxy (Forward / Egress)
+**Stage it unlocks:** 06 Proxy (Forward / Egress)
 
 ```
                      ┌── Forward proxy: sits in front of CLIENT
@@ -3222,26 +3222,26 @@ The on-prem mirror of HLD 4. When you can't ship every cache fill through a host
    │                  ACLs, allowlist,        Stops paying NAT bytes
    │                  audit log,              for S3 / DynamoDB /
    │                  TLS interception        SQS via Gateway / Interface
-   │                  (Stage 07)              endpoints (PrivateLink)
+   │                  (Stage 06)              endpoints (PrivateLink)
    │
    │  Mesh variant:
    └─▶ [Envoy sidecar] ──▶ [Istio EgressGateway] ──▶ [External API]
                                      │
                               centralised egress
                               policy, mTLS, audit
-                              (Stage 07 + Stage 7 mesh)
+                              (Stage 06 + Stage 7 mesh)
 ```
 
 The *other* direction. A reverse proxy hides backend servers from clients; a **forward proxy** hides clients from the internet — and lets you audit, filter, cache, or rewrite outbound calls. Common forms: Squid behind a PAC file for corporate egress, mitmproxy for debugging, AWS NAT Gateway / VPC Endpoints for cloud egress, Istio `EgressGateway` for mesh egress.
 
-**Why learn 07 Proxy (Forward / Egress)** — most SREs need *reading-level* fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks "what external services does Pod X reach?" or finance asks "why is our NAT bill $40k/month?", this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level.
+**Why learn 06 Proxy (Forward / Egress)** — most SREs need *reading-level* fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks "what external services does Pod X reach?" or finance asks "why is our NAT bill $40k/month?", this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level.
 
 ---
 
 ### Reading order at a glance
 
 ```
-Stage 01 → Stage 02 → Stage 06 → Stage 05 → Stage 09 → Stage 04 → Stage 03 → Stage 08 → Stage 07
+Stage 01 → Stage 02 → Stage 05 → Stage 04 → Stage 08 → Stage 03 → Stage 09 → Stage 07 → Stage 06
    ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
  HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7      HLD 8
 foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem   outbound

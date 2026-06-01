@@ -63,6 +63,62 @@ function useDoneSet(group) {
   return [set, toggle];
 }
 
+// ───────── Currently-exploring set ─────────
+// Items the user has flagged as "currently exploring". Map id → { name, group, at }.
+// Auto-removes an entry when that item is marked done elsewhere.
+function useExploring() {
+  const KEY = "exploring";
+  const [map, setMap] = useState(() => loadJSON(KEY, {}));
+
+  useEffect(() => {
+    const sync = () => setMap(loadJSON(KEY, {}));
+    window.addEventListener("sre:exploring", sync);
+    return () => window.removeEventListener("sre:exploring", sync);
+  }, []);
+
+  useEffect(() => {
+    const onAct = (e) => {
+      if (!e.detail || !e.detail.done) return;
+      const cur = loadJSON(KEY, {});
+      if (!cur[e.detail.id]) return;
+      const next = { ...cur };
+      delete next[e.detail.id];
+      saveJSON(KEY, next);
+      Promise.resolve().then(() => {
+        window.dispatchEvent(new CustomEvent("sre:exploring"));
+      });
+    };
+    window.addEventListener("sre:activity", onAct);
+    return () => window.removeEventListener("sre:activity", onAct);
+  }, []);
+
+  const toggle = useCallback((id, payload) => {
+    const cur = loadJSON(KEY, {});
+    const next = { ...cur };
+    if (next[id]) delete next[id];
+    else next[id] = { ...payload, at: Date.now() };
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  const remove = useCallback((id) => {
+    const cur = loadJSON(KEY, {});
+    if (!cur[id]) return;
+    const next = { ...cur };
+    delete next[id];
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  return { map, toggle, remove };
+}
+
 // ───────── Progress bar ─────────
 function Progress({ done, total, label }) {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0;
@@ -87,6 +143,7 @@ function Tag({ level }) {
 // ───────── Checklist ─────────
 function Checklist({ items, group, renderItem }) {
   const [done, toggle] = useDoneSet(group);
+  const { map: exploring, toggle: toggleExploring } = useExploring();
   // Clicks that land on (or inside) a link should navigate, not toggle.
   const onLabelClick = (e, id) => {
     if (e.target.closest && e.target.closest("a")) return;
@@ -96,6 +153,7 @@ function Checklist({ items, group, renderItem }) {
     <ul className="checklist">
       {items.map(it => {
         const isDone = !!done[it.id];
+        const isExp = !!exploring[it.id];
         return (
           <li key={it.id}>
             <div
@@ -112,6 +170,21 @@ function Checklist({ items, group, renderItem }) {
             >
               {renderItem ? renderItem(it, isDone) : it.name}
             </div>
+            {!isDone && (
+              <button
+                type="button"
+                className={"explore-btn " + (isExp ? "active" : "")}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleExploring(it.id, { name: it.name, group });
+                }}
+                title={isExp ? "Stop tracking — remove from sidebar" : "Mark as currently exploring — show in sidebar"}
+                aria-label={isExp ? "Stop exploring" : "Mark as exploring"}
+                aria-pressed={isExp}
+              >
+                {isExp ? "★" : "☆"}
+              </button>
+            )}
           </li>
         );
       })}
@@ -305,7 +378,7 @@ function viewGroups() {
 
 // expose globally
 Object.assign(window, {
-  loadJSON, saveJSON, useStored, useDoneSet,
+  loadJSON, saveJSON, useStored, useDoneSet, useExploring,
   Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
   useStreak, useAllProgress, viewGroups, buildGroupIndex,
   todayKey,

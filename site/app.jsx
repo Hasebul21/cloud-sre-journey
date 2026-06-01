@@ -5,13 +5,13 @@ const NAV = [
   { id: "sre-roadmap",  label: "00 · Roadmap (HLDs)",   crumb: "Learn / 00 · Build-It-Up Roadmap (HLDs)", group: "learn" },
   { id: "sre-net",      label: "01 · Networking",       crumb: "Learn / 01 · Networking",              group: "learn" },
   { id: "sre-cloud",    label: "02 · Cloud & K8s",      crumb: "Learn / 02 · Cloud & K8s",             group: "learn" },
-  { id: "sre-auto",     label: "03 · Automation",       crumb: "Learn / 03 · Automation",              group: "learn" },
-  { id: "sre-rel",      label: "04 · Reliability",      crumb: "Learn / 04 · Reliability",             group: "learn" },
-  { id: "sre-edge",     label: "05 · CDN, API Gateway & HTTP Caching", crumb: "Learn / 05 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)", group: "learn" },
-  { id: "sre-revproxy", label: "06 · Reverse Proxy",    crumb: "Learn / 06 · Reverse Proxy (NGINX / Envoy)",          group: "learn" },
-  { id: "sre-fwdproxy", label: "07 · Proxy (Forward / Egress)", crumb: "Learn / 07 · Proxy (Forward / Egress) (Squid / mitmproxy / NAT)", group: "learn" },
-  { id: "sre-varnish",  label: "08 · Varnish & VCL",    crumb: "Learn / 08 · Varnish & VCL",           group: "learn" },
-  { id: "sre-fastly",   label: "09 · Fastly CDN",       crumb: "Learn / 09 · Fastly CDN & VCL",        group: "learn" },
+  { id: "sre-rel",      label: "03 · Reliability",      crumb: "Learn / 03 · Reliability",             group: "learn" },
+  { id: "sre-edge",     label: "04 · CDN, API Gateway & HTTP Caching", crumb: "Learn / 04 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)", group: "learn" },
+  { id: "sre-revproxy", label: "05 · Reverse Proxy",    crumb: "Learn / 05 · Reverse Proxy (NGINX / Envoy)",          group: "learn" },
+  { id: "sre-fwdproxy", label: "06 · Proxy (Forward / Egress)", crumb: "Learn / 06 · Proxy (Forward / Egress) (Squid / mitmproxy / NAT)", group: "learn" },
+  { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
+  { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",        group: "learn" },
+  { id: "sre-auto",     label: "09 · Automation",       crumb: "Learn / 09 · Automation",              group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -55,6 +55,98 @@ function renderCrumb(crumb) {
   const head = parts.slice(0, -1).join(" / ");
   const leaf = parts[parts.length - 1];
   return <>{head}&nbsp;&nbsp;/&nbsp;&nbsp;<span className="leaf">{leaf}</span></>;
+}
+
+// LeetCode's own GraphQL endpoint doesn't return CORS headers, so fetch the
+// daily slug from a public mirror (leetcode-api-pied) and cache it for the
+// rest of the day. Falls back to the daily filter page on any failure.
+function DailyLeetCodeLink() {
+  const FALLBACK = "https://leetcode.com/problemset/?daily=true";
+  const todayUTC = () => new Date().toISOString().slice(0, 10);
+  const getCached = () => {
+    const c = loadJSON("lc-daily", null);
+    return c && c.date === todayUTC() ? c.url : null;
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    const cached = getCached();
+    if (cached) {
+      window.open(cached, "_blank", "noopener");
+      return;
+    }
+    const win = window.open("about:blank", "_blank", "noopener");
+    const finish = (url) => {
+      if (win) win.location.href = url;
+      else window.open(url, "_blank", "noopener");
+    };
+    fetch("https://leetcode-api-pied.vercel.app/daily")
+      .then((r) => r.json())
+      .then((d) => {
+        const path = d && d.link;
+        const url = path ? "https://leetcode.com" + path : FALLBACK;
+        if (path) saveJSON("lc-daily", { date: todayUTC(), url });
+        finish(url);
+      })
+      .catch(() => finish(FALLBACK));
+  };
+
+  return (
+    <a
+      className="lc-daily"
+      href={getCached() || FALLBACK}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Open today's LeetCode Daily Challenge in a new tab"
+      onClick={handleClick}
+    >
+      <span className="lc-daily-badge">LC</span>
+      <span className="lc-daily-label">Daily LeetCode</span>
+      <span className="lc-daily-arrow">↗</span>
+    </a>
+  );
+}
+
+function ExploringPanel({ go }) {
+  const { map, remove } = useExploring();
+  const entries = Object.entries(map).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
+  if (entries.length === 0) return null;
+  const vg = viewGroups();
+  const findView = (grp) => {
+    for (const [v, gs] of Object.entries(vg)) if (gs.includes(grp)) return v;
+    return null;
+  };
+  return (
+    <div className="exploring-panel">
+      <div className="exploring-head">
+        <span>Currently exploring</span>
+        <span className="exploring-count">{entries.length}</span>
+      </div>
+      <ul>
+        {entries.map(([id, meta]) => {
+          const view = findView(meta.group);
+          return (
+            <li key={id}>
+              <button
+                className="exploring-item"
+                onClick={() => view && go(view)}
+                title={meta.name + (view ? "" : " (no destination view)")}
+                disabled={!view}
+              >
+                {meta.name}
+              </button>
+              <button
+                className="exploring-x"
+                onClick={() => remove(id)}
+                title="Remove from currently exploring"
+                aria-label="Remove"
+              >×</button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 function ThemeToggle() {
@@ -102,21 +194,13 @@ function App() {
       <aside className="sidebar">
         <div className="brand">SRE Notebook<span className="dot">.</span></div>
 
-        <a
-          className="lc-daily"
-          href="https://leetcode.com/problemset/?daily=true"
-          target="_blank"
-          rel="noopener noreferrer"
-          title="Open today's LeetCode Daily Challenge in a new tab"
-        >
-          <span className="lc-daily-badge">LC</span>
-          <span className="lc-daily-label">Daily LeetCode</span>
-          <span className="lc-daily-arrow">↗</span>
-        </a>
+        <DailyLeetCodeLink />
 
         <div className="search" title="Search not wired yet">
           <span className="kbd-hint">⌘K</span> search…
         </div>
+
+        <ExploringPanel go={go} />
 
         <nav className="nav">
           {NAV.map(n => {

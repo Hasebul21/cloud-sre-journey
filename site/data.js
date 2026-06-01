@@ -264,13 +264,13 @@ window.SRE_DATA = {
     stageMap: [
       { num: "01", name: "Networking",                       desc: "TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything" },
       { num: "02", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
-      { num: "03", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
-      { num: "04", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
-      { num: "05", name: "CDN, API Gateway & HTTP Caching",  desc: "Fastly (concepts) + Kong + HAProxy + RFC 9111" },
-      { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Envoy in front of backends" },
-      { num: "07", name: "Proxy (Forward / Egress)",         desc: "Squid, mitmproxy, NAT, mesh EgressGateway" },
-      { num: "08", name: "Varnish & VCL",                    desc: "On-prem VCL deep dive" },
-      { num: "09", name: "Fastly CDN",                       desc: "Hosted VCL + Compute@Edge — the dedicated Fastly course" },
+      { num: "03", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
+      { num: "04", name: "CDN, API Gateway & HTTP Caching",  desc: "Fastly (concepts) + Kong + HAProxy + RFC 9111" },
+      { num: "05", name: "Reverse Proxy",                    desc: "NGINX + Envoy in front of backends" },
+      { num: "06", name: "Proxy (Forward / Egress)",         desc: "Squid, mitmproxy, NAT, mesh EgressGateway" },
+      { num: "07", name: "Varnish & VCL",                    desc: "On-prem VCL deep dive" },
+      { num: "08", name: "Fastly CDN",                       desc: "Hosted VCL + Compute@Edge — the dedicated Fastly course" },
+      { num: "09", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
     ],
     hlds: [
       {
@@ -297,7 +297,7 @@ window.SRE_DATA = {
       {
         id: "hld-2",
         title: "HLD 2 — Add a reverse proxy in front of the app",
-        unlocks: "Stage 06 Reverse Proxy",
+        unlocks: "Stage 05 Reverse Proxy",
         diagram:
 `                  ┌─── TLS terminates here
                   │    Routes by Host / path
@@ -311,17 +311,17 @@ window.SRE_DATA = {
                        │                          ▼
                        │                     [PostgreSQL]
                        │
-                       └── Stage 06: zero-downtime reloads,
+                       └── Stage 05: zero-downtime reloads,
                             xDS dynamic config, gRPC routing`,
         body: "The first layer you put in front of your app. NGINX (HTTP-first stacks) or Envoy (gRPC + service-mesh data planes) terminates TLS once, fans requests across multiple app pods, retries when an upstream dies, and can microcache hot GETs to absorb traffic spikes.",
         why: [
-          { stage: "06 Reverse Proxy", text: "The moment you have more than one backend pod or want to terminate TLS in one place instead of in every app, you need a reverse proxy. NGINX is the SRE baseline; Envoy is mandatory the moment you touch a service mesh (Istio / Kong Mesh / AWS App Mesh)." },
+          { stage: "05 Reverse Proxy", text: "The moment you have more than one backend pod or want to terminate TLS in one place instead of in every app, you need a reverse proxy. NGINX is the SRE baseline; Envoy is mandatory the moment you touch a service mesh (Istio / Kong Mesh / AWS App Mesh)." },
         ],
       },
       {
         id: "hld-3",
         title: "HLD 3 — Add API gateway + L4 load balancer",
-        unlocks: "Stage 05 CDN, API Gateway & HTTP Caching (Kong + HAProxy + caching-theory parts)",
+        unlocks: "Stage 04 CDN, API Gateway & HTTP Caching (Kong + HAProxy + caching-theory parts)",
         diagram:
 `                    ┌─── L4 LB: connection-level fan-out, stick tables,
                     │    zero-downtime reloads
@@ -334,16 +334,16 @@ window.SRE_DATA = {
                                             Request transforms
                                             Routes /api/v1/todos → todo-svc
                                             Routes /api/v1/users  → user-svc
-                                            (Stage 05)`,
+                                            (Stage 04)`,
         body: "Production stacks rarely have just one microservice. HAProxy sits in front as a connection-level load balancer (or AWS ALB does this in cloud); Kong sits inside the cluster doing JWT auth, rate-limiting, and routing across many backends. NGINX/Envoy still terminates TLS and proxies into the actual app pod.",
         why: [
-          { stage: "05 CDN, API Gateway & HTTP Caching", text: "At any APAC platform (Grab, Mercari, Agoda) someone owns 'the edge' — Kong/Apigee for auth + rate-limit, plus HTTP caching theory (Cache-Control, ETag, Vary, stale-while-revalidate, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it." },
+          { stage: "04 CDN, API Gateway & HTTP Caching", text: "At any APAC platform (Grab, Mercari, Agoda) someone owns 'the edge' — Kong/Apigee for auth + rate-limit, plus HTTP caching theory (Cache-Control, ETag, Vary, stale-while-revalidate, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it." },
         ],
       },
       {
         id: "hld-4",
         title: "HLD 4 — Add a CDN at the global edge",
-        unlocks: "Stage 09 Fastly CDN (and the Fastly piece of Stage 05)",
+        unlocks: "Stage 08 Fastly CDN (and the Fastly piece of Stage 04)",
         diagram:
 `                     ┌── Global edge POPs (Tokyo, Singapore, Sydney…)
                      │   VCL at the edge
@@ -357,13 +357,13 @@ window.SRE_DATA = {
                   └──────────────── response flows back, gets cached at edge ◀───────────────┘`,
         body: "Now you have two request paths — the cache-HIT path (served at the edge, never touches origin) and the cache-MISS path (traverses every layer below). Fastly's POPs sit close to users globally; on a HIT, user-perceived latency drops to single-digit ms regardless of where origin is.",
         why: [
-          { stage: "09 Fastly CDN", text: "Stage 05 covers CDN concepts vendor-neutrally; Stage 09 is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack." },
+          { stage: "08 Fastly CDN", text: "Stage 04 covers CDN concepts vendor-neutrally; Stage 08 is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack." },
         ],
       },
       {
         id: "hld-5",
         title: "HLD 5 — Add observability everywhere",
-        unlocks: "Stage 04 Reliability",
+        unlocks: "Stage 03 Reliability",
         diagram:
 `[Client] ──▶ [Fastly] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
                 │             │            │           │          │         │
@@ -393,13 +393,13 @@ window.SRE_DATA = {
                                                  the user notices)`,
         body: "Every box in HLDs 1–4 now emits metrics (Prometheus exporters or /metrics endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall before the customer notices the SLO breach.",
         why: [
-          { stage: "04 Reliability", text: "This is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every 'SRE' job description tests this in the interview, and every incident is graded on how fast you went from page → root cause → fix." },
+          { stage: "03 Reliability", text: "This is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every 'SRE' job description tests this in the interview, and every incident is graded on how fast you went from page → root cause → fix." },
         ],
       },
       {
         id: "hld-6",
         title: "HLD 6 — Provision everything as code (no console clicks)",
-        unlocks: "Stage 03 Automation",
+        unlocks: "Stage 09 Automation",
         diagram:
 `                  [git repo: terraform/ + ansible/ + helm/ + fastly-vcl/]
                                        │
@@ -424,13 +424,13 @@ window.SRE_DATA = {
                   every box in HLDs 1–5 is created by code, not the console`,
         body: "Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Fastly VCL service, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK / fastly-cli running in CI. Drift-free, reviewable, reproducible.",
         why: [
-          { stage: "03 Automation", text: "'The SRE who clicks in the console' is a junior who can't be trusted with prod. The SRE who ships infra via PR with a terraform plan diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team)." },
+          { stage: "09 Automation", text: "'The SRE who clicks in the console' is a junior who can't be trusted with prod. The SRE who ships infra via PR with a terraform plan diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team)." },
         ],
       },
       {
         id: "hld-7",
         title: "HLD 7 — Add on-prem VCL caching (when you can't use a hosted CDN)",
-        unlocks: "Stage 08 Varnish & VCL",
+        unlocks: "Stage 07 Varnish & VCL",
         diagram:
 `Use case: on-prem newspaper / publisher stack (e.g. dn.no via NHST)
           can't ship every cache fill to a hosted CDN
@@ -447,13 +447,13 @@ window.SRE_DATA = {
 [Client in EU] ──▶ [Varnish on-prem cluster] ──cache HIT─────▶  RAM-speed response`,
         body: "The on-prem mirror of HLD 4. When you can't ship every cache fill through a hosted CDN — because of data residency, on-prem-only architecture, or budget — you run Varnish on bare metal. Same VCL dialect as Fastly (modulo a few extensions), so the skill transfers in both directions.",
         why: [
-          { stage: "08 Varnish & VCL", text: "Directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the dn.no reference architecture: multi-backend routing via the x-backend header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 09." },
+          { stage: "07 Varnish & VCL", text: "Directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the dn.no reference architecture: multi-backend routing via the x-backend header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 08." },
         ],
       },
       {
         id: "hld-8",
         title: "HLD 8 — Control outbound traffic (forward proxy / egress)",
-        unlocks: "Stage 07 Proxy (Forward / Egress)",
+        unlocks: "Stage 06 Proxy (Forward / Egress)",
         diagram:
 `                     ┌── Forward proxy: sits in front of CLIENT
                      │   Audits / filters / caches OUTBOUND traffic
@@ -464,23 +464,23 @@ window.SRE_DATA = {
    │                  ACLs, allowlist,        Stops paying NAT bytes
    │                  audit log,              for S3 / DynamoDB /
    │                  TLS interception        SQS via Gateway / Interface
-   │                  (Stage 07)              endpoints (PrivateLink)
+   │                  (Stage 06)              endpoints (PrivateLink)
    │
    │  Mesh variant:
    └─▶ [Envoy sidecar] ──▶ [Istio EgressGateway] ──▶ [External API]
                                      │
                               centralised egress
                               policy, mTLS, audit
-                              (Stage 07 + Stage 7 mesh)`,
+                              (Stage 06 + Stage 7 mesh)`,
         body: "The other direction. A reverse proxy hides backend servers from clients; a forward proxy hides clients from the internet — and lets you audit, filter, cache, or rewrite outbound calls. Common forms: Squid behind a PAC file for corporate egress, mitmproxy for debugging, AWS NAT Gateway / VPC Endpoints for cloud egress, Istio EgressGateway for mesh egress.",
         why: [
-          { stage: "07 Proxy (Forward / Egress)", text: "Most SREs need reading-level fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks 'what external services does Pod X reach?' or finance asks 'why is our NAT bill $40k/month?', this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level." },
+          { stage: "06 Proxy (Forward / Egress)", text: "Most SREs need reading-level fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks 'what external services does Pod X reach?' or finance asks 'why is our NAT bill $40k/month?', this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level." },
         ],
       },
     ],
     readingOrder: {
       diagram:
-`Stage 01 → Stage 02 → Stage 06 → Stage 05 → Stage 09 → Stage 04 → Stage 03 → Stage 08 → Stage 07
+`Stage 01 → Stage 02 → Stage 05 → Stage 04 → Stage 08 → Stage 03 → Stage 09 → Stage 07 → Stage 06
    ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
  HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7      HLD 8
 foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem   outbound
@@ -1082,7 +1082,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     automation: {
-      title: "SRE 3 · Automation — IaC + CI/CD + GitOps",
+      title: "SRE 9 · Automation — IaC + CI/CD + GitOps",
       resources: [
         { id: "sau-r-1",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
         { id: "sau-r-2",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
@@ -1208,7 +1208,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     edge: {
-      title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
+      title: "SRE 4 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
       resources: [
         // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
         { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
@@ -1257,7 +1257,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     revproxy: {
-      title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
+      title: "SRE 5 · Reverse Proxy (NGINX / Envoy)",
       resources: [
         // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
         { id: "rprx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
@@ -1298,7 +1298,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     fwdproxy: {
-      title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
+      title: "SRE 6 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
       resources: [
         // ───── Concepts — forward vs reverse proxy mental model ─────
         { id: "fprx-r-1",  type: "blog",   sub: "Concepts",          name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here",        url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
@@ -1334,7 +1334,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     reliability: {
-      title: "SRE 4 · Observability & Reliability Practice",
+      title: "SRE 3 · Observability & Reliability Practice",
       resources: [
         { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
         { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
@@ -1379,7 +1379,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     varnish: {
-      title: "SRE 6 · Edge Caching with Varnish & VCL",
+      title: "SRE 7 · Edge Caching with Varnish & VCL",
       resources: [
         { id: "vrn-r-1",  type: "video", sub: "Intro & concepts",  name: "Varnish in 100 Seconds (mental model)" },
         { id: "vrn-r-2",  type: "video", sub: "Intro & concepts",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
@@ -1432,7 +1432,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     fastly: {
-      title: "SRE 7 · Fastly CDN & VCL on Terraform",
+      title: "SRE 8 · Fastly CDN & VCL on Terraform",
       resources: [
         { id: "fst-r-1",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
         { id: "fst-r-2",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Variables (req / bereq / beresp / obj / resp / client)", url: "https://www.fastly.com/documentation/reference/vcl/variables/" },
