@@ -2794,12 +2794,12 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 ### Language
 
 **Go**
-- [Go: The Complete Developer's Guide](https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1) — Udemy (Stephen Grider)
-- [Go crash course](https://www.youtube.com/watch?v=yyUHQIec83I) — YouTube
-- [Go tutorial](https://www.youtube.com/watch?v=t8pPdKYpowI) — YouTube
+- [Go: The Complete Developer's Guide (Stephen Grider)](https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1) — Udemy · paid · concurrency, interfaces, web servers
+- [Golang Tutorial for Beginners — Full Go Course](https://www.youtube.com/watch?v=yyUHQIec83I) — YouTube · free · syntax + idioms walkthrough
 
 **Python / FastAPI**
-- [FastAPI — The Complete Course](https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1) — Udemy
+- [FastAPI — The Complete Course](https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1) — Udemy · paid · async API, Pydantic, OpenAPI, auth
+- [Python Tutorial for Beginners — Learn Python in 5 Hours [Full Course]](https://www.youtube.com/watch?v=t8pPdKYpowI) — YouTube · free · language fundamentals from scratch
 
 ---
 
