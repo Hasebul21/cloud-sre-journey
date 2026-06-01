@@ -102,6 +102,18 @@ function App() {
       <aside className="sidebar">
         <div className="brand">SRE Notebook<span className="dot">.</span></div>
 
+        <a
+          className="lc-daily"
+          href="https://leetcode.com/problemset/?daily=true"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open today's LeetCode Daily Challenge in a new tab"
+        >
+          <span className="lc-daily-badge">LC</span>
+          <span className="lc-daily-label">Daily LeetCode</span>
+          <span className="lc-daily-arrow">↗</span>
+        </a>
+
         <div className="search" title="Search not wired yet">
           <span className="kbd-hint">⌘K</span> search…
         </div>
