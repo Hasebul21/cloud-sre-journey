@@ -893,6 +893,12 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     { id: "co-go",     type: "course", name: "A Tour of Go",                          plat: "go.dev",            cost: "FREE",   url: "https://go.dev/tour/" },
     { id: "co-finops", type: "course", name: "FinOps Certified Practitioner",         plat: "FinOps Foundation", cost: "$325",   url: "https://www.finops.org/training/certifications/fcp/" },
   ],
+  language: [
+    { id: "lang-go-grider", lang: "Go",              type: "course", name: "Go: The Complete Developer's Guide (Stephen Grider)", plat: "Udemy",   url: "https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1" },
+    { id: "lang-go-yt1",    lang: "Go",              type: "video",  name: "Go crash course",                                    plat: "YouTube", url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
+    { id: "lang-go-yt2",    lang: "Go",              type: "video",  name: "Go tutorial",                                        plat: "YouTube", url: "https://www.youtube.com/watch?v=t8pPdKYpowI" },
+    { id: "lang-fastapi",   lang: "Python / FastAPI", type: "course", name: "FastAPI — The Complete Course",                     plat: "Udemy",   url: "https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1" },
+  ],
 
   // ────────────────────────────────────────────────────────────────
   // SRE LEARNING — Become an SRE (curated path with resources)

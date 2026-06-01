@@ -556,6 +556,19 @@ function PartJView() {
         )}
       />
 
+      <SectionCard title="Language"
+        items={D.language}
+        group="language"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <ResourceTag type={it.type} />
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <strong>{it.name}</strong>}
+            <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{it.lang} · {it.plat}</span>
+          </span>
+        )}
+      />
+
       <section className="section-card">
         <h2>Practice platforms</h2>
         <ul className="checklist">
