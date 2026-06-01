@@ -568,11 +568,21 @@ button {
   text-align: center;
 }
 .exploring-panel ul { list-style: none; margin: 0; padding: 0; }
-.exploring-panel li {
+.exploring-li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 3px 0;
+}
+.exploring-li + .exploring-li {
+  border-top: 1px dotted var(--line-soft);
+  padding-top: 5px;
+  margin-top: 2px;
+}
+.exploring-row {
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 0;
+  gap: 2px;
 }
 .exploring-item {
   flex: 1;
@@ -592,18 +602,51 @@ button {
   color: var(--accent);
 }
 .exploring-item:disabled { cursor: default; color: var(--ink-3); }
+.exploring-note-btn,
 .exploring-x {
   width: 18px;
   height: 18px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1;
   color: var(--ink-3);
   border-radius: 3px;
   flex-shrink: 0;
 }
+.exploring-note-btn:hover,
 .exploring-x:hover {
   color: var(--accent);
   background: var(--accent-soft);
+}
+.exploring-note-btn.has-note { color: var(--accent); }
+.exploring-x { font-size: 14px; }
+.exploring-meta {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  color: var(--ink-3);
+  padding: 0 4px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.exploring-when { font-weight: 600; }
+.exploring-note {
+  font-family: var(--hand-font);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  margin-left: 4px;
+}
+.exploring-note-input {
+  width: 100%;
+  font: inherit;
+  font-family: var(--hand-font);
+  font-size: 12.5px;
+  padding: 3px 6px;
+  background: var(--paper);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  color: var(--ink);
+  outline: none;
 }
 
 /* ───────── Tag pills ───────── */
@@ -3260,7 +3303,33 @@ function useExploring() {
     });
   }, []);
 
-  return { map, toggle, remove };
+  // Bump the `at` timestamp for an item — call when the user re-engages so
+  // the most-recently-touched one floats to the top of the exploring list.
+  const touch = useCallback((id) => {
+    const cur = loadJSON(KEY, {});
+    if (!cur[id]) return;
+    const next = { ...cur, [id]: { ...cur[id], at: Date.now() } };
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  // Persist a one-line "where I left off" breadcrumb for an item.
+  const setNote = useCallback((id, note) => {
+    const cur = loadJSON(KEY, {});
+    if (!cur[id]) return;
+    const trimmed = (note || "").trim();
+    const next = { ...cur, [id]: { ...cur[id], note: trimmed, at: Date.now() } };
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  return { map, toggle, remove, touch, setNote };
 }
 
 // ───────── Progress bar ─────────
@@ -4607,8 +4676,23 @@ function DailyLeetCodeLink() {
   );
 }
 
+function relTime(ts) {
+  if (!ts) return "";
+  const diff = Math.max(0, Date.now() - ts) / 1000;
+  if (diff < 60) return "just now";
+  if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+  if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+  const days = Math.floor(diff / 86400);
+  if (days === 1) return "yesterday";
+  if (days < 7) return days + "d ago";
+  if (days < 30) return Math.floor(days / 7) + "w ago";
+  return Math.floor(days / 30) + "mo ago";
+}
+
 function ExploringPanel({ go }) {
-  const { map, remove } = useExploring();
+  const { map, remove, touch, setNote } = useExploring();
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState("");
   const entries = Object.entries(map).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
   if (entries.length === 0) return null;
   const vg = viewGroups();
@@ -4616,6 +4700,8 @@ function ExploringPanel({ go }) {
     for (const [v, gs] of Object.entries(vg)) if (gs.includes(grp)) return v;
     return null;
   };
+  const startEdit = (id, note) => { setDraft(note || ""); setEditingId(id); };
+  const commitEdit = (id) => { setNote(id, draft); setEditingId(null); };
   return (
     <div className="exploring-panel">
       <div className="exploring-head">
@@ -4625,22 +4711,51 @@ function ExploringPanel({ go }) {
       <ul>
         {entries.map(([id, meta]) => {
           const view = findView(meta.group);
+          const isEditing = editingId === id;
           return (
-            <li key={id}>
-              <button
-                className="exploring-item"
-                onClick={() => view && go(view)}
-                title={meta.name + (view ? "" : " (no destination view)")}
-                disabled={!view}
-              >
-                {meta.name}
-              </button>
-              <button
-                className="exploring-x"
-                onClick={() => remove(id)}
-                title="Remove from currently exploring"
-                aria-label="Remove"
-              >×</button>
+            <li key={id} className="exploring-li">
+              <div className="exploring-row">
+                <button
+                  className="exploring-item"
+                  onClick={() => { if (view) { touch(id); go(view); } }}
+                  title={meta.name + (view ? "" : " (no destination view)")}
+                  disabled={!view}
+                >
+                  {meta.name}
+                </button>
+                <button
+                  className={"exploring-note-btn " + (meta.note ? "has-note" : "")}
+                  onClick={() => isEditing ? commitEdit(id) : startEdit(id, meta.note)}
+                  title={meta.note ? "Edit 'where I left off' note" : "Add a 'where I left off' note"}
+                  aria-label="Edit note"
+                >✎</button>
+                <button
+                  className="exploring-x"
+                  onClick={() => remove(id)}
+                  title="Remove from currently exploring"
+                  aria-label="Remove"
+                >×</button>
+              </div>
+              {isEditing ? (
+                <input
+                  className="exploring-note-input"
+                  autoFocus
+                  type="text"
+                  value={draft}
+                  placeholder="where I left off…"
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") commitEdit(id);
+                    else if (e.key === "Escape") setEditingId(null);
+                  }}
+                  onBlur={() => commitEdit(id)}
+                />
+              ) : (
+                <div className="exploring-meta">
+                  <span className="exploring-when">{relTime(meta.at)}</span>
+                  {meta.note && <span className="exploring-note" title={meta.note}>· {meta.note}</span>}
+                </div>
+              )}
             </li>
           );
         })}

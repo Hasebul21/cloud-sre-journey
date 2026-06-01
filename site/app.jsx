@@ -107,8 +107,23 @@ function DailyLeetCodeLink() {
   );
 }
 
+function relTime(ts) {
+  if (!ts) return "";
+  const diff = Math.max(0, Date.now() - ts) / 1000;
+  if (diff < 60) return "just now";
+  if (diff < 3600) return Math.floor(diff / 60) + "m ago";
+  if (diff < 86400) return Math.floor(diff / 3600) + "h ago";
+  const days = Math.floor(diff / 86400);
+  if (days === 1) return "yesterday";
+  if (days < 7) return days + "d ago";
+  if (days < 30) return Math.floor(days / 7) + "w ago";
+  return Math.floor(days / 30) + "mo ago";
+}
+
 function ExploringPanel({ go }) {
-  const { map, remove } = useExploring();
+  const { map, remove, touch, setNote } = useExploring();
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState("");
   const entries = Object.entries(map).sort((a, b) => (b[1].at || 0) - (a[1].at || 0));
   if (entries.length === 0) return null;
   const vg = viewGroups();
@@ -116,6 +131,8 @@ function ExploringPanel({ go }) {
     for (const [v, gs] of Object.entries(vg)) if (gs.includes(grp)) return v;
     return null;
   };
+  const startEdit = (id, note) => { setDraft(note || ""); setEditingId(id); };
+  const commitEdit = (id) => { setNote(id, draft); setEditingId(null); };
   return (
     <div className="exploring-panel">
       <div className="exploring-head">
@@ -125,22 +142,51 @@ function ExploringPanel({ go }) {
       <ul>
         {entries.map(([id, meta]) => {
           const view = findView(meta.group);
+          const isEditing = editingId === id;
           return (
-            <li key={id}>
-              <button
-                className="exploring-item"
-                onClick={() => view && go(view)}
-                title={meta.name + (view ? "" : " (no destination view)")}
-                disabled={!view}
-              >
-                {meta.name}
-              </button>
-              <button
-                className="exploring-x"
-                onClick={() => remove(id)}
-                title="Remove from currently exploring"
-                aria-label="Remove"
-              >×</button>
+            <li key={id} className="exploring-li">
+              <div className="exploring-row">
+                <button
+                  className="exploring-item"
+                  onClick={() => { if (view) { touch(id); go(view); } }}
+                  title={meta.name + (view ? "" : " (no destination view)")}
+                  disabled={!view}
+                >
+                  {meta.name}
+                </button>
+                <button
+                  className={"exploring-note-btn " + (meta.note ? "has-note" : "")}
+                  onClick={() => isEditing ? commitEdit(id) : startEdit(id, meta.note)}
+                  title={meta.note ? "Edit 'where I left off' note" : "Add a 'where I left off' note"}
+                  aria-label="Edit note"
+                >✎</button>
+                <button
+                  className="exploring-x"
+                  onClick={() => remove(id)}
+                  title="Remove from currently exploring"
+                  aria-label="Remove"
+                >×</button>
+              </div>
+              {isEditing ? (
+                <input
+                  className="exploring-note-input"
+                  autoFocus
+                  type="text"
+                  value={draft}
+                  placeholder="where I left off…"
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") commitEdit(id);
+                    else if (e.key === "Escape") setEditingId(null);
+                  }}
+                  onBlur={() => commitEdit(id)}
+                />
+              ) : (
+                <div className="exploring-meta">
+                  <span className="exploring-when">{relTime(meta.at)}</span>
+                  {meta.note && <span className="exploring-note" title={meta.note}>· {meta.note}</span>}
+                </div>
+              )}
             </li>
           );
         })}

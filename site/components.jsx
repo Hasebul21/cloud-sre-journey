@@ -116,7 +116,33 @@ function useExploring() {
     });
   }, []);
 
-  return { map, toggle, remove };
+  // Bump the `at` timestamp for an item — call when the user re-engages so
+  // the most-recently-touched one floats to the top of the exploring list.
+  const touch = useCallback((id) => {
+    const cur = loadJSON(KEY, {});
+    if (!cur[id]) return;
+    const next = { ...cur, [id]: { ...cur[id], at: Date.now() } };
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  // Persist a one-line "where I left off" breadcrumb for an item.
+  const setNote = useCallback((id, note) => {
+    const cur = loadJSON(KEY, {});
+    if (!cur[id]) return;
+    const trimmed = (note || "").trim();
+    const next = { ...cur, [id]: { ...cur[id], note: trimmed, at: Date.now() } };
+    saveJSON(KEY, next);
+    setMap(next);
+    Promise.resolve().then(() => {
+      window.dispatchEvent(new CustomEvent("sre:exploring"));
+    });
+  }, []);
+
+  return { map, toggle, remove, touch, setNote };
 }
 
 // ───────── Progress bar ─────────
