@@ -2795,6 +2795,22 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
       ],
     },
 
+    language: {
+      title: "SRE 10 · Language",
+      resources: [
+        { id: "lang-r-1", type: "course", sub: "Go",              name: "Go: The Complete Developer's Guide — Stephen Grider (Udemy)", url: "https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1" },
+        { id: "lang-r-2", type: "video",  sub: "Go",              name: "Go crash course (YouTube)",                                   url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
+        { id: "lang-r-3", type: "video",  sub: "Go",              name: "Go tutorial (YouTube)",                                       url: "https://www.youtube.com/watch?v=t8pPdKYpowI" },
+        { id: "lang-r-4", type: "course", sub: "Python / FastAPI", name: "FastAPI — The Complete Course (Udemy)",                      url: "https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1" },
+      ],
+      milestones: [
+        { id: "lang-m-1", name: "Go: write a small HTTP service with net/http + chi or gorilla — handlers, middleware, JSON" },
+        { id: "lang-m-2", name: "Go: write table-driven tests; use context.Context for cancellation/timeouts" },
+        { id: "lang-m-3", name: "FastAPI: build a CRUD API with Pydantic models, dependency injection, and async endpoints" },
+        { id: "lang-m-4", name: "FastAPI: add OpenAPI docs, run with uvicorn, deploy in a container" },
+      ],
+    },
+
     // ────────── Part AI — 4 level sub-keys, rendered together as one page ──────────
     "ai-l1": {
       title: "AI · Level 1 — Foundations",
@@ -4223,6 +4239,7 @@ const STAGE_NUM = {
   varnish:     "07",
   fastly:      "08",
   automation:  "09",
+  language:    "10",
 };
 
 function StatusPill({ pct }) {
@@ -4419,6 +4436,7 @@ function RoadmapView() {
 const SRE_NetworkingView  = () => <SreLearningView sectionKey="networking" />;
 const SRE_CloudView       = () => <SreLearningView sectionKey="cloud" />;
 const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
+const SRE_LanguageView    = () => <SreLearningView sectionKey="language" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
 const SRE_RevProxyView    = () => <SreLearningView sectionKey="revproxy" />;
 const SRE_FwdProxyView    = () => <SreLearningView sectionKey="fwdproxy" />;
@@ -4579,7 +4597,7 @@ Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_LanguageView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView, RoadmapView,
 });
 
@@ -4600,6 +4618,7 @@ const NAV = [
   { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
   { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",        group: "learn" },
   { id: "sre-auto",     label: "09 · Automation",       crumb: "Learn / 09 · Automation",              group: "learn" },
+  { id: "sre-lang",     label: "10 · Language",         crumb: "Learn / 10 · Language",                group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -4622,6 +4641,7 @@ const VIEW_MAP = {
   "sre-net":      SRE_NetworkingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
+  "sre-lang":     SRE_LanguageView,
   "sre-edge":     SRE_EdgeView,
   "sre-revproxy": SRE_RevProxyView,
   "sre-fwdproxy": SRE_FwdProxyView,

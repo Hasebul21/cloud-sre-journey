@@ -1117,6 +1117,22 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
       ],
     },
 
+    language: {
+      title: "SRE 10 · Language",
+      resources: [
+        { id: "lang-r-1", type: "course", sub: "Go",              name: "Go: The Complete Developer's Guide — Stephen Grider (Udemy)", url: "https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1" },
+        { id: "lang-r-2", type: "video",  sub: "Go",              name: "Go crash course (YouTube)",                                   url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
+        { id: "lang-r-3", type: "video",  sub: "Go",              name: "Go tutorial (YouTube)",                                       url: "https://www.youtube.com/watch?v=t8pPdKYpowI" },
+        { id: "lang-r-4", type: "course", sub: "Python / FastAPI", name: "FastAPI — The Complete Course (Udemy)",                      url: "https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1" },
+      ],
+      milestones: [
+        { id: "lang-m-1", name: "Go: write a small HTTP service with net/http + chi or gorilla — handlers, middleware, JSON" },
+        { id: "lang-m-2", name: "Go: write table-driven tests; use context.Context for cancellation/timeouts" },
+        { id: "lang-m-3", name: "FastAPI: build a CRUD API with Pydantic models, dependency injection, and async endpoints" },
+        { id: "lang-m-4", name: "FastAPI: add OpenAPI docs, run with uvicorn, deploy in a container" },
+      ],
+    },
+
     // ────────── Part AI — 4 level sub-keys, rendered together as one page ──────────
     "ai-l1": {
       title: "AI · Level 1 — Foundations",

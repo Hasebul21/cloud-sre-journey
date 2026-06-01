@@ -12,6 +12,7 @@ const NAV = [
   { id: "sre-varnish",  label: "07 · Varnish & VCL",    crumb: "Learn / 07 · Varnish & VCL",           group: "learn" },
   { id: "sre-fastly",   label: "08 · Fastly CDN",       crumb: "Learn / 08 · Fastly CDN & VCL",        group: "learn" },
   { id: "sre-auto",     label: "09 · Automation",       crumb: "Learn / 09 · Automation",              group: "learn" },
+  { id: "sre-lang",     label: "10 · Language",         crumb: "Learn / 10 · Language",                group: "learn" },
   { id: "p0-sd",        label: "System Design",         crumb: "Learn / System Design",                group: "learn" },
   { id: "part-ai",      label: "AI Engineering",        crumb: "Learn / AI Engineering",               group: "learn" },
 
@@ -34,6 +35,7 @@ const VIEW_MAP = {
   "sre-net":      SRE_NetworkingView,
   "sre-cloud":    SRE_CloudView,
   "sre-auto":     SRE_AutomationView,
+  "sre-lang":     SRE_LanguageView,
   "sre-edge":     SRE_EdgeView,
   "sre-revproxy": SRE_RevProxyView,
   "sre-fwdproxy": SRE_FwdProxyView,
