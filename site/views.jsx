@@ -9,7 +9,6 @@ function OverviewView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Hello there. 👋</h1>
-        <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
 
       <div>
@@ -43,10 +42,6 @@ function OverviewView() {
 
       <section className="section-card">
         <h2>What this dashboard tracks</h2>
-        <p className="lead">Every section in your study guide → a view here. Tick items, log hours per section, leave notes. Everything persists in your browser.</p>
-        <div className="callout">
-          15 hrs/week · 6-month timeline · Bangladesh → SG / JP / MY / TH. Comp follows skill. Don't optimize for highest salary on day one.
-        </div>
       </section>
     </div>
   );
@@ -109,7 +104,6 @@ function P0_SysDesignView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">System Design</span>
           </h1>
-          <p className="dash-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs. Curated playlists from Hello Interview, Piyush Garg, and Engineering Digest.</p>
         </div>
         <StatusPill pct={pct} />
       </div>
@@ -121,15 +115,11 @@ function P0_SysDesignView() {
         <StatTile label="Deep Dives" value={ddDone + "/" + D.sysDesignDeepDives.length}      sub={Math.round(ddDone / D.sysDesignDeepDives.length * 100) + "%"} />
       </div>
 
-      <div className="callout">
-        Start with <a href="https://www.youtube.com/watch?v=Ru54dxzCyD0" target="_blank" rel="noopener">How to Prepare for System Design Interviews</a>, then work the Hello Interview playlists. Mock at <a href="https://www.hellointerview.com" target="_blank" rel="noopener">hellointerview.com</a> after Week 4.
-      </div>
-
-      <ListSection title="5-step delivery framework" lead="Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs." done={fwDone} total={SD_FRAMEWORK.length}>
+      <ListSection title="5-step delivery framework" done={fwDone} total={SD_FRAMEWORK.length}>
         <Checklist items={SD_FRAMEWORK} group="sd-framework" />
       </ListSection>
 
-      <ListSection title="Playlists" lead="Every video extracted, grouped by source. Hello Interview is canonical; Piyush Garg and Engineering Digest are supplementary." done={plDone} total={plFlat.length}>
+      <ListSection title="Playlists" done={plDone} total={plFlat.length}>
         {D.sdPlaylists.map((item, idx) => {
           if (item.videos) {
             return (
@@ -153,23 +143,23 @@ function P0_SysDesignView() {
         })}
       </ListSection>
 
-      <ListSection title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." done={cnDone} total={D.sysDesignConcepts.length}>
+      <ListSection title="Core concepts" done={cnDone} total={D.sysDesignConcepts.length}>
         <Checklist items={D.sysDesignConcepts} group="sdConcepts" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." done={ddDone} total={D.sysDesignDeepDives.length}>
+      <ListSection title="Deep dives" done={ddDone} total={D.sysDesignDeepDives.length}>
         <Checklist items={D.sysDesignDeepDives} group="sdDeep" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Walkthroughs · 2/week" lead="Easy → Medium → Hard. Talk through your approach before drawing." done={wkDone} total={D.sysDesignWalkthroughs.length}>
+      <ListSection title="Walkthroughs · 2/week" done={wkDone} total={D.sysDesignWalkthroughs.length}>
         <Checklist items={D.sysDesignWalkthroughs} group="sdWalk" renderItem={renderWalkthrough} />
       </ListSection>
 
-      <ListSection title="Channels" lead="Subscribe and dip in." done={chDone} total={D.sdChannels.length}>
+      <ListSection title="Channels" done={chDone} total={D.sdChannels.length}>
         <Checklist items={D.sdChannels} group="sdChannels" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Reading & resources" lead="Newsletters, blogs, and reference repos." done={rdDone} total={D.sdReading.length}>
+      <ListSection title="Reading & resources" done={rdDone} total={D.sdReading.length}>
         <Checklist items={D.sdReading} group="sdReading" renderItem={renderResource} />
       </ListSection>
 
@@ -190,12 +180,11 @@ function P0_BehaviorView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0B · Behavioral</h1>
-        <p className="page-sub">STAR framework: Situation → Task → Action ("I", not "we") → Result. Each story 90–120 sec.</p>
       </div>
 
       <SectionCard
         title="Write your 8 stories"
-        lead="One memorized story per theme. Quantify results."
+       
         items={D.starStories}
         group="star"
         tilted="left"
@@ -203,7 +192,6 @@ function P0_BehaviorView() {
 
       <section className="section-card tilted-r">
         <h2>Story bank — drafts</h2>
-        <p className="lead">Pull up these notes before every behavioral round. Edit until each fits in 2 minutes spoken.</p>
         {D.starStories.map(s => (
           <details key={s.id} style={{marginBottom: 10, borderBottom: "1px dotted var(--paper-line)", paddingBottom: 8}}>
             <summary style={{cursor: "pointer", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.005em"}}>{s.name}</summary>
@@ -214,7 +202,6 @@ function P0_BehaviorView() {
 
       <section className="section-card">
         <h2>Amazon Leadership Principles (top 8)</h2>
-        <p className="lead">Tick when you have a story locked for each.</p>
         <Checklist group="amzn-lp" items={[
           { id: "lp-co", name: "Customer Obsession" },
           { id: "lp-own", name: "Ownership" },
@@ -236,11 +223,10 @@ function P0_LLDView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0D · Low-Level Design</h1>
-        <p className="page-sub">SOLID + design patterns + a few classic OOP problems.</p>
       </div>
 
       <div className="row-grid-2">
-        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left"
+        <SectionCard title="Videos" items={D.lldVideos} group="lldV" tilted="left"
           renderItem={(it) => (
             <span>
               <ResourceTag type="video" />
@@ -248,7 +234,7 @@ function P0_LLDView() {
             </span>
           )}
         />
-        <SectionCard title="Practice problems" lead="Design + code these end-to-end." items={D.lldPractice} group="lldP" tilted="right" />
+        <SectionCard title="Practice problems" items={D.lldPractice} group="lldP" tilted="right" />
       </div>
 
       <section className="section-card">
@@ -279,16 +265,14 @@ function P0_SQLView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0E · SQL / MySQL</h1>
-        <p className="page-sub">Master core syntax → grind 30 LeetCode SQL problems.</p>
       </div>
 
-      <SectionCard title="Core concepts" lead="Internalize these before grinding problems." items={D.sqlConcepts} group="sqlC" tilted="left">
+      <SectionCard title="Core concepts" items={D.sqlConcepts} group="sqlC" tilted="left">
         <TimeLog id="sqlC" />
       </SectionCard>
 
       <section className="section-card tilted-r">
         <h2>Top 30 LeetCode SQL problems</h2>
-        <p className="lead">Easy first to lock JOIN/NULL/GROUP BY → then mediums in order. 601 + 1321 last.</p>
         <Progress done={sqlPDone} total={D.sqlProblems.length} />
         <Checklist
           group="sqlP"
@@ -319,7 +303,6 @@ function P0_DSAView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0F · Coding / DSA — 150 problems</h1>
-        <p className="page-sub">Quality over quantity. Talk through approach → brute force → optimize → test edges.</p>
       </div>
 
       <section className="section-card tilted-l">
@@ -358,14 +341,12 @@ function PartBView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part B · Hands-on Phases</h1>
-        <p className="page-sub">One worked example — a Todo app — from <code>docker compose up</code> to AWS production.</p>
       </div>
 
       {D.phases.map((p, i) => (
         <section key={p.id} className={"section-card " + (i % 2 ? "tilted-r" : "tilted-l")}>
           {i === 0 && <span className="tape tl"></span>}
           <h2>{p.title}</h2>
-          <p className="lead">🎯 {p.goal}</p>
           <Progress
             done={p.tasks.filter(t => (loadJSON("done:phase", {}))[t.id]).length}
             total={p.tasks.length}
@@ -404,7 +385,6 @@ function PartGView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part G · APAC Job Search</h1>
-        <p className="page-sub">Track each company through the pipeline. Star your top targets. Apply early, refer often.</p>
       </div>
 
       <div className="stat-row" style={{gridTemplateColumns: "repeat(3, 1fr)"}}>
@@ -459,15 +439,13 @@ function PartHView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part H · Interview Preparation</h1>
-        <p className="page-sub">Standard SRE/DevOps loop = 5 rounds. Know each and have your story bank ready.</p>
       </div>
 
       <SectionCard title="The 5-round loop" items={D.loopRounds} group="loop" tilted="left" />
-      <SectionCard title="Questions to ask the interviewer" lead="Show you care about reliability, ownership, ramp-up." items={D.questionsToAsk} group="qAsk" tilted="right" />
+      <SectionCard title="Questions to ask the interviewer" items={D.questionsToAsk} group="qAsk" tilted="right" />
 
       <section className="section-card">
         <h2>Mock interviews log</h2>
-        <p className="lead">Aim: 1 every 2 weeks. Pramp (free) → Hello Interview AI → interviewing.io for FAANG mocks.</p>
         <button onClick={addMock} style={{padding:"6px 14px", border:"1px solid var(--line)", borderRadius: 6, background: "var(--paper)", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 500, color: "var(--ink)", marginBottom: 10}}>
           + Log a mock
         </button>
@@ -506,12 +484,11 @@ function PartIView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part I · Personal Branding</h1>
-        <p className="page-sub">Visible work is what separates you from the next 200 applications. Build → publish → share.</p>
       </div>
 
       <SectionCard
         title="Six pinned GitHub repos"
-        lead="Each one a real, polished project. Pin them on your profile."
+       
         items={D.repos}
         group="repos"
         tilted="left"
@@ -524,7 +501,7 @@ function PartIView() {
 
       <SectionCard
         title="Blog post ideas"
-        lead="1 post / 3–4 weeks · 1,500–3k words · cross-post to dev.to + Hashnode + LinkedIn"
+       
         items={D.blogIdeas}
         group="blog"
         tilted="right"
@@ -532,7 +509,7 @@ function PartIView() {
 
       <SectionCard
         title="Certifications"
-        lead="Tick when you've passed."
+       
         items={D.certs}
         group="certs"
         renderItem={(it) => (
@@ -549,7 +526,6 @@ function PartJView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part J · Resources</h1>
-        <p className="page-sub">Books + courses to grind through. Tick when finished — or when "good enough for interviews".</p>
       </div>
 
       <SectionCard title="Must-read books"
@@ -672,7 +648,6 @@ function ListSection({ title, lead, done, total, children }) {
           <span className="frac">{done}/{total}</span>
         </div>
       </div>
-      {lead && <p className="lead">{lead}</p>}
       {children}
     </section>
   );
@@ -723,7 +698,6 @@ function SreLearningView({ sectionKey }) {
             <span className="dash-slash">/</span>
             <span className="dash-name">{stageName}</span>
           </h1>
-          <p className="dash-sub">{section.intro}</p>
         </div>
         <aside className="dash-rail">
           <h4>where you are</h4>
@@ -733,9 +707,7 @@ function SreLearningView({ sectionKey }) {
         </aside>
       </div>
 
-      {section.why && <div className="callout">{section.why}</div>}
-
-      <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
+      <ListSection title="Curated resources"
         done={resDone} total={section.resources.length}>
         {resSubs.map(g => (
           <div key={g.label} className="res-subgroup">
@@ -770,7 +742,6 @@ function RoadmapView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">Build-It-Up HLDs</span>
           </h1>
-          <p className="dash-sub">{r.intro}</p>
         </div>
         <aside className="dash-rail">
           <h4>how to use</h4>
@@ -865,7 +836,6 @@ function AILevelCard({ levelNum, sectionKey }) {
         </div>
         <StatusPill pct={resTotal > 0 ? Math.round(resDone / resTotal * 100) : 0} />
       </div>
-      <p className="lead">{sec.intro}</p>
 
       <ListSection title="Resources" done={resDone} total={resTotal}>
         <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
@@ -933,10 +903,6 @@ function AiDatacampCatalog() {
         </div>
         <StatusPill pct={pct} />
       </div>
-      <p className="lead">
-        Every course in DataCamp's Artificial Intelligence track ({total}), grouped by level.{" "}
-        <a href="https://www.datacamp.com/category/artificial-intelligence" target="_blank" rel="noopener">source</a>
-      </p>
       <ListSection title="Courses" done={done} total={total}>
         {byLevel.map(g => (
           <div key={g.level} className="res-subgroup">
@@ -969,13 +935,8 @@ function PartAIView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">Engineering</span>
           </h1>
-          <p className="dash-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
         </div>
         <StatusPill pct={allPct} />
-      </div>
-
-      <div className="callout">
-        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
       <AiDatacampCatalog />

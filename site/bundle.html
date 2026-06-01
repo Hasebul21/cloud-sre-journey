@@ -1752,7 +1752,6 @@ window.SRE_DATA = {
   // capability to the previous and unlocks one Learn stage.
   // ───────────────────────────────────────────────────────────────
   hldRoadmap: {
-    intro: "Eight progressively-richer high-level designs, one per Learn stage. Each HLD adds one capability on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to a globally cached, observable, IaC-provisioned, mesh-egressed system. Tackle the Learn stages in this order: every stage answers 'how do I actually build the box I just drew.'",
     stageMap: [
       { num: "01", name: "Networking",                       desc: "TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything" },
       { num: "02", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
@@ -2511,8 +2510,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
   sreRoadmap: {
     networking: {
       title: "SRE 1 · Networking",
-      intro: "How a request actually travels — DNS resolution, the TCP handshake, TLS, HTTP semantics, and the packet path everything else in this guide rides on. Learn to read the wire before you try to scale it.",
-      why: "Every latency spike, timeout, and 'works on my machine' eventually comes down to the network. If you can't trace a request with dig, tcpdump, and ss, you can't debug the systems built on top of it.",
       resources: [
         { id: "net-r-1", type: "video", sub: "Core networking & protocols",  name: "Computer Networking Full Course — freeCodeCamp",                   url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
         { id: "net-r-2", type: "video", sub: "Core networking & protocols",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
@@ -2528,8 +2525,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     cloud: {
       title: "SRE 2 · Cloud, Containers & K8s",
-      intro: "Linux and the shell first — the terminal tools every reliability incident eventually pulls you to — then AWS (most APAC SRE roles ask for it), Docker, and Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
-      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services — but if you can't read a shell, a process tree, or a /proc file, you're locked out of root-causing what runs on them. You'll touch this every shift.",
       resources: [
         { id: "scl-r-1",  type: "video", sub: "AWS & cloud-native",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
         { id: "scl-r-2",  type: "video", sub: "Docker",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
@@ -2579,8 +2574,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     automation: {
       title: "SRE 3 · Automation — IaC + CI/CD + GitOps",
-      intro: "Terraform for cloud infra. Ansible for VM config (still very common). GitHub Actions / Argo for delivery. GitOps for K8s. The goal: nothing manual in prod.",
-      why: "An incident at 3am is fine. An incident at 3am because someone clicked the wrong button isn't. If it can run twice, automate it.",
       resources: [
         { id: "sau-r-1",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
         { id: "sau-r-2",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
@@ -2612,8 +2605,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     // ────────── Part AI — 4 level sub-keys, rendered together as one page ──────────
     "ai-l1": {
       title: "AI · Level 1 — Foundations",
-      intro: "Concepts only — tokens, context windows, prompting strategies (zero-shot, few-shot, CoT, ReAct), the prompt→RAG→fine-tune→agents lifecycle. Watch videos and read the first two Chip Huyen books before opening a Jupyter notebook.",
-      why: "AI engineering moved from 'research curiosity' to 'production tool' inside SRE between 2024–2026. Heinrich Hartmann's framing: LLM as on-call copilot, not autopilot. You need vocabulary before tools.",
       resources: [
         { id: "ai1-r-1",  type: "video",  name: "Andrej Karpathy — Intro to Large Language Models (1 hr)",        url: "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
         { id: "ai1-r-2",  type: "video",  name: "Andrej Karpathy — Let's build GPT from scratch",                 url: "https://www.youtube.com/watch?v=kCc8FmEb1nY" },
@@ -2635,8 +2626,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l2": {
       title: "AI · Level 2 — Core Engineering",
-      intro: "Build something real. Call an API, embed your docs, query a vector DB, glue it with LangChain or DSPy, evaluate it. The 6-week plan in the guide lands here.",
-      why: "Vocabulary alone is invisible on a CV. A runbook RAG deployed to your kind cluster is the artifact you walk into APAC interviews with.",
       resources: [
         { id: "ai2-r-1",  type: "video",  name: "Krishna Naik — Agentic AI Tutorials playlist",                   url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPFd7JdvB-rnTb_5V26NYNO" },
         { id: "ai2-r-2",  type: "video",  name: "Krishna Naik — Model Context Protocol (MCP) playlist",           url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK" },
@@ -2661,8 +2650,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l3": {
       title: "AI · Level 3 — Advanced / Production",
-      intro: "Agents with tools (MCP), AIOps use cases (on-call copilot, log clustering, NL→PromQL), operating vLLM clusters, eval pipelines in CI, and AI safety / prompt injection.",
-      why: "This is the senior-SRE differentiator. Almost no junior candidate has operated a vLLM cluster or shipped an MCP-based agent — being in the first 10% is the entire interview edge.",
       resources: [
         { id: "ai3-r-1",  type: "course", name: "Anthropic — Model Context Protocol spec",                        url: "https://modelcontextprotocol.io" },
         { id: "ai3-r-2",  type: "course", name: "vLLM — high-throughput LLM serving docs",                        url: "https://docs.vllm.ai" },
@@ -2691,8 +2678,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l4": {
       title: "AI · Level 4 — Specialist & Cross-cutting",
-      intro: "Career signal — APAC-specific positioning, antipatterns recognition, voice + thought leadership, and what 'AI-aware SRE' actually means inside Grab / Mercari / Agoda / PayPay.",
-      why: "Senior+ pattern recognition. You can build all of L1–L3 and still struggle to position yourself. This level is about being read, cited, and recognised.",
       resources: [
         { id: "ai4-r-1",  type: "blog",   name: "Latent Space (swyx + Alessio) — top AI engineer interviews",     url: "https://www.latent.space" },
         { id: "ai4-r-2",  type: "video",  name: "AI Engineer Pod / Summit talks (YouTube)",                       url: "https://www.youtube.com/@aiDotEngineer" },
@@ -2715,8 +2700,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     edge: {
       title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
-      intro: "The front of the request path: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway; HAProxy fronts the cluster as L4/L7 load balancer. L7 reverse proxies (NGINX / Envoy) live in their own track — see Stage 06. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 07 & 08.",
-      why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
         // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
         { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
@@ -2766,13 +2749,12 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     revproxy: {
       title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
-      intro: "Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. NGINX is the de-facto choice for HTTP-first stacks; Envoy is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. Forward proxies (egress / Squid / mitmproxy) live in Stage 07.",
-      why: "Whoever knows the reverse proxy can explain p99 spikes, configure zero-downtime reloads, and turn on microcaching without breaking auth. Resources below are sorted learn-first within each tool group.",
       resources: [
         // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
         { id: "rprx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
         { id: "rprx-r-2",  type: "video",  sub: "NGINX",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)",            url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
         { id: "rprx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
+        { id: "rprx-r-14", type: "blog",   sub: "NGINX",  name: "freeCodeCamp — The NGINX Handbook (written companion: install, config, reverse proxy, LB, Docker)", url: "https://www.freecodecamp.org/news/the-nginx-handbook/" },
         { id: "rprx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
         { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
         { id: "rprx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
@@ -2808,8 +2790,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     fwdproxy: {
       title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
-      intro: "A forward proxy sits in front of the CLIENT, not the server — it shapes, caches, filters, or audits outbound traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio EgressGateway, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). Reverse proxies (NGINX / Envoy in front of a backend) live in Stage 06.",
-      why: "Different hot path from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. Most SREs need reading-level fluency unless they own corporate egress or a mesh's egress gateway.",
       resources: [
         // ───── Concepts — forward vs reverse proxy mental model ─────
         { id: "fprx-r-1",  type: "blog",   sub: "Concepts",          name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here",        url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
@@ -2846,8 +2826,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     reliability: {
       title: "SRE 4 · Observability & Reliability Practice",
-      intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
-      why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [
         { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
         { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
@@ -2893,8 +2871,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     varnish: {
       title: "SRE 6 · Edge Caching with Varnish & VCL",
-      intro: "Varnish Cache sits in front of origin servers and turns the request hot path into RAM-speed responses. This track walks VCL — Varnish's request/response programming language — from `vcl 4.1` syntax through grace mode, purging, and the multi-site config pattern used by real publishers. The hands-on labs rebuild, piece by piece, the same edge-caching stack that fronts a real Norwegian newspaper (dn.no via NHST).",
-      why: "Edge caching is what lets news sites, e-commerce fronts, and APIs survive traffic spikes. SREs typically own this layer end-to-end: misconfigure it and you serve stale paywalled content to logged-out users; tune it well and you cut backend traffic by 90%+ and absorb spikes the origin couldn't.",
       resources: [
         { id: "vrn-r-1",  type: "video", sub: "Intro & concepts",  name: "Varnish in 100 Seconds (mental model)" },
         { id: "vrn-r-2",  type: "video", sub: "Intro & concepts",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
@@ -2948,8 +2924,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     fastly: {
       title: "SRE 7 · Fastly CDN & VCL on Terraform",
-      intro: "Fastly is a managed CDN built on a fork of Varnish — same VCL dialect as the previous track, but with global POPs, Image Optimizer, Edge Rate Limiting, and a Next-Gen WAF (Signal Sciences) wired in via Terraform. The 18 hands-on labs rebuild, session by session, the `dngroup-fastly` reference architecture: multi-backend routing through the `x-backend` header pattern, snippet auto-loading via `fileset`+`regex()`, NGWAF integration, three-workspace Terraform deploy via GitHub Actions.",
-      why: "Fastly is the production CDN for many APAC and European publishers (and a sibling of the open-source Varnish track). Knowing how managed CDN differs from on-prem Varnish — snippets vs includes, Terraform vs Puppet, NGWAF vs no WAF, shielding vs grace — is a real interview differentiator. Companion notes: `fastly-notes.md` in this repo.",
       resources: [
         { id: "fst-r-1",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
         { id: "fst-r-2",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Variables (req / bereq / beresp / obj / resp / client)", url: "https://www.fastly.com/documentation/reference/vcl/variables/" },
@@ -3351,7 +3325,6 @@ function OverviewView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Hello there. 👋</h1>
-        <p className="page-sub">A six-month plan to land a visa-sponsored SRE role somewhere in APAC. One small box at a time.</p>
       </div>
 
       <div>
@@ -3385,10 +3358,6 @@ function OverviewView() {
 
       <section className="section-card">
         <h2>What this dashboard tracks</h2>
-        <p className="lead">Every section in your study guide → a view here. Tick items, log hours per section, leave notes. Everything persists in your browser.</p>
-        <div className="callout">
-          15 hrs/week · 6-month timeline · Bangladesh → SG / JP / MY / TH. Comp follows skill. Don't optimize for highest salary on day one.
-        </div>
       </section>
     </div>
   );
@@ -3451,7 +3420,6 @@ function P0_SysDesignView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">System Design</span>
           </h1>
-          <p className="dash-sub">Hello Interview framework — 5-step delivery, core concepts, deep dives, then walkthroughs. Curated playlists from Hello Interview, Piyush Garg, and Engineering Digest.</p>
         </div>
         <StatusPill pct={pct} />
       </div>
@@ -3463,15 +3431,11 @@ function P0_SysDesignView() {
         <StatTile label="Deep Dives" value={ddDone + "/" + D.sysDesignDeepDives.length}      sub={Math.round(ddDone / D.sysDesignDeepDives.length * 100) + "%"} />
       </div>
 
-      <div className="callout">
-        Start with <a href="https://www.youtube.com/watch?v=Ru54dxzCyD0" target="_blank" rel="noopener">How to Prepare for System Design Interviews</a>, then work the Hello Interview playlists. Mock at <a href="https://www.hellointerview.com" target="_blank" rel="noopener">hellointerview.com</a> after Week 4.
-      </div>
-
-      <ListSection title="5-step delivery framework" lead="Practice this template before every walkthrough — clarify → estimate → high level → deep dives → trade-offs." done={fwDone} total={SD_FRAMEWORK.length}>
+      <ListSection title="5-step delivery framework" done={fwDone} total={SD_FRAMEWORK.length}>
         <Checklist items={SD_FRAMEWORK} group="sd-framework" />
       </ListSection>
 
-      <ListSection title="Playlists" lead="Every video extracted, grouped by source. Hello Interview is canonical; Piyush Garg and Engineering Digest are supplementary." done={plDone} total={plFlat.length}>
+      <ListSection title="Playlists" done={plDone} total={plFlat.length}>
         {D.sdPlaylists.map((item, idx) => {
           if (item.videos) {
             return (
@@ -3495,23 +3459,23 @@ function P0_SysDesignView() {
         })}
       </ListSection>
 
-      <ListSection title="Core concepts" lead="The 9 building blocks. Watch each Hello Interview video, then write a 5-line summary." done={cnDone} total={D.sysDesignConcepts.length}>
+      <ListSection title="Core concepts" done={cnDone} total={D.sysDesignConcepts.length}>
         <Checklist items={D.sysDesignConcepts} group="sdConcepts" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Deep dives" lead="Watch on demand — when a walkthrough hits a tech you don't know cold." done={ddDone} total={D.sysDesignDeepDives.length}>
+      <ListSection title="Deep dives" done={ddDone} total={D.sysDesignDeepDives.length}>
         <Checklist items={D.sysDesignDeepDives} group="sdDeep" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Walkthroughs · 2/week" lead="Easy → Medium → Hard. Talk through your approach before drawing." done={wkDone} total={D.sysDesignWalkthroughs.length}>
+      <ListSection title="Walkthroughs · 2/week" done={wkDone} total={D.sysDesignWalkthroughs.length}>
         <Checklist items={D.sysDesignWalkthroughs} group="sdWalk" renderItem={renderWalkthrough} />
       </ListSection>
 
-      <ListSection title="Channels" lead="Subscribe and dip in." done={chDone} total={D.sdChannels.length}>
+      <ListSection title="Channels" done={chDone} total={D.sdChannels.length}>
         <Checklist items={D.sdChannels} group="sdChannels" renderItem={renderResource} />
       </ListSection>
 
-      <ListSection title="Reading & resources" lead="Newsletters, blogs, and reference repos." done={rdDone} total={D.sdReading.length}>
+      <ListSection title="Reading & resources" done={rdDone} total={D.sdReading.length}>
         <Checklist items={D.sdReading} group="sdReading" renderItem={renderResource} />
       </ListSection>
 
@@ -3532,12 +3496,11 @@ function P0_BehaviorView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0B · Behavioral</h1>
-        <p className="page-sub">STAR framework: Situation → Task → Action ("I", not "we") → Result. Each story 90–120 sec.</p>
       </div>
 
       <SectionCard
         title="Write your 8 stories"
-        lead="One memorized story per theme. Quantify results."
+       
         items={D.starStories}
         group="star"
         tilted="left"
@@ -3545,7 +3508,6 @@ function P0_BehaviorView() {
 
       <section className="section-card tilted-r">
         <h2>Story bank — drafts</h2>
-        <p className="lead">Pull up these notes before every behavioral round. Edit until each fits in 2 minutes spoken.</p>
         {D.starStories.map(s => (
           <details key={s.id} style={{marginBottom: 10, borderBottom: "1px dotted var(--paper-line)", paddingBottom: 8}}>
             <summary style={{cursor: "pointer", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 15, fontWeight: 600, letterSpacing: "-0.005em"}}>{s.name}</summary>
@@ -3556,7 +3518,6 @@ function P0_BehaviorView() {
 
       <section className="section-card">
         <h2>Amazon Leadership Principles (top 8)</h2>
-        <p className="lead">Tick when you have a story locked for each.</p>
         <Checklist group="amzn-lp" items={[
           { id: "lp-co", name: "Customer Obsession" },
           { id: "lp-own", name: "Ownership" },
@@ -3578,11 +3539,10 @@ function P0_LLDView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0D · Low-Level Design</h1>
-        <p className="page-sub">SOLID + design patterns + a few classic OOP problems.</p>
       </div>
 
       <div className="row-grid-2">
-        <SectionCard title="Videos" lead="Hello Interview's LLD walkthroughs." items={D.lldVideos} group="lldV" tilted="left"
+        <SectionCard title="Videos" items={D.lldVideos} group="lldV" tilted="left"
           renderItem={(it) => (
             <span>
               <ResourceTag type="video" />
@@ -3590,7 +3550,7 @@ function P0_LLDView() {
             </span>
           )}
         />
-        <SectionCard title="Practice problems" lead="Design + code these end-to-end." items={D.lldPractice} group="lldP" tilted="right" />
+        <SectionCard title="Practice problems" items={D.lldPractice} group="lldP" tilted="right" />
       </div>
 
       <section className="section-card">
@@ -3621,16 +3581,14 @@ function P0_SQLView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0E · SQL / MySQL</h1>
-        <p className="page-sub">Master core syntax → grind 30 LeetCode SQL problems.</p>
       </div>
 
-      <SectionCard title="Core concepts" lead="Internalize these before grinding problems." items={D.sqlConcepts} group="sqlC" tilted="left">
+      <SectionCard title="Core concepts" items={D.sqlConcepts} group="sqlC" tilted="left">
         <TimeLog id="sqlC" />
       </SectionCard>
 
       <section className="section-card tilted-r">
         <h2>Top 30 LeetCode SQL problems</h2>
-        <p className="lead">Easy first to lock JOIN/NULL/GROUP BY → then mediums in order. 601 + 1321 last.</p>
         <Progress done={sqlPDone} total={D.sqlProblems.length} />
         <Checklist
           group="sqlP"
@@ -3661,7 +3619,6 @@ function P0_DSAView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">0F · Coding / DSA — 150 problems</h1>
-        <p className="page-sub">Quality over quantity. Talk through approach → brute force → optimize → test edges.</p>
       </div>
 
       <section className="section-card tilted-l">
@@ -3700,14 +3657,12 @@ function PartBView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part B · Hands-on Phases</h1>
-        <p className="page-sub">One worked example — a Todo app — from <code>docker compose up</code> to AWS production.</p>
       </div>
 
       {D.phases.map((p, i) => (
         <section key={p.id} className={"section-card " + (i % 2 ? "tilted-r" : "tilted-l")}>
           {i === 0 && <span className="tape tl"></span>}
           <h2>{p.title}</h2>
-          <p className="lead">🎯 {p.goal}</p>
           <Progress
             done={p.tasks.filter(t => (loadJSON("done:phase", {}))[t.id]).length}
             total={p.tasks.length}
@@ -3746,7 +3701,6 @@ function PartGView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part G · APAC Job Search</h1>
-        <p className="page-sub">Track each company through the pipeline. Star your top targets. Apply early, refer often.</p>
       </div>
 
       <div className="stat-row" style={{gridTemplateColumns: "repeat(3, 1fr)"}}>
@@ -3801,15 +3755,13 @@ function PartHView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part H · Interview Preparation</h1>
-        <p className="page-sub">Standard SRE/DevOps loop = 5 rounds. Know each and have your story bank ready.</p>
       </div>
 
       <SectionCard title="The 5-round loop" items={D.loopRounds} group="loop" tilted="left" />
-      <SectionCard title="Questions to ask the interviewer" lead="Show you care about reliability, ownership, ramp-up." items={D.questionsToAsk} group="qAsk" tilted="right" />
+      <SectionCard title="Questions to ask the interviewer" items={D.questionsToAsk} group="qAsk" tilted="right" />
 
       <section className="section-card">
         <h2>Mock interviews log</h2>
-        <p className="lead">Aim: 1 every 2 weeks. Pramp (free) → Hello Interview AI → interviewing.io for FAANG mocks.</p>
         <button onClick={addMock} style={{padding:"6px 14px", border:"1px solid var(--line)", borderRadius: 6, background: "var(--paper)", fontFamily: "'IBM Plex Sans', system-ui, sans-serif", fontSize: 13, fontWeight: 500, color: "var(--ink)", marginBottom: 10}}>
           + Log a mock
         </button>
@@ -3848,12 +3800,11 @@ function PartIView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part I · Personal Branding</h1>
-        <p className="page-sub">Visible work is what separates you from the next 200 applications. Build → publish → share.</p>
       </div>
 
       <SectionCard
         title="Six pinned GitHub repos"
-        lead="Each one a real, polished project. Pin them on your profile."
+       
         items={D.repos}
         group="repos"
         tilted="left"
@@ -3866,7 +3817,7 @@ function PartIView() {
 
       <SectionCard
         title="Blog post ideas"
-        lead="1 post / 3–4 weeks · 1,500–3k words · cross-post to dev.to + Hashnode + LinkedIn"
+       
         items={D.blogIdeas}
         group="blog"
         tilted="right"
@@ -3874,7 +3825,7 @@ function PartIView() {
 
       <SectionCard
         title="Certifications"
-        lead="Tick when you've passed."
+       
         items={D.certs}
         group="certs"
         renderItem={(it) => (
@@ -3891,7 +3842,6 @@ function PartJView() {
     <div>
       <div className="page-head">
         <h1 className="page-title">Part J · Resources</h1>
-        <p className="page-sub">Books + courses to grind through. Tick when finished — or when "good enough for interviews".</p>
       </div>
 
       <SectionCard title="Must-read books"
@@ -4014,7 +3964,6 @@ function ListSection({ title, lead, done, total, children }) {
           <span className="frac">{done}/{total}</span>
         </div>
       </div>
-      {lead && <p className="lead">{lead}</p>}
       {children}
     </section>
   );
@@ -4065,7 +4014,6 @@ function SreLearningView({ sectionKey }) {
             <span className="dash-slash">/</span>
             <span className="dash-name">{stageName}</span>
           </h1>
-          <p className="dash-sub">{section.intro}</p>
         </div>
         <aside className="dash-rail">
           <h4>where you are</h4>
@@ -4075,9 +4023,7 @@ function SreLearningView({ sectionKey }) {
         </aside>
       </div>
 
-      {section.why && <div className="callout">{section.why}</div>}
-
-      <ListSection title="Curated resources" lead="Videos, courses, books, blogs. Tick when worked through (or honestly skipped)."
+      <ListSection title="Curated resources"
         done={resDone} total={section.resources.length}>
         {resSubs.map(g => (
           <div key={g.label} className="res-subgroup">
@@ -4112,7 +4058,6 @@ function RoadmapView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">Build-It-Up HLDs</span>
           </h1>
-          <p className="dash-sub">{r.intro}</p>
         </div>
         <aside className="dash-rail">
           <h4>how to use</h4>
@@ -4207,7 +4152,6 @@ function AILevelCard({ levelNum, sectionKey }) {
         </div>
         <StatusPill pct={resTotal > 0 ? Math.round(resDone / resTotal * 100) : 0} />
       </div>
-      <p className="lead">{sec.intro}</p>
 
       <ListSection title="Resources" done={resDone} total={resTotal}>
         <Checklist items={sec.resources} group={resGroup} renderItem={renderResource} />
@@ -4275,10 +4219,6 @@ function AiDatacampCatalog() {
         </div>
         <StatusPill pct={pct} />
       </div>
-      <p className="lead">
-        Every course in DataCamp's Artificial Intelligence track ({total}), grouped by level.{" "}
-        <a href="https://www.datacamp.com/category/artificial-intelligence" target="_blank" rel="noopener">source</a>
-      </p>
       <ListSection title="Courses" done={done} total={total}>
         {byLevel.map(g => (
           <div key={g.level} className="res-subgroup">
@@ -4311,13 +4251,8 @@ function PartAIView() {
             <span className="dash-slash">/</span>
             <span className="dash-name">Engineering</span>
           </h1>
-          <p className="dash-sub">A horizontal specialization. AI engineering — using pre-trained models in production — not ML research.</p>
         </div>
         <StatusPill pct={allPct} />
-      </div>
-
-      <div className="callout">
-        Sources: <a href="https://roadmap.sh/ai-engineer" target="_blank" rel="noopener">roadmap.sh/ai-engineer</a> · <a href="https://github.com/krishnaik06/Roadmap-To-Learn-Agentic-AI" target="_blank" rel="noopener">Krishna Naik — Agentic AI</a> · <em>AI Engineering</em> by Chip Huyen.
       </div>
 
       <AiDatacampCatalog />

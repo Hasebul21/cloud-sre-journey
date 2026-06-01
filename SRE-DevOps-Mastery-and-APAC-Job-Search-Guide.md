@@ -1102,6 +1102,7 @@ FROM employees GROUP BY dept;
 | [KodeKloud — Nginx for Beginners](https://learn.kodekloud.com/user/courses/nginx-for-beginners) | Browser-lab format; mirrors KodeKloud's other "for Beginners" tracks. **Start here.** |
 | [Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)](https://www.youtube.com/watch?v=q8OleYuqntY) | ~1-hour project video — install, reverse proxy, static + dynamic, Docker, end-to-end |
 | [freeCodeCamp — NGINX Tutorial for Beginners (full course, YouTube)](https://www.youtube.com/watch?v=7VAI73roXaY) | Free ~3-hour course — config anatomy, reverse proxy, load balancing, TLS. Good if you want a structured deep walkthrough without a Udemy account |
+| [freeCodeCamp — The NGINX Handbook (written companion)](https://www.freecodecamp.org/news/the-nginx-handbook/) | Free long-form handbook — install, config anatomy, static serving, reverse proxy, load balancing, Dockerized NGINX. Reads like a book; pairs well with the video course above when you want to skim, search, or copy-paste configs |
 | [TechWorld with Nana — NGINX in 60 Minutes](https://www.youtube.com/watch?v=9t9Mp0BGnyI) | Beginner-friendly visual explanation — concepts → install → reverse proxy → load balancer in one sitting |
 | [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
 | [NGINX, Inc. — official YouTube channel](https://www.youtube.com/@nginx) | NGINX Conf talks, deep-dive webinars on modules, ingress, NGINX Plus features |

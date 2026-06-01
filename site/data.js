@@ -261,7 +261,6 @@ window.SRE_DATA = {
   // capability to the previous and unlocks one Learn stage.
   // ───────────────────────────────────────────────────────────────
   hldRoadmap: {
-    intro: "Eight progressively-richer high-level designs, one per Learn stage. Each HLD adds one capability on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to a globally cached, observable, IaC-provisioned, mesh-egressed system. Tackle the Learn stages in this order: every stage answers 'how do I actually build the box I just drew.'",
     stageMap: [
       { num: "01", name: "Networking",                       desc: "TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything" },
       { num: "02", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
@@ -1020,8 +1019,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
   sreRoadmap: {
     networking: {
       title: "SRE 1 · Networking",
-      intro: "How a request actually travels — DNS resolution, the TCP handshake, TLS, HTTP semantics, and the packet path everything else in this guide rides on. Learn to read the wire before you try to scale it.",
-      why: "Every latency spike, timeout, and 'works on my machine' eventually comes down to the network. If you can't trace a request with dig, tcpdump, and ss, you can't debug the systems built on top of it.",
       resources: [
         { id: "net-r-1", type: "video", sub: "Core networking & protocols",  name: "Computer Networking Full Course — freeCodeCamp",                   url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
         { id: "net-r-2", type: "video", sub: "Core networking & protocols",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
@@ -1037,8 +1034,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     cloud: {
       title: "SRE 2 · Cloud, Containers & K8s",
-      intro: "Linux and the shell first — the terminal tools every reliability incident eventually pulls you to — then AWS (most APAC SRE roles ask for it), Docker, and Kubernetes. Don't skip to K8s without nailing Linux + Docker.",
-      why: "Modern SRE work is mostly orchestrating containers on top of managed cloud services — but if you can't read a shell, a process tree, or a /proc file, you're locked out of root-causing what runs on them. You'll touch this every shift.",
       resources: [
         { id: "scl-r-1",  type: "video", sub: "AWS & cloud-native",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
         { id: "scl-r-2",  type: "video", sub: "Docker",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
@@ -1088,8 +1083,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     automation: {
       title: "SRE 3 · Automation — IaC + CI/CD + GitOps",
-      intro: "Terraform for cloud infra. Ansible for VM config (still very common). GitHub Actions / Argo for delivery. GitOps for K8s. The goal: nothing manual in prod.",
-      why: "An incident at 3am is fine. An incident at 3am because someone clicked the wrong button isn't. If it can run twice, automate it.",
       resources: [
         { id: "sau-r-1",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
         { id: "sau-r-2",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
@@ -1121,8 +1114,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     // ────────── Part AI — 4 level sub-keys, rendered together as one page ──────────
     "ai-l1": {
       title: "AI · Level 1 — Foundations",
-      intro: "Concepts only — tokens, context windows, prompting strategies (zero-shot, few-shot, CoT, ReAct), the prompt→RAG→fine-tune→agents lifecycle. Watch videos and read the first two Chip Huyen books before opening a Jupyter notebook.",
-      why: "AI engineering moved from 'research curiosity' to 'production tool' inside SRE between 2024–2026. Heinrich Hartmann's framing: LLM as on-call copilot, not autopilot. You need vocabulary before tools.",
       resources: [
         { id: "ai1-r-1",  type: "video",  name: "Andrej Karpathy — Intro to Large Language Models (1 hr)",        url: "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
         { id: "ai1-r-2",  type: "video",  name: "Andrej Karpathy — Let's build GPT from scratch",                 url: "https://www.youtube.com/watch?v=kCc8FmEb1nY" },
@@ -1144,8 +1135,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l2": {
       title: "AI · Level 2 — Core Engineering",
-      intro: "Build something real. Call an API, embed your docs, query a vector DB, glue it with LangChain or DSPy, evaluate it. The 6-week plan in the guide lands here.",
-      why: "Vocabulary alone is invisible on a CV. A runbook RAG deployed to your kind cluster is the artifact you walk into APAC interviews with.",
       resources: [
         { id: "ai2-r-1",  type: "video",  name: "Krishna Naik — Agentic AI Tutorials playlist",                   url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPFd7JdvB-rnTb_5V26NYNO" },
         { id: "ai2-r-2",  type: "video",  name: "Krishna Naik — Model Context Protocol (MCP) playlist",           url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK" },
@@ -1170,8 +1159,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l3": {
       title: "AI · Level 3 — Advanced / Production",
-      intro: "Agents with tools (MCP), AIOps use cases (on-call copilot, log clustering, NL→PromQL), operating vLLM clusters, eval pipelines in CI, and AI safety / prompt injection.",
-      why: "This is the senior-SRE differentiator. Almost no junior candidate has operated a vLLM cluster or shipped an MCP-based agent — being in the first 10% is the entire interview edge.",
       resources: [
         { id: "ai3-r-1",  type: "course", name: "Anthropic — Model Context Protocol spec",                        url: "https://modelcontextprotocol.io" },
         { id: "ai3-r-2",  type: "course", name: "vLLM — high-throughput LLM serving docs",                        url: "https://docs.vllm.ai" },
@@ -1200,8 +1187,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
     "ai-l4": {
       title: "AI · Level 4 — Specialist & Cross-cutting",
-      intro: "Career signal — APAC-specific positioning, antipatterns recognition, voice + thought leadership, and what 'AI-aware SRE' actually means inside Grab / Mercari / Agoda / PayPay.",
-      why: "Senior+ pattern recognition. You can build all of L1–L3 and still struggle to position yourself. This level is about being read, cited, and recognised.",
       resources: [
         { id: "ai4-r-1",  type: "blog",   name: "Latent Space (swyx + Alessio) — top AI engineer interviews",     url: "https://www.latent.space" },
         { id: "ai4-r-2",  type: "video",  name: "AI Engineer Pod / Summit talks (YouTube)",                       url: "https://www.youtube.com/@aiDotEngineer" },
@@ -1224,8 +1209,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     edge: {
       title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
-      intro: "The front of the request path: Fastly owns the global CDN + VCL at POPs; Kong owns the K8s ingress + API gateway; HAProxy fronts the cluster as L4/L7 load balancer. L7 reverse proxies (NGINX / Envoy) live in their own track — see Stage 06. For Varnish-flavored on-prem VCL depth and Fastly-on-Terraform specifics, see Stage 07 & 08.",
-      why: "Whoever owns the edge owns the SLOs of every service behind it. Resources below are sorted learn-first within each tool group — pick the top entry of each group as your starting point.",
       resources: [
         // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
         { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
@@ -1275,13 +1258,12 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     revproxy: {
       title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
-      intro: "Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. NGINX is the de-facto choice for HTTP-first stacks; Envoy is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. Forward proxies (egress / Squid / mitmproxy) live in Stage 07.",
-      why: "Whoever knows the reverse proxy can explain p99 spikes, configure zero-downtime reloads, and turn on microcaching without breaking auth. Resources below are sorted learn-first within each tool group.",
       resources: [
         // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
         { id: "rprx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
         { id: "rprx-r-2",  type: "video",  sub: "NGINX",  name: "Full NGINX Tutorial — Demo Project with Node.js + Docker (YouTube)",            url: "https://www.youtube.com/watch?v=q8OleYuqntY" },
         { id: "rprx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
+        { id: "rprx-r-14", type: "blog",   sub: "NGINX",  name: "freeCodeCamp — The NGINX Handbook (written companion: install, config, reverse proxy, LB, Docker)", url: "https://www.freecodecamp.org/news/the-nginx-handbook/" },
         { id: "rprx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
         { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
         { id: "rprx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
@@ -1317,8 +1299,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     fwdproxy: {
       title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
-      intro: "A forward proxy sits in front of the CLIENT, not the server — it shapes, caches, filters, or audits outbound traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio EgressGateway, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). Reverse proxies (NGINX / Envoy in front of a backend) live in Stage 06.",
-      why: "Different hot path from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. Most SREs need reading-level fluency unless they own corporate egress or a mesh's egress gateway.",
       resources: [
         // ───── Concepts — forward vs reverse proxy mental model ─────
         { id: "fprx-r-1",  type: "blog",   sub: "Concepts",          name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here",        url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
@@ -1355,8 +1335,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     reliability: {
       title: "SRE 4 · Observability & Reliability Practice",
-      intro: "Metrics, logs, traces. SLO/SLI/SLA. On-call runbooks. Blameless postmortems. Toil reduction. This is the actual day job.",
-      why: "All the tooling in the world is useless without an honest answer to: 'how do we know it's working?' and 'how fast do we fix it when it breaks?'",
       resources: [
         { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
         { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
@@ -1402,8 +1380,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     varnish: {
       title: "SRE 6 · Edge Caching with Varnish & VCL",
-      intro: "Varnish Cache sits in front of origin servers and turns the request hot path into RAM-speed responses. This track walks VCL — Varnish's request/response programming language — from `vcl 4.1` syntax through grace mode, purging, and the multi-site config pattern used by real publishers. The hands-on labs rebuild, piece by piece, the same edge-caching stack that fronts a real Norwegian newspaper (dn.no via NHST).",
-      why: "Edge caching is what lets news sites, e-commerce fronts, and APIs survive traffic spikes. SREs typically own this layer end-to-end: misconfigure it and you serve stale paywalled content to logged-out users; tune it well and you cut backend traffic by 90%+ and absorb spikes the origin couldn't.",
       resources: [
         { id: "vrn-r-1",  type: "video", sub: "Intro & concepts",  name: "Varnish in 100 Seconds (mental model)" },
         { id: "vrn-r-2",  type: "video", sub: "Intro & concepts",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
@@ -1457,8 +1433,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
 
     fastly: {
       title: "SRE 7 · Fastly CDN & VCL on Terraform",
-      intro: "Fastly is a managed CDN built on a fork of Varnish — same VCL dialect as the previous track, but with global POPs, Image Optimizer, Edge Rate Limiting, and a Next-Gen WAF (Signal Sciences) wired in via Terraform. The 18 hands-on labs rebuild, session by session, the `dngroup-fastly` reference architecture: multi-backend routing through the `x-backend` header pattern, snippet auto-loading via `fileset`+`regex()`, NGWAF integration, three-workspace Terraform deploy via GitHub Actions.",
-      why: "Fastly is the production CDN for many APAC and European publishers (and a sibling of the open-source Varnish track). Knowing how managed CDN differs from on-prem Varnish — snippets vs includes, Terraform vs Puppet, NGWAF vs no WAF, shielding vs grace — is a real interview differentiator. Companion notes: `fastly-notes.md` in this repo.",
       resources: [
         { id: "fst-r-1",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
         { id: "fst-r-2",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Variables (req / bereq / beresp / obj / resp / client)", url: "https://www.fastly.com/documentation/reference/vcl/variables/" },
