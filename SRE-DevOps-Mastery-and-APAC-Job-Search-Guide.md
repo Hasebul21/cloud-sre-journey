@@ -819,6 +819,7 @@ FROM employees GROUP BY dept;
 | *How Linux Works* (3rd ed.) — Ward | Book | No Starch Press |
 | *Computer Networking: A Top-Down Approach* — Kurose & Ross | Book | Chapters 1, 2, 3, 5, 6 |
 | *Beej's Guide to Network Programming* | Free online | [beej.us/guide/bgnet](https://beej.us/guide/bgnet/) |
+| Networking Concepts Every DevOps Engineer Must Know | Video (free) | [YouTube](https://www.youtube.com/watch?v=w0SQGCt-6Ro) |
 | *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog (advanced) | [brendangregg.com](https://www.brendangregg.com) |
 
 **KodeKloud (lab-first complement to the books)**
