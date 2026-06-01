@@ -1030,6 +1030,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "net-r-2", type: "video", sub: "Core networking & protocols",  name: "Stanford CS144 Computer Networking (Fall 2013) — partial playlist", url: "https://www.youtube.com/playlist?list=PLvFG2xYBrYAQCyz4Wx3NPoYJOFjvU7g2Z" },
         { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)",                        url: "https://beej.us/guide/bgnet/" },
         { id: "net-r-4", type: "book", sub: "Core networking & protocols",   name: "TCP/IP Illustrated Vol 1 — Stevens",                                url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
+        { id: "net-r-5", type: "video", sub: "Core networking & protocols",  name: "Networking Concepts Every DevOps Engineer Must Know (YouTube · free)", url: "https://www.youtube.com/watch?v=w0SQGCt-6Ro" },
       ],
       milestones: [
         { id: "net-m-1", name: "Use tcpdump or Wireshark to inspect a HTTP request" },
