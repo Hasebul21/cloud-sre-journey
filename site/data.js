@@ -880,7 +880,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     { id: "bk-sre",  type: "book", name: "Site Reliability Engineering — Google (free, ch 1–6, 11–18)", url: "https://sre.google/sre-book/table-of-contents/" },
     { id: "bk-srew", type: "book", name: "The Site Reliability Workbook — Google (free)",              url: "https://sre.google/workbook/table-of-contents/" },
     { id: "bk-tf",   type: "book", name: "Terraform: Up & Running — Brikman (3rd ed)",                 url: "https://www.terraformupandrunning.com/" },
-    { id: "bk-k8s",  type: "book", name: "Kubernetes Up & Running — Burns, Hightower",                 url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/" },
     { id: "bk-go",   type: "book", name: "Learning Go — Jon Bodner",                                   url: "https://www.oreilly.com/library/view/learning-go-2nd/9781098139285/" },
     { id: "bk-xu",   type: "book", name: "System Design Interview Vol 1 & 2 — Alex Xu",                url: "https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF" },
     { id: "bk-phx",  type: "book", name: "The Phoenix Project — Gene Kim",                             url: "https://itrevolution.com/product/the-phoenix-project/" },
@@ -1047,18 +1046,14 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "scl-r-3",  type: "video", sub: "Kubernetes & Helm",  name: "Kubernetes Full Course — TechWorld with Nana (4h)",             url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
         { id: "scl-r-4",  type: "video", sub: "Kubernetes & Helm",  name: "Helm Crash Course — KodeKloud",                                 url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
         { id: "scl-r-5",  type: "video", sub: "Docker",  name: "Bret Fisher — Docker Live Shows (channel)",                     url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
-        { id: "scl-r-6",  type: "video", sub: "Kubernetes & Helm",  name: "Kelsey Hightower — Kubernetes The Hard Way (talks)",            url: "https://www.youtube.com/results?search_query=kelsey+hightower+kubernetes" },
         { id: "scl-r-7",  type: "course", sub: "AWS & cloud-native", name: "AWS SAA-C03 — Stephane Maarek (Udemy)",                         url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
         { id: "scl-r-8",  type: "course", sub: "AWS & cloud-native", name: "Tutorials Dojo — SAA practice exams",                           url: "https://portal.tutorialsdojo.com/" },
         { id: "scl-r-9",  type: "course", sub: "Kubernetes & Helm", name: "KodeKloud — Certified Kubernetes Administrator (CKA)",          url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
+        { id: "scl-r-30", type: "course", sub: "Kubernetes & Helm", name: "KodeKloud — Certified Kubernetes Application Developer (CKAD)", url: "https://kodekloud.com/courses/certified-kubernetes-application-developer-ckad" },
         { id: "scl-r-10", type: "course", sub: "Docker", name: "Docker Mastery — Bret Fisher (Udemy)",                          url: "https://www.udemy.com/course/docker-mastery/" },
         { id: "scl-r-11", type: "course", sub: "AWS & cloud-native", name: "AWS Skill Builder (free official)",                             url: "https://skillbuilder.aws/" },
-        { id: "scl-r-12", type: "course", sub: "Kubernetes & Helm", name: "Kubernetes The Hard Way — Kelsey Hightower (free GitHub)",      url: "https://github.com/kelseyhightower/kubernetes-the-hard-way" },
-        { id: "scl-r-13", type: "book", sub: "Kubernetes & Helm",   name: "Kubernetes Up & Running — Burns / Beda / Hightower",            url: "https://www.oreilly.com/library/view/kubernetes-up-and/9781098110192/" },
         { id: "scl-r-14", type: "book", sub: "AWS & cloud-native",   name: "Cloud Native Patterns — Cornelia Davis",                        url: "https://www.manning.com/books/cloud-native-patterns" },
         { id: "scl-r-15", type: "blog", sub: "AWS & cloud-native",   name: "AWS Architecture Center",                                       url: "https://aws.amazon.com/architecture/" },
-        { id: "scl-r-16", type: "blog", sub: "Kubernetes & Helm",   name: "Kubernetes official docs",                                      url: "https://kubernetes.io/docs/" },
-        { id: "scl-r-17", type: "blog", sub: "Kubernetes & Helm",   name: "Learnk8s — Kubernetes deep dives",                              url: "https://learnk8s.io/" },
 
         // ───── Linux, shell & OS foundations (terminal fluency comes before orchestration) ─────
         { id: "scl-r-18", type: "video", sub: "Linux & shell",  name: "Linux in 100 Seconds — Fireship",                               url: "https://www.youtube.com/watch?v=rrB13utjYV4" },
@@ -1289,8 +1284,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-r-14", type: "blog",   sub: "NGINX",  name: "freeCodeCamp — The NGINX Handbook (written companion: install, config, reverse proxy, LB, Docker)", url: "https://www.freecodecamp.org/news/the-nginx-handbook/" },
         { id: "rprx-r-4",  type: "video",  sub: "NGINX",  name: "TechWorld with Nana — NGINX in 60 Minutes (visual beginner walkthrough)",       url: "https://www.youtube.com/watch?v=9t9Mp0BGnyI" },
         { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
-        { id: "rprx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
-        { id: "rprx-r-7",  type: "blog",   sub: "NGINX",  name: "DigitalOcean — NGINX tutorials (reverse proxy, LB, Let's Encrypt, microcache)", url: "https://www.digitalocean.com/community/tags/nginx" },
 
         // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → hands-on → reference → architecture deep-reads ─────
         { id: "rprx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },
@@ -1299,10 +1292,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-r-23", type: "video",  sub: "Envoy",  name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)",              url: "https://www.youtube.com/@MarcelDempers" },
         { id: "rprx-r-24", type: "video",  sub: "Envoy",  name: "Tetrate — official YouTube channel (Daniel Bryant + Envoy/Istio talks)",        url: "https://www.youtube.com/@tetrateio" },
         { id: "rprx-r-25", type: "video",  sub: "Envoy",  name: "KubeCon EnvoyCon talks (CNCF YouTube) — Lyft, Pinterest, Reddit, Booking",      url: "https://www.youtube.com/@cncf" },
-        { id: "rprx-r-26", type: "course", sub: "Envoy",  name: "Solo.io Academy — Envoy / Gloo courses (free tier hands-on labs)",              url: "https://academy.solo.io/" },
-        { id: "rprx-r-27", type: "blog",   sub: "Envoy",  name: "Envoy official docs — 'Life of a Request' + listener/cluster/route concepts",   url: "https://www.envoyproxy.io/docs/envoy/latest/" },
-        { id: "rprx-r-28", type: "blog",   sub: "Envoy",  name: "envoyproxy/envoy GitHub — examples directory (front-proxy, gRPC, JWT, ext_authz)", url: "https://github.com/envoyproxy/envoy/tree/main/examples" },
-        { id: "rprx-r-29", type: "blog",   sub: "Envoy",  name: "Matt Klein (Envoy creator) — talks & blog posts (xDS, filter chains rationale)", url: "https://blog.envoyproxy.io/" },
       ],
       milestones: [
         { id: "rprx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },

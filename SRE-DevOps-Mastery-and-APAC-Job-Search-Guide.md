@@ -945,7 +945,6 @@ FROM employees GROUP BY dept;
 | Resource | Type |
 |----------|------|
 | [kubernetes.io Tutorials](https://kubernetes.io/docs/tutorials/) | Start with "Kubernetes Basics". **Start here.** |
-| *Kubernetes Up & Running* (3rd ed.) — Burns/Beda/Hightower/Villalba | O'Reilly book |
 | [ArgoCD docs](https://argo-cd.readthedocs.io) + [OpenGitOps Principles](https://opengitops.dev) | Free — GitOps depth |
 | *Continuous Delivery* — Humble & Farley | Canonical text on release patterns (advanced) |
 
@@ -1106,8 +1105,6 @@ FROM employees GROUP BY dept;
 | [freeCodeCamp — The NGINX Handbook (written companion)](https://www.freecodecamp.org/news/the-nginx-handbook/) | Free long-form handbook — install, config anatomy, static serving, reverse proxy, load balancing, Dockerized NGINX. Reads like a book; pairs well with the video course above when you want to skim, search, or copy-paste configs |
 | [TechWorld with Nana — NGINX in 60 Minutes](https://www.youtube.com/watch?v=9t9Mp0BGnyI) | Beginner-friendly visual explanation — concepts → install → reverse proxy → load balancer in one sitting |
 | [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
-| [NGINX, Inc. — official YouTube channel](https://www.youtube.com/@nginx) | NGINX Conf talks, deep-dive webinars on modules, ingress, NGINX Plus features |
-| [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
 
 **Resources — Envoy (L7 proxy + service-mesh data plane)** *(sorted: learn-first → hands-on → reference → architecture deep-reads)*
 
@@ -1119,10 +1116,6 @@ FROM employees GROUP BY dept;
 | [Marcel Dempers (That DevOps Guy) — Envoy series (YouTube)](https://www.youtube.com/@MarcelDempers) | Free hands-on series — install, front-proxy, observability, mesh data plane. Pairs well with the Tetrate Academy course |
 | [Tetrate — official YouTube channel](https://www.youtube.com/@tetrateio) | Daniel Bryant + community talks on Envoy / Istio in production; the "Envoy Fundamentals" recorded sessions live here |
 | [KubeCon EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
-| [Solo.io Academy — Envoy / Gloo courses](https://academy.solo.io/) | Hands-on labs, free tier |
-| [Envoy official docs](https://www.envoyproxy.io/docs/envoy/latest/) | Authoritative — start with "Life of a Request" + the listener/cluster/route concepts |
-| [envoyproxy/envoy GitHub — examples directory](https://github.com/envoyproxy/envoy/tree/main/examples) | Production-grade config samples — front-proxy, gRPC bridge, JWT, ext_authz |
-| [Matt Klein (Envoy creator) — talks & blog posts](https://blog.envoyproxy.io/) | Architecture rationale from the author — why xDS, why filter chains |
 
 **Time:** 2–3 weeks if focused. Pairs naturally with Stage 5.5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
 
@@ -2748,10 +2741,9 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 2. **"Site Reliability Engineering"** (Google) — FREE at sre.google/books. Chapters 1–6, 11–18.
 3. **"The Site Reliability Workbook"** (Google) — FREE. Practical companion to SRE book.
 4. **"Terraform: Up & Running"** (Brikman, 3rd ed.)
-5. **"Kubernetes Up & Running"** (Burns, Hightower)
-6. **"Learning Go"** (Bodner, O'Reilly)
-7. **"System Design Interview Vol 1 & 2"** (Alex Xu)
-8. **"The Phoenix Project"** (Gene Kim) — fiction; fast read; essential DevOps culture context
+5. **"Learning Go"** (Bodner, O'Reilly)
+6. **"System Design Interview Vol 1 & 2"** (Alex Xu)
+7. **"The Phoenix Project"** (Gene Kim) — fiction; fast read; essential DevOps culture context
 
 ### Courses *(sorted: free starters → cloud fundamentals → K8s → IaC → observability → specialty)*
 
