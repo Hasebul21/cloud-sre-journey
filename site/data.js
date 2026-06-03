@@ -1291,12 +1291,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
         { id: "rprx-r-6",  type: "video",  sub: "NGINX",  name: "NGINX, Inc. — official YouTube channel (NGINX Conf talks, deep dives)",         url: "https://www.youtube.com/@nginx" },
         { id: "rprx-r-7",  type: "blog",   sub: "NGINX",  name: "DigitalOcean — NGINX tutorials (reverse proxy, LB, Let's Encrypt, microcache)", url: "https://www.digitalocean.com/community/tags/nginx" },
-        { id: "rprx-r-8",  type: "blog",   sub: "NGINX",  name: "nginxconfig.io — interactive config generator (TLS, HTTP/2, gzip, headers)",    url: "https://www.digitalocean.com/community/tools/nginx" },
-        { id: "rprx-r-9",  type: "blog",   sub: "NGINX",  name: "NGINX blog — caching guides ('A Guide to Caching with NGINX')",                 url: "https://www.nginx.com/blog/" },
-        { id: "rprx-r-10", type: "book",   sub: "NGINX",  name: "NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)",                          url: "https://www.nginx.com/resources/library/complete-nginx-cookbook/" },
-        { id: "rprx-r-11", type: "blog",   sub: "NGINX",  name: "Official NGINX docs — module reference",                                        url: "https://nginx.org/en/docs/" },
-        { id: "rprx-r-12", type: "blog",   sub: "NGINX",  name: "agentzh's nginx tutorials — request lifecycle, variables, rewrite phase",       url: "https://openresty.org/download/agentzh-nginx-tutorials-en.html" },
-        { id: "rprx-r-13", type: "book",   sub: "NGINX",  name: "Mastering NGINX (2nd ed.) — Dimitri Aivaliotis",                                url: "https://www.packtpub.com/product/mastering-nginx-second-edition/9781782173113" },
 
         // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → hands-on → reference → architecture deep-reads ─────
         { id: "rprx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },

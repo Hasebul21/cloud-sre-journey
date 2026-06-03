@@ -1108,12 +1108,6 @@ FROM employees GROUP BY dept;
 | [Hussein Nasser — NGINX Fundamentals (Udemy)](https://www.udemy.com/course/nginx-fundamentals/) | The go-to NGINX course — directives, proxy, cache, TLS, HTTP/2 |
 | [NGINX, Inc. — official YouTube channel](https://www.youtube.com/@nginx) | NGINX Conf talks, deep-dive webinars on modules, ingress, NGINX Plus features |
 | [DigitalOcean NGINX tutorials](https://www.digitalocean.com/community/tags/nginx) | Practical, recipe-shaped walkthroughs — load balancing, reverse proxy, Let's Encrypt, microcaching |
-| [nginxconfig.io](https://www.digitalocean.com/community/tools/nginx) | Interactive NGINX config generator (DigitalOcean) — sane defaults for TLS, HTTP/2, gzip, security headers |
-| [NGINX blog — caching guides](https://www.nginx.com/blog/) | "A Guide to Caching with NGINX and NGINX Plus" is the canonical post |
-| [NGINX Cookbook — Derek DeJonghe (free from F5/NGINX)](https://www.nginx.com/resources/library/complete-nginx-cookbook/) | Recipe-format reference; chapter 7 (caching) is the one to highlight |
-| [Official NGINX docs](https://nginx.org/en/docs/) | Module reference — `ngx_http_proxy_module`, `ngx_http_upstream_module` |
-| [agentzh's nginx tutorials](https://openresty.org/download/agentzh-nginx-tutorials-en.html) | Deep dive on the request lifecycle, variables, and rewrite phase — the only resource that explains *how* NGINX evaluates a request |
-| *Mastering NGINX* (2nd ed.) — Dimitri Aivaliotis | Book — advanced |
 
 **Resources — Envoy (L7 proxy + service-mesh data plane)** *(sorted: learn-first → hands-on → reference → architecture deep-reads)*
 
