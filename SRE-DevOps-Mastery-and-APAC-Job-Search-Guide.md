@@ -818,6 +818,7 @@ FROM employees GROUP BY dept;
 | OverTheWire — Bandit / Natas | Wargame | [overthewire.org](https://overthewire.org) |
 | *How Linux Works* (3rd ed.) — Ward | Book | No Starch Press |
 | *Computer Networking: A Top-Down Approach* — Kurose & Ross | Book | Chapters 1, 2, 3, 5, 6 |
+| Networking Essentials (DNS, TCP/UDP, HTTP, TLS, LBs) — Hello Interview | Article | [hellointerview.com](https://www.hellointerview.com/learn/system-design/core-concepts/networking-essentials) |
 | *Beej's Guide to Network Programming* | Free online | [beej.us/guide/bgnet](https://beej.us/guide/bgnet/) |
 | Networking Concepts Every DevOps Engineer Must Know | Video (free) | [YouTube](https://www.youtube.com/watch?v=w0SQGCt-6Ro) |
 | *Systems Performance* (2nd ed.) — Brendan Gregg | Book + blog (advanced) | [brendangregg.com](https://www.brendangregg.com) |
@@ -2956,6 +2957,7 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 #### Written Resources
 | Resource | What it gives you | Link |
 |----------|------------------|------|
+| **Hello Interview — Learn** | Written core-concept guides (incl. [Networking Essentials](https://www.hellointerview.com/learn/system-design/core-concepts/networking-essentials)) | https://www.hellointerview.com/learn/system-design |
 | **ByteByteGo Newsletter** | Weekly visual system design breakdowns | https://blog.bytebytego.com |
 | **Quastor** | Real-world engineering blog deep dives | https://blog.quastor.org |
 | **High Scalability** | How top companies actually built their systems | http://highscalability.com |
