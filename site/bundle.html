@@ -2703,9 +2703,10 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     networking: {
       title: "SRE 2 · Networking",
       resources: [
-        { id: "net-r-1", type: "video", sub: "Core networking & protocols",  name: "Computer Networking Full Course — freeCodeCamp",                   url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
-        { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)",                        url: "https://beej.us/guide/bgnet/" },
-        { id: "net-r-4", type: "book", sub: "Core networking & protocols",   name: "TCP/IP Illustrated Vol 1 — Stevens",                                url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
+        // ── Core networking & protocols ──
+        { id: "net-r-1", type: "video", sub: "Core networking & protocols", name: "Computer Networking Full Course — freeCodeCamp", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
+        { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)", url: "https://beej.us/guide/bgnet/" },
+        { id: "net-r-4", type: "book", sub: "Core networking & protocols", name: "TCP/IP Illustrated Vol 1 — Stevens", url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
       ],
       milestones: [
         { id: "net-m-1", name: "Use tcpdump or Wireshark to inspect a HTTP request" },
@@ -2717,30 +2718,30 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     cloud: {
       title: "SRE 3 · Cloud, Containers & K8s",
       resources: [
-        { id: "scl-r-1",  type: "video", sub: "AWS & cloud-native",  name: "AWS Certified Cloud Practitioner — freeCodeCamp",               url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
-        { id: "scl-r-2",  type: "video", sub: "Docker",  name: "Docker Crash Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
-        { id: "scl-r-3",  type: "video", sub: "Kubernetes & Helm",  name: "Kubernetes Full Course — TechWorld with Nana (4h)",             url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
-        { id: "scl-r-4",  type: "video", sub: "Kubernetes & Helm",  name: "Helm Crash Course — KodeKloud",                                 url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
-        { id: "scl-r-5",  type: "video", sub: "Docker",  name: "Bret Fisher — Docker Live Shows (channel)",                     url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
-        { id: "scl-r-7",  type: "course", sub: "AWS & cloud-native", name: "AWS SAA-C03 — Stephane Maarek (Udemy)",                         url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
-        { id: "scl-r-9",  type: "course", sub: "Kubernetes & Helm", name: "KodeKloud — Certified Kubernetes Administrator (CKA)",          url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
-        { id: "scl-r-10", type: "course", sub: "Docker", name: "Docker Mastery — Bret Fisher (Udemy)",                          url: "https://www.udemy.com/course/docker-mastery/" },
-        { id: "scl-r-11", type: "course", sub: "AWS & cloud-native", name: "AWS Skill Builder (free official)",                             url: "https://skillbuilder.aws/" },
-
-        // ───── Linux, shell & OS foundations (terminal fluency comes before orchestration) ─────
-        { id: "scl-r-21", type: "video", sub: "Linux & shell",  name: "Bash Scripting Tutorial — TechWorld with Nana",                 url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
-        { id: "scl-r-22", type: "course", sub: "Linux & shell", name: "MIT Missing Semester (shell, vim, git, ssh)",                   url: "https://missing.csail.mit.edu/" },
-        { id: "scl-r-24", type: "book", sub: "Linux & shell",   name: "The Linux Command Line — William Shotts (free PDF)",            url: "https://linuxcommand.org/tlcl.php" },
-
-        // ───── Databases & data stores (ops: replication, failover, migrations) ─────
+        // ── Linux & shell ──
+        { id: "scl-r-22", type: "course", sub: "Linux & shell", name: "MIT Missing Semester (shell, vim, git, ssh)", url: "https://missing.csail.mit.edu/" },
+        { id: "scl-r-21", type: "video", sub: "Linux & shell", name: "Bash Scripting Tutorial — TechWorld with Nana", url: "https://www.youtube.com/watch?v=tK9Oc6AEnR4" },
+        { id: "scl-r-24", type: "book", sub: "Linux & shell", name: "The Linux Command Line — William Shotts (free PDF)", url: "https://linuxcommand.org/tlcl.php" },
+        // ── Docker ──
+        { id: "scl-r-2", type: "video", sub: "Docker", name: "Docker Crash Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=3c-iBn73dDE" },
+        { id: "scl-r-10", type: "course", sub: "Docker", name: "Docker Mastery — Bret Fisher (Udemy)", url: "https://www.udemy.com/course/docker-mastery/" },
+        { id: "scl-r-5", type: "video", sub: "Docker", name: "Bret Fisher — Docker Live Shows (channel)", url: "https://www.youtube.com/c/BretFisherDockerandDevOps" },
+        // ── Kubernetes & Helm ──
+        { id: "scl-r-3", type: "video", sub: "Kubernetes & Helm", name: "Kubernetes Full Course — TechWorld with Nana (4h)", url: "https://www.youtube.com/watch?v=X48VuDVv0do" },
+        { id: "scl-r-4", type: "video", sub: "Kubernetes & Helm", name: "Helm Crash Course — KodeKloud", url: "https://www.youtube.com/watch?v=jUYNS90nq8U" },
+        { id: "scl-r-9", type: "course", sub: "Kubernetes & Helm", name: "KodeKloud — Certified Kubernetes Administrator (CKA)", url: "https://kodekloud.com/courses/certified-kubernetes-administrator-cka/" },
+        // ── AWS & cloud-native ──
+        { id: "scl-r-1", type: "video", sub: "AWS & cloud-native", name: "AWS Certified Cloud Practitioner — freeCodeCamp", url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
+        { id: "scl-r-11", type: "course", sub: "AWS & cloud-native", name: "AWS Skill Builder (free official)", url: "https://skillbuilder.aws/" },
+        { id: "scl-r-7", type: "course", sub: "AWS & cloud-native", name: "AWS SAA-C03 — Stephane Maarek (Udemy)", url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
+        // ── Databases & data stores ──
         { id: "scl-r-40", type: "course", sub: "Databases & data stores", name: "Hussein Nasser — Fundamentals of Database Engineering (Udemy)", url: "https://www.udemy.com/course/database-engines-crash-course/" },
-        { id: "scl-r-43", type: "blog",   sub: "Databases & data stores", name: "PostgreSQL docs — High Availability & Replication",             url: "https://www.postgresql.org/docs/current/high-availability.html" },
-        { id: "scl-r-44", type: "book",   sub: "Databases & data stores", name: "Database Reliability Engineering — Campbell & Majors",           url: "https://www.oreilly.com/library/view/database-reliability-engineering/9781491925935/" },
-
-        // ───── Storage & virtualization (object/block/file · KVM · Ceph) ─────
-        { id: "scl-r-46", type: "blog",  sub: "Storage & virtualization", name: "Red Hat — Block vs File vs Object storage",                     url: "https://www.redhat.com/en/topics/data-storage/file-block-object-storage" },
-        { id: "scl-r-47", type: "video", sub: "Storage & virtualization", name: "How Linux Virtualization Works: KVM, QEMU & Libvirt (YouTube)",  url: "https://www.youtube.com/watch?v=Cz3Pi11Tr84" },
-        { id: "scl-r-49", type: "blog",  sub: "Storage & virtualization", name: "Ceph docs — Architecture (RADOS / CRUSH / RBD / RGW)",           url: "https://docs.ceph.com/en/latest/architecture/" },
+        { id: "scl-r-43", type: "blog", sub: "Databases & data stores", name: "PostgreSQL docs — High Availability & Replication", url: "https://www.postgresql.org/docs/current/high-availability.html" },
+        { id: "scl-r-44", type: "book", sub: "Databases & data stores", name: "Database Reliability Engineering — Campbell & Majors", url: "https://www.oreilly.com/library/view/database-reliability-engineering/9781491925935/" },
+        // ── Storage & virtualization ──
+        { id: "scl-r-46", type: "blog", sub: "Storage & virtualization", name: "Red Hat — Block vs File vs Object storage", url: "https://www.redhat.com/en/topics/data-storage/file-block-object-storage" },
+        { id: "scl-r-47", type: "video", sub: "Storage & virtualization", name: "How Linux Virtualization Works: KVM, QEMU & Libvirt (YouTube)", url: "https://www.youtube.com/watch?v=Cz3Pi11Tr84" },
+        { id: "scl-r-49", type: "blog", sub: "Storage & virtualization", name: "Ceph docs — Architecture (RADOS / CRUSH / RBD / RGW)", url: "https://docs.ceph.com/en/latest/architecture/" },
       ],
       milestones: [
         { id: "scl-m-1", name: "Pass AWS Cloud Practitioner (or finish 50% of SAA course)" },
@@ -2766,12 +2767,14 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     automation: {
       title: "SRE 10 · Automation — IaC + CI/CD + GitOps",
       resources: [
-        { id: "sau-r-1",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Terraform Full Course — TechWorld with Nana",                   url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
-        { id: "sau-r-2",  type: "video", sub: "IaC — Terraform & Ansible",  name: "Ansible Full Course — TechWorld with Nana",                     url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
-        { id: "sau-r-4",  type: "video", sub: "CI/CD & GitOps",  name: "GitHub Actions Full Course — TechWorld with Nana",              url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
-        { id: "sau-r-5",  type: "video", sub: "CI/CD & GitOps",  name: "ArgoCD GitOps — KodeKloud",                                     url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
-        { id: "sau-r-6",  type: "course", sub: "IaC — Terraform & Ansible", name: "HashiCorp Learn — Terraform (free)",                            url: "https://developer.hashicorp.com/terraform/tutorials" },
-        { id: "sau-r-14", type: "blog", sub: "CI/CD & GitOps",   name: "Google DORA — DevOps research papers",                          url: "https://dora.dev/" },
+        // ── IaC — Terraform & Ansible ──
+        { id: "sau-r-1", type: "video", sub: "IaC — Terraform & Ansible", name: "Terraform Full Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=SLB_c_ayRMo" },
+        { id: "sau-r-6", type: "course", sub: "IaC — Terraform & Ansible", name: "HashiCorp Learn — Terraform (free)", url: "https://developer.hashicorp.com/terraform/tutorials" },
+        { id: "sau-r-2", type: "video", sub: "IaC — Terraform & Ansible", name: "Ansible Full Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=goclfp6a2IQ" },
+        // ── CI/CD & GitOps ──
+        { id: "sau-r-4", type: "video", sub: "CI/CD & GitOps", name: "GitHub Actions Full Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
+        { id: "sau-r-5", type: "video", sub: "CI/CD & GitOps", name: "ArgoCD GitOps — KodeKloud", url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
+        { id: "sau-r-14", type: "blog", sub: "CI/CD & GitOps", name: "Google DORA — DevOps research papers", url: "https://dora.dev/" },
       ],
       milestones: [
         { id: "sau-m-1", name: "Write a Terraform module with vars + outputs + remote state (S3 + DynamoDB lock)" },
@@ -2788,10 +2791,12 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     language: {
       title: "SRE 1 · Language",
       resources: [
-        { id: "lang-r-1", type: "course", sub: "Go",              name: "Go: The Complete Developer's Guide — Stephen Grider (Udemy) · concurrency, interfaces, web servers",      url: "https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1" },
-        { id: "lang-r-2", type: "video",  sub: "Go",              name: "Golang Tutorial for Beginners — Full Go Course (YouTube · free) · syntax + idioms walkthrough",            url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
-        { id: "lang-r-4", type: "course", sub: "Python / FastAPI", name: "FastAPI — The Complete Course (Udemy) · async API, Pydantic, OpenAPI, auth",                              url: "https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1" },
-        { id: "lang-r-5", type: "video",  sub: "Python / FastAPI", name: "Python Tutorial for Beginners — Learn Python in 5 Hours [Full Course] (YouTube · free)",                  url: "https://www.youtube.com/watch?v=t8pPdKYpowI" },
+        // ── Go ──
+        { id: "lang-r-2", type: "video", sub: "Go", name: "Golang Tutorial for Beginners — Full Go Course (YouTube · free) · syntax + idioms walkthrough", url: "https://www.youtube.com/watch?v=yyUHQIec83I" },
+        { id: "lang-r-1", type: "course", sub: "Go", name: "Go: The Complete Developer's Guide — Stephen Grider (Udemy) · concurrency, interfaces, web servers", url: "https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1" },
+        // ── Python / FastAPI ──
+        { id: "lang-r-5", type: "video", sub: "Python / FastAPI", name: "Python Tutorial for Beginners — Learn Python in 5 Hours [Full Course] (YouTube · free)", url: "https://www.youtube.com/watch?v=t8pPdKYpowI" },
+        { id: "lang-r-4", type: "course", sub: "Python / FastAPI", name: "FastAPI — The Complete Course (Udemy) · async API, Pydantic, OpenAPI, auth", url: "https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1" },
       ],
       milestones: [
         { id: "lang-m-1", name: "Go: write a small HTTP service with net/http + chi or gorilla — handlers, middleware, JSON" },
@@ -2805,15 +2810,18 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     "ai-l1": {
       title: "AI · Level 1 — Foundations",
       resources: [
-        { id: "ai1-r-1",  type: "video",  name: "Andrej Karpathy — Intro to Large Language Models (1 hr)",        url: "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
-        { id: "ai1-r-2",  type: "video",  name: "Andrej Karpathy — Let's build GPT from scratch",                 url: "https://www.youtube.com/watch?v=kCc8FmEb1nY" },
-        { id: "ai1-r-3",  type: "video",  name: "3Blue1Brown — But what is a GPT? Visual intro to Transformers", url: "https://www.youtube.com/watch?v=wjZofJX0v4M" },
-        { id: "ai1-r-4",  type: "video",  name: "Andrej Karpathy — State of GPT (Microsoft Build)",               url: "https://www.youtube.com/watch?v=bZQun8Y4L2A" },
-        { id: "ai1-r-5",  type: "course", name: "DeepLearning.AI — ChatGPT Prompt Engineering for Developers (free)", url: "https://learn.deeplearning.ai/courses/chatgpt-prompt-eng" },
-        { id: "ai1-r-6",  type: "course", name: "Hugging Face NLP Course (free)",                                 url: "https://huggingface.co/learn/nlp-course" },
-        { id: "ai1-r-7",  type: "course", name: "roadmap.sh — AI Engineer roadmap",                               url: "https://roadmap.sh/ai-engineer" },
-        { id: "ai1-r-8",  type: "book",   name: "AI Engineering — Chip Huyen (2025)",                             url: "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" },
-        { id: "ai1-r-9",  type: "book",   name: "Designing Machine Learning Systems — Chip Huyen",                url: "https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/" },
+        // ── Mental models (watch first) ──
+        { id: "ai1-r-3", type: "video", sub: "Mental models (watch first)", name: "3Blue1Brown — But what is a GPT? Visual intro to Transformers", url: "https://www.youtube.com/watch?v=wjZofJX0v4M" },
+        { id: "ai1-r-1", type: "video", sub: "Mental models (watch first)", name: "Andrej Karpathy — Intro to Large Language Models (1 hr)", url: "https://www.youtube.com/watch?v=zjkBMFhNj_g" },
+        { id: "ai1-r-4", type: "video", sub: "Mental models (watch first)", name: "Andrej Karpathy — State of GPT (Microsoft Build)", url: "https://www.youtube.com/watch?v=bZQun8Y4L2A" },
+        // ── Hands-on courses ──
+        { id: "ai1-r-5", type: "course", sub: "Hands-on courses", name: "DeepLearning.AI — ChatGPT Prompt Engineering for Developers (free)", url: "https://learn.deeplearning.ai/courses/chatgpt-prompt-eng" },
+        { id: "ai1-r-6", type: "course", sub: "Hands-on courses", name: "Hugging Face NLP Course (free)", url: "https://huggingface.co/learn/nlp-course" },
+        { id: "ai1-r-2", type: "video", sub: "Hands-on courses", name: "Andrej Karpathy — Let's build GPT from scratch", url: "https://www.youtube.com/watch?v=kCc8FmEb1nY" },
+        // ── Books & roadmap ──
+        { id: "ai1-r-7", type: "course", sub: "Books & roadmap", name: "roadmap.sh — AI Engineer roadmap", url: "https://roadmap.sh/ai-engineer" },
+        { id: "ai1-r-8", type: "book", sub: "Books & roadmap", name: "AI Engineering — Chip Huyen (2025)", url: "https://www.oreilly.com/library/view/ai-engineering/9781098166298/" },
+        { id: "ai1-r-9", type: "book", sub: "Books & roadmap", name: "Designing Machine Learning Systems — Chip Huyen", url: "https://www.oreilly.com/library/view/designing-machine-learning/9781098107956/" },
       ],
       milestones: [
         { id: "ai1-m-1", name: "Read roadmap.sh/ai-engineer end-to-end; note unfamiliar terms in sre-ai/concepts.md" },
@@ -2826,17 +2834,21 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     "ai-l2": {
       title: "AI · Level 2 — Core Engineering",
       resources: [
-        { id: "ai2-r-1",  type: "video",  name: "Krishna Naik — Agentic AI Tutorials playlist",                   url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPFd7JdvB-rnTb_5V26NYNO" },
-        { id: "ai2-r-2",  type: "video",  name: "Krishna Naik — Model Context Protocol (MCP) playlist",           url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK" },
-        { id: "ai2-r-3",  type: "course", name: "LangChain + LangGraph docs",                                     url: "https://www.langchain.com/langgraph" },
-        { id: "ai2-r-4",  type: "course", name: "DSPy (Stanford) — programmatic prompt optimization",             url: "https://dspy.ai" },
-        { id: "ai2-r-5",  type: "course", name: "Ollama — local LLM runtime",                                     url: "https://ollama.com" },
-        { id: "ai2-r-6",  type: "course", name: "pgvector + Postgres tutorial",                                   url: "https://github.com/pgvector/pgvector" },
-        { id: "ai2-r-7",  type: "book",   name: "Hands-On Large Language Models — Alammar & Grootendorst",        url: "https://www.oreilly.com/library/view/hands-on-large-language/9781098150952/" },
-        { id: "ai2-r-8",  type: "blog",   name: "Simon Willison's blog — daily LLM practitioner notes",           url: "https://simonwillison.net" },
-        { id: "ai2-r-9",  type: "blog",   name: "Anthropic Engineering blog",                                     url: "https://www.anthropic.com/engineering" },
-        { id: "ai2-r-10", type: "blog",   name: "Hamel Husain — eval-driven LLM development",                     url: "https://hamel.dev" },
-        { id: "ai2-r-11", type: "blog",   name: "Hugging Face blog",                                              url: "https://huggingface.co/blog" },
+        // ── Frameworks & tooling ──
+        { id: "ai2-r-3", type: "course", sub: "Frameworks & tooling", name: "LangChain + LangGraph docs", url: "https://www.langchain.com/langgraph" },
+        { id: "ai2-r-1", type: "video", sub: "Frameworks & tooling", name: "Krishna Naik — Agentic AI Tutorials playlist", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPFd7JdvB-rnTb_5V26NYNO" },
+        { id: "ai2-r-2", type: "video", sub: "Frameworks & tooling", name: "Krishna Naik — Model Context Protocol (MCP) playlist", url: "https://www.youtube.com/playlist?list=PLZoTAELRMXVPC8r1xF68Gksi241DAtMsK" },
+        // ── Local LLM & data ──
+        { id: "ai2-r-5", type: "course", sub: "Local LLM & data", name: "Ollama — local LLM runtime", url: "https://ollama.com" },
+        { id: "ai2-r-6", type: "course", sub: "Local LLM & data", name: "pgvector + Postgres tutorial", url: "https://github.com/pgvector/pgvector" },
+        { id: "ai2-r-4", type: "course", sub: "Local LLM & data", name: "DSPy (Stanford) — programmatic prompt optimization", url: "https://dspy.ai" },
+        // ── Books & blogs ──
+        { id: "ai2-r-7", type: "book", sub: "Books & blogs", name: "Hands-On Large Language Models — Alammar & Grootendorst", url: "https://www.oreilly.com/library/view/hands-on-large-language/9781098150952/" },
+        { id: "ai2-r-8", type: "blog", sub: "Books & blogs", name: "Simon Willison's blog — daily LLM practitioner notes", url: "https://simonwillison.net" },
+        { id: "ai2-r-9", type: "blog", sub: "Books & blogs", name: "Anthropic Engineering blog", url: "https://www.anthropic.com/engineering" },
+        // ── Eval-driven practice ──
+        { id: "ai2-r-10", type: "blog", sub: "Eval-driven practice", name: "Hamel Husain — eval-driven LLM development", url: "https://hamel.dev" },
+        { id: "ai2-r-11", type: "blog", sub: "Eval-driven practice", name: "Hugging Face blog", url: "https://huggingface.co/blog" },
       ],
       milestones: [
         { id: "ai2-m-1", name: "sre-ai/hello-rag — call Anthropic + Ollama from Python; embed docs with sentence-transformers" },
@@ -2850,20 +2862,26 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     "ai-l3": {
       title: "AI · Level 3 — Advanced / Production",
       resources: [
-        { id: "ai3-r-1",  type: "course", name: "Anthropic — Model Context Protocol spec",                        url: "https://modelcontextprotocol.io" },
-        { id: "ai3-r-2",  type: "course", name: "vLLM — high-throughput LLM serving docs",                        url: "https://docs.vllm.ai" },
-        { id: "ai3-r-3",  type: "course", name: "Ragas — RAG evaluation framework",                               url: "https://docs.ragas.io" },
-        { id: "ai3-r-4",  type: "course", name: "Promptfoo — adversarial / red-team prompt testing",              url: "https://www.promptfoo.dev" },
-        { id: "ai3-r-5",  type: "course", name: "Langfuse — LLM observability + traces",                          url: "https://langfuse.com" },
-        { id: "ai3-r-6",  type: "blog",   name: "Anthropic — Building Effective Agents (2024)",                   url: "https://www.anthropic.com/research/building-effective-agents" },
-        { id: "ai3-r-7",  type: "blog",   name: "Lilian Weng — LLM agents / RLHF / hallucination posts",          url: "https://lilianweng.github.io" },
-        { id: "ai3-r-8",  type: "blog",   name: "Heinrich Hartmann — 'LLM as on-call copilot, not autopilot'",    url: "https://heinrichhartmann.com" },
-        { id: "ai3-r-9",  type: "blog",   name: "Honeycomb — AI assistance for observability",                    url: "https://www.honeycomb.io/blog" },
-        { id: "ai3-r-10", type: "blog",   name: "Phil Schmid — production fine-tuning + serving",                 url: "https://www.philschmid.de" },
-        { id: "ai3-r-11", type: "blog",   name: "Lewis et al. 2020 — Retrieval-Augmented Generation (RAG paper)", url: "https://arxiv.org/abs/2005.11401" },
-        { id: "ai3-r-12", type: "blog",   name: "Yao et al. 2022 — ReAct: Reasoning + Acting",                    url: "https://arxiv.org/abs/2210.03629" },
-        { id: "ai3-r-13", type: "blog",   name: "Sculley et al. 2015 — Hidden Tech Debt in ML Systems",           url: "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems" },
-        { id: "ai3-r-14", type: "blog",   name: "Amershi et al. 2019 — Software Engineering for ML (Microsoft)",  url: "https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/" },
+        // ── Agents & MCP ──
+        { id: "ai3-r-6", type: "blog", sub: "Agents & MCP", name: "Anthropic — Building Effective Agents (2024)", url: "https://www.anthropic.com/research/building-effective-agents" },
+        { id: "ai3-r-7", type: "blog", sub: "Agents & MCP", name: "Lilian Weng — LLM agents / RLHF / hallucination posts", url: "https://lilianweng.github.io" },
+        { id: "ai3-r-1", type: "course", sub: "Agents & MCP", name: "Anthropic — Model Context Protocol spec", url: "https://modelcontextprotocol.io" },
+        // ── Serving, fine-tuning & observability ──
+        { id: "ai3-r-2", type: "course", sub: "Serving, fine-tuning & observability", name: "vLLM — high-throughput LLM serving docs", url: "https://docs.vllm.ai" },
+        { id: "ai3-r-10", type: "blog", sub: "Serving, fine-tuning & observability", name: "Phil Schmid — production fine-tuning + serving", url: "https://www.philschmid.de" },
+        { id: "ai3-r-5", type: "course", sub: "Serving, fine-tuning & observability", name: "Langfuse — LLM observability + traces", url: "https://langfuse.com" },
+        // ── Evaluation & red-teaming ──
+        { id: "ai3-r-3", type: "course", sub: "Evaluation & red-teaming", name: "Ragas — RAG evaluation framework", url: "https://docs.ragas.io" },
+        { id: "ai3-r-4", type: "course", sub: "Evaluation & red-teaming", name: "Promptfoo — adversarial / red-team prompt testing", url: "https://www.promptfoo.dev" },
+        // ── AI for SRE / ops ──
+        { id: "ai3-r-8", type: "blog", sub: "AI for SRE / ops", name: "Heinrich Hartmann — 'LLM as on-call copilot, not autopilot'", url: "https://heinrichhartmann.com" },
+        { id: "ai3-r-9", type: "blog", sub: "AI for SRE / ops", name: "Honeycomb — AI assistance for observability", url: "https://www.honeycomb.io/blog" },
+        // ── Core LLM papers ──
+        { id: "ai3-r-11", type: "blog", sub: "Core LLM papers", name: "Lewis et al. 2020 — Retrieval-Augmented Generation (RAG paper)", url: "https://arxiv.org/abs/2005.11401" },
+        { id: "ai3-r-12", type: "blog", sub: "Core LLM papers", name: "Yao et al. 2022 — ReAct: Reasoning + Acting", url: "https://arxiv.org/abs/2210.03629" },
+        // ── ML-systems papers ──
+        { id: "ai3-r-13", type: "blog", sub: "ML-systems papers", name: "Sculley et al. 2015 — Hidden Tech Debt in ML Systems", url: "https://papers.nips.cc/paper/5656-hidden-technical-debt-in-machine-learning-systems" },
+        { id: "ai3-r-14", type: "blog", sub: "ML-systems papers", name: "Amershi et al. 2019 — Software Engineering for ML (Microsoft)", url: "https://www.microsoft.com/en-us/research/publication/software-engineering-for-machine-learning-a-case-study/" },
       ],
       milestones: [
         { id: "ai3-m-1", name: "sre-ai/oncall-copilot — incident-triage agent with MCP + read-only Prom/Loki tools" },
@@ -2878,14 +2896,17 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     "ai-l4": {
       title: "AI · Level 4 — Specialist & Cross-cutting",
       resources: [
-        { id: "ai4-r-1",  type: "blog",   name: "Latent Space (swyx + Alessio) — top AI engineer interviews",     url: "https://www.latent.space" },
-        { id: "ai4-r-2",  type: "video",  name: "AI Engineer Pod / Summit talks (YouTube)",                       url: "https://www.youtube.com/@aiDotEngineer" },
-        { id: "ai4-r-3",  type: "blog",   name: "The Batch (DeepLearning.AI) — weekly newsletter",                url: "https://www.deeplearning.ai/the-batch" },
-        { id: "ai4-r-4",  type: "blog",   name: "Sebastian Ruder — NLP newsletter",                               url: "https://newsletter.ruder.io" },
-        { id: "ai4-r-5",  type: "blog",   name: "Last Week in AI — research + industry roundup",                  url: "https://lastweekin.ai" },
-        { id: "ai4-r-6",  type: "blog",   name: "Import AI (Jack Clark) — research + policy briefing",            url: "https://importai.substack.com" },
-        { id: "ai4-r-7",  type: "blog",   name: "Chip Huyen blog — SE4AI / MLOps perspective",                    url: "https://huyenchip.com" },
-        { id: "ai4-r-8",  type: "blog",   name: "Google SRE blog — AI-assisted on-call",                          url: "https://sre.google/resources/blog" },
+        // ── Podcasts & talks ──
+        { id: "ai4-r-1", type: "blog", sub: "Podcasts & talks", name: "Latent Space (swyx + Alessio) — top AI engineer interviews", url: "https://www.latent.space" },
+        { id: "ai4-r-2", type: "video", sub: "Podcasts & talks", name: "AI Engineer Pod / Summit talks (YouTube)", url: "https://www.youtube.com/@aiDotEngineer" },
+        // ── Newsletters ──
+        { id: "ai4-r-3", type: "blog", sub: "Newsletters", name: "The Batch (DeepLearning.AI) — weekly newsletter", url: "https://www.deeplearning.ai/the-batch" },
+        { id: "ai4-r-5", type: "blog", sub: "Newsletters", name: "Last Week in AI — research + industry roundup", url: "https://lastweekin.ai" },
+        { id: "ai4-r-6", type: "blog", sub: "Newsletters", name: "Import AI (Jack Clark) — research + policy briefing", url: "https://importai.substack.com" },
+        // ── Deep-dive blogs ──
+        { id: "ai4-r-7", type: "blog", sub: "Deep-dive blogs", name: "Chip Huyen blog — SE4AI / MLOps perspective", url: "https://huyenchip.com" },
+        { id: "ai4-r-4", type: "blog", sub: "Deep-dive blogs", name: "Sebastian Ruder — NLP newsletter", url: "https://newsletter.ruder.io" },
+        { id: "ai4-r-8", type: "blog", sub: "Deep-dive blogs", name: "Google SRE blog — AI-assisted on-call", url: "https://sre.google/resources/blog" },
       ],
       milestones: [
         { id: "ai4-m-1", name: "Write a public blog post: 'vLLM vs hosted Claude for SRE workloads' with benchmark numbers" },
@@ -2900,25 +2921,22 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     edge: {
       title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
       resources: [
-        // ───── Fastly / VCL (global CDN edge) — sorted: learn-first → reference → war-stories ─────
+        // ── HTTP caching theory ──
+        { id: "sed-r-27", type: "blog", sub: "HTTP caching theory", name: "MDN — HTTP Caching reference — Start here", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
+        { id: "sed-r-25", type: "blog", sub: "HTTP caching theory", name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
+        { id: "sed-r-24", type: "book", sub: "HTTP caching theory", name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
+        // ── Load Balancer (HAProxy) ──
+        { id: "sed-r-31", type: "course", sub: "Load Balancer (HAProxy)", name: "KodeKloud — HAProxy for Beginners — Start here", url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
+        { id: "sed-r-32", type: "video", sub: "Load Balancer (HAProxy)", name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)", url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
+        { id: "sed-r-34", type: "blog", sub: "Load Balancer (HAProxy)", name: "HAProxy official docs (configuration manual)", url: "https://docs.haproxy.org/" },
+        // ── CDN (Fastly / VCL) ──
         { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
-        { id: "sed-r-14", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Documentation hub (Concepts + VCL)",                          url: "https://www.fastly.com/documentation/" },
-        { id: "sed-r-17", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground",           url: "https://fiddle.fastly.dev" },
-
-        // ───── Kong — K8s ingress + API gateway — sorted: learn-first → architecture deep-reads ─────
-        { id: "sed-r-1",  type: "course", sub: "API Gateway (Kong)", name: "Kong Docs — Get Started with Kong Gateway — Start here",            url: "https://docs.konghq.com/gateway/latest/get-started/" },
-        { id: "sed-r-3",  type: "course", sub: "API Gateway (Kong)", name: "Hussein Nasser — Kong API Gateway (Udemy)",                         url: "https://www.udemy.com/course/kong-api-gateway/" },
-        { id: "sed-r-6",  type: "blog", sub: "API Gateway (Kong)",   name: "Kong Ingress Controller docs (K8s CRDs)",                           url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
-
-        // ───── HAProxy (L4/L7 load balancer) — sorted: learn-first → reference ─────
-        { id: "sed-r-31", type: "course", sub: "Load Balancer (HAProxy)", name: "KodeKloud — HAProxy for Beginners — Start here",                    url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
-        { id: "sed-r-32", type: "video", sub: "Load Balancer (HAProxy)",  name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)",    url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
-        { id: "sed-r-34", type: "blog", sub: "Load Balancer (HAProxy)",   name: "HAProxy official docs (configuration manual)",                      url: "https://docs.haproxy.org/" },
-
-        // ───── HTTP caching theory (cross-cutting) — sorted: learn-first → tutorials → book/spec ─────
-        { id: "sed-r-27", type: "blog", sub: "HTTP caching theory",   name: "MDN — HTTP Caching reference — Start here",                          url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
-        { id: "sed-r-25", type: "blog", sub: "HTTP caching theory",   name: "Mark Nottingham — Caching Tutorial (canonical, by HTTP RFC author)", url: "https://www.mnot.net/cache_docs/" },
-        { id: "sed-r-24", type: "book", sub: "HTTP caching theory",   name: "High Performance Browser Networking — Ilya Grigorik (free, ch 8–11)", url: "https://hpbn.co" },
+        { id: "sed-r-14", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Documentation hub (Concepts + VCL)", url: "https://www.fastly.com/documentation/" },
+        { id: "sed-r-17", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground", url: "https://fiddle.fastly.dev" },
+        // ── API Gateway (Kong) ──
+        { id: "sed-r-1", type: "course", sub: "API Gateway (Kong)", name: "Kong Docs — Get Started with Kong Gateway — Start here", url: "https://docs.konghq.com/gateway/latest/get-started/" },
+        { id: "sed-r-3", type: "course", sub: "API Gateway (Kong)", name: "Hussein Nasser — Kong API Gateway (Udemy)", url: "https://www.udemy.com/course/kong-api-gateway/" },
+        { id: "sed-r-6", type: "blog", sub: "API Gateway (Kong)", name: "Kong Ingress Controller docs (K8s CRDs)", url: "https://docs.konghq.com/kubernetes-ingress-controller/latest/" },
       ],
       milestones: [
         { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
@@ -2934,15 +2952,14 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     revproxy: {
       title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
       resources: [
-        // ───── NGINX (reverse proxy + cache) — sorted: learn-first → recipes → reference → deep dive ─────
-        { id: "rprx-r-1",  type: "course", sub: "NGINX",  name: "KodeKloud — Nginx for Beginners — Start here",                                  url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
-        { id: "rprx-r-3",  type: "video",  sub: "NGINX",  name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)",                url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
-        { id: "rprx-r-5",  type: "course", sub: "NGINX",  name: "Hussein Nasser — NGINX Fundamentals (Udemy)",                                   url: "https://www.udemy.com/course/nginx-fundamentals/" },
-
-        // ───── Envoy (L7 proxy + service-mesh data plane) — sorted: learn-first → hands-on → reference → architecture deep-reads ─────
-        { id: "rprx-r-20", type: "course", sub: "Envoy",  name: "Tetrate Academy — free Envoy + Istio courses — Start here",                     url: "https://academy.tetrate.io/" },
-        { id: "rprx-r-22", type: "course", sub: "Envoy",  name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)",        url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
-        { id: "rprx-r-23", type: "video",  sub: "Envoy",  name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)",              url: "https://www.youtube.com/@MarcelDempers" },
+        // ── NGINX ──
+        { id: "rprx-r-1", type: "course", sub: "NGINX", name: "KodeKloud — Nginx for Beginners — Start here", url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
+        { id: "rprx-r-3", type: "video", sub: "NGINX", name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)", url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
+        { id: "rprx-r-5", type: "course", sub: "NGINX", name: "Hussein Nasser — NGINX Fundamentals (Udemy)", url: "https://www.udemy.com/course/nginx-fundamentals/" },
+        // ── Envoy ──
+        { id: "rprx-r-20", type: "course", sub: "Envoy", name: "Tetrate Academy — free Envoy + Istio courses — Start here", url: "https://academy.tetrate.io/" },
+        { id: "rprx-r-22", type: "course", sub: "Envoy", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)", url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
+        { id: "rprx-r-23", type: "video", sub: "Envoy", name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)", url: "https://www.youtube.com/@MarcelDempers" },
       ],
       milestones: [
         { id: "rprx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
@@ -2957,29 +2974,24 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     fwdproxy: {
       title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
       resources: [
-        // ───── Concepts — forward vs reverse proxy mental model ─────
-        { id: "fprx-r-1",  type: "blog",   sub: "Concepts",          name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here",        url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
-        { id: "fprx-r-2",  type: "video",  sub: "Concepts",          name: "Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube, protocol-level walkthrough)", url: "https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy" },
-
-        // ───── Squid (classic forward + caching proxy) ─────
-        { id: "fprx-r-3",  type: "course", sub: "Squid",             name: "Squid official documentation — squid.conf directives, ACLs, cache peering",        url: "http://www.squid-cache.org/Doc/" },
-        { id: "fprx-r-4",  type: "blog",   sub: "Squid",             name: "Squid Wiki — Squid in 10 minutes / Beginners FAQ — fastest path to working squid.conf", url: "https://wiki.squid-cache.org/SquidFaq/BeginnersFaq" },
-        { id: "fprx-r-5",  type: "book",   sub: "Squid",             name: "Squid: The Definitive Guide — Duane Wessels (O'Reilly classic, deep dive)",       url: "https://www.oreilly.com/library/view/squid-the-definitive/0596001622/" },
-
-        // ───── mitmproxy (debug & test egress) ─────
-        { id: "fprx-r-6",  type: "course", sub: "mitmproxy",         name: "mitmproxy official docs — intercept, modify, replay HTTP/2/gRPC — Start here for testing", url: "https://docs.mitmproxy.org/stable/" },
-        { id: "fprx-r-7",  type: "video",  sub: "mitmproxy",         name: "mitmproxy — YouTube channel (TLS bumping, addons, transparent mode)",              url: "https://www.youtube.com/@mitmproxy" },
-
-        // ───── Cloud egress (AWS / GCP) ─────
-        { id: "fprx-r-8",  type: "course", sub: "Cloud egress",      name: "AWS — NAT Gateway documentation (bandwidth, cost per AZ, port exhaustion)",        url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" },
-        { id: "fprx-r-9",  type: "course", sub: "Cloud egress",      name: "AWS — VPC Endpoints (Interface / Gateway / PrivateLink) — stop paying NAT for S3", url: "https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html" },
-
-        // ───── Service-mesh egress (Istio / Envoy) ─────
-        { id: "fprx-r-10", type: "course", sub: "Mesh egress",       name: "Istio — EgressGateway docs (ServiceEntry, mTLS to external services, audit)",     url: "https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/" },
-        { id: "fprx-r-11", type: "blog",   sub: "Mesh egress",       name: "Envoy — security/egress filter reference (auth filters, RBAC, ext_authz)",        url: "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro" },
-
-        // ───── TLS interception trade-offs ─────
-        { id: "fprx-r-12", type: "blog",   sub: "TLS interception",  name: "Julia Evans — How HTTPS Works zine + corporate-proxy posts (approachable)",       url: "https://wizardzines.com/zines/https/" },
+        // ── Concepts ──
+        { id: "fprx-r-1", type: "blog", sub: "Concepts", name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here", url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
+        { id: "fprx-r-2", type: "video", sub: "Concepts", name: "Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube, protocol-level walkthrough)", url: "https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy" },
+        // ── Squid ──
+        { id: "fprx-r-4", type: "blog", sub: "Squid", name: "Squid Wiki — Squid in 10 minutes / Beginners FAQ — fastest path to working squid.conf", url: "https://wiki.squid-cache.org/SquidFaq/BeginnersFaq" },
+        { id: "fprx-r-3", type: "course", sub: "Squid", name: "Squid official documentation — squid.conf directives, ACLs, cache peering", url: "http://www.squid-cache.org/Doc/" },
+        { id: "fprx-r-5", type: "book", sub: "Squid", name: "Squid: The Definitive Guide — Duane Wessels (O'Reilly classic, deep dive)", url: "https://www.oreilly.com/library/view/squid-the-definitive/0596001622/" },
+        // ── mitmproxy ──
+        { id: "fprx-r-6", type: "course", sub: "mitmproxy", name: "mitmproxy official docs — intercept, modify, replay HTTP/2/gRPC — Start here for testing", url: "https://docs.mitmproxy.org/stable/" },
+        { id: "fprx-r-7", type: "video", sub: "mitmproxy", name: "mitmproxy — YouTube channel (TLS bumping, addons, transparent mode)", url: "https://www.youtube.com/@mitmproxy" },
+        // ── Cloud egress ──
+        { id: "fprx-r-8", type: "course", sub: "Cloud egress", name: "AWS — NAT Gateway documentation (bandwidth, cost per AZ, port exhaustion)", url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" },
+        { id: "fprx-r-9", type: "course", sub: "Cloud egress", name: "AWS — VPC Endpoints (Interface / Gateway / PrivateLink) — stop paying NAT for S3", url: "https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html" },
+        // ── Mesh egress ──
+        { id: "fprx-r-10", type: "course", sub: "Mesh egress", name: "Istio — EgressGateway docs (ServiceEntry, mTLS to external services, audit)", url: "https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/" },
+        { id: "fprx-r-11", type: "blog", sub: "Mesh egress", name: "Envoy — security/egress filter reference (auth filters, RBAC, ext_authz)", url: "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro" },
+        // ── TLS interception ──
+        { id: "fprx-r-12", type: "blog", sub: "TLS interception", name: "Julia Evans — How HTTPS Works zine + corporate-proxy posts (approachable)", url: "https://wizardzines.com/zines/https/" },
       ],
       milestones: [
         { id: "fprx-m-1", name: "Stand up Squid in Docker as a caching forward proxy; route a curl through it; verify HIT/MISS in access.log" },
@@ -2993,34 +3005,30 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     reliability: {
       title: "SRE 4 · Reliability — SLOs, Resilience, Chaos & Observability",
       resources: [
-        // ───── SRE principles — SLI / SLO / SLA · error budgets · toil (the concepts that define the role) ─────
-        { id: "srl-r-40", type: "video", sub: "SRE principles — SLOs, error budgets & toil", name: "SLO vs SLI vs SLA vs Error Budget — explained",            url: "https://www.youtube.com/watch?v=Akri1BlGp10" },
-        { id: "srl-r-42", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Workbook — Implementing SLOs",                  url: "https://sre.google/workbook/implementing-slos/" },
-        { id: "srl-r-44", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Book — Eliminating Toil (ch 5; aim for < 50%)", url: "https://sre.google/sre-book/eliminating-toil/" },
-
-        // ───── Resilience patterns — the failure-handling vocabulary every SRE interview probes ─────
+        // ── SRE principles — SLOs, error budgets & toil ──
+        { id: "srl-r-40", type: "video", sub: "SRE principles — SLOs, error budgets & toil", name: "SLO vs SLI vs SLA vs Error Budget — explained", url: "https://www.youtube.com/watch?v=Akri1BlGp10" },
+        { id: "srl-r-42", type: "blog", sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Workbook — Implementing SLOs", url: "https://sre.google/workbook/implementing-slos/" },
+        { id: "srl-r-44", type: "blog", sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Book — Eliminating Toil (ch 5; aim for < 50%)", url: "https://sre.google/sre-book/eliminating-toil/" },
+        // ── Observability — metrics, logs, traces ──
+        { id: "srl-r-1", type: "video", sub: "Observability — metrics, logs, traces", name: "Prometheus + Grafana Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
+        { id: "srl-r-2", type: "video", sub: "Observability — metrics, logs, traces", name: "OpenTelemetry in 100 Seconds — Fireship", url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
+        { id: "srl-r-11", type: "book", sub: "Observability — metrics, logs, traces", name: "Observability Engineering — Majors / Fong-Jones / Miranda", url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
+        // ── Resilience patterns ──
         { id: "srl-r-45", type: "book", sub: "Resilience patterns", name: "Release It! (2nd ed) — Michael Nygard (circuit breaker / bulkhead origin)", url: "https://pragprog.com/titles/mnee2/release-it-second-edition/" },
-        { id: "srl-r-46", type: "blog", sub: "Resilience patterns", name: "AWS Builders' Library — Timeouts, retries & backoff with jitter",          url: "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" },
-        { id: "srl-r-48", type: "blog", sub: "Resilience patterns", name: "Microsoft — Cloud Design / Reliability Patterns (catalog)",                url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/" },
-
-        // ───── Capacity planning & chaos engineering — prove the system survives before users find out ─────
-        { id: "srl-r-50", type: "blog", sub: "Capacity planning & chaos engineering", name: "Google SRE Book — Handling Overload (ch 21)",            url: "https://sre.google/sre-book/handling-overload/" },
-        { id: "srl-r-51", type: "blog", sub: "Capacity planning & chaos engineering", name: "Principles of Chaos Engineering",                        url: "https://principlesofchaos.org/" },
-        { id: "srl-r-53", type: "book", sub: "Capacity planning & chaos engineering", name: "Chaos Engineering — Rosenthal & Jones (O'Reilly)",        url: "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/" },
-
-        { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
-        { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
-        { id: "srl-r-11", type: "book", sub: "Observability — metrics, logs, traces",   name: "Observability Engineering — Majors / Fong-Jones / Miranda",     url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
-
-        // ───── Performance & packet-level debugging (the skills that turn an alert into a root cause) ─────
-        { id: "srl-r-19", type: "video", sub: "Performance & debugging",  name: "USE Method — Brendan Gregg (talk)",                             url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
-        { id: "srl-r-20", type: "book", sub: "Performance & debugging",   name: "Systems Performance — Brendan Gregg (2nd ed)",                  url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
-        { id: "srl-r-24", type: "blog", sub: "Performance & debugging",   name: "Linux Performance Analysis in 60,000ms (Netflix triage checklist)", url: "https://www.brendangregg.com/blog/2015-12-03/linux-perf-60s-video.html" },
-
-        // ───── Incident response & postmortems (concepts, not vendor tools) ─────
-        { id: "srl-r-25", type: "blog", sub: "Incident response & postmortems",  name: "Google — Incident Management Guide (PDF)",                  url: "https://sre.google/static/pdf/IncidentManagementGuide.pdf" },
-        { id: "srl-r-27", type: "blog", sub: "Incident response & postmortems",  name: "SRE Book — Postmortem Culture (blameless canon)",           url: "https://sre.google/sre-book/postmortem-culture/" },
-        { id: "srl-r-28", type: "blog", sub: "Incident response & postmortems",  name: "Google SRE — Example Postmortem (copyable template)",       url: "https://sre.google/sre-book/example-postmortem/" },
+        { id: "srl-r-46", type: "blog", sub: "Resilience patterns", name: "AWS Builders' Library — Timeouts, retries & backoff with jitter", url: "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" },
+        { id: "srl-r-48", type: "blog", sub: "Resilience patterns", name: "Microsoft — Cloud Design / Reliability Patterns (catalog)", url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/" },
+        // ── Capacity planning & chaos engineering ──
+        { id: "srl-r-50", type: "blog", sub: "Capacity planning & chaos engineering", name: "Google SRE Book — Handling Overload (ch 21)", url: "https://sre.google/sre-book/handling-overload/" },
+        { id: "srl-r-51", type: "blog", sub: "Capacity planning & chaos engineering", name: "Principles of Chaos Engineering", url: "https://principlesofchaos.org/" },
+        { id: "srl-r-53", type: "book", sub: "Capacity planning & chaos engineering", name: "Chaos Engineering — Rosenthal & Jones (O'Reilly)", url: "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/" },
+        // ── Performance & debugging ──
+        { id: "srl-r-19", type: "video", sub: "Performance & debugging", name: "USE Method — Brendan Gregg (talk)", url: "https://www.youtube.com/watch?v=fXLeYBaa9-c" },
+        { id: "srl-r-20", type: "book", sub: "Performance & debugging", name: "Systems Performance — Brendan Gregg (2nd ed)", url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
+        { id: "srl-r-24", type: "blog", sub: "Performance & debugging", name: "Linux Performance Analysis in 60,000ms (Netflix triage checklist)", url: "https://www.brendangregg.com/blog/2015-12-03/linux-perf-60s-video.html" },
+        // ── Incident response & postmortems ──
+        { id: "srl-r-25", type: "blog", sub: "Incident response & postmortems", name: "Google — Incident Management Guide (PDF)", url: "https://sre.google/static/pdf/IncidentManagementGuide.pdf" },
+        { id: "srl-r-27", type: "blog", sub: "Incident response & postmortems", name: "SRE Book — Postmortem Culture (blameless canon)", url: "https://sre.google/sre-book/postmortem-culture/" },
+        { id: "srl-r-28", type: "blog", sub: "Incident response & postmortems", name: "Google SRE — Example Postmortem (copyable template)", url: "https://sre.google/sre-book/example-postmortem/" },
       ],
       milestones: [
         { id: "srl-m-1",  name: "Instrument a Go/Python service with the Prometheus client library" },
@@ -3049,17 +3057,21 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     varnish: {
       title: "SRE 8 · Edge Caching with Varnish & VCL",
       resources: [
-        { id: "vrn-r-1",  type: "video", sub: "Intro & concepts",  name: "Varnish in 100 Seconds (mental model)" },
-        { id: "vrn-r-2",  type: "video", sub: "Intro & concepts",  name: "Hussein Nasser — How Varnish HTTP Cache works",                    url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
-        { id: "vrn-r-3",  type: "video", sub: "Intro & concepts",  name: "Fastly / Varnish Software — VCL conference talks (search NDC, Velocity)" },
-        { id: "vrn-r-4",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 Official Documentation — User Guide",                    url: "https://varnish-cache.org/docs/6.0/users-guide/index.html" },
-        { id: "vrn-r-5",  type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Reference",                                        url: "https://varnish-cache.org/docs/6.0/reference/vcl.html" },
-        { id: "vrn-r-8",  type: "course", sub: "Modules & testing", name: "Varnish Modules (vmod-cookie, xkey, saintmode, header, var, …)",   url: "https://github.com/varnish/varnish-modules" },
-        { id: "vrn-r-9",  type: "course", sub: "Modules & testing", name: "varnishtest / VTC framework — built-in HTTP test harness",         url: "https://varnish-cache.org/docs/6.0/reference/varnishtest.html" },
-        { id: "vrn-r-10", type: "book", sub: "Books & guides",   name: "The Varnish Book — Varnish Software (free PDF, definitive guide)", url: "https://info.varnish-software.com/the-varnish-book" },
-        { id: "vrn-r-12", type: "blog", sub: "Books & guides",   name: "Varnish Software blog — VCL recipes, perf, releases",              url: "https://www.varnish-software.com/community/blog/" },
-        { id: "vrn-r-13", type: "blog", sub: "VCL reference & docs",   name: "varnish-cache.org — Users' Guide: Grace, Purging, Hit-for-pass",   url: "https://varnish-cache.org/docs/6.0/users-guide/vcl.html" },
-        { id: "vrn-r-15", type: "blog", sub: "Books & guides",   name: "Hitch — TLS terminator that pairs with Varnish (UDS pattern)",     url: "https://github.com/varnish/hitch" },
+        // ── Intro & concepts ──
+        { id: "vrn-r-1", type: "video", sub: "Intro & concepts", name: "Varnish in 100 Seconds (mental model)" },
+        { id: "vrn-r-2", type: "video", sub: "Intro & concepts", name: "Hussein Nasser — How Varnish HTTP Cache works", url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
+        { id: "vrn-r-3", type: "video", sub: "Intro & concepts", name: "Fastly / Varnish Software — VCL conference talks (search NDC, Velocity)" },
+        // ── Books & guides ──
+        { id: "vrn-r-10", type: "book", sub: "Books & guides", name: "The Varnish Book — Varnish Software (free PDF, definitive guide)", url: "https://info.varnish-software.com/the-varnish-book" },
+        { id: "vrn-r-12", type: "blog", sub: "Books & guides", name: "Varnish Software blog — VCL recipes, perf, releases", url: "https://www.varnish-software.com/community/blog/" },
+        { id: "vrn-r-15", type: "blog", sub: "Books & guides", name: "Hitch — TLS terminator that pairs with Varnish (UDS pattern)", url: "https://github.com/varnish/hitch" },
+        // ── VCL reference & docs ──
+        { id: "vrn-r-4", type: "course", sub: "VCL reference & docs", name: "Varnish 6 Official Documentation — User Guide", url: "https://varnish-cache.org/docs/6.0/users-guide/index.html" },
+        { id: "vrn-r-5", type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Reference", url: "https://varnish-cache.org/docs/6.0/reference/vcl.html" },
+        { id: "vrn-r-13", type: "blog", sub: "VCL reference & docs", name: "varnish-cache.org — Users' Guide: Grace, Purging, Hit-for-pass", url: "https://varnish-cache.org/docs/6.0/users-guide/vcl.html" },
+        // ── Modules & testing ──
+        { id: "vrn-r-8", type: "course", sub: "Modules & testing", name: "Varnish Modules (vmod-cookie, xkey, saintmode, header, var, …)", url: "https://github.com/varnish/varnish-modules" },
+        { id: "vrn-r-9", type: "course", sub: "Modules & testing", name: "varnishtest / VTC framework — built-in HTTP test harness", url: "https://varnish-cache.org/docs/6.0/reference/varnishtest.html" },
       ],
       milestones: [
         { id: "vrn-m-1",  name: "Run Varnish 6 locally in Docker; point it at a Hello-World nginx origin" },
@@ -3098,17 +3110,21 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     fastly: {
       title: "SRE 9 · Fastly CDN & VCL on Terraform",
       resources: [
-        { id: "fst-r-1",  type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)",                                  url: "https://www.fastly.com/documentation/reference/vcl/" },
-        { id: "fst-r-5",  type: "course", sub: "CDN features & security", name: "Fastly Shielding guide",                                            url: "https://www.fastly.com/documentation/guides/full-site-delivery/shielding/" },
-        { id: "fst-r-6",  type: "course", sub: "CDN features & security", name: "Fastly Edge Rate Limiting guide (penaltybox + ratecounter)",        url: "https://www.fastly.com/documentation/guides/full-site-delivery/rate-limiting/" },
-        { id: "fst-r-7",  type: "course", sub: "CDN features & security", name: "Fastly Caching guide (TTL, stale-if-error, Surrogate-Control)",     url: "https://www.fastly.com/documentation/guides/full-site-delivery/caching/" },
-        { id: "fst-r-9",  type: "course", sub: "VCL reference & playground", name: "Fastly Fiddle — VCL playground (no account required)",              url: "https://fiddle.fastly.dev" },
-        { id: "fst-r-10", type: "course", sub: "VCL reference & playground", name: "Fastly Developer Hub — Learning + VCL tutorials",                   url: "https://developer.fastly.com/learning/vcl/" },
-        { id: "fst-r-11", type: "course", sub: "Terraform & CI/CD", name: "Fastly Terraform Provider (registry, examples)",                    url: "https://registry.terraform.io/providers/fastly/fastly/latest/docs" },
-        { id: "fst-r-13", type: "course", sub: "Terraform & CI/CD", name: "Fastly CLI (brew install / config / deploy)",                       url: "https://www.fastly.com/documentation/reference/tools/fastly-cli/" },
-        { id: "fst-r-14", type: "course", sub: "Terraform & CI/CD", name: "hashicorp/setup-terraform GitHub Action",                           url: "https://github.com/hashicorp/setup-terraform" },
-        { id: "fst-r-16", type: "blog", sub: "Blog & docs",   name: "Fastly Blog — main feed (release notes, perf, VCL recipes)",        url: "https://www.fastly.com/blog" },
-        { id: "fst-r-17", type: "blog", sub: "Blog & docs",   name: "Fastly Documentation — main index",                                 url: "https://www.fastly.com/documentation/" },
+        // ── VCL reference & playground ──
+        { id: "fst-r-10", type: "course", sub: "VCL reference & playground", name: "Fastly Developer Hub — Learning + VCL tutorials", url: "https://developer.fastly.com/learning/vcl/" },
+        { id: "fst-r-9", type: "course", sub: "VCL reference & playground", name: "Fastly Fiddle — VCL playground (no account required)", url: "https://fiddle.fastly.dev" },
+        { id: "fst-r-1", type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)", url: "https://www.fastly.com/documentation/reference/vcl/" },
+        // ── CDN features & security ──
+        { id: "fst-r-7", type: "course", sub: "CDN features & security", name: "Fastly Caching guide (TTL, stale-if-error, Surrogate-Control)", url: "https://www.fastly.com/documentation/guides/full-site-delivery/caching/" },
+        { id: "fst-r-5", type: "course", sub: "CDN features & security", name: "Fastly Shielding guide", url: "https://www.fastly.com/documentation/guides/full-site-delivery/shielding/" },
+        { id: "fst-r-6", type: "course", sub: "CDN features & security", name: "Fastly Edge Rate Limiting guide (penaltybox + ratecounter)", url: "https://www.fastly.com/documentation/guides/full-site-delivery/rate-limiting/" },
+        // ── Terraform & CI/CD ──
+        { id: "fst-r-11", type: "course", sub: "Terraform & CI/CD", name: "Fastly Terraform Provider (registry, examples)", url: "https://registry.terraform.io/providers/fastly/fastly/latest/docs" },
+        { id: "fst-r-13", type: "course", sub: "Terraform & CI/CD", name: "Fastly CLI (brew install / config / deploy)", url: "https://www.fastly.com/documentation/reference/tools/fastly-cli/" },
+        { id: "fst-r-14", type: "course", sub: "Terraform & CI/CD", name: "hashicorp/setup-terraform GitHub Action", url: "https://github.com/hashicorp/setup-terraform" },
+        // ── Blog & docs ──
+        { id: "fst-r-16", type: "blog", sub: "Blog & docs", name: "Fastly Blog — main feed (release notes, perf, VCL recipes)", url: "https://www.fastly.com/blog" },
+        { id: "fst-r-17", type: "blog", sub: "Blog & docs", name: "Fastly Documentation — main index", url: "https://www.fastly.com/documentation/" },
       ],
       milestones: [
         { id: "fst-m-1",  name: "S1 · Free dev account; first VCL service via UI; add domain + httpbin backend; activate; curl through Fastly" },
