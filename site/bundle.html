@@ -2976,22 +2976,8 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
       resources: [
         // ── Concepts ──
         { id: "fprx-r-1", type: "blog", sub: "Concepts", name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here", url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
-        { id: "fprx-r-2", type: "video", sub: "Concepts", name: "Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube, protocol-level walkthrough)", url: "https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy" },
-        // ── Squid ──
-        { id: "fprx-r-4", type: "blog", sub: "Squid", name: "Squid Wiki — Squid in 10 minutes / Beginners FAQ — fastest path to working squid.conf", url: "https://wiki.squid-cache.org/SquidFaq/BeginnersFaq" },
-        { id: "fprx-r-3", type: "course", sub: "Squid", name: "Squid official documentation — squid.conf directives, ACLs, cache peering", url: "http://www.squid-cache.org/Doc/" },
-        { id: "fprx-r-5", type: "book", sub: "Squid", name: "Squid: The Definitive Guide — Duane Wessels (O'Reilly classic, deep dive)", url: "https://www.oreilly.com/library/view/squid-the-definitive/0596001622/" },
-        // ── mitmproxy ──
-        { id: "fprx-r-6", type: "course", sub: "mitmproxy", name: "mitmproxy official docs — intercept, modify, replay HTTP/2/gRPC — Start here for testing", url: "https://docs.mitmproxy.org/stable/" },
-        { id: "fprx-r-7", type: "video", sub: "mitmproxy", name: "mitmproxy — YouTube channel (TLS bumping, addons, transparent mode)", url: "https://www.youtube.com/@mitmproxy" },
         // ── Cloud egress ──
         { id: "fprx-r-8", type: "course", sub: "Cloud egress", name: "AWS — NAT Gateway documentation (bandwidth, cost per AZ, port exhaustion)", url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" },
-        { id: "fprx-r-9", type: "course", sub: "Cloud egress", name: "AWS — VPC Endpoints (Interface / Gateway / PrivateLink) — stop paying NAT for S3", url: "https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html" },
-        // ── Mesh egress ──
-        { id: "fprx-r-10", type: "course", sub: "Mesh egress", name: "Istio — EgressGateway docs (ServiceEntry, mTLS to external services, audit)", url: "https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/" },
-        { id: "fprx-r-11", type: "blog", sub: "Mesh egress", name: "Envoy — security/egress filter reference (auth filters, RBAC, ext_authz)", url: "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro" },
-        // ── TLS interception ──
-        { id: "fprx-r-12", type: "blog", sub: "TLS interception", name: "Julia Evans — How HTTPS Works zine + corporate-proxy posts (approachable)", url: "https://wizardzines.com/zines/https/" },
       ],
       milestones: [
         { id: "fprx-m-1", name: "Stand up Squid in Docker as a caching forward proxy; route a curl through it; verify HIT/MISS in access.log" },
