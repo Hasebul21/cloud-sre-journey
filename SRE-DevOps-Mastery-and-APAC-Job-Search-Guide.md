@@ -1361,7 +1361,7 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 ### DevOps Tooling Reference Map (from roadmap.sh/devops)
 
-> Use as a "you are here" map, **not** a learning checklist. Don't try to learn everything — pick *one tool per category* aligned with your target stack (AWS + K8s + Go + GitHub Actions for APAC SRE roles).
+> Use as a "you are here" map, **not** a learning checklist. Don't try to learn everything — pick *one tool per category* aligned with your target stack (AWS + K8s + Go + GitHub Actions for APAC SRE roles). Reconciled against the live [roadmap.sh/devops](https://roadmap.sh/devops) node tree (2026); where this guide differs it is deliberately *more current* (OpenTofu, Tekton, External Secrets Operator, Cilium, Harbor) than the upstream roadmap.
 
 | Category | Pick (recommended) | Alternatives to recognize |
 |----------|---------------------|---------------------------|
@@ -1370,7 +1370,7 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 | **Editor + shell** | vim + bash | nano/emacs; PowerShell if Windows |
 | **VCS hosting** | GitHub | GitLab, Bitbucket |
 | **Containers** | Docker | Podman, LXC |
-| **Web server / proxy** | nginx | Caddy, Apache, Traefik |
+| **Web server / proxy** | nginx | Caddy, Apache, Traefik; Tomcat (Java apps), IIS (Windows shops) |
 | **API gateway** | Kong (OSS) | AWS API Gateway, Apigee, Tyk, Envoy Gateway, Krakend |
 | **CDN / edge cache** | Fastly | CloudFront, Cloudflare, Akamai *(Varnish — legacy, skip; Fastly's VCL is the modern path)* |
 | **Cloud provider** | AWS | GCP, Azure, DigitalOcean, Hetzner |
@@ -1387,6 +1387,20 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 | **Artifact mgmt** | ECR or GHCR | Artifactory, Nexus, Harbor |
 | **GitOps** | ArgoCD | FluxCD |
 | **Service mesh** | Linkerd (start simple) | Istio, Cilium, Consul, Envoy |
+
+**Where the rest of the roadmap.sh/devops nodes live in this guide** (so nothing is silently dropped):
+
+| roadmap.sh/devops node | Covered in |
+|------------------------|------------|
+| Learn a Programming Language | Stage 0–1 (Go/Python) + Part J → Language |
+| OS · Terminal · Process/Perf Monitoring · Text Manipulation | Stage 1 (Linux internals + debugging toolkit) |
+| Networking & Protocols (DNS, HTTP/S, SSL/TLS, SSH, OSI) | Stage 1 (Networking) + CS144 videos |
+| Forward Proxy · Reverse Proxy · Caching Server · Load Balancer · Firewall | Stages 5–7 (CDN/Gateway, NGINX/Envoy, Squid/egress); firewall via `ufw`/security groups in Stage 1/2 |
+| Cloud Providers · Serverless · Provisioning · Config Mgmt | Stage 2 |
+| CI/CD · Container Orchestration · GitOps · Artifact Mgmt · Secret Mgmt | Stage 3 |
+| Infra/App Monitoring · Logs Management | Stage 4 |
+| Service Mesh · Cloud Design Patterns | Stage 8 + Part D (system design) |
+| **Email Protocols** (SMTP, IMAP, POP3S, SPF, DMARC, DomainKeys, greylisting) | **Intentionally out of scope** — mail-server administration is near-zero relevance for a cloud-native APAC SRE; learn only if a target role explicitly owns mail infrastructure |
 
 ---
 

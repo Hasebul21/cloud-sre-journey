@@ -1064,6 +1064,21 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "scl-r-23", type: "course", sub: "Linux & shell", name: "Linux Foundation: LFS101 Intro to Linux (free audit)",          url: "https://training.linuxfoundation.org/training/introduction-to-linux/" },
         { id: "scl-r-24", type: "book", sub: "Linux & shell",   name: "The Linux Command Line — William Shotts (free PDF)",            url: "https://linuxcommand.org/tlcl.php" },
         { id: "scl-r-25", type: "blog", sub: "Linux & shell",   name: "Linux Kernel docs",                                             url: "https://www.kernel.org/doc/html/latest/" },
+
+        // ───── Databases & data stores (ops: replication, failover, migrations) ─────
+        { id: "scl-r-40", type: "course", sub: "Databases & data stores", name: "Hussein Nasser — Fundamentals of Database Engineering (Udemy)", url: "https://www.udemy.com/course/database-engines-crash-course/" },
+        { id: "scl-r-41", type: "video",  sub: "Databases & data stores", name: "Hussein Nasser — database engineering (YouTube channel · free)", url: "https://www.youtube.com/@hnasr" },
+        { id: "scl-r-42", type: "blog",   sub: "Databases & data stores", name: "Use The Index, Luke! — SQL indexing & query perf (free)",       url: "https://use-the-index-luke.com" },
+        { id: "scl-r-43", type: "blog",   sub: "Databases & data stores", name: "PostgreSQL docs — High Availability & Replication",             url: "https://www.postgresql.org/docs/current/high-availability.html" },
+        { id: "scl-r-44", type: "book",   sub: "Databases & data stores", name: "Database Reliability Engineering — Campbell & Majors",           url: "https://www.oreilly.com/library/view/database-reliability-engineering/9781491925935/" },
+        { id: "scl-r-45", type: "blog",   sub: "Databases & data stores", name: "Flyway docs — versioned schema migrations",                     url: "https://documentation.red-gate.com/flyway" },
+
+        // ───── Storage & virtualization (object/block/file · KVM · Ceph) ─────
+        { id: "scl-r-46", type: "blog",  sub: "Storage & virtualization", name: "Red Hat — Block vs File vs Object storage",                     url: "https://www.redhat.com/en/topics/data-storage/file-block-object-storage" },
+        { id: "scl-r-47", type: "video", sub: "Storage & virtualization", name: "How Linux Virtualization Works: KVM, QEMU & Libvirt (YouTube)",  url: "https://www.youtube.com/watch?v=Cz3Pi11Tr84" },
+        { id: "scl-r-48", type: "video", sub: "Storage & virtualization", name: "QEMU/KVM for Absolute Beginners — Veronica Explains (YouTube)",  url: "https://www.youtube.com/watch?v=BgZHbCDFODk" },
+        { id: "scl-r-49", type: "blog",  sub: "Storage & virtualization", name: "Ceph docs — Architecture (RADOS / CRUSH / RBD / RGW)",           url: "https://docs.ceph.com/en/latest/architecture/" },
+        { id: "scl-r-50", type: "blog",  sub: "Storage & virtualization", name: "MinIO docs — self-host S3-compatible object storage",           url: "https://min.io/docs" },
       ],
       milestones: [
         { id: "scl-m-1", name: "Pass AWS Cloud Practitioner (or finish 50% of SAA course)" },
@@ -1080,6 +1095,9 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "scl-m-12", name: "Configure SSH keys and harden sshd_config" },
         { id: "scl-m-13", name: "Write + enable a systemd service unit" },
         { id: "scl-m-14", name: "Set up a cron job that emits a daily disk-usage report" },
+        { id: "scl-m-15", name: "Run PostgreSQL with a streaming read replica; kill the primary and observe failover" },
+        { id: "scl-m-16", name: "Apply an expand/contract schema migration with Flyway — zero downtime" },
+        { id: "scl-m-17", name: "Self-host MinIO; create a bucket, set a lifecycle rule, generate a presigned URL" },
       ],
     },
 
@@ -1356,6 +1374,16 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "srl-r-20", type: "book", sub: "Performance & debugging",   name: "Systems Performance — Brendan Gregg (2nd ed)",                  url: "https://www.brendangregg.com/systems-performance-2nd-edition-book.html" },
         { id: "srl-r-21", type: "blog", sub: "Performance & debugging",   name: "Brendan Gregg's homepage (perf gold)",                          url: "https://www.brendangregg.com/" },
         { id: "srl-r-22", type: "blog", sub: "Performance & debugging",   name: "Julia Evans — Wizard Zines (debugging, perf, networking)",      url: "https://wizardzines.com/" },
+        { id: "srl-r-23", type: "blog", sub: "Performance & debugging",   name: "Linux Performance — Brendan Gregg (tools & methods hub)",       url: "https://www.brendangregg.com/linuxperf.html" },
+        { id: "srl-r-24", type: "blog", sub: "Performance & debugging",   name: "Linux Performance Analysis in 60,000ms (Netflix triage checklist)", url: "https://www.brendangregg.com/blog/2015-12-03/linux-perf-60s-video.html" },
+
+        // ───── Incident response & postmortems (concepts, not vendor tools) ─────
+        { id: "srl-r-25", type: "blog", sub: "Incident response & postmortems",  name: "Google — Incident Management Guide (PDF)",                  url: "https://sre.google/static/pdf/IncidentManagementGuide.pdf" },
+        { id: "srl-r-26", type: "blog", sub: "Incident response & postmortems",  name: "PagerDuty Incident Response (free, vendor-neutral process)", url: "https://response.pagerduty.com/" },
+        { id: "srl-r-27", type: "blog", sub: "Incident response & postmortems",  name: "SRE Book — Postmortem Culture (blameless canon)",           url: "https://sre.google/sre-book/postmortem-culture/" },
+        { id: "srl-r-28", type: "blog", sub: "Incident response & postmortems",  name: "Google SRE — Example Postmortem (copyable template)",       url: "https://sre.google/sre-book/example-postmortem/" },
+        { id: "srl-r-29", type: "blog", sub: "Incident response & postmortems",  name: "Etsy — Debriefing Facilitation Guide (PDF)",                url: "https://extfiles.etsy.com/DebriefingFacilitationGuide.pdf" },
+        { id: "srl-r-30", type: "blog", sub: "Incident response & postmortems",  name: "Learning From Incidents (resilience-engineering community)", url: "https://www.learningfromincidents.io/" },
       ],
       milestones: [
         { id: "srl-m-1",  name: "Instrument a Go/Python service with the Prometheus client library" },
@@ -1371,6 +1399,8 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "srl-m-11", name: "Read SRE book ch 13–15 (Emergency Response · Managing Incidents · Postmortems)" },
         { id: "srl-m-12", name: "Use strace to debug a hung process" },
         { id: "srl-m-13", name: "Read top, htop, iostat, vmstat fluently (USE method)" },
+        { id: "srl-m-14", name: "Load-test a service, inject one bottleneck, find it from metrics alone via the USE method (< 5 min)" },
+        { id: "srl-m-15", name: "Rewrite a public postmortem (GitHub/Cloudflare/AWS) blamelessly using the Google example template" },
       ],
     },
 
