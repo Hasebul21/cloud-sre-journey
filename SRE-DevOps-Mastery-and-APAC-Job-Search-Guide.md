@@ -1390,6 +1390,111 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 ---
 
+### Operational Depth — Databases, Storage, Virtualization, Performance & Incident Response
+
+> **roadmap.sh gap-fill.** The numbered Stages 0–9 above are the load-bearing learning path. These five topics map to [roadmap.sh](https://roadmap.sh/devops) categories the stages only *touch in passing* — databases (#11), storage (#13), virtualization (#14), performance tuning (#10), and incident management (#9). For a cloud-native APAC SRE, most of these are **reading/lab-level breadth**, not full stages — learn them when an interview or a real on-call rotation pulls you in. Each block notes where it connects back to a numbered stage.
+
+#### Database Operations & Reliability *(roadmap.sh #11)*
+
+> **Why it matters:** The data tier has the least tolerance for risk — a bad failover loses data you can't regenerate. SREs rarely *design* schemas but constantly own replication, failover, connection pooling, backups, and migrations. Sits behind Part B's PostgreSQL and Stage 8's *Designing Data-Intensive Applications*.
+
+**Key topics**
+- **SQL ops:** PostgreSQL / MySQL — connection pooling (PgBouncer), `EXPLAIN ANALYZE`, index types (B-tree/GIN/BRIN), vacuum/bloat, slow-query logs
+- **Replication & HA:** single-leader vs multi-leader, streaming vs logical replication, sync vs async, read replicas, automated failover (Patroni), split-brain, quorum
+- **NoSQL ops:** Redis (persistence, eviction, Sentinel/Cluster), MongoDB (replica sets, sharding), Cassandra (tunable consistency, repair, compaction)
+- **Schema migrations:** expand/contract (no breaking changes), online DDL, Flyway vs Liquibase, migrations as part of deploy ≠ release (Stage 3)
+- **Backups & DR:** RPO/RTO, PITR (point-in-time recovery), tested restores (an untested backup is not a backup), data warehouses (Redshift/Snowflake) for analytics offload
+
+**Resources** *(sorted: learn-first → free reference → book → migration tooling)*
+
+| Resource | Type |
+|----------|------|
+| [Hussein Nasser — Fundamentals of Database Engineering (Udemy)](https://www.udemy.com/course/database-engines-crash-course/) | Course — indexing, partitioning, sharding, replication, B-trees, concurrency. **Start here.** Pairs with hands-on Docker + Postgres labs |
+| [Hussein Nasser — database engineering videos (YouTube)](https://www.youtube.com/@hnasr) | Free, protocol-level — same channel as the Stage 5/6 proxy picks |
+| [*Use The Index, Luke!* — Markus Winand (free)](https://use-the-index-luke.com) | The canonical free guide to SQL indexing & query performance |
+| [PostgreSQL docs — High Availability, Load Balancing & Replication](https://www.postgresql.org/docs/current/high-availability.html) | Authoritative — streaming/logical replication, failover, standby |
+| [*Database Reliability Engineering* — Campbell & Majors (O'Reilly)](https://www.oreilly.com/library/view/database-reliability-engineering/9781491925935/) | The DBRE canon — SLOs, replication, backups, failover from an SRE lens |
+| *Designing Data-Intensive Applications* — Kleppmann | Ch 5–6 (replication, partitioning) — already in the Stage 8 reading list |
+| [Flyway docs](https://documentation.red-gate.com/flyway) · [Liquibase docs](https://docs.liquibase.com) | Schema-migration tooling — Flyway = simple versioned SQL; Liquibase = changelogs, preconditions, rollbacks |
+| [Redis University (free)](https://university.redis.io) · [MongoDB University (free)](https://learn.mongodb.com) | Vendor-run free courses — NoSQL ops, persistence, sharding, replica sets |
+
+**Milestone:** Stand up PostgreSQL with a streaming read replica (Docker or Patroni), kill the primary, observe failover, then run an expand/contract Flyway migration against it with zero downtime.
+
+#### Storage Systems & Virtualization *(roadmap.sh #13, #14)*
+
+> **Why it matters:** Reading-level for most cloud-native SREs — object storage (S3) you'll use daily; SAN/NAS, Ceph, and bare-metal hypervisors mostly when you touch on-prem, a homelab, or a hyperscaler's internals. Know the *shapes* and trade-offs so the words aren't new in an interview. Object storage ties back to Stage 2 (AWS S3) and Part B's CloudFront/S3 frontend.
+
+**Key topics**
+- **Storage types & trade-offs:** block (SAN/EBS) vs file (NAS/NFS/EFS) vs object (S3/GCS/Blob) — latency, mutability, consistency, access pattern
+- **Object storage deeply** (the one you'll actually operate): buckets, keys, versioning, lifecycle/tiering, eventual vs strong consistency, presigned URLs, S3-compatible self-hosting (MinIO)
+- **Distributed storage:** Ceph (RADOS, CRUSH, RBD/CephFS/RGW), GlusterFS — how object/block/file are served from one cluster
+- **Virtualization:** Type-1 vs Type-2 hypervisors; KVM + QEMU + libvirt (the Linux stack under most clouds), VMware/Hyper-V (enterprise), virt vs containers (shared kernel vs full guest)
+
+**Resources** *(sorted: concepts → virtualization hands-on → distributed storage → object storage)*
+
+| Resource | Type |
+|----------|------|
+| [Red Hat — Block vs File vs Object storage](https://www.redhat.com/en/topics/data-storage/file-block-object-storage) | Vendor-neutral primer on the three shapes. **Start here.** |
+| [How Linux Virtualization Works: KVM, QEMU & Libvirt Explained (YouTube)](https://www.youtube.com/watch?v=Cz3Pi11Tr84) | Concise mental model of the Linux hypervisor stack |
+| [QEMU/KVM for Absolute Beginners — Veronica Explains (YouTube)](https://www.youtube.com/watch?v=BgZHbCDFODk) | Hands-on — spin up a VM with virt-manager |
+| [Red Hat — Configuring & Managing Virtualization (RHEL 9 docs)](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/configuring_and_managing_virtualization/index) | Authoritative KVM/libvirt reference — `virsh`, live migration, storage pools |
+| [Ceph docs — Architecture](https://docs.ceph.com/en/latest/architecture/) + [Ceph Storage Course (YouTube playlist)](https://www.youtube.com/playlist?list=PLL8rUMPWyxXtZ4CxA0yj8TjPYv_r3Xi-t) | CRUSH, RADOS, RBD/CephFS/RGW — the canonical distributed-storage system |
+| [MinIO docs](https://min.io/docs) | Self-host S3-compatible object storage — the fastest way to *operate* object storage locally |
+| *Systems Performance* (2nd ed.) — Gregg | Ch on disk I/O — already in Stage 1; the storage-perf half of this topic |
+
+**Milestone (optional, homelab):** Run a 1-node KVM host with `virsh`, then either a single-node Ceph cluster *or* MinIO; serve a bucket over the S3 API and set a lifecycle rule that tiers objects after 30 days.
+
+#### Performance Tuning *(roadmap.sh #10)*
+
+> **Why it matters:** "The service is slow — walk me through your investigation" is a guaranteed SRE interview round (see the loop below). Performance work is methodical, not magic: pick a method (USE for resources, RED for requests), measure before you tune, and never optimize without a bottleneck in hand. Extends Stage 1's debugging toolkit and Stage 4's RED/USE dashboards.
+
+**Key topics (the six roadmap.sh sub-areas)**
+- **CPU:** run-queue latency, context switches, `top`/`mpstat`/`perf`, flame graphs, throttling (cgroup limits — ties to K8s requests/limits, Stage 3)
+- **Memory:** page cache, swap, OOM killer, RSS vs working set, leaks (`/proc`, `vmstat`)
+- **Disk I/O:** IOPS vs throughput vs latency, `iostat`, queue depth, fs vs block layer, NVMe/SSD limits
+- **Network:** `ss`, `tcpdump`, retransmits, buffer/window sizing, p99 from upstream retries (ties to Stage 5/6 proxies)
+- **Database tuning:** indexes, query plans, connection pools — see the Database block above
+- **Web-server tuning:** worker/keepalive/buffer config, microcaching — see Stage 6 (NGINX)
+
+**Resources** *(sorted: method → hub → talk → recent methodology)*
+
+| Resource | Type |
+|----------|------|
+| [Brendan Gregg — The USE Method](https://www.brendangregg.com/usemethod.html) | The methodology that anchors the whole topic. **Start here.** |
+| [Brendan Gregg — Linux Performance (the hub page)](https://www.brendangregg.com/linuxperf.html) | Tools, methods, talks, the famous observability-tools diagram |
+| [Linux Performance Analysis in 60,000ms (Netflix / Gregg)](https://www.brendangregg.com/blog/2015-12-03/linux-perf-60s-video.html) | The 10-command first-60-seconds triage checklist — memorize it |
+| [Brendan Gregg — Linux Performance Tools (talk, YouTube)](https://www.youtube.com/watch?v=FJW8nGV4jxY) | The canonical ~1hr walkthrough of the full tool landscape |
+| [Brendan Gregg — "Fast by Friday" methodology](https://www.brendangregg.com/) | Recent (eBPF Summit / Kernel Recipes) — a time-boxed systematic perf-debug method |
+| *Systems Performance* (2nd ed.) — Gregg | Already in Stage 1 — the textbook for every sub-area above |
+
+**Milestone:** Take the Part B Todo app under a `wrk`/`k6` load test, deliberately introduce one bottleneck (missing DB index *or* CPU throttle), and use the USE method to find it from metrics alone in under 5 minutes. Write up the investigation — it doubles as an interview story.
+
+#### Incident Response — Concepts, Not Tools *(roadmap.sh #9)*
+
+> **Why it matters:** roadmap.sh frames this as a tooling list (PagerDuty/Opsgenie/etc.), but the tools are interchangeable and the *practice* is what's tested and what makes you good. This guide deliberately keeps the **concepts** (the vendor platform is a 1-day onboarding detail at any job). Blameless postmortems, on-call health, and incident command are already threaded through the Antipatterns and Soft Skills sections — this is the dedicated resource block.
+
+**Key topics**
+- **Incident command:** roles (IC / comms / ops lead), a single source of truth, declaring severity, when to escalate, handoffs across timezones
+- **Blameless postmortems:** "the system permitted X," contributing factors not root cause, action items with owners, the postmortem as a *learning artifact* others read
+- **On-call health:** sustainable rotation, alert fatigue, paging only on actionable SLO burn (Stage 4), follow-the-sun for APAC, comp/time-off-in-lieu norms
+- **Severity & comms:** sev levels, status-page discipline, internal vs external comms, the "single incident channel" rule
+- **Learning from incidents (LFI):** the modern resilience-engineering framing — incidents as windows into how the system *actually* works
+
+**Resources** *(sorted: process guides → postmortem canon → example → resilience community)*
+
+| Resource | Type |
+|----------|------|
+| [Google — Incident Management Guide (PDF)](https://sre.google/static/pdf/IncidentManagementGuide.pdf) | Short, practical — roles, severities, comms. **Start here.** |
+| [PagerDuty Incident Response (free, vendor-neutral process docs)](https://response.pagerduty.com/) | Open-sourced *process* (not the product) — the best free end-to-end incident playbook |
+| [SRE Book — Postmortem Culture](https://sre.google/sre-book/postmortem-culture/) + [SRE Workbook — Postmortem chapter](https://sre.google/workbook/postmortem-culture/) | The blameless-postmortem canon — free |
+| [Google SRE — Example Postmortem](https://sre.google/sre-book/example-postmortem/) | A real worked template to copy on day one |
+| [Etsy — Debriefing Facilitation Guide (PDF)](https://extfiles.etsy.com/DebriefingFacilitationGuide.pdf) | John Allspaw's guide to *running* a blameless debrief — the facilitation half |
+| [Learning From Incidents (community + blog)](https://www.learningfromincidents.io/) | The resilience-engineering / LFI movement — Allspaw, Hochstein, et al. |
+
+**Milestone:** Take one public postmortem (GitHub/Cloudflare/AWS — see the Interview Loop below), rewrite it blamelessly using the Google example template, and list the action items *you'd* assign. Pair this with STAR story #1 (a production incident).
+
+---
+
 ### SRE Interview Loop (differs significantly from SWE)
 
 | Round | What it tests | How to prep |
