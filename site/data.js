@@ -1358,8 +1358,28 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     reliability: {
-      title: "SRE 4 · Observability & Reliability Practice",
+      title: "SRE 4 · Reliability — SLOs, Resilience, Chaos & Observability",
       resources: [
+        // ───── SRE principles — SLI / SLO / SLA · error budgets · toil (the concepts that define the role) ─────
+        { id: "srl-r-40", type: "video", sub: "SRE principles — SLOs, error budgets & toil", name: "SLO vs SLI vs SLA vs Error Budget — explained",            url: "https://www.youtube.com/watch?v=Akri1BlGp10" },
+        { id: "srl-r-41", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Book — Service Level Objectives (ch 4)",        url: "https://sre.google/sre-book/service-level-objectives/" },
+        { id: "srl-r-42", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Workbook — Implementing SLOs",                  url: "https://sre.google/workbook/implementing-slos/" },
+        { id: "srl-r-43", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Workbook — Error Budget Policy",                url: "https://sre.google/workbook/error-budget-policy/" },
+        { id: "srl-r-44", type: "blog",  sub: "SRE principles — SLOs, error budgets & toil", name: "Google SRE Book — Eliminating Toil (ch 5; aim for < 50%)", url: "https://sre.google/sre-book/eliminating-toil/" },
+
+        // ───── Resilience patterns — the failure-handling vocabulary every SRE interview probes ─────
+        { id: "srl-r-45", type: "book", sub: "Resilience patterns", name: "Release It! (2nd ed) — Michael Nygard (circuit breaker / bulkhead origin)", url: "https://pragprog.com/titles/mnee2/release-it-second-edition/" },
+        { id: "srl-r-46", type: "blog", sub: "Resilience patterns", name: "AWS Builders' Library — Timeouts, retries & backoff with jitter",          url: "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" },
+        { id: "srl-r-47", type: "blog", sub: "Resilience patterns", name: "AWS Builders' Library — Using load shedding to avoid overload",            url: "https://aws.amazon.com/builders-library/using-load-shedding-to-avoid-overload/" },
+        { id: "srl-r-48", type: "blog", sub: "Resilience patterns", name: "Microsoft — Cloud Design / Reliability Patterns (catalog)",                url: "https://learn.microsoft.com/en-us/azure/architecture/patterns/" },
+        { id: "srl-r-49", type: "blog", sub: "Resilience patterns", name: "Google SRE Book — Addressing Cascading Failures (ch 22)",                  url: "https://sre.google/sre-book/addressing-cascading-failures/" },
+
+        // ───── Capacity planning & chaos engineering — prove the system survives before users find out ─────
+        { id: "srl-r-50", type: "blog", sub: "Capacity planning & chaos engineering", name: "Google SRE Book — Handling Overload (ch 21)",            url: "https://sre.google/sre-book/handling-overload/" },
+        { id: "srl-r-51", type: "blog", sub: "Capacity planning & chaos engineering", name: "Principles of Chaos Engineering",                        url: "https://principlesofchaos.org/" },
+        { id: "srl-r-52", type: "blog", sub: "Capacity planning & chaos engineering", name: "Google Cloud — Getting started with chaos engineering",   url: "https://cloud.google.com/blog/products/devops-sre/getting-started-with-chaos-engineering" },
+        { id: "srl-r-53", type: "book", sub: "Capacity planning & chaos engineering", name: "Chaos Engineering — Rosenthal & Jones (O'Reilly)",        url: "https://www.oreilly.com/library/view/chaos-engineering/9781492043850/" },
+
         { id: "srl-r-1",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Prometheus + Grafana Course — TechWorld with Nana",             url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
         { id: "srl-r-2",  type: "video", sub: "Observability — metrics, logs, traces",  name: "OpenTelemetry in 100 Seconds — Fireship",                       url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
         { id: "srl-r-3",  type: "video", sub: "Observability — metrics, logs, traces",  name: "Charity Majors — Observability is for Humans",                  url: "https://www.youtube.com/watch?v=oGC8C9z7TN4" },
@@ -1401,6 +1421,11 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "srl-m-13", name: "Read top, htop, iostat, vmstat fluently (USE method)" },
         { id: "srl-m-14", name: "Load-test a service, inject one bottleneck, find it from metrics alone via the USE method (< 5 min)" },
         { id: "srl-m-15", name: "Rewrite a public postmortem (GitHub/Cloudflare/AWS) blamelessly using the Google example template" },
+        { id: "srl-m-16", name: "Write an SLI/SLO spec for one service + an error-budget policy naming who halts releases when it's spent" },
+        { id: "srl-m-17", name: "Audit one week of work; tag each task toil vs engineering; automate the biggest toil item" },
+        { id: "srl-m-18", name: "Add timeout + retry-with-jitter + a circuit breaker to a service call; prove fail-fast under fault injection" },
+        { id: "srl-m-19", name: "Run a game day: inject a dependency failure, demonstrate graceful degradation / load shedding, write the postmortem" },
+        { id: "srl-m-20", name: "Back-of-envelope capacity plan for the Todo app at 10x traffic (QPS, CPU, memory, storage, headroom)" },
       ],
     },
 
