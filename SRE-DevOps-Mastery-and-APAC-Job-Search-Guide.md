@@ -11,9 +11,9 @@
 0. [Mental Model — Where Each Technology Fits](#mental-model)
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
-   - **Level 1 — Foundations** (Stages 0–2)
+   - **Level 1 — Foundations** (Stages 0–1)
    - **Level 2 — Core SRE Skills** (Stages 3–5)
-   - **Level 3 — Advanced SRE** (Stages 6–7)
+   - **Level 3 — Advanced SRE** (Stage 7)
    - **Level 4 — Mastery & Leadership** (Stage 8+)
 3. [Part AI — AI Engineering for SRE/DevOps](#part-ai)
    - **Level 1 — Foundations** (concepts, videos, books)
@@ -107,7 +107,6 @@ Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 
 | **Observability** | Stage 5 + Part B Phase 3–4 | Prometheus + Grafana (metrics) · Loki / ELK (logs) · OpenTelemetry + Jaeger (traces) · multi-window burn-rate SLO alerts |
 | **CI/CD + GitOps** | Stage 4 + Part B Phase 7 | GitHub Actions (build/push) · ArgoCD (reconcile K8s) · Helm + Kustomize (templating) |
 | **IaC** | Stage 3 + Part B Phase 6 | Terraform → CDN, ALB, EKS, RDS, IAM |
-| **Reliability practice** | Stage 6 | Incident command, chaos game days, runbooks, capacity planning, PRRs |
 | **DevSecOps + Security** | Stage 7 | WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets Operator · SBOM/Sigstore in CI |
 | **AI layer (optional)** | Part AI L3.3 | vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path |
 
@@ -776,9 +775,9 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Level 1 — Foundations (Stages 0–2)
+### Level 1 — Foundations (Stages 0–1)
 
-> **Beginner tier.** Goal: solid Linux/networking baseline plus the SRE mental model (SLOs, error budgets, toil, postmortems). No prior SRE experience required. ~6–10 weeks at 15 hrs/wk.
+> **Beginner tier.** Goal: solid Linux/networking/scripting baseline. No prior SRE experience required. ~6–10 weeks at 15 hrs/wk.
 
 #### Stage 0 — Prerequisites (confirm before you start)
 
@@ -799,15 +798,15 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 1 — Foundations: Linux, Networking, Scripting, Git Deepening
+#### Stage 1 — Foundations: Linux, Scripting, Networking, Git Deepening
 
 > **Why it matters:** Almost every production incident eventually touches Linux, a TCP socket, or a misconfigured Git/CI artifact. Google SRE phone screens famously *will not let you past* this — it is the new ground floor.
 
 **Key topics**
 - **Linux internals:** processes, threads, file descriptors, signals, cgroups, namespaces, systemd, `/proc`, syscalls, page cache, OOM killer
 - **Debugging toolkit:** `top`/`htop`, `ps`, `lsof`, `strace`, `tcpdump`, `ss`, `iostat`, `vmstat`, `dmesg`, `journalctl`, `perf`, `bpftrace` (intro)
-- **Networking:** OSI vs TCP/IP, DNS resolution path, HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC), TLS handshake, L4 vs L7 load balancers, NAT, CIDR, BGP basics, retries/timeouts/backoff
 - **Shell:** robust bash (`set -euo pipefail`, traps) — but prefer Python/Go for non-trivial scripts
+- **Networking:** OSI vs TCP/IP, DNS resolution path, HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC), TLS handshake, L4 vs L7 load balancers, NAT, CIDR, BGP basics, retries/timeouts/backoff
 - **Git deepening:** `reflog`, `bisect`, `cherry-pick`, signed commits, trunk-based development
 
 **Resources** *(sorted: beginner books → hands-on → networking → advanced)*
@@ -840,46 +839,6 @@ FROM employees GROUP BY dept;
 - Use `tcpdump` and `ss` to follow a single HTTPS request from client to server. Write up what you saw at each layer
 
 **Time:** 4–6 weeks.
-
----
-
-#### Stage 2 — Core SRE Principles: SLIs, SLOs, Error Budgets, Toil, Postmortems
-
-> **Why it matters:** Tools change every two years; principles don't. This is the conceptual spine. Without it, you are a DevOps tool operator, not an SRE.
-
-**Key topics**
-- **Four Golden Signals:** latency, traffic, errors, saturation
-- **SLI / SLO / SLA distinction** — frequent interview gotcha. SLA is *contractual external*; SLO is *internal target*; SLI is *measurement*. Setting SLO = SLA gives you zero headroom.
-- **Error budgets** as the policy mechanism linking reliability and feature velocity
-- **Error budget policy** (an actual document): when does feature work freeze? Who declares? Who can override?
-- **Toil:** manual, repetitive, automatable, tactical, no enduring value, scales linearly. Google's cap: **<50% of an SRE's time**
-- **Blameless postmortem culture** — separate actions from people; focus on systemic contributing causes
-- **Embracing risk** — pick the *right* reliability target, not the highest
-- **Release engineering** — hermetic builds, canarying, progressive rollouts
-
-**From the Enterprise SRE report**
-- **Ulysses pact:** commit to error budget policy *before* the incident, when you're calm — under deadline pressure, the predefined action takes over. One of the most underrated cultural tools in SRE.
-- **Plan-Do-Check-Act:** SLO setting is iterative; v1 will be wrong, and that's fine
-- **Sublinear scaling:** SRE headcount should grow *more slowly* than the systems supported. If you hire an SRE per new service, you've built ops, not SRE.
-- **J-curve of transformation:** automation increases test requirements → tech debt blocks progress → relentless improvement → elite performance. Brief leadership before the curve starts.
-
-**Resources** *(sorted: structured course → hands-on → canon → applied → talks)*
-
-| Resource | Why |
-|----------|-----|
-| [KodeKloud — Fundamentals of SRE](https://kodekloud.com/courses/fundamentals-of-sre) | Hands-on labs for SLI/SLO, error budgets, incidents, release eng, observability, chaos. **Start here.** |
-| [KodeKloud — SRE Learning Path](https://kodekloud.com/learning-path/site-reliability-engineer) | Curated multi-course sequence — use as the road map, not as a checklist |
-| [Coursera SRE & DevOps Specialization (Google)](https://www.coursera.org/specializations/sre-devops) | Paced, structured exposure |
-| [*Site Reliability Engineering*](https://sre.google/sre-book/) — Google (2016) | Ch 1–6 mandatory; Ch 4 (SLOs) is the single highest-leverage chapter |
-| [*The Site Reliability Workbook*](https://sre.google/workbook/) — Google (2018) | "Implementing SLOs", "Alerting on SLOs", "Eliminating Toil" |
-| [*Enterprise Roadmap to SRE*](https://sre.google/resources/practices-and-processes/enterprise-roadmap-to-sre/) — Brookbank & McGhee (2022) | Free download; J-curve, Ulysses pact, sublinear scaling, platform of capabilities |
-| Liz Fong-Jones SREcon talks | YouTube/USENIX — SLOs & error budgets |
-
-**Hands-on milestones**
-- Write a full **SLO document** + **Error Budget Policy** for a service you can touch (or a side project): SLI spec, measurement method, target, time window, exclusions, freeze policy. The act of writing it is transformative.
-- Write a fictional blameless postmortem for a publicly-known incident (GitHub, AWS, Cloudflare). Use the Workbook's appendix template.
-
-**Time:** 3–4 weeks of reading + writing.
 
 ---
 
@@ -973,7 +932,7 @@ FROM employees GROUP BY dept;
 
 #### Stage 5 — Observability & Monitoring
 
-> **Why it matters:** You cannot defend an SLO you cannot measure. Observability is the *enabling layer* for every principle in Stage 2.
+> **Why it matters:** You cannot defend an SLO you cannot measure. Observability is the *enabling layer* for everything you operate.
 
 **Key topics**
 - **Three signals:** metrics, logs, traces (and emerging: continuous profiling). Know each one's strengths.
@@ -1007,7 +966,7 @@ FROM employees GROUP BY dept;
 
 **Hands-on milestones**
 - Instrument the Stage 4 app end-to-end with **OpenTelemetry SDKs**. Metrics → Prometheus, logs → Loki, traces → Tempo, unified in Grafana. One dashboard answers "Is the service healthy?" in under 10 seconds.
-- Convert your Stage 2 SLO into a **working multi-window, multi-burn-rate alert** and demonstrate it firing in a load-test scenario.
+- Define an SLO for the service and convert it into a **working multi-window, multi-burn-rate alert** and demonstrate it firing in a load-test scenario.
 
 **Time:** 4–6 weeks. *(Overlaps with Part B Phase 3, 4.)*
 
@@ -1157,43 +1116,9 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Level 3 — Advanced SRE (Stages 6–7)
+### Level 3 — Advanced SRE (Stage 7)
 
-> **Senior-track tier.** Goal: lead incidents, design reliable distributed systems, build internal platforms. Senior SRE roles at Grab/Mercari/Agoda target this level. ~10–16 weeks.
-
-#### Stage 6 — Reliability Practices: Incidents, On-Call, Chaos, Capacity
-
-> **Why it matters:** Where you start *behaving* like an SRE rather than just knowing about it. The work moves from "build" to "operate, learn, harden."
-
-**Key topics**
-- **Incident command:** Incident Commander, Ops Lead, Comms Lead — explicit roles (adapted from US Forest Service ICS)
-- **On-call practices:** sustainable rotations, primary/secondary, follow-the-sun, compensation, paging hygiene (no pageable alerts that aren't actionable)
-- **Blameless postmortems in practice:** writing, reviewing, indexing, *actually closing out action items* — this is where most teams fail
-- **Toil reduction:** measure quarterly, continuous 30–50% allocation, *not* "toil fix week" (antipattern)
-- **Chaos engineering:** Chaos Monkey, Gremlin, Chaos Mesh, Litmus — hypothesis-driven game days
-- **Capacity planning:** organic vs inorganic growth, headroom, policy-driven autoscaling, back-pressure, circuit breakers, rate limits
-- **Runbooks:** actionable, dated, tested — not aspirational essays
-- **Production Readiness Reviews (PRRs):** before SRE takes ownership of a service
-- **Wheel of Misfortune / tabletop exercises** — practice incident response in low-stakes settings
-
-**Resources** *(sorted: applied guides → canon → labs → advanced reading → talks)*
-
-| Resource | Type |
-|----------|------|
-| [PagerDuty Incident Response training](https://response.pagerduty.com/) | Free OSS docs — most actionable starter. **Start here.** |
-| SRE Book Ch 11–15 (on-call, troubleshooting, emergency response, incident mgmt, postmortems) | Free — the canon |
-| [KodeKloud — Chaos Engineering](https://kodekloud.com/courses/chaos-engineering) | AWS FIS-driven labs on EC2, Aurora, Fargate, EKS — the practical companion to the book |
-| *Chaos Engineering* — Rosenthal & Jones | O'Reilly book |
-| [learningfromincidents.io](https://www.learningfromincidents.io/) | Etsy/Adaptive Capacity Labs — modern human-factors flavor |
-| SREcon talks on YouTube | Search "blameless", "incident command", "on-call" |
-
-**Hands-on milestones**
-- Run a **game day** on your Stage 5 stack: kill pods, sever a network link, fill a disk, exhaust a connection pool. Document hypothesis → experiment → result → what you'd change.
-- Write a real postmortem for any incident on your team. Get a teammate to review for blame language and *systemic* contributing causes, not "Bob forgot to."
-
-**Time:** 4–6 weeks, then ongoing.
-
----
+> **Senior-track tier.** Goal: design reliable distributed systems, build internal platforms. Senior SRE roles at Grab/Mercari/Agoda target this level. ~10–16 weeks.
 
 #### Stage 7 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
 
@@ -1233,7 +1158,7 @@ FROM employees GROUP BY dept;
 - Install Linkerd or Istio on your cluster — demonstrate mTLS, 5% canary traffic shift, automatic retries on a service that intermittently fails
 - Contribute one non-trivial PR (docs count) to a CNCF or major OSS project — navigating their codebase *is* the learning
 
-**Time:** 8–12 weeks, parallelizable with Stage 6.
+**Time:** 8–12 weeks.
 
 ---
 
