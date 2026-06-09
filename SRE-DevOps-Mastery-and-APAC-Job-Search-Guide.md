@@ -12,9 +12,9 @@
 1. [Part 0 — Interview Prep Track (Hello Interview Framework)](#part-0)
 2. [Part SRE — Dedicated SRE Learning Track (Beginner → Advanced)](#part-sre)
    - **Level 1 — Foundations** (Stages 0–1)
-   - **Level 2 — Core SRE Skills** (Stages 3–5)
-   - **Level 3 — Advanced SRE** (Stage 7)
-   - **Level 4 — Mastery & Leadership** (Stage 8+)
+   - **Level 2 — Core SRE Skills** (Stages 2–7)
+   - **Level 3 — Advanced SRE** (Stage 8)
+   - **Level 4 — Mastery & Leadership** (Stage 9+)
 3. [Part AI — AI Engineering for SRE/DevOps](#part-ai)
    - **Level 1 — Foundations** (concepts, videos, books)
    - **Level 2 — Core Engineering** (stack, RAG, blogs, agentic playlists)
@@ -58,28 +58,28 @@ TIER                  CLASS        TECH YOU'RE LEARNING            WHERE YOU LEA
 User / browser        FRONTEND     (out of scope — you're SRE)     —
         │
         ▼
-CDN edge              EDGE         Fastly + VCL                    Stage 5.5 (Fastly / VCL)
+CDN edge              EDGE         Fastly + VCL                    Stage 5 (Fastly / VCL)
                                    CloudFront                      Part B Phase 5 (AWS)
                                    Cloudflare (vocab only)
         │
         ▼
-Load balancer         EDGE (L4/L7) HAProxy                         Stage 5.5 (HAProxy)
+Load balancer         EDGE (L4/L7) HAProxy                         Stage 5 (HAProxy)
                                    AWS ALB / NLB                   Part B Phase 5
-                                   Envoy as L7 LB                  Stage 5.5 (Envoy)
+                                   Envoy as L7 LB                  Stage 5 (Envoy)
         │
         ▼
-API gateway           EDGE → APP   Kong + Kong Ingress Controller  Stage 5.5 (Kong / K8s ingress)
+API gateway           EDGE → APP   Kong + Kong Ingress Controller  Stage 5 (Kong / K8s ingress)
 (K8s ingress)
         │
         ▼
-Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 5.6 (NGINX)
-                                   Envoy (L7 front-proxy)          Stage 5.6 (Envoy)
-                                   Envoy (sidecar / mesh)          Stage 7 (service mesh)
+Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 6 (NGINX)
+                                   Envoy (L7 front-proxy)          Stage 6 (Envoy)
+                                   Envoy (sidecar / mesh)          Stage 8 (service mesh)
         │
         ▼
-Forward proxy         APP → INTERNET Squid + mitmproxy              Stage 5.7 (forward / egress)
+Forward proxy         APP → INTERNET Squid + mitmproxy              Stage 7 (forward / egress)
 (outbound / egress)                NAT Gateway / Cloud NAT
-                                   Istio EgressGateway             Stage 7 (service mesh)
+                                   Istio EgressGateway             Stage 8 (service mesh)
         │
         ▼
 Cache layer           DATA         Redis / Memcached (in-mem)      Part D L2 (caching), Part B Phase 4
@@ -91,30 +91,30 @@ App servers           BACKEND      Go (Todo API — primary)         Part B Phas
 (horizontally                      Python (scripts, Lambda)
 scaled in K8s)                     Running on:
                                      • kind (local)                Part B Phase 2
-                                     • EKS (prod)                  Part B Phase 5, Stage 4
-                                   Containerized via Docker        Stage 3, Part B Phase 1
+                                     • EKS (prod)                  Part B Phase 5, Stage 3
+                                   Containerized via Docker        Stage 2, Part B Phase 1
         │
         ▼
 Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 2, 5
                                    Redis (cache + sessions)        Part D L2
-                                   DDIA mental model               Stage 7, Part D L2–L3
+                                   DDIA mental model               Stage 8, Part D L2–L3
 ```
 
 ### Cross-cutting layers (touch every tier above)
 
 | Layer | Where you learn it | Tools |
 |-------|--------------------|-------|
-| **Observability** | Stage 5 + Part B Phase 3–4 | Prometheus + Grafana (metrics) · Loki / ELK (logs) · OpenTelemetry + Jaeger (traces) · multi-window burn-rate SLO alerts |
-| **CI/CD + GitOps** | Stage 4 + Part B Phase 7 | GitHub Actions (build/push) · ArgoCD (reconcile K8s) · Helm + Kustomize (templating) |
-| **IaC** | Stage 3 + Part B Phase 6 | Terraform → CDN, ALB, EKS, RDS, IAM |
-| **DevSecOps + Security** | Stage 7 | WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets Operator · SBOM/Sigstore in CI |
+| **Observability** | Stage 4 + Part B Phase 3–4 | Prometheus + Grafana (metrics) · Loki / ELK (logs) · OpenTelemetry + Jaeger (traces) · multi-window burn-rate SLO alerts |
+| **CI/CD + GitOps** | Stage 3 + Part B Phase 7 | GitHub Actions (build/push) · ArgoCD (reconcile K8s) · Helm + Kustomize (templating) |
+| **IaC** | Stage 2 + Part B Phase 6 | Terraform → CDN, ALB, EKS, RDS, IAM |
+| **DevSecOps + Security** | Stage 8 | WAF + rate-limit at CDN/Kong · mTLS via Linkerd/Istio · Vault + External Secrets Operator · SBOM/Sigstore in CI |
 | **AI layer (optional)** | Part AI L3.3 | vLLM cluster = specialized backend tier · RAG over runbooks = ops tooling, NOT in request path |
 
 ### Frontend / Edge / Backend / Data boundaries
 
 - **Frontend** (browser, JS/CSS/HTML, mobile clients) — you don't study this; it sits above the CDN. Know enough to talk to FE engineers, no more.
-- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5.5** (CDN + API gateway + HAProxy) and **Stage 5.6** (NGINX + Envoy reverse proxies) own this inbound vertical block. **Stage 5.7** covers the outbound/egress mirror (forward proxies, Squid, NAT, mesh egress). Whoever owns the edge owns the SLOs for everyone behind it.
-- **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 3 (containers), 4 (K8s/CI), 5 (observability), 7 (mesh) all wrap this tier.
+- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5** (CDN + API gateway + HAProxy) and **Stage 6** (NGINX + Envoy reverse proxies) own this inbound vertical block. **Stage 7** covers the outbound/egress mirror (forward proxies, Squid, NAT, mesh egress). Whoever owns the edge owns the SLOs for everyone behind it.
+- **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 2 (containers), 3 (K8s/CI), 4 (observability), 8 (mesh) all wrap this tier.
 - **Data** (cache + database) — **Part D L2** covers the design patterns; **Part B Phase 2 / 5** covers the implementation.
 
 ### How to use this map
@@ -764,7 +764,7 @@ FROM employees GROUP BY dept;
 
 > **Sources:** *Enterprise Roadmap to SRE* (Brookbank & McGhee, O'Reilly 2022) · [roadmap.sh/devops](https://roadmap.sh/devops) · [Google SRE canon](https://sre.google/books/) · 12–24 month synthesis
 >
-> **Commitment:** 300–500 focused hours, runs in parallel with Part 0 + Part B over the 6-month window — the parts overlap heavily, so don't double-count time. Stages 1–5 are the load-bearing months; Stages 6–8 continue past job start.
+> **Commitment:** 300–500 focused hours, runs in parallel with Part 0 + Part B over the 6-month window — the parts overlap heavily, so don't double-count time. Stages 1–7 are the load-bearing months; Stages 8–9 continue past job start.
 >
 > **"Class SRE implements interface DevOps."** DevOps is *what good looks like*; SRE is the prescriptive *how* — SLOs, error budgets, blameless postmortems, toil budgets, PRRs.
 
@@ -842,11 +842,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Level 2 — Core SRE Skills (Stages 3–5)
+### Level 2 — Core SRE Skills (Stages 2–7)
 
 > **Working SRE tier.** Goal: ship and operate cloud-native services with full observability. This is where you become hireable as an SRE in APAC. ~12–16 weeks.
 
-#### Stage 3 — Infrastructure & Cloud: Providers, IaC, Containers
+#### Stage 2 — Infrastructure & Cloud: Providers, IaC, Containers
 
 > **Why it matters:** SREs don't click in consoles. Production infrastructure must be code: versioned, reviewable, reproducible.
 
@@ -887,7 +887,7 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 4 — Orchestration & Deployment: Kubernetes, CI/CD, GitOps
+#### Stage 3 — Orchestration & Deployment: Kubernetes, CI/CD, GitOps
 
 > **Why it matters:** 93% of orgs (CNCF Annual Survey) run or evaluate Kubernetes in prod. SREs own clusters, pipelines, and the connection between them.
 
@@ -923,14 +923,14 @@ FROM employees GROUP BY dept;
 | [GitOps Certified Associate (CGOA)](https://kodekloud.com/courses/gitops-certified-associate-cgoa) | New CNCF cert — optional, signals depth |
 
 **Hands-on milestones**
-- Deploy the Stage 3 app on **kind**/**minikube** with a full Helm chart, then on managed EKS/GKE provisioned by your Terraform
+- Deploy the Stage 2 app on **kind**/**minikube** with a full Helm chart, then on managed EKS/GKE provisioned by your Terraform
 - Wire a GitHub Actions pipeline: build, test, scan, push, trigger ArgoCD sync. Demonstrate a canary release with **automated rollback** when error rate exceeds threshold
 
 **Time:** 8–12 weeks. The densest technical stage. *(Overlaps with Part B Phase 2, 7.)*
 
 ---
 
-#### Stage 5 — Observability & Monitoring
+#### Stage 4 — Observability & Monitoring
 
 > **Why it matters:** You cannot defend an SLO you cannot measure. Observability is the *enabling layer* for everything you operate.
 
@@ -965,16 +965,16 @@ FROM employees GROUP BY dept;
 | [Advanced AIOps — Distributed Tracing & RCA](https://kodekloud.com/courses/learn-by-doing-advanced-aiops-distributed-tracing-and-rca-curriculum) | OTel + Jaeger trace-driven RCA practice |
 
 **Hands-on milestones**
-- Instrument the Stage 4 app end-to-end with **OpenTelemetry SDKs**. Metrics → Prometheus, logs → Loki, traces → Tempo, unified in Grafana. One dashboard answers "Is the service healthy?" in under 10 seconds.
+- Instrument the Stage 3 app end-to-end with **OpenTelemetry SDKs**. Metrics → Prometheus, logs → Loki, traces → Tempo, unified in Grafana. One dashboard answers "Is the service healthy?" in under 10 seconds.
 - Define an SLO for the service and convert it into a **working multi-window, multi-burn-rate alert** and demonstrate it firing in a load-test scenario.
 
 **Time:** 4–6 weeks. *(Overlaps with Part B Phase 3, 4.)*
 
 ---
 
-#### Stage 5.5 — CDN, API Gateway & HTTP Caching
+#### Stage 5 — CDN, API Gateway & HTTP Caching
 
-> **Why it matters:** Most APAC platforms put a CDN edge cache (Fastly / CloudFront / Cloudflare) and an API gateway (Kong / AWS API Gateway / Apigee) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Fastly + Kong**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface). HAProxy is included here as the L4/L7 load balancer that often sits at the same tier. *L7 reverse proxies (NGINX / Envoy) live in their own stage — see Stage 5.6.*
+> **Why it matters:** Most APAC platforms put a CDN edge cache (Fastly / CloudFront / Cloudflare) and an API gateway (Kong / AWS API Gateway / Apigee) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Fastly + Kong**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface). HAProxy is included here as the L4/L7 load balancer that often sits at the same tier. *L7 reverse proxies (NGINX / Envoy) live in their own stage — see Stage 6.*
 
 **Key topics**
 - **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
@@ -1039,13 +1039,13 @@ FROM employees GROUP BY dept;
 | [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
 | [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
 
-**Time:** 3–4 weeks if focused. Can run in parallel with Stage 5 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
+**Time:** 3–4 weeks if focused. Can run in parallel with Stage 4 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
 
 ---
 
-#### Stage 5.6 — Reverse Proxy (NGINX / Envoy)
+#### Stage 6 — Reverse Proxy (NGINX / Envoy)
 
-> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. *Forward proxies (egress / corporate / Squid) are a different beast — see Stage 5.7.*
+> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. *Forward proxies (egress / corporate / Squid) are a different beast — see Stage 7.*
 
 **Key topics**
 - **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
@@ -1077,13 +1077,13 @@ FROM employees GROUP BY dept;
 | [Tetrate — official YouTube channel](https://www.youtube.com/@tetrateio) | Daniel Bryant + community talks on Envoy / Istio in production; the "Envoy Fundamentals" recorded sessions live here |
 | [KubeCon EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
 
-**Time:** 2–3 weeks if focused. Pairs naturally with Stage 5.5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
+**Time:** 2–3 weeks if focused. Pairs naturally with Stage 5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
 
 ---
 
-#### Stage 5.7 — Proxy (Forward / Egress)
+#### Stage 7 — Proxy (Forward / Egress)
 
-> **Why it matters:** A *forward* proxy sits in front of the **client**, not the server — it shapes, caches, filters, or audits *outbound* traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio `EgressGateway`, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). The hot path is different from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. *Reverse proxies — NGINX / Envoy in front of a backend — live in Stage 5.6.*
+> **Why it matters:** A *forward* proxy sits in front of the **client**, not the server — it shapes, caches, filters, or audits *outbound* traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio `EgressGateway`, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). The hot path is different from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. *Reverse proxies — NGINX / Envoy in front of a backend — live in Stage 6.*
 
 **Key topics**
 - **Forward vs reverse proxy mental model:** *who* initiates the connection, *who* is hidden, *which side* sets the cache key — read the `Via` and `X-Forwarded-*` headers from both sides
@@ -1112,15 +1112,15 @@ FROM employees GROUP BY dept;
 | [Envoy — egress proxy filter reference](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro) | How Envoy enforces egress policy in a sidecar mesh — auth filters, RBAC, ext_authz |
 | [Julia Evans — *How HTTPS works* zine + corporate-proxy posts](https://wizardzines.com/zines/https/) | Approachable explanation of TLS interception trade-offs and how MITM proxies work |
 
-**Time:** 1–2 weeks. Lighter than Stage 5.6 — most SREs need *reading-level* fluency unless they own corporate egress or a service mesh's egress gateway. Pairs with Stage 7 (service mesh) when you get there.
+**Time:** 1–2 weeks. Lighter than Stage 6 — most SREs need *reading-level* fluency unless they own corporate egress or a service mesh's egress gateway. Pairs with Stage 8 (service mesh) when you get there.
 
 ---
 
-### Level 3 — Advanced SRE (Stage 7)
+### Level 3 — Advanced SRE (Stage 8)
 
 > **Senior-track tier.** Goal: design reliable distributed systems, build internal platforms. Senior SRE roles at Grab/Mercari/Agoda target this level. ~10–16 weeks.
 
-#### Stage 7 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
+#### Stage 8 — Advanced: Service Mesh, Distributed Systems, DevSecOps, Platform Engineering
 
 > **Why it matters:** Senior SREs are systems thinkers. They reason about how independent components interact under failure. They also design *platforms of capabilities* (the central frame in *Enterprise Roadmap to SRE*) — not bespoke help for every team.
 
@@ -1162,11 +1162,11 @@ FROM employees GROUP BY dept;
 
 ---
 
-### Level 4 — Mastery & Leadership (Stage 8+)
+### Level 4 — Mastery & Leadership (Stage 9+)
 
 > **Staff / Principal / Manager tier.** Goal: shape how reliability is *thought about* across the org. Highest-leverage work; primarily cultural, organizational, and strategic. Ongoing post-first-job.
 
-#### Stage 8 — Leadership, Culture, Scaling SRE (ongoing, post-job-start)
+#### Stage 9 — Leadership, Culture, Scaling SRE (ongoing, post-job-start)
 
 > **Why it matters:** Brookbank & McGhee's central thesis — enterprise SRE adoption fails *not on technology* but on culture, staffing, leadership. As you mature, the highest-leverage thing you can do is shape how reliability is *thought about*, not how it is *implemented*.
 
@@ -1183,7 +1183,7 @@ FROM employees GROUP BY dept;
 
 | Resource | Type |
 |----------|------|
-| *Enterprise Roadmap to SRE* — Brookbank & McGhee | **Re-read after Stages 1–7** — the second pass is vastly more useful. **Start here.** |
+| *Enterprise Roadmap to SRE* — Brookbank & McGhee | **Re-read after Stages 1–8** — the second pass is vastly more useful. **Start here.** |
 | *The DevOps Handbook* (2nd ed.) — Kim et al. | Book — applied culture |
 | *Accelerate* — Forsgren/Humble/Kim | DORA data |
 | *Crucial Conversations* — Patterson et al. | Soft-skills foundation for hard reliability conversations |
@@ -1245,11 +1245,11 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 ### Foundational University Course Videos
 
-> Three academic deep-dives that map onto the SRE foundations: distributed systems, computer networking, and end-to-end systems engineering. These go deeper than interview prep — they pay off in production debugging and senior-level design rounds. Watch alongside Stage 1 (Networking) and Stage 7 (Distributed Systems).
+> Three academic deep-dives that map onto the SRE foundations: distributed systems, computer networking, and end-to-end systems engineering. These go deeper than interview prep — they pay off in production debugging and senior-level design rounds. Watch alongside Stage 1 (Networking) and Stage 8 (Distributed Systems).
 
 #### Course 1 — MIT 6.824 Distributed Systems (Spring 2020, Robert Morris)
 
-> 20 lectures · the canonical graduate distributed-systems course; pairs directly with Stage 7. Full lecture-by-lecture table lives in [Part 0A → Distributed Systems Deep Dive — MIT 6.824](#part-0). [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
+> 20 lectures · the canonical graduate distributed-systems course; pairs directly with Stage 8. Full lecture-by-lecture table lives in [Part 0A → Distributed Systems Deep Dive — MIT 6.824](#part-0). [Full playlist](https://www.youtube.com/playlist?list=PLrw6a1wE39_tb2fErI4-WkMbsvGQk9_UB)
 
 #### Course 2 — Stanford CS144 Introduction to Computer Networking (Fall 2013, Philip Levis & Nick McKeown)
 
@@ -1314,7 +1314,7 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 
 #### Course 3 — MIT 6.033 Computer System Engineering (Spring 2018, Katrina LaCurts)
 
-> Undergraduate end-to-end systems course — OS, networking, distributed systems, security — taught around primary research papers. Cross-cuts Stages 1, 5, 6, and 7.
+> Undergraduate end-to-end systems course — OS, networking, distributed systems, security — taught around primary research papers. Cross-cuts Stages 1, 4, and 8.
 >
 > 📖 **Note:** OCW does **not** publish video lectures for the Spring 2018 offering — the course is delivered through readings (Saltzer & Kaashoek, *Principles of Computer System Design*), assigned papers, recitation outlines, and a multi-week design project. Use it as a paper-driven study companion, not a video course.
 
@@ -1346,8 +1346,8 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 |------------|---------|--------------------------|
 | Operating Systems (weeks 1–4) | Stage 1 | *Operating Systems: Three Easy Pieces* (free) + Brendan Gregg talks |
 | Networking (weeks 5–7) | Stage 1 | CS144 videos above + Kurose & Ross |
-| Distributed Systems (weeks 8–10) | Stage 7 | MIT 6.824 videos above |
-| Security (weeks 11–14) | Stages 1, 7 (DevSecOps) | CS144 Security videos above |
+| Distributed Systems (weeks 8–10) | Stage 8 | MIT 6.824 videos above |
+| Security (weeks 11–14) | Stages 1, 8 (DevSecOps) | CS144 Security videos above |
 
 **Self-study plan (≈8 weeks, 3 hrs/week — compresses 14 weeks of the official course):**
 
@@ -1477,7 +1477,7 @@ Page yourself only when it's actionable. Write the postmortem you wish you'd bee
 
 ## <a id="part-ai"></a>Part AI — AI Engineering for SRE/DevOps
 
-> **Why this is here:** Between 2024 and 2026, AI moved from "research curiosity" to "production tool" inside SRE. LLMs are now plausible on-call copilots, log summarizers, runbook generators, and NL→PromQL/SQL interfaces. SRE teams at Grab, Mercari, Agoda, ByteDance, and PayPay already operate vLLM/TGI clusters, RAG-over-runbooks systems, and AI-driven incident triage. Treat this as a **horizontal specialization** that compounds with Stages 5–7 of Part SRE — not a separate career.
+> **Why this is here:** Between 2024 and 2026, AI moved from "research curiosity" to "production tool" inside SRE. LLMs are now plausible on-call copilots, log summarizers, runbook generators, and NL→PromQL/SQL interfaces. SRE teams at Grab, Mercari, Agoda, ByteDance, and PayPay already operate vLLM/TGI clusters, RAG-over-runbooks systems, and AI-driven incident triage. Treat this as a **horizontal specialization** that compounds with Stages 4–8 of Part SRE — not a separate career.
 >
 > **Scope clarifier:** This is **AI engineering** (using pre-trained models in production), not **ML research** (training foundation models). The latter is a PhD track; the former is what SRE/DevOps roles increasingly require. If you're tempted by the research path, see *AI learning path'.md* in this repo — it's a different game.
 
@@ -1583,7 +1583,7 @@ query → embed → top-K cosine search → stuff into prompt → LLM → answer
 
 **RAG vs fine-tuning:** RAG covers ~80% of "make the LLM know my docs" use cases. Fine-tune only when you need style/domain shift (e.g., always answer in incident-report format) or to compress repeated context. Almost every team should try RAG first.
 
-#### L2.3 6-week learning plan (≈ 12 hrs/week — runs beside Part SRE Stage 5+)
+#### L2.3 6-week learning plan (≈ 12 hrs/week — runs beside Part SRE Stage 4+)
 
 | Week | Level | Topic | Tangible output |
 |------|-------|-------|-----------------|
@@ -3153,12 +3153,12 @@ The on-prem mirror of HLD 4. When you can't ship every cache fill through a host
                                      │
                               centralised egress
                               policy, mTLS, audit
-                              (Stage 06 + Stage 7 mesh)
+                              (Stage 06 + Stage 8 mesh)
 ```
 
 The *other* direction. A reverse proxy hides backend servers from clients; a **forward proxy** hides clients from the internet — and lets you audit, filter, cache, or rewrite outbound calls. Common forms: Squid behind a PAC file for corporate egress, mitmproxy for debugging, AWS NAT Gateway / VPC Endpoints for cloud egress, Istio `EgressGateway` for mesh egress.
 
-**Why learn 06 Proxy (Forward / Egress)** — most SREs need *reading-level* fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks "what external services does Pod X reach?" or finance asks "why is our NAT bill $40k/month?", this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level.
+**Why learn 06 Proxy (Forward / Egress)** — most SREs need *reading-level* fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks "what external services does Pod X reach?" or finance asks "why is our NAT bill $40k/month?", this stage is the answer. Pairs with Stage 8 (Service Mesh) in the Advanced level.
 
 ---
 
