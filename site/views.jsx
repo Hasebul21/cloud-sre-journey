@@ -606,16 +606,16 @@ function ResourceTag({ type }) {
 }
 
 const STAGE_NUM = {
-  networking:  "01",
-  cloud:       "02",
-  reliability: "03",
-  edge:        "04",
-  revproxy:    "05",
-  fwdproxy:    "06",
-  varnish:     "07",
-  fastly:      "08",
-  automation:  "09",
-  language:    "10",
+  networking:  "02",
+  cloud:       "03",
+  reliability: "04",
+  edge:        "05",
+  revproxy:    "06",
+  fwdproxy:    "07",
+  varnish:     "08",
+  fastly:      "09",
+  automation:  "10",
+  language:    "01",
 };
 
 function StatusPill({ pct }) {
