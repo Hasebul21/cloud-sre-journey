@@ -611,7 +611,6 @@ const STAGE_NUM = {
   reliability: "04",
   edge:        "05",
   revproxy:    "06",
-  fwdproxy:    "07",
   varnish:     "08",
   fastly:      "09",
   automation:  "10",
@@ -815,7 +814,6 @@ const SRE_AutomationView  = () => <SreLearningView sectionKey="automation" />;
 const SRE_LanguageView    = () => <SreLearningView sectionKey="language" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
 const SRE_RevProxyView    = () => <SreLearningView sectionKey="revproxy" />;
-const SRE_FwdProxyView    = () => <SreLearningView sectionKey="fwdproxy" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
 const SRE_VarnishView     = () => <SreLearningView sectionKey="varnish" />;
 const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
@@ -973,6 +971,6 @@ Object.assign(window, {
   OverviewView, P0_SysDesignView, P0_BehaviorView, P0_LLDView, P0_SQLView,
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
-  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_LanguageView, SRE_EdgeView, SRE_RevProxyView, SRE_FwdProxyView, SRE_ReliabilityView,
+  SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_LanguageView, SRE_EdgeView, SRE_RevProxyView, SRE_ReliabilityView,
   SRE_VarnishView, SRE_FastlyView, RoadmapView,
 });

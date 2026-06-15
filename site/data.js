@@ -266,8 +266,7 @@ window.SRE_DATA = {
       { num: "03", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
       { num: "04", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
       { num: "05", name: "CDN, API Gateway & HTTP Caching",  desc: "Fastly (concepts) + Kong + HAProxy + RFC 9111" },
-      { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Envoy in front of backends" },
-      { num: "07", name: "Proxy (Forward / Egress)",         desc: "Squid, mitmproxy, NAT, mesh EgressGateway" },
+      { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Envoy + Caddy in front of backends" },
       { num: "08", name: "Varnish & VCL",                    desc: "On-prem VCL deep dive" },
       { num: "09", name: "Fastly CDN",                       desc: "Hosted VCL + Compute@Edge — the dedicated Fastly course" },
       { num: "10", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
@@ -450,42 +449,15 @@ window.SRE_DATA = {
           { stage: "08 Varnish & VCL", text: "Directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the dn.no reference architecture: multi-backend routing via the x-backend header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 09." },
         ],
       },
-      {
-        id: "hld-8",
-        title: "HLD 8 — Control outbound traffic (forward proxy / egress)",
-        unlocks: "Stage 07 Proxy (Forward / Egress)",
-        diagram:
-`                     ┌── Forward proxy: sits in front of CLIENT
-                     │   Audits / filters / caches OUTBOUND traffic
-                     │   (mirror image of reverse proxy)
-                     ▼
-[App pod] ──HTTPS──▶ [Squid / mitmproxy] ──▶ [AWS NAT GW / VPC Endpoint] ──▶ [External API]
-   │                       │                          │
-   │                  ACLs, allowlist,        Stops paying NAT bytes
-   │                  audit log,              for S3 / DynamoDB /
-   │                  TLS interception        SQS via Gateway / Interface
-   │                  (Stage 07)              endpoints (PrivateLink)
-   │
-   │  Mesh variant:
-   └─▶ [Envoy sidecar] ──▶ [Istio EgressGateway] ──▶ [External API]
-                                     │
-                              centralised egress
-                              policy, mTLS, audit
-                              (Stage 07 + Stage 7 mesh)`,
-        body: "The other direction. A reverse proxy hides backend servers from clients; a forward proxy hides clients from the internet — and lets you audit, filter, cache, or rewrite outbound calls. Common forms: Squid behind a PAC file for corporate egress, mitmproxy for debugging, AWS NAT Gateway / VPC Endpoints for cloud egress, Istio EgressGateway for mesh egress.",
-        why: [
-          { stage: "07 Proxy (Forward / Egress)", text: "Most SREs need reading-level fluency here unless they own corporate egress or a service-mesh egress gateway. But the moment compliance asks 'what external services does Pod X reach?' or finance asks 'why is our NAT bill $40k/month?', this stage is the answer. Pairs with Stage 7 (Service Mesh) in the Advanced level." },
-        ],
-      },
     ],
     readingOrder: {
       diagram:
-`Stage 02 → Stage 03 → Stage 06 → Stage 05 → Stage 09 → Stage 04 → Stage 10 → Stage 08 → Stage 07
-   ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
- HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7      HLD 8
-foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem   outbound
-              up      proxy      gateways    dive       everything ify        VCL       control`,
-      note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–6), Part 0A (system-design interview prep — pairs with HLDs 3–8 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
+`Stage 02 → Stage 03 → Stage 06 → Stage 05 → Stage 09 → Stage 04 → Stage 10 → Stage 08
+   ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
+ HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7
+foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem
+              up      proxy      gateways    dive       everything ify        VCL`,
+      note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–6), Part 0A (system-design interview prep — pairs with HLDs 3–7 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
     },
   },
 
@@ -1263,7 +1235,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     },
 
     edge: {
-      title: "SRE 5 · CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)",
+      title: "SRE 5 · API Gateway, Load Balancer & HTTP Caching (Kong / HAProxy)",
       resources: [
         // ── HTTP caching theory ──
         { id: "sed-r-27", type: "blog", sub: "HTTP caching theory", name: "MDN — HTTP Caching reference — Start here", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" },
@@ -1273,10 +1245,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "sed-r-31", type: "course", sub: "Load Balancer (HAProxy)", name: "KodeKloud — HAProxy for Beginners — Start here", url: "https://kodekloud.com/courses/haproxy-for-beginners/" },
         { id: "sed-r-32", type: "video", sub: "Load Balancer (HAProxy)", name: "Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)", url: "https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-" },
         { id: "sed-r-34", type: "blog", sub: "Load Balancer (HAProxy)", name: "HAProxy official docs (configuration manual)", url: "https://docs.haproxy.org/" },
-        // ── CDN (Fastly / VCL) ──
-        { id: "sed-r-15", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Learning Center (CDN / caching / edge primers) — Start here", url: "https://www.fastly.com/learning" },
-        { id: "sed-r-14", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Documentation hub (Concepts + VCL)", url: "https://www.fastly.com/documentation/" },
-        { id: "sed-r-17", type: "course", sub: "CDN (Fastly / VCL)", name: "Fastly Fiddle — in-browser VCL + Compute@Edge playground", url: "https://fiddle.fastly.dev" },
         // ── API Gateway (Kong) ──
         { id: "sed-r-1", type: "course", sub: "API Gateway (Kong)", name: "Kong Docs — Get Started with Kong Gateway — Start here", url: "https://docs.konghq.com/gateway/latest/get-started/" },
         { id: "sed-r-3", type: "course", sub: "API Gateway (Kong)", name: "Hussein Nasser — Kong API Gateway (Udemy)", url: "https://www.udemy.com/course/kong-api-gateway/" },
@@ -1286,15 +1254,14 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "sed-m-1",  name: "Kong DB-less via docker-compose: declare 2 upstreams in kong.yml; route /api/todos + /api/users" },
         { id: "sed-m-2",  name: "Add rate-limit + JWT plugins to Todo API through Kong; load-test to trip the limiter" },
         { id: "sed-m-3",  name: "Install Kong Ingress Controller on kind; swap one Ingress for KIC; compare behaviour" },
-        { id: "sed-m-6",  name: "Write a Fastly VCL snippet (free dev tier): cache an API response, set a surrogate key, instant-purge it" },
-        { id: "sed-m-7",  name: "Implement stale-while-revalidate at the edge; verify behavior when origin returns 5xx" },
+        { id: "sed-m-7",  name: "Implement stale-while-revalidate semantics in front of the Todo API; verify behavior when origin returns 5xx" },
         { id: "sed-m-8",  name: "Runbook: 'p99 spiked behind Kong — triage in 10 min' (gateway logs → upstreams → plugins → cache hit ratio)" },
         { id: "sed-m-9",  name: "1-page tradeoff doc: NGINX vs Envoy vs Kong as L7 — when each wins, be opinionated" },
       ],
     },
 
     revproxy: {
-      title: "SRE 6 · Reverse Proxy (NGINX / Envoy)",
+      title: "SRE 6 · Reverse Proxy (NGINX / Envoy / Caddy)",
       resources: [
         // ── NGINX ──
         { id: "rprx-r-1", type: "course", sub: "NGINX", name: "KodeKloud — Nginx for Beginners — Start here", url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
@@ -1304,6 +1271,10 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-r-20", type: "course", sub: "Envoy", name: "Tetrate Academy — free Envoy + Istio courses — Start here", url: "https://academy.tetrate.io/" },
         { id: "rprx-r-22", type: "course", sub: "Envoy", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)", url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
         { id: "rprx-r-23", type: "video", sub: "Envoy", name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)", url: "https://www.youtube.com/@MarcelDempers" },
+        // ── Caddy ──
+        { id: "rprx-r-30", type: "course", sub: "Caddy", name: "Caddy — Getting Started + tutorials (install, Caddyfile, automatic HTTPS) — Start here", url: "https://caddyserver.com/docs/getting-started" },
+        { id: "rprx-r-31", type: "blog", sub: "Caddy", name: "Caddy — Quick-starts (reverse-proxy, file server, PHP, Wordpress) — copy-paste recipes", url: "https://caddyserver.com/docs/quick-starts/reverse-proxy" },
+        { id: "rprx-r-32", type: "blog", sub: "Caddy", name: "Caddy docs — Caddyfile concepts + JSON config reference", url: "https://caddyserver.com/docs/caddyfile/concepts" },
       ],
       milestones: [
         { id: "rprx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
@@ -1312,23 +1283,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-m-4", name: "Envoy as a front-proxy via docker-compose: 1 listener + cluster, outlier detection, retry policy, /stats/prometheus" },
         { id: "rprx-m-5", name: "Compare a p99 latency graph for the Todo API behind NGINX vs Envoy under identical load" },
         { id: "rprx-m-6", name: "Walk through an xDS update path: change a route via static config, then via the control-plane snapshot pattern" },
-      ],
-    },
-
-    fwdproxy: {
-      title: "SRE 7 · Proxy (Forward / Egress) — Squid / mitmproxy / NAT",
-      resources: [
-        // ── Concepts ──
-        { id: "fprx-r-1", type: "blog", sub: "Concepts", name: "Cloudflare Learning Center — Forward proxy vs reverse proxy — Start here", url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
-        // ── Cloud egress ──
-        { id: "fprx-r-8", type: "course", sub: "Cloud egress", name: "AWS — NAT Gateway documentation (bandwidth, cost per AZ, port exhaustion)", url: "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html" },
-      ],
-      milestones: [
-        { id: "fprx-m-1", name: "Stand up Squid in Docker as a caching forward proxy; route a curl through it; verify HIT/MISS in access.log" },
-        { id: "fprx-m-2", name: "Lock Squid down with ACLs: allow only one internal CIDR + one destination domain; verify others get 403" },
-        { id: "fprx-m-3", name: "Use mitmproxy to intercept HTTPS calls from a local app; install the mitmproxy CA; replay one request with a modified body" },
-        { id: "fprx-m-4", name: "On AWS, place a private subnet behind a NAT Gateway; add a VPC Gateway Endpoint for S3; compare NAT bytes before/after" },
-        { id: "fprx-m-5", name: "One-page tradeoff doc: when to use a forward proxy (Squid) vs cloud-native egress (NAT + VPC endpoints) vs mesh EgressGateway" },
+        { id: "rprx-m-7", name: "Stand up Caddy with a 10-line Caddyfile: reverse-proxy the Todo API and verify automatic Let's Encrypt + HTTP/3 on a real domain" },
       ],
     },
 

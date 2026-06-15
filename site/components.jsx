@@ -389,7 +389,6 @@ function viewGroups() {
     "sre-auto":  ["sreLr_automation"],
     "sre-edge":  ["sreLr_edge"],
     "sre-revproxy": ["sreLr_revproxy"],
-    "sre-fwdproxy": ["sreLr_fwdproxy"],
     "sre-rel":   ["sreLr_reliability"],
     "sre-varnish": ["sreLr_varnish"],
     "sre-fastly":  ["sreLr_fastly"],

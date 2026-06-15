@@ -74,12 +74,8 @@ API gateway           EDGE → APP   Kong + Kong Ingress Controller  Stage 5 (Ko
         ▼
 Reverse proxy         EDGE → APP   NGINX (proxy_pass, microcache)  Stage 6 (NGINX)
                                    Envoy (L7 front-proxy)          Stage 6 (Envoy)
+                                   Caddy (auto-HTTPS / HTTP/3)     Stage 6 (Caddy)
                                    Envoy (sidecar / mesh)          Stage 8 (service mesh)
-        │
-        ▼
-Forward proxy         APP → INTERNET Squid + mitmproxy              Stage 7 (forward / egress)
-(outbound / egress)                NAT Gateway / Cloud NAT
-                                   Istio EgressGateway             Stage 8 (service mesh)
         │
         ▼
 Cache layer           DATA         Redis / Memcached (in-mem)      Part D L2 (caching), Part B Phase 4
@@ -113,7 +109,7 @@ Database              DATA         PostgreSQL (RDS in prod)        Part B Phase 
 ### Frontend / Edge / Backend / Data boundaries
 
 - **Frontend** (browser, JS/CSS/HTML, mobile clients) — you don't study this; it sits above the CDN. Know enough to talk to FE engineers, no more.
-- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5** (CDN + API gateway + HAProxy) and **Stage 6** (NGINX + Envoy reverse proxies) own this inbound vertical block. **Stage 7** covers the outbound/egress mirror (forward proxies, Squid, NAT, mesh egress). Whoever owns the edge owns the SLOs for everyone behind it.
+- **Edge** (CDN → LB → API gateway → reverse proxy) — **Stage 5** (CDN + API gateway + HAProxy) and **Stage 6** (NGINX / Envoy / Caddy reverse proxies) own this inbound vertical block. Whoever owns the edge owns the SLOs for everyone behind it. (Cloud/mesh egress lives in **Stage 2** + **Stage 8 (service mesh)**.)
 - **Backend** (app servers + their orchestration) — **Part B's Todo App** is the worked example here; Stages 2 (containers), 3 (K8s/CI), 4 (observability), 8 (mesh) all wrap this tier.
 - **Data** (cache + database) — **Part D L2** covers the design patterns; **Part B Phase 2 / 5** covers the implementation.
 
@@ -869,7 +865,7 @@ FROM employees GROUP BY dept;
 
 #### Network Plumbing Primer — Forward/Reverse Proxy, Cache, Firewall, Load Balancer
 
-> **Why it matters:** Cloud, Kubernetes, and CI/CD all assume you already know what sits between a client and a backend. Before you spend money on AWS or install a service mesh, you should be able to sketch these five boxes from memory and say what each one *hides* and *protects*. This is a **conceptual primer** — production depth (Squid, NGINX/Envoy, HAProxy, Fastly, AWS security groups/WAF) lives in **Stages 5–7** and **Stage 8 (DevSecOps)**. Goal here: vocabulary fluency, ~3–5 days of reading.
+> **Why it matters:** Cloud, Kubernetes, and CI/CD all assume you already know what sits between a client and a backend. Before you spend money on AWS or install a service mesh, you should be able to sketch these five boxes from memory and say what each one *hides* and *protects*. This is a **conceptual primer** — production depth (NGINX / Envoy / Caddy, HAProxy, Fastly, AWS security groups/WAF) lives in **Stages 5–6** and **Stage 8 (DevSecOps)**. Goal here: vocabulary fluency, ~3–5 days of reading.
 
 **Forward Proxy** — sits in front of the **client**; proxies *outbound* traffic on behalf of an internal network (corporate egress, allowlists, audit, content filtering).
 
@@ -906,7 +902,7 @@ FROM employees GROUP BY dept;
 | [Cloudflare Learning — What is load balancing?](https://www.cloudflare.com/learning/performance/what-is-load-balancing/) | L4 vs L7, algorithms (round-robin, least-conn, hashing), health checks. **Start here.** |
 | [AWS — ELB Types (ALB vs NLB vs CLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) | Where each AWS LB sits and when to pick which — every APAC AWS interview asks |
 
-**Where each goes deeper:** Forward proxies + corporate/cloud egress → **Stage 7**. Reverse proxies (NGINX / Envoy) → **Stage 6**. CDN cache + API gateway + HAProxy LB → **Stage 5**. Firewall (cloud security groups, NACLs, WAF) → **Stage 2** + **Stage 8 (DevSecOps)**.
+**Where each goes deeper:** Reverse proxies (NGINX / Envoy / Caddy) → **Stage 6**. CDN cache + API gateway + HAProxy LB → **Stage 5**. Firewall (cloud security groups, NACLs, WAF) → **Stage 2** + **Stage 8 (DevSecOps)**. (Forward / egress proxy is intentionally out of scope for the 6-month plan — read about Squid + NAT Gateway as needed when you own corporate or mesh egress.)
 
 **Time:** 3–5 days. No tools to install — read, sketch the five boxes on paper, then move on to Stage 2.
 
@@ -1106,36 +1102,18 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 5 — CDN, API Gateway & HTTP Caching
+#### Stage 5 — API Gateway, Load Balancer & HTTP Caching
 
-> **Why it matters:** Most APAC platforms put a CDN edge cache (Fastly / CloudFront / Cloudflare) and an API gateway (Kong / AWS API Gateway / Apigee) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Fastly + Kong**. Varnish is intentionally skipped (legacy on-prem cache; Fastly is its modern hosted successor and already covers the same VCL surface). HAProxy is included here as the L4/L7 load balancer that often sits at the same tier. *L7 reverse proxies (NGINX / Envoy) live in their own stage — see Stage 6.*
+> **Why it matters:** Most APAC platforms put an API gateway (Kong / AWS API Gateway / Apigee) and an L4/L7 load balancer (HAProxy / ALB) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Kong + HAProxy**. *L7 reverse proxies (NGINX / Envoy / Caddy) live in their own stage — see Stage 6. CDN edge caching is handled at the cloud layer (CloudFront / Cloudflare) without a dedicated learning stage in this 6-month plan.*
 
 **Key topics**
 - **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
 - **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
 - **HAProxy as L4 + L7 LB:** `frontend`/`backend`/`listen` blocks, ACLs, stick tables, slow-start, connection draining, `option httpchk`, `option redispatch`, runtime API + dynamic config reloads, Prometheus exporter
-- **Fastly / edge CDN:** VCL basics, surrogate keys, instant purge, stale-while-revalidate, shielding, Compute@Edge (WASM)
 - **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
 - **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
 
-**Resources — CDN, API Gateway & HTTP Caching (Fastly / Kong / HAProxy)**
-
-> Two halves of the same edge story: **Fastly** owns the global CDN + VCL at POPs; **Kong** owns the K8s ingress + API gateway behind it. Same SRE rotation owns both — learn them together. Varnish itself is intentionally skipped (legacy on-prem); Fastly's hosted VCL is the modern path.
-
-*Fastly / VCL — global CDN edge* *(sorted: learn-first → reference → war-stories)*
-
-| Resource | Type |
-|----------|------|
-| [Fastly Learning Center](https://www.fastly.com/learning) | Concept primers — CDN, caching, edge compute. **Start here.** |
-| [Fastly Documentation hub](https://www.fastly.com/documentation/) | The whole Fastly knowledge tree — read "Concepts" first, then "VCL" |
-| [Fastly Fiddle — in-browser VCL + Compute@Edge playground](https://fiddle.fastly.dev) | The fastest way to *actually try* edge logic — no account needed. Share fiddles via URL |
-| [Fastly — official YouTube channel](https://www.youtube.com/@FastlyInc) | "Fastly Altitude" conference recordings — production CDN stories |
-| [Fastly VCL reference](https://www.fastly.com/documentation/reference/vcl/) | Authoritative VCL surface (same syntax Varnish uses — the only piece of Varnish worth keeping) |
-| [Fastly Developer Hub](https://www.fastly.com/documentation/developers/) | Developer-focused docs — APIs, Terraform provider, CLI, language SDKs |
-| [Fastly GitHub organization](https://github.com/fastly) | Production-grade VCL recipes, Compute starter kits (Rust / Go / JS / AssemblyScript), `fastly-go` / `fastly-py` SDKs |
-| [Fastly Help Center](https://support.fastly.com/) | Searchable knowledge base + community Q&A — gold for "why is my cache MISSing?" debugging |
-| [Fastly Engineering Blog](https://www.fastly.com/blog/) | Outage postmortems + cache engineering posts |
-| [Fastly status & past incidents](https://www.fastlystatus.com) | Real production CDN postmortems — read these alongside your own incidents |
+**Resources — API Gateway & Load Balancer (Kong / HAProxy)**
 
 *Kong — K8s ingress + API gateway* *(sorted: learn-first → reference → architecture deep-reads)*
 
@@ -1177,9 +1155,9 @@ FROM employees GROUP BY dept;
 
 ---
 
-#### Stage 6 — Reverse Proxy (NGINX / Envoy)
+#### Stage 6 — Reverse Proxy (NGINX / Envoy / Caddy)
 
-> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh). Most SRE rotations expect fluency in at least one and reading-level fluency in the other. *Forward proxies (egress / corporate / Squid) are a different beast — see Stage 7.*
+> **Why it matters:** Behind every API gateway and CDN sits an L7 reverse proxy that actually terminates TLS, routes by host/path, retries on upstream failure, and shapes the request before it reaches your app. **NGINX** is the de-facto choice for HTTP-first stacks; **Envoy** is the de-facto choice for gRPC + service-mesh data planes (Istio, Kong Mesh, AWS App Mesh); **Caddy** is the modern "batteries-included" option — automatic HTTPS via Let's Encrypt, a 10-line Caddyfile config, and an HTTP/3-first runtime — increasingly common at smaller APAC startups and internal tooling. Most SRE rotations expect fluency in at least one and reading-level fluency in the others.
 
 **Key topics**
 - **NGINX as reverse proxy + L7 LB:** `upstream` + `proxy_pass`, keepalive, health checks, retries, timeouts, TLS termination, HTTP/2, gRPC proxying
@@ -1187,7 +1165,8 @@ FROM employees GROUP BY dept;
 - **NGINX request lifecycle:** rewrite vs access vs content phases, variables, `map` blocks, `if` gotchas, `try_files` order
 - **Envoy as L7 proxy / mesh data plane:** xDS APIs (LDS/CDS/RDS/EDS), listeners + filter chains, clusters + endpoints, outlier detection, retry budgets, circuit breakers, gRPC-aware routing
 - **Envoy in service meshes:** used as the data plane behind Istio / Kong Mesh / AWS App Mesh — sidecar pattern, mTLS, policy enforcement
-- **Operational gotchas:** zero-downtime reloads (NGINX `SIGHUP` vs Envoy hot restart), upstream connection pooling, header buffer sizes, p99 spikes from blocking upstream lookups
+- **Caddy as zero-config reverse proxy:** Caddyfile syntax (one-line `reverse_proxy`), automatic Let's Encrypt + on-demand TLS, HTTP/3 by default, JSON API for dynamic config, plugin model (modules) for auth/auth/forward_auth/metrics
+- **Operational gotchas:** zero-downtime reloads (NGINX `SIGHUP` vs Envoy hot restart vs Caddy `caddy reload`), upstream connection pooling, header buffer sizes, p99 spikes from blocking upstream lookups
 
 **Resources — NGINX (reverse proxy + cache)** *(sorted: learn-first → recipes → reference → deep dive)*
 
@@ -1211,42 +1190,15 @@ FROM employees GROUP BY dept;
 | [Tetrate — official YouTube channel](https://www.youtube.com/@tetrateio) | Daniel Bryant + community talks on Envoy / Istio in production; the "Envoy Fundamentals" recorded sessions live here |
 | [KubeCon EnvoyCon talks (CNCF YouTube)](https://www.youtube.com/@cncf) | Production stories — Lyft, Pinterest, Reddit, Booking.com |
 
-**Time:** 2–3 weeks if focused. Pairs naturally with Stage 5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
-
----
-
-#### Stage 7 — Proxy (Forward / Egress)
-
-> **Why it matters:** A *forward* proxy sits in front of the **client**, not the server — it shapes, caches, filters, or audits *outbound* traffic on behalf of an internal network. SREs hit this when they own corporate egress (Squid behind authenticated PAC files), cloud egress (AWS NAT Gateway, GCP Cloud NAT, VPC endpoints), service-mesh egress gateways (Istio `EgressGateway`, Envoy as egress), or when they need to debug API calls leaving a pod (mitmproxy). The hot path is different from a reverse proxy: TLS interception trade-offs, identity propagation, allowlists, and data-exfiltration controls all become first-class concerns. *Reverse proxies — NGINX / Envoy in front of a backend — live in Stage 6.*
-
-**Key topics**
-- **Forward vs reverse proxy mental model:** *who* initiates the connection, *who* is hidden, *which side* sets the cache key — read the `Via` and `X-Forwarded-*` headers from both sides
-- **Squid as classic forward + caching proxy:** ACLs, `cache_peer`, parent/sibling hierarchies, authentication helpers (LDAP/NTLM/Kerberos), SSL bumping, transparent intercept (`tproxy` / WCCP), access logging
-- **mitmproxy / mitmweb / mitmdump:** debug outbound traffic from a pod or laptop; TLS MITM via local CA; scripting interceptors in Python; pairing with `iptables` REDIRECT for transparent mode
-- **Cloud egress patterns:** AWS **NAT Gateway** vs **NAT instance** vs **VPC Endpoints** (Interface / Gateway / PrivateLink); GCP **Cloud NAT**; per-AZ NAT cost trap; VPC flow logs as your egress observability
-- **Service-mesh egress:** Istio `EgressGateway`, Envoy as an egress proxy in a sidecar mesh, registering external services as a `ServiceEntry`, policy enforcement at the edge of the mesh
-- **TLS interception trade-offs:** when MITM is appropriate (DLP, compliance) vs when it breaks pinned clients (mobile apps, gRPC), corporate root-CA distribution
-- **NGINX / HAProxy as forward proxies:** rare but possible — when each makes sense and when to reach for Squid instead
-- **Operational gotchas:** PAC-file pinning to one upstream proxy (no failover), HTTPS-only via `CONNECT` (no caching unless you bump), DNS leaks, authentication state in long-lived sessions, NAT port-exhaustion under burst
-
-**Resources — Forward proxy (Squid + mitmproxy + cloud/mesh egress)** *(sorted: learn-first → reference → cloud/mesh specifics)*
+**Resources — Caddy (zero-config reverse proxy + automatic HTTPS)** *(sorted: learn-first → reference → deep dive)*
 
 | Resource | Type |
 |----------|------|
-| [Cloudflare Learning Center — Forward proxy vs reverse proxy](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) | Mental model first. **Start here** — vendor-neutral and short |
-| [Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube)](https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy) | Protocol-level walkthrough — same channel as the NGINX / HAProxy picks |
-| [Squid official documentation](http://www.squid-cache.org/Doc/) | The canonical reference — `squid.conf` directives, ACLs, cache peering |
-| [Squid Wiki — Squid in 10 minutes / Beginners FAQ](https://wiki.squid-cache.org/SquidFaq/BeginnersFaq) | Concept primers and the fastest path to a working `squid.conf` |
-| [*Squid: The Definitive Guide* — Duane Wessels (O'Reilly)](https://www.oreilly.com/library/view/squid-the-definitive/0596001622/) | The classic book. Older but still the single best deep dive on Squid internals + ACL design |
-| [mitmproxy — official docs](https://docs.mitmproxy.org/stable/) | Intercept, modify, replay HTTP/2/gRPC. **Start here** for testing/debugging egress |
-| [mitmproxy — YouTube channel (workshops + tutorials)](https://www.youtube.com/@mitmproxy) | Short, focused screencasts — TLS bumping, scripting addons, transparent mode |
-| [AWS — NAT Gateway documentation](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html) | Authoritative — bandwidth, cost per AZ, port exhaustion behavior |
-| [AWS — VPC Endpoints (Interface, Gateway, PrivateLink)](https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html) | Replace egress to AWS APIs with private endpoints — the canonical "stop paying NAT for S3 traffic" pattern |
-| [Istio — EgressGateway documentation](https://istio.io/latest/docs/tasks/traffic-management/egress/egress-gateway/) | Centralized egress in a service mesh: `ServiceEntry`, mTLS to external services, audit + policy |
-| [Envoy — egress proxy filter reference](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/intro) | How Envoy enforces egress policy in a sidecar mesh — auth filters, RBAC, ext_authz |
-| [Julia Evans — *How HTTPS works* zine + corporate-proxy posts](https://wizardzines.com/zines/https/) | Approachable explanation of TLS interception trade-offs and how MITM proxies work |
+| [Caddy — Getting Started + tutorials](https://caddyserver.com/docs/getting-started) | Official walkthrough — install, Caddyfile, automatic HTTPS in under 10 lines. **Start here.** |
+| [Caddy — Quick-starts (reverse-proxy, file server, PHP, Wordpress)](https://caddyserver.com/docs/quick-starts/reverse-proxy) | Copy-paste recipes — the fastest path from zero to a working reverse proxy with TLS |
+| [Caddy docs — Caddyfile concepts + JSON config reference](https://caddyserver.com/docs/caddyfile/concepts) | The two configuration surfaces (human Caddyfile vs API-driven JSON); read once you've shipped one site |
 
-**Time:** 1–2 weeks. Lighter than Stage 6 — most SREs need *reading-level* fluency unless they own corporate egress or a service mesh's egress gateway. Pairs with Stage 8 (service mesh) when you get there.
+**Time:** 2–3 weeks if focused. Pairs naturally with Stage 5 — most engineers learn the gateway + CDN first, then drop down into the proxy that backs them.
 
 ---
 
@@ -1529,7 +1481,7 @@ Certs are *trust signals*, not substitutes for experience. Prioritize performanc
 | Learn a Programming Language | Stage 0–1 (Go/Python) + Part J → Language |
 | OS · Terminal · Process/Perf Monitoring · Text Manipulation | Stage 1 (Linux internals + debugging toolkit) |
 | Networking & Protocols (DNS, HTTP/S, SSL/TLS, SSH, OSI) | Stage 1 (Networking) + CS144 videos |
-| Forward Proxy · Reverse Proxy · Caching Server · Load Balancer · Firewall | Stages 5–7 (CDN/Gateway, NGINX/Envoy, Squid/egress); firewall via `ufw`/security groups in Stage 1/2 |
+| Forward Proxy · Reverse Proxy · Caching Server · Load Balancer · Firewall | Stages 5–6 (CDN/Gateway/HAProxy, NGINX/Envoy/Caddy); firewall via `ufw`/security groups in Stage 1/2; forward/egress proxy read-only when needed |
 | Cloud Providers · Serverless · Provisioning · Config Mgmt | Stage 2 |
 | CI/CD · Container Orchestration · GitOps · Artifact Mgmt · Secret Mgmt | Stage 3 |
 | Infra/App Monitoring · Logs Management | Stage 4 |
