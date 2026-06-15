@@ -846,6 +846,51 @@ FROM employees GROUP BY dept;
 
 > **Working SRE tier.** Goal: ship and operate cloud-native services with full observability. This is where you become hireable as an SRE in APAC. ~12–16 weeks.
 
+#### Network Plumbing Primer — Forward/Reverse Proxy, Cache, Firewall, Load Balancer
+
+> **Why it matters:** Cloud, Kubernetes, and CI/CD all assume you already know what sits between a client and a backend. Before you spend money on AWS or install a service mesh, you should be able to sketch these five boxes from memory and say what each one *hides* and *protects*. This is a **conceptual primer** — production depth (Squid, NGINX/Envoy, HAProxy, Fastly, AWS security groups/WAF) lives in **Stages 5–7** and **Stage 8 (DevSecOps)**. Goal here: vocabulary fluency, ~3–5 days of reading.
+
+**Forward Proxy** — sits in front of the **client**; proxies *outbound* traffic on behalf of an internal network (corporate egress, allowlists, audit, content filtering).
+
+| Resource | Use for |
+|----------|---------|
+| [Cloudflare Learning — Forward proxy vs reverse proxy](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) | Mental model — *who* initiates, *who* is hidden. **Start here.** |
+| [Hussein Nasser — Forward Proxy vs Reverse Proxy (YouTube)](https://www.youtube.com/results?search_query=hussein+nasser+forward+proxy+vs+reverse+proxy) | Protocol-level walkthrough — headers, `CONNECT`, TLS interception |
+
+**Reverse Proxy** — sits in front of the **server**; terminates TLS, routes by host/path, retries on upstream failure (NGINX, Envoy, HAProxy in front of your backend).
+
+| Resource | Use for |
+|----------|---------|
+| [NGINX — What is a Reverse Proxy Server?](https://www.nginx.com/resources/glossary/reverse-proxy-server/) | Canonical vendor intro — short, clear. **Start here.** |
+| [Cloudflare Learning — What is a reverse proxy?](https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/) | Vendor-neutral primer; benefits (TLS offload, load balancing, anonymity) |
+
+**Caching Server** — short-lived store that absorbs reads before they hit the origin (browser cache → CDN edge → reverse-proxy cache → app cache like Redis/Memcached).
+
+| Resource | Use for |
+|----------|---------|
+| [Cloudflare Learning — What is caching?](https://www.cloudflare.com/learning/cdn/what-is-caching/) | The full cache hierarchy in one short page. **Start here.** |
+| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | `Cache-Control`, `ETag`, `Vary`, `stale-while-revalidate` — the headers you will read forever |
+
+**Firewall** — packet/connection filter; on hosts (`ufw`, `iptables`/`nftables`), in cloud (AWS Security Groups + NACLs), and at L7 (WAF — Cloudflare, AWS WAF).
+
+| Resource | Use for |
+|----------|---------|
+| [Cloudflare Learning — What is a firewall?](https://www.cloudflare.com/learning/security/what-is-a-firewall/) | L3/L4/L7, stateful vs stateless, WAF basics. **Start here.** |
+| [DigitalOcean — UFW Essentials](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands) | Practical host firewall rules — pairs with the Stage 1 hardening milestone |
+
+**Load Balancer** — distributes traffic across healthy backends; **L4** (TCP, fast, opaque) vs **L7** (HTTP-aware, can route by header/path).
+
+| Resource | Use for |
+|----------|---------|
+| [Cloudflare Learning — What is load balancing?](https://www.cloudflare.com/learning/performance/what-is-load-balancing/) | L4 vs L7, algorithms (round-robin, least-conn, hashing), health checks. **Start here.** |
+| [AWS — ELB Types (ALB vs NLB vs CLB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) | Where each AWS LB sits and when to pick which — every APAC AWS interview asks |
+
+**Where each goes deeper:** Forward proxies + corporate/cloud egress → **Stage 7**. Reverse proxies (NGINX / Envoy) → **Stage 6**. CDN cache + API gateway + HAProxy LB → **Stage 5**. Firewall (cloud security groups, NACLs, WAF) → **Stage 2** + **Stage 8 (DevSecOps)**.
+
+**Time:** 3–5 days. No tools to install — read, sketch the five boxes on paper, then move on to Stage 2.
+
+---
+
 #### Stage 2 — Infrastructure & Cloud: Providers, IaC, Containers
 
 > **Why it matters:** SREs don't click in consoles. Production infrastructure must be code: versioned, reviewable, reproducible.
