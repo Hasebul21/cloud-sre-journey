@@ -1544,6 +1544,83 @@ button {
   color: var(--ink-faint);
 }
 
+/* ───── Add-resource form (per-subsection: URL + title) ───── */
+.add-res-toggle {
+  margin: 6px 0 4px 26px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px dashed var(--line-soft);
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.add-res-toggle:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: var(--hover-tint);
+}
+.add-res-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px 26px;
+  padding: 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  background: var(--hover-tint);
+  align-items: center;
+}
+.add-res-form input[type="text"],
+.add-res-form input[type="url"] {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 5px 8px;
+  font-size: 13px;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font-family: inherit;
+}
+.add-res-form input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+.add-res-form button {
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.add-res-form .add-res-save {
+  background: var(--blue);
+  color: #fff;
+  border: 1px solid var(--blue);
+}
+.add-res-form .add-res-cancel {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-soft);
+}
+.user-res-del {
+  margin-left: 8px;
+  padding: 0 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.user-res-del:hover {
+  color: #b00;
+  border-color: #b00;
+}
+
 /* ───── Part K — HLD Roadmap view ───── */
 .hld-stagemap {
   width: 100%;
@@ -3560,12 +3637,70 @@ function viewGroups() {
   };
 }
 
+// ───────── Add-resource form (per-subsection: URL + title) ─────────
+function AddResourceForm({ sub, onAdd }) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        className="add-res-toggle"
+        onClick={() => setOpen(true)}
+        title={"Add a resource to " + sub}
+      >
+        + Add resource
+      </button>
+    );
+  }
+
+  const submit = (e) => {
+    e.preventDefault();
+    const t = title.trim(), u = url.trim();
+    if (!t || !u) return;
+    onAdd(sub, t, u);
+    setTitle("");
+    setUrl("");
+    setOpen(false);
+  };
+
+  return (
+    <form className="add-res-form" onSubmit={submit}>
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+        autoFocus
+      />
+      <input
+        type="url"
+        placeholder="https://…"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        required
+      />
+      <button type="submit" className="add-res-save">Add</button>
+      <button
+        type="button"
+        className="add-res-cancel"
+        onClick={() => { setOpen(false); setTitle(""); setUrl(""); }}
+      >
+        Cancel
+      </button>
+    </form>
+  );
+}
+
 // expose globally
 Object.assign(window, {
   loadJSON, saveJSON, useStored, useDoneSet, useExploring,
   Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
   useStreak, useAllProgress, viewGroups, buildGroupIndex,
-  todayKey,
+  todayKey, AddResourceForm,
 });
 
 </script>
@@ -4245,8 +4380,10 @@ function SreLearningView({ sectionKey }) {
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
   const resDoneSet = useDoneSet(resGroup)[0];
-  const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
-  const total = section.resources.length;
+  const [userRes, setUserRes] = useStored("userRes:" + sectionKey, []);
+  const allResources = section.resources.concat(userRes);
+  const resDone = allResources.filter(r => resDoneSet[r.id]).length;
+  const total = allResources.length;
   const pct = total > 0 ? Math.round(resDone / total * 100) : 0;
   const [hoursLogged] = useStored("time:" + resGroup, 0);
 
@@ -4255,19 +4392,36 @@ function SreLearningView({ sectionKey }) {
   const stageName = section.title.split(" · ").slice(-1)[0];
   const stageNum = STAGE_NUM[sectionKey] || "··";
 
+  const addUserResource = (sub, title, url) => {
+    const id = "user-" + sectionKey + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6);
+    setUserRes(userRes.concat([{ id, type: "blog", sub, name: title, url, custom: true }]));
+  };
+  const removeUserResource = (id) => {
+    setUserRes(userRes.filter(r => r.id !== id));
+  };
+
   const renderResource = (it) => (
     <span>
       <ResourceTag type={it.type} />
       {it.url ? (
         <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
       ) : <span>{it.name}</span>}
+      {it.custom && (
+        <button
+          type="button"
+          className="user-res-del"
+          onClick={(e) => { e.stopPropagation(); e.preventDefault(); removeUserResource(it.id); }}
+          title="Remove this resource"
+          aria-label="Remove resource"
+        >×</button>
+      )}
     </span>
   );
 
   // Group resources into ordered topic subsections by their `sub` label.
   const resSubs = [];
   const subIndex = {};
-  section.resources.forEach(r => {
+  allResources.forEach(r => {
     const label = r.sub || "Resources";
     if (subIndex[label] === undefined) { subIndex[label] = resSubs.length; resSubs.push({ label, items: [] }); }
     resSubs[subIndex[label]].items.push(r);
@@ -4288,19 +4442,20 @@ function SreLearningView({ sectionKey }) {
         <aside className="dash-rail">
           <h4>where you are</h4>
           <div className="row"><span>Complete</span><b className="accent">{pct}%</b></div>
-          <div className="row"><span>Resources</span><b>{resDone}/{section.resources.length}</b></div>
+          <div className="row"><span>Resources</span><b>{resDone}/{total}</b></div>
           <div className="row"><span>Hours logged</span><b>{hoursLogged}h</b></div>
         </aside>
       </div>
 
       <ListSection title="Curated resources"
-        done={resDone} total={section.resources.length}>
+        done={resDone} total={total}>
         {resSubs.map(g => (
           <div key={g.label} className="res-subgroup">
             {showSubHeads && (
               <h4 className="res-subgroup-head">{g.label}<span className="res-subgroup-count">{g.items.length}</span></h4>
             )}
             <Checklist items={g.items} group={resGroup} renderItem={renderResource} />
+            <AddResourceForm sub={g.label} onAdd={addUserResource} />
           </div>
         ))}
       </ListSection>

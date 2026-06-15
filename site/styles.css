@@ -1534,6 +1534,83 @@ button {
   color: var(--ink-faint);
 }
 
+/* ───── Add-resource form (per-subsection: URL + title) ───── */
+.add-res-toggle {
+  margin: 6px 0 4px 26px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px dashed var(--line-soft);
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.add-res-toggle:hover {
+  color: var(--blue);
+  border-color: var(--blue);
+  background: var(--hover-tint);
+}
+.add-res-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px 26px;
+  padding: 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  background: var(--hover-tint);
+  align-items: center;
+}
+.add-res-form input[type="text"],
+.add-res-form input[type="url"] {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 5px 8px;
+  font-size: 13px;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font-family: inherit;
+}
+.add-res-form input:focus {
+  outline: none;
+  border-color: var(--blue);
+}
+.add-res-form button {
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.add-res-form .add-res-save {
+  background: var(--blue);
+  color: #fff;
+  border: 1px solid var(--blue);
+}
+.add-res-form .add-res-cancel {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line-soft);
+}
+.user-res-del {
+  margin-left: 8px;
+  padding: 0 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ink-faint);
+  background: transparent;
+  border: 1px solid var(--line-soft);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.user-res-del:hover {
+  color: #b00;
+  border-color: #b00;
+}
+
 /* ───── Part K — HLD Roadmap view ───── */
 .hld-stagemap {
   width: 100%;

@@ -401,10 +401,68 @@ function viewGroups() {
   };
 }
 
+// ───────── Add-resource form (per-subsection: URL + title) ─────────
+function AddResourceForm({ sub, onAdd }) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [url, setUrl] = useState("");
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        className="add-res-toggle"
+        onClick={() => setOpen(true)}
+        title={"Add a resource to " + sub}
+      >
+        + Add resource
+      </button>
+    );
+  }
+
+  const submit = (e) => {
+    e.preventDefault();
+    const t = title.trim(), u = url.trim();
+    if (!t || !u) return;
+    onAdd(sub, t, u);
+    setTitle("");
+    setUrl("");
+    setOpen(false);
+  };
+
+  return (
+    <form className="add-res-form" onSubmit={submit}>
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+        autoFocus
+      />
+      <input
+        type="url"
+        placeholder="https://…"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        required
+      />
+      <button type="submit" className="add-res-save">Add</button>
+      <button
+        type="button"
+        className="add-res-cancel"
+        onClick={() => { setOpen(false); setTitle(""); setUrl(""); }}
+      >
+        Cancel
+      </button>
+    </form>
+  );
+}
+
 // expose globally
 Object.assign(window, {
   loadJSON, saveJSON, useStored, useDoneSet, useExploring,
   Progress, Tag, Checklist, SectionCard, Notes, TimeLog,
   useStreak, useAllProgress, viewGroups, buildGroupIndex,
-  todayKey,
+  todayKey, AddResourceForm,
 });

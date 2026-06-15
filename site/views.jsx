@@ -672,8 +672,10 @@ function SreLearningView({ sectionKey }) {
   const resGroup = "sreLr_" + sectionKey;
   const milGroup = "sreLm_" + sectionKey;
   const resDoneSet = useDoneSet(resGroup)[0];
-  const resDone = section.resources.filter(r => resDoneSet[r.id]).length;
-  const total = section.resources.length;
+  const [userRes, setUserRes] = useStored("userRes:" + sectionKey, []);
+  const allResources = section.resources.concat(userRes);
+  const resDone = allResources.filter(r => resDoneSet[r.id]).length;
+  const total = allResources.length;
   const pct = total > 0 ? Math.round(resDone / total * 100) : 0;
   const [hoursLogged] = useStored("time:" + resGroup, 0);
 
@@ -682,19 +684,36 @@ function SreLearningView({ sectionKey }) {
   const stageName = section.title.split(" · ").slice(-1)[0];
   const stageNum = STAGE_NUM[sectionKey] || "··";
 
+  const addUserResource = (sub, title, url) => {
+    const id = "user-" + sectionKey + "-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6);
+    setUserRes(userRes.concat([{ id, type: "blog", sub, name: title, url, custom: true }]));
+  };
+  const removeUserResource = (id) => {
+    setUserRes(userRes.filter(r => r.id !== id));
+  };
+
   const renderResource = (it) => (
     <span>
       <ResourceTag type={it.type} />
       {it.url ? (
         <a href={it.url} target="_blank" rel="noopener">{it.name}</a>
       ) : <span>{it.name}</span>}
+      {it.custom && (
+        <button
+          type="button"
+          className="user-res-del"
+          onClick={(e) => { e.stopPropagation(); e.preventDefault(); removeUserResource(it.id); }}
+          title="Remove this resource"
+          aria-label="Remove resource"
+        >×</button>
+      )}
     </span>
   );
 
   // Group resources into ordered topic subsections by their `sub` label.
   const resSubs = [];
   const subIndex = {};
-  section.resources.forEach(r => {
+  allResources.forEach(r => {
     const label = r.sub || "Resources";
     if (subIndex[label] === undefined) { subIndex[label] = resSubs.length; resSubs.push({ label, items: [] }); }
     resSubs[subIndex[label]].items.push(r);
@@ -715,19 +734,20 @@ function SreLearningView({ sectionKey }) {
         <aside className="dash-rail">
           <h4>where you are</h4>
           <div className="row"><span>Complete</span><b className="accent">{pct}%</b></div>
-          <div className="row"><span>Resources</span><b>{resDone}/{section.resources.length}</b></div>
+          <div className="row"><span>Resources</span><b>{resDone}/{total}</b></div>
           <div className="row"><span>Hours logged</span><b>{hoursLogged}h</b></div>
         </aside>
       </div>
 
       <ListSection title="Curated resources"
-        done={resDone} total={section.resources.length}>
+        done={resDone} total={total}>
         {resSubs.map(g => (
           <div key={g.label} className="res-subgroup">
             {showSubHeads && (
               <h4 className="res-subgroup-head">{g.label}<span className="res-subgroup-count">{g.items.length}</span></h4>
             )}
             <Checklist items={g.items} group={resGroup} renderItem={renderResource} />
+            <AddResourceForm sub={g.label} onAdd={addUserResource} />
           </div>
         ))}
       </ListSection>
