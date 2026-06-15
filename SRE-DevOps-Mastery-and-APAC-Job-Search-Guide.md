@@ -806,7 +806,9 @@ FROM employees GROUP BY dept;
 - **Linux internals:** processes, threads, file descriptors, signals, cgroups, namespaces, systemd, `/proc`, syscalls, page cache, OOM killer
 - **Debugging toolkit:** `top`/`htop`, `ps`, `lsof`, `strace`, `tcpdump`, `ss`, `iostat`, `vmstat`, `dmesg`, `journalctl`, `perf`, `bpftrace` (intro)
 - **Shell:** robust bash (`set -euo pipefail`, traps) — but prefer Python/Go for non-trivial scripts
-- **Networking:** OSI vs TCP/IP, DNS resolution path, HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC), TLS handshake, L4 vs L7 load balancers, NAT, CIDR, BGP basics, retries/timeouts/backoff
+- **Networking — protocols:** OSI vs TCP/IP, DNS resolution path, HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC), HTTPS / SSL / TLS handshake, SSH (key auth, agent, port forwarding, `~/.ssh/config`), FTP / SFTP
+- **Networking — email:** SMTP, IMAP, POP3S, SPF, DKIM (DomainKeys), DMARC, white/grey listing — the DNS-record vocabulary every SRE owning a domain gets asked about
+- **Networking — infra:** L4 vs L7 load balancers, NAT, CIDR, BGP basics, retries/timeouts/backoff
 - **Git deepening:** `reflog`, `bisect`, `cherry-pick`, signed commits, trunk-based development
 
 **Resources** *(sorted: beginner books → hands-on → networking → advanced)*
@@ -834,9 +836,28 @@ FROM employees GROUP BY dept;
 | [RHCSA Prep Course](https://kodekloud.com/courses/red-hat-certified-system-administrator-rhcsa) | Optional cert path; deepens systemd, SELinux, storage |
 | [Python Basics](https://kodekloud.com/courses/python-basics) / [Golang Course](https://kodekloud.com/courses/golang/) | Pick your SRE scripting language and finish one |
 
+**Resources — Network Protocols (primer)** *(application/transport + email — read alongside Kurose & Ross above)*
+
+*General protocols: OSI, DNS, HTTP/HTTPS, SSL/TLS, SSH, FTP/SFTP*
+
+| Resource | Use for |
+|----------|---------|
+| [Julia Evans — networking zines (DNS, HTTP, TCP, *How HTTPS works*)](https://wizardzines.com) | The most approachable visual primers. **Start here** if Kurose feels too dense |
+| [Cloudflare Learning — DNS, HTTP, TLS, SSH one-pagers](https://www.cloudflare.com/learning/) | Vendor-neutral protocol pages — link by topic when you need to refresh |
+| [Hussein Nasser — TCP/HTTP/TLS/SSH protocol deep-dives (YouTube)](https://www.youtube.com/@hnasr) | Protocol-by-protocol packet-level walkthroughs — same channel as the NGINX/Kong picks |
+
+*Email protocols: SMTP, IMAP, POP3S, SPF, DKIM, DMARC, white/grey listing*
+
+| Resource | Use for |
+|----------|---------|
+| [Cloudflare Learning — Email security (SPF, DKIM, DMARC)](https://www.cloudflare.com/learning/email-security/what-is-dmarc/) | The cleanest free explanation of the three DNS records every SRE owning a domain gets asked about. **Start here.** |
+| [Google Workspace — SPF, DKIM, DMARC setup overview](https://support.google.com/a/answer/10583557) | Authoritative from the hyperscaler that runs Gmail — covers record syntax + configuration semantics |
+| [MX Toolbox — SuperTool (free record checker) + delivery blog](https://mxtoolbox.com/SuperTool.aspx) | The standard tool to *verify* SPF / DKIM / DMARC / MX records in production; blog explains greylisting / whitelisting trade-offs |
+
 **Hands-on milestones**
 - Provision a bare Linux VM (Hetzner, DigitalOcean, or a Raspberry Pi). Harden SSH, set up `ufw`, install nginx, serve a static site via a custom systemd unit, set up log rotation, write a bash + Python script that reports CPU/mem/disk and alerts via webhook
 - Use `tcpdump` and `ss` to follow a single HTTPS request from client to server. Write up what you saw at each layer
+- Register a cheap domain. Add SPF, DKIM, and DMARC records. Send a test email and read the receiver's `Authentication-Results` header to confirm all three pass
 
 **Time:** 4–6 weeks.
 
@@ -972,6 +993,74 @@ FROM employees GROUP BY dept;
 - Wire a GitHub Actions pipeline: build, test, scan, push, trigger ArgoCD sync. Demonstrate a canary release with **automated rollback** when error rate exceeds threshold
 
 **Time:** 8–12 weeks. The densest technical stage. *(Overlaps with Part B Phase 2, 7.)*
+
+---
+
+#### Artifact Registry Primer — JFrog Artifactory
+
+> **Why it matters:** Every CI pipeline you build in Stage 3 produces *artifacts* — container images, Helm charts, Maven/npm/PyPI/Go modules, Terraform modules, generic binaries. You need *one* trusted place to store, version, sign, scan, and promote them across `dev → staging → prod`. In APAC enterprises (banks, telcos, GovTech), **JFrog Artifactory** is the dominant choice. (Smaller shops use ECR/GHCR for containers + the language's native registry for packages — see line 1499 reference map.) This is a **conceptual primer** — the Stage 3 hands-on uses ECR/GHCR; reach for Artifactory when your APAC employer already runs it.
+
+**Key topics**
+- **Universal repository model:** one Artifactory instance, many repo types (Docker, Maven, npm, PyPI, Helm, Go, Terraform, Generic) — local / remote / virtual repos
+- **Promotion pipelines:** `dev-local → staging-local → prod-local` with metadata-driven promotion (build info, properties, retention)
+- **Security:** Xray for SCA/vuln scanning, IAC scanning, license compliance; signing via Cosign / JFrog signing
+- **SRE concerns:** HA setup (active/active), storage backends (filestore vs S3), garbage collection, replication across regions, observability hooks
+
+| Resource | Use for |
+|----------|---------|
+| [JFrog Academy (free courses)](https://academy.jfrog.com) | Official free learning paths — Artifactory Fundamentals, Pipelines, Xray. **Start here.** |
+| [JFrog Artifactory — official docs](https://jfrog.com/help/r/jfrog-artifactory-documentation) | Authoritative reference — repo types, replication, HA, REST API |
+| [JFrog — YouTube channel (swampUP recordings + tutorials)](https://www.youtube.com/@jfrog) | "swampUP" conference talks on production patterns — promotion pipelines, multi-region replication, supply-chain |
+
+**Where it goes deeper:** Pipeline integration (build → scan → publish → promote → deploy) lives in **Stage 3** above; supply-chain security (SBOM, Sigstore, SLSA, signing) sits in **Stage 8 (DevSecOps)**.
+
+**Time:** 1–2 days reading. No tools to install unless your target employer runs Artifactory — in which case spin up the free Community Edition and push one Docker image + one npm package through a `dev → prod` promotion.
+
+---
+
+#### Logs & Observability Primer — Loki, Elastic Stack, Prometheus, Grafana
+
+> **Why it matters:** Almost every APAC SRE rotation has either a **Loki** (Grafana-native, cheap, label-based) or **Elastic Stack** (Elasticsearch + Logstash + Kibana — heavyweight, full-text search) log pipeline, paired with **Prometheus** (the de-facto metrics database) and **Grafana** (the de-facto dashboard) at the centre of incident response. Know the trade-offs before Stage 4 lands you in the full observability stack. This is a **conceptual primer** — full instrumentation depth lives in **Stage 4** (Observability & Monitoring) and **Part B Phase 3** (ELK Stack hands-on).
+
+**Loki** — Grafana's log aggregation system; indexes only labels (not log content), so it's cheap, dense, and PromQL-shaped (`LogQL`). Best fit when you already run Prometheus + Grafana.
+
+| Resource | Use for |
+|----------|---------|
+| [Grafana Loki — Fundamentals tutorial](https://grafana.com/docs/loki/latest/get-started/) | Architecture (distributor, ingester, querier), labels-not-text indexing, LogQL basics. **Start here.** |
+| [Grafana — *Loki: Like Prometheus, but for logs* (KubeCon talk)](https://www.youtube.com/watch?v=h_GGd7HfKQ8) | David Kaltschmidt's 30-min origin-story talk — the cleanest "why Loki exists vs ELK" explainer |
+| [Grafana Loki — Best practices for labels & LogQL](https://grafana.com/docs/loki/latest/get-started/labels/) | Avoid the #1 Loki anti-pattern (high-cardinality labels) before you run it in prod |
+
+**Elastic Stack (ELK / Elastic Observability)** — Elasticsearch (inverted-index search) + Logstash/Beats (shippers) + Kibana (UI). Heavier ops cost than Loki; pays for itself when you need full-text search, advanced aggregations, or SIEM.
+
+| Resource | Use for |
+|----------|---------|
+| [Elastic — Getting Started with the Elastic Stack](https://www.elastic.co/guide/en/starting-with-the-elasticsearch-platform-and-its-solutions/current/index.html) | Official orientation — Elasticsearch, Kibana, Beats, Logstash in one place. **Start here.** |
+| [Elastic — Observability docs](https://www.elastic.co/guide/en/observability/current/observability-introduction.html) | The logs/metrics/APM/uptime story as Elastic sells it (mirror it against the Grafana stack to compare) |
+| [Elasticsearch Deep Dive (YouTube)](https://www.youtube.com/watch?v=PuZvF2EyfBM) | Inverted index, shards, scoring, cluster ops — the parts every interviewer pokes at (already referenced in Part 0) |
+
+**When to pick which (logs):**
+- **Loki** if you already run Grafana + Prometheus, your queries are "filter by label + grep", and log volume / cost matters more than search sophistication.
+- **Elastic Stack** if you need full-text search, complex aggregations, dashboards that aren't Grafana-shaped, or you're sharing the cluster with security/SIEM (`SIEM = Elastic SIEM`).
+
+**Prometheus** — pull-based time-series database; the CNCF-graduated reference for metrics. PromQL is the SRE-interview-grade query language. Stores numeric series labeled with key/value pairs.
+
+| Resource | Use for |
+|----------|---------|
+| [Prometheus — Getting Started](https://prometheus.io/docs/prometheus/latest/getting_started/) | Official walkthrough — install, scrape config, first PromQL. **Start here.** |
+| [PromLabs — *PromQL for Beginners* free course](https://promlabs.com/promql-cheat-sheet/) | Julius Volz (Prometheus co-creator) — cheat sheet + free intro course; the cleanest path into PromQL |
+| [*Prometheus: Up & Running* (2nd ed.) — Brian Brazil](https://www.oreilly.com/library/view/prometheus-up/9781098131135/) | The canonical book — exporters, recording rules, federation, HA, long-term storage |
+
+**Grafana** — vendor-neutral dashboard and alerting layer; queries Prometheus, Loki, Tempo, Elasticsearch, CloudWatch, and 100+ more sources. Where SREs spend most of their day during an incident.
+
+| Resource | Use for |
+|----------|---------|
+| [Grafana Tutorials](https://grafana.com/tutorials/) | Free official hands-on — dashboards, variables, alerting, provisioning. **Start here.** |
+| [Grafana University (free training)](https://university.grafana.com) | Structured courses (Grafana fundamentals, dashboard design, alerting) — pairs with the tutorials |
+| [Grafana — *Dashboard Best Practices*](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/best-practices/) | Avoid the #1 dashboard anti-pattern (40 panels nobody reads) — apply RED/USE methods properly |
+
+**Where each goes deeper:** Loki + Prometheus + Grafana + the rest of the stack (Tempo, OTel, Alertmanager, eBPF) → **Stage 4** below. ELK hands-on with Filebeat → Logstash → Elasticsearch → Kibana on the Todo app → **Part B Phase 3**. Prometheus + Grafana hands-on with the Todo app → **Part B Phase 4**.
+
+**Time:** 3–5 days. Read all four side-by-side, then pick the stack your target employer uses for the deep dive.
 
 ---
 
