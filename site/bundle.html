@@ -2707,11 +2707,28 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "net-r-1", type: "video", sub: "Core networking & protocols", name: "Computer Networking Full Course — freeCodeCamp", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
         { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)", url: "https://beej.us/guide/bgnet/" },
         { id: "net-r-4", type: "book", sub: "Core networking & protocols", name: "TCP/IP Illustrated Vol 1 — Stevens", url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
+        // ── Application protocols (DNS / HTTP / TLS / SSH / FTP) ──
+        { id: "net-r-10", type: "blog", sub: "Application protocols (DNS / HTTP / TLS / SSH / FTP)", name: "Julia Evans — networking zines (DNS, HTTP, TCP, How HTTPS works) — Start here", url: "https://wizardzines.com" },
+        { id: "net-r-11", type: "blog", sub: "Application protocols (DNS / HTTP / TLS / SSH / FTP)", name: "Cloudflare Learning — DNS, HTTP, TLS, SSH one-pagers", url: "https://www.cloudflare.com/learning/" },
+        { id: "net-r-12", type: "channel", sub: "Application protocols (DNS / HTTP / TLS / SSH / FTP)", name: "Hussein Nasser — TCP/HTTP/TLS/SSH protocol deep-dives (YouTube)", url: "https://www.youtube.com/@hnasr" },
+        // ── Email protocols (SMTP / IMAP / POP3S / SPF / DKIM / DMARC) ──
+        { id: "net-r-20", type: "blog", sub: "Email protocols (SMTP / IMAP / POP3S / SPF / DKIM / DMARC)", name: "Cloudflare Learning — Email security (SPF, DKIM, DMARC) — Start here", url: "https://www.cloudflare.com/learning/email-security/what-is-dmarc/" },
+        { id: "net-r-21", type: "blog", sub: "Email protocols (SMTP / IMAP / POP3S / SPF / DKIM / DMARC)", name: "Google Workspace — SPF, DKIM, DMARC setup overview", url: "https://support.google.com/a/answer/10583557" },
+        { id: "net-r-22", type: "blog", sub: "Email protocols (SMTP / IMAP / POP3S / SPF / DKIM / DMARC)", name: "MX Toolbox — SuperTool (free record checker) + delivery blog", url: "https://mxtoolbox.com/SuperTool.aspx" },
+        // ── Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB) ──
+        { id: "net-r-30", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "Cloudflare Learning — Forward proxy vs reverse proxy — Start here", url: "https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/" },
+        { id: "net-r-31", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "Cloudflare Learning — What is load balancing? (L4 vs L7, algorithms, health checks)", url: "https://www.cloudflare.com/learning/performance/what-is-load-balancing/" },
+        { id: "net-r-32", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "Cloudflare Learning — What is a firewall? (L3/L4/L7, WAF basics)", url: "https://www.cloudflare.com/learning/security/what-is-a-firewall/" },
+        { id: "net-r-33", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "Cloudflare Learning — What is caching? (browser → CDN → server cache layers)", url: "https://www.cloudflare.com/learning/cdn/what-is-caching/" },
+        { id: "net-r-34", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "DigitalOcean — UFW Essentials (practical host firewall rules)", url: "https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands" },
+        { id: "net-r-35", type: "blog", sub: "Network plumbing primer (Forward/Reverse Proxy, Cache, Firewall, LB)", name: "AWS — ELB Types (ALB vs NLB vs CLB)", url: "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html" },
       ],
       milestones: [
         { id: "net-m-1", name: "Use tcpdump or Wireshark to inspect a HTTP request" },
         { id: "net-m-2", name: "Trace a DNS lookup end-to-end with dig +trace" },
         { id: "net-m-3", name: "Use ss / lsof to find what's listening on a port" },
+        { id: "net-m-4", name: "Register a cheap domain; set SPF + DKIM + DMARC; verify via the receiver's Authentication-Results header" },
+        { id: "net-m-5", name: "Sketch the 5 plumbing boxes (forward proxy, reverse proxy, cache, firewall, LB) from memory and explain what each hides/protects" },
       ],
     },
 
@@ -2775,6 +2792,10 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "sau-r-4", type: "video", sub: "CI/CD & GitOps", name: "GitHub Actions Full Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=R8_veQiYBjI" },
         { id: "sau-r-5", type: "video", sub: "CI/CD & GitOps", name: "ArgoCD GitOps — KodeKloud", url: "https://www.youtube.com/watch?v=MeU5_k9ssrs" },
         { id: "sau-r-14", type: "blog", sub: "CI/CD & GitOps", name: "Google DORA — DevOps research papers", url: "https://dora.dev/" },
+        // ── Artifact registry (JFrog Artifactory) ──
+        { id: "sau-r-20", type: "course", sub: "Artifact registry (JFrog Artifactory)", name: "JFrog Academy (free courses — Artifactory Fundamentals, Pipelines, Xray) — Start here", url: "https://academy.jfrog.com" },
+        { id: "sau-r-21", type: "blog", sub: "Artifact registry (JFrog Artifactory)", name: "JFrog Artifactory — official docs (repo types, replication, HA, REST API)", url: "https://jfrog.com/help/r/jfrog-artifactory-documentation" },
+        { id: "sau-r-22", type: "channel", sub: "Artifact registry (JFrog Artifactory)", name: "JFrog — YouTube channel (swampUP recordings + tutorials)", url: "https://www.youtube.com/@jfrog" },
       ],
       milestones: [
         { id: "sau-m-1", name: "Write a Terraform module with vars + outputs + remote state (S3 + DynamoDB lock)" },
@@ -2785,6 +2806,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "sau-m-6", name: "Use OIDC for AWS credentials in GitHub Actions (no long-lived keys)" },
         { id: "sau-m-7", name: "Set up ArgoCD on a kind cluster, auto-sync from a Git repo" },
         { id: "sau-m-8", name: "Practice a canary or blue-green rollout via Argo Rollouts" },
+        { id: "sau-m-9", name: "Spin up JFrog Artifactory Community Edition; push one Docker image + one npm package through a dev → prod promotion" },
       ],
     },
 
@@ -2999,6 +3021,20 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "srl-r-1", type: "video", sub: "Observability — metrics, logs, traces", name: "Prometheus + Grafana Course — TechWorld with Nana", url: "https://www.youtube.com/watch?v=h4Sl21AKiDg" },
         { id: "srl-r-2", type: "video", sub: "Observability — metrics, logs, traces", name: "OpenTelemetry in 100 Seconds — Fireship", url: "https://www.youtube.com/watch?v=LfNngXkPe5o" },
         { id: "srl-r-11", type: "book", sub: "Observability — metrics, logs, traces", name: "Observability Engineering — Majors / Fong-Jones / Miranda", url: "https://www.honeycomb.io/wp-content/uploads/2022/05/Observability_Engineering-Honeycomb.pdf" },
+        // ── Logs (Loki / Elastic Stack) ──
+        { id: "srl-r-60", type: "blog", sub: "Logs (Loki / Elastic Stack)", name: "Grafana Loki — Fundamentals tutorial (architecture + LogQL) — Start here", url: "https://grafana.com/docs/loki/latest/get-started/" },
+        { id: "srl-r-61", type: "video", sub: "Logs (Loki / Elastic Stack)", name: "Grafana — Loki: Like Prometheus, but for logs (KubeCon talk)", url: "https://www.youtube.com/watch?v=h_GGd7HfKQ8" },
+        { id: "srl-r-62", type: "blog", sub: "Logs (Loki / Elastic Stack)", name: "Grafana Loki — Best practices for labels & LogQL (avoid high-cardinality trap)", url: "https://grafana.com/docs/loki/latest/get-started/labels/" },
+        { id: "srl-r-63", type: "blog", sub: "Logs (Loki / Elastic Stack)", name: "Elastic — Getting Started with the Elastic Stack", url: "https://www.elastic.co/guide/en/starting-with-the-elasticsearch-platform-and-its-solutions/current/index.html" },
+        { id: "srl-r-64", type: "blog", sub: "Logs (Loki / Elastic Stack)", name: "Elastic — Observability docs (logs / metrics / APM / uptime)", url: "https://www.elastic.co/guide/en/observability/current/observability-introduction.html" },
+        { id: "srl-r-65", type: "video", sub: "Logs (Loki / Elastic Stack)", name: "Elasticsearch Deep Dive (inverted index, shards, scoring)", url: "https://www.youtube.com/watch?v=PuZvF2EyfBM" },
+        // ── Metrics & dashboards (Prometheus / Grafana) ──
+        { id: "srl-r-70", type: "blog", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "Prometheus — Getting Started (install, scrape config, PromQL) — Start here", url: "https://prometheus.io/docs/prometheus/latest/getting_started/" },
+        { id: "srl-r-71", type: "course", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "PromLabs — PromQL Cheat Sheet + free PromQL course (Julius Volz)", url: "https://promlabs.com/promql-cheat-sheet/" },
+        { id: "srl-r-72", type: "book", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "Prometheus: Up & Running (2nd ed) — Brian Brazil", url: "https://www.oreilly.com/library/view/prometheus-up/9781098131135/" },
+        { id: "srl-r-73", type: "course", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "Grafana Tutorials (free official hands-on) — Start here for Grafana", url: "https://grafana.com/tutorials/" },
+        { id: "srl-r-74", type: "course", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "Grafana University (free structured courses)", url: "https://university.grafana.com" },
+        { id: "srl-r-75", type: "blog", sub: "Metrics & dashboards (Prometheus / Grafana)", name: "Grafana — Dashboard Best Practices (apply RED/USE, avoid 40-panel dashboards)", url: "https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/best-practices/" },
         // ── Resilience patterns ──
         { id: "srl-r-45", type: "book", sub: "Resilience patterns", name: "Release It! (2nd ed) — Michael Nygard (circuit breaker / bulkhead origin)", url: "https://pragprog.com/titles/mnee2/release-it-second-edition/" },
         { id: "srl-r-46", type: "blog", sub: "Resilience patterns", name: "AWS Builders' Library — Timeouts, retries & backoff with jitter", url: "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/" },
