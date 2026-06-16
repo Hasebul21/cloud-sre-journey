@@ -908,6 +908,59 @@ FROM employees GROUP BY dept;
 
 ---
 
+#### Stage 5 — API Gateway, Load Balancer & HTTP Caching
+
+> **Why it matters:** Most APAC platforms put an API gateway (Kong / AWS API Gateway / Apigee) and an L4/L7 load balancer (HAProxy / ALB) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Kong + HAProxy**. *L7 reverse proxies (NGINX / Envoy / Caddy) live in their own stage — see Stage 6. CDN edge caching is handled at the cloud layer (CloudFront / Cloudflare) without a dedicated learning stage in this 6-month plan.*
+
+**Key topics**
+- **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
+- **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
+- **HAProxy as L4 + L7 LB:** `frontend`/`backend`/`listen` blocks, ACLs, stick tables, slow-start, connection draining, `option httpchk`, `option redispatch`, runtime API + dynamic config reloads, Prometheus exporter
+- **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
+- **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
+
+**Resources — API Gateway & Load Balancer (Kong / HAProxy)**
+
+*Kong — K8s ingress + API gateway* *(sorted: learn-first → reference → architecture deep-reads)*
+
+| Resource | Type |
+|----------|------|
+| [Kong Docs — Get Started with Kong Gateway](https://docs.konghq.com/gateway/latest/get-started/) | Official tutorial. **Start here.** |
+| [Hussein Nasser — Kong API Gateway course (Udemy)](https://www.udemy.com/course/kong-api-gateway/) | Hands-on course — the canonical Kong walkthrough for backend/SRE folks |
+| [Kong Education portal — courses & certs (Kong Gateway Operator, KCNA-style)](https://education.konghq.com) | Official training (free + paid certs) |
+| [Hussein Nasser — YouTube channel (Kong / API Gateway / NGINX deep dives)](https://www.youtube.com/@hnasr) | Free, dense, protocol-level |
+| [Kong Inc. — official YouTube channel](https://www.youtube.com/@KongInc) | Webinars, "Kong Summit" recordings, plugin walkthroughs |
+| [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs — read once you're comfortable with vanilla Kong |
+| [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
+
+**Resources — HAProxy (L4/L7 load balancer)** *(sorted: learn-first → reference → production patterns)*
+
+| Resource | Type |
+|----------|------|
+| [KodeKloud — HAProxy for Beginners](https://kodekloud.com/courses/haproxy-for-beginners/) | Browser-lab format; mirrors the NGINX-for-Beginners track. **Start here.** |
+| [Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)](https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-) | Full crash-course playlist — install, config anatomy, TLS termination, HTTP/2, modes. Watch right after KodeKloud |
+| [HAProxy Starter Guide](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/) | The official first-read — covers `frontend`/`backend`, health checks, TLS termination |
+| [Hussein Nasser — HAProxy videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs — L4 vs L7, TLS pass-through vs termination |
+| [HAProxy — official YouTube channel](https://www.youtube.com/@haproxytech) | "HAProxyConf" recordings + feature deep dives |
+| [*Load Balancing with HAProxy* — Nick Ramirez (free eBook from HAProxy)](https://www.haproxy.com/resources/ebooks) | Short, focused; the canonical one-sit overview |
+| [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
+| [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
+
+**Resources — HTTP caching theory (cross-cutting)** *(sorted: learn-first → tutorials → book/spec)*
+
+| Resource | Type |
+|----------|------|
+| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics. **Start here.** |
+| [Cloudflare Learning Center — Caching & CDN](https://www.cloudflare.com/learning/cdn/what-is-caching/) | Vendor-neutral primers; useful even if you're on Fastly |
+| [Hussein Nasser — CDN & HTTP cache videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs of `Cache-Control`, `Vary`, conditional GET — same channel as the NGINX / Kong picks |
+| [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
+| [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
+| [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
+
+**Time:** 3–4 weeks if focused. Can run in parallel with Stage 4 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
+
+---
+
 #### Stage 2 — Infrastructure & Cloud: Providers, IaC, Containers
 
 > **Why it matters:** SREs don't click in consoles. Production infrastructure must be code: versioned, reviewable, reproducible.
@@ -1099,59 +1152,6 @@ FROM employees GROUP BY dept;
 - Define an SLO for the service and convert it into a **working multi-window, multi-burn-rate alert** and demonstrate it firing in a load-test scenario.
 
 **Time:** 4–6 weeks. *(Overlaps with Part B Phase 3, 4.)*
-
----
-
-#### Stage 5 — API Gateway, Load Balancer & HTTP Caching
-
-> **Why it matters:** Most APAC platforms put an API gateway (Kong / AWS API Gateway / Apigee) and an L4/L7 load balancer (HAProxy / ALB) in front of every service. Whoever owns the edge owns the SLOs for everyone behind it — and at this team's stack that means **Kong + HAProxy**. *L7 reverse proxies (NGINX / Envoy / Caddy) live in their own stage — see Stage 6. CDN edge caching is handled at the cloud layer (CloudFront / Cloudflare) without a dedicated learning stage in this 6-month plan.*
-
-**Key topics**
-- **API gateway responsibilities:** routing, authn/authz, rate-limiting, request/response transforms, plugin model, JWT/OAuth/mTLS termination, observability hooks
-- **Kong architecture:** data plane vs control plane, DB-less vs Postgres mode, declarative config (`decK`), Kong Ingress Controller for K8s, plugins (rate-limiting, key-auth, JWT, request-transformer, prometheus, opentelemetry)
-- **HAProxy as L4 + L7 LB:** `frontend`/`backend`/`listen` blocks, ACLs, stick tables, slow-start, connection draining, `option httpchk`, `option redispatch`, runtime API + dynamic config reloads, Prometheus exporter
-- **HTTP caching semantics:** `Cache-Control`, `ETag` / `If-None-Match`, `Last-Modified`, `Vary`, `s-maxage`, `stale-while-revalidate`, `stale-if-error`
-- **Operational gotchas:** cache stampede / dogpile, thundering herd, cache poisoning via missing `Vary`, key normalization, p99 spikes from upstream retries, hot-key invalidation
-
-**Resources — API Gateway & Load Balancer (Kong / HAProxy)**
-
-*Kong — K8s ingress + API gateway* *(sorted: learn-first → reference → architecture deep-reads)*
-
-| Resource | Type |
-|----------|------|
-| [Kong Docs — Get Started with Kong Gateway](https://docs.konghq.com/gateway/latest/get-started/) | Official tutorial. **Start here.** |
-| [Hussein Nasser — Kong API Gateway course (Udemy)](https://www.udemy.com/course/kong-api-gateway/) | Hands-on course — the canonical Kong walkthrough for backend/SRE folks |
-| [Kong Education portal — courses & certs (Kong Gateway Operator, KCNA-style)](https://education.konghq.com) | Official training (free + paid certs) |
-| [Hussein Nasser — YouTube channel (Kong / API Gateway / NGINX deep dives)](https://www.youtube.com/@hnasr) | Free, dense, protocol-level |
-| [Kong Inc. — official YouTube channel](https://www.youtube.com/@KongInc) | Webinars, "Kong Summit" recordings, plugin walkthroughs |
-| [Kong Ingress Controller docs](https://docs.konghq.com/kubernetes-ingress-controller/latest/) | K8s ingress with Kong CRDs — read once you're comfortable with vanilla Kong |
-| [Kong Learning Center — whitepapers & "Mastering Kong" eBooks](https://konghq.com/learning-center) | Free PDFs; the architecture eBook is the best one-sit overview |
-
-**Resources — HAProxy (L4/L7 load balancer)** *(sorted: learn-first → reference → production patterns)*
-
-| Resource | Type |
-|----------|------|
-| [KodeKloud — HAProxy for Beginners](https://kodekloud.com/courses/haproxy-for-beginners/) | Browser-lab format; mirrors the NGINX-for-Beginners track. **Start here.** |
-| [Hussein Nasser — HAProxy Crash Course (TLS 1.3, HTTPS, HTTP/2)](https://www.youtube.com/watch?v=qYnA2DFEELw&list=PLQnljOFTspQUhgfvpgfxc-uFlWElKIBr-) | Full crash-course playlist — install, config anatomy, TLS termination, HTTP/2, modes. Watch right after KodeKloud |
-| [HAProxy Starter Guide](https://www.haproxy.com/documentation/haproxy-configuration-tutorials/starter-guide/) | The official first-read — covers `frontend`/`backend`, health checks, TLS termination |
-| [Hussein Nasser — HAProxy videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs — L4 vs L7, TLS pass-through vs termination |
-| [HAProxy — official YouTube channel](https://www.youtube.com/@haproxytech) | "HAProxyConf" recordings + feature deep dives |
-| [*Load Balancing with HAProxy* — Nick Ramirez (free eBook from HAProxy)](https://www.haproxy.com/resources/ebooks) | Short, focused; the canonical one-sit overview |
-| [HAProxy official docs (configuration manual)](https://docs.haproxy.org/) | Authoritative reference — directives, ACLs, stick tables, runtime API |
-| [HAProxy Technologies blog](https://www.haproxy.com/blog) | Production patterns: zero-downtime reloads, Prometheus integration, rate-limiting via stick tables |
-
-**Resources — HTTP caching theory (cross-cutting)** *(sorted: learn-first → tutorials → book/spec)*
-
-| Resource | Type |
-|----------|------|
-| [MDN — HTTP Caching](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching) | Quick reference for `Cache-Control` semantics. **Start here.** |
-| [Cloudflare Learning Center — Caching & CDN](https://www.cloudflare.com/learning/cdn/what-is-caching/) | Vendor-neutral primers; useful even if you're on Fastly |
-| [Hussein Nasser — CDN & HTTP cache videos (YouTube)](https://www.youtube.com/@hnasr) | Protocol-level walkthroughs of `Cache-Control`, `Vary`, conditional GET — same channel as the NGINX / Kong picks |
-| [Mark Nottingham — *Caching Tutorial for Web Authors and Webmasters*](https://www.mnot.net/cache_docs/) | The canonical free caching tutorial, written by the author of HTTP RFCs (RFC 7234 / 9111) |
-| [*High Performance Browser Networking* — Ilya Grigorik (free online)](https://hpbn.co) | The single best book on HTTP caching, CDN, HTTP/2/3 — read chapters 8–11 |
-| [RFC 9111 — HTTP Caching (current standard)](https://www.rfc-editor.org/rfc/rfc9111) | Skim it once. The spec is short and answers every "what does *X* header actually do?" question |
-
-**Time:** 3–4 weeks if focused. Can run in parallel with Stage 4 if you already know basic HTTP. *(Touches Part B Phase 5 — when you put a real edge in front of the Todo app.)*
 
 ---
 
