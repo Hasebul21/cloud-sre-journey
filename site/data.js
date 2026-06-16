@@ -265,11 +265,9 @@ window.SRE_DATA = {
       { num: "02", name: "Networking",                       desc: "TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything" },
       { num: "03", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
       { num: "04", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
-      { num: "05", name: "CDN, API Gateway & HTTP Caching",  desc: "Fastly (concepts) + Kong + HAProxy + RFC 9111" },
-      { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Envoy + Caddy in front of backends" },
-      { num: "08", name: "Varnish & VCL",                    desc: "On-prem VCL deep dive" },
-      { num: "09", name: "Fastly CDN",                       desc: "Hosted VCL + Compute@Edge — the dedicated Fastly course" },
-      { num: "10", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
+      { num: "05", name: "API Gateway, LB & HTTP Caching",    desc: "Kong + HAProxy + RFC 9111" },
+      { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Caddy in front of backends" },
+      { num: "07", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
     ],
     hlds: [
       {
@@ -398,7 +396,7 @@ window.SRE_DATA = {
       {
         id: "hld-6",
         title: "HLD 6 — Provision everything as code (no console clicks)",
-        unlocks: "Stage 10 Automation",
+        unlocks: "Stage 07 Automation",
         diagram:
 `                  [git repo: terraform/ + ansible/ + helm/ + fastly-vcl/]
                                        │
@@ -423,40 +421,17 @@ window.SRE_DATA = {
                   every box in HLDs 1–5 is created by code, not the console`,
         body: "Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Fastly VCL service, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK / fastly-cli running in CI. Drift-free, reviewable, reproducible.",
         why: [
-          { stage: "10 Automation", text: "'The SRE who clicks in the console' is a junior who can't be trusted with prod. The SRE who ships infra via PR with a terraform plan diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team)." },
-        ],
-      },
-      {
-        id: "hld-7",
-        title: "HLD 7 — Add on-prem VCL caching (when you can't use a hosted CDN)",
-        unlocks: "Stage 08 Varnish & VCL",
-        diagram:
-`Use case: on-prem newspaper / publisher stack (e.g. dn.no via NHST)
-          can't ship every cache fill to a hosted CDN
-          → run Varnish on bare metal inside your DC
-
-[Client in EU] ──▶ [Varnish on-prem cluster] ──cache MISS──▶ [HAProxy → Kong → App]
-                          │
-                          ├── VCL 4.1: vcl_recv → vcl_hash → vcl_backend_response
-                          ├── grace mode: serve stale while origin slow
-                          ├── hit-for-pass on uncacheable POSTs
-                          ├── purge via xkey (surrogate keys)
-                          └── Hitch terminates TLS in front (UDS socket)
-
-[Client in EU] ──▶ [Varnish on-prem cluster] ──cache HIT─────▶  RAM-speed response`,
-        body: "The on-prem mirror of HLD 4. When you can't ship every cache fill through a hosted CDN — because of data residency, on-prem-only architecture, or budget — you run Varnish on bare metal. Same VCL dialect as Fastly (modulo a few extensions), so the skill transfers in both directions.",
-        why: [
-          { stage: "08 Varnish & VCL", text: "Directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the dn.no reference architecture: multi-backend routing via the x-backend header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 09." },
+          { stage: "07 Automation", text: "'The SRE who clicks in the console' is a junior who can't be trusted with prod. The SRE who ships infra via PR with a terraform plan diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team)." },
         ],
       },
     ],
     readingOrder: {
       diagram:
-`Stage 02 → Stage 03 → Stage 06 → Stage 05 → Stage 09 → Stage 04 → Stage 10 → Stage 08
-   ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
- HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7
-foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem
-              up      proxy      gateways    dive       everything ify        VCL`,
+`Stage 02 → Stage 03 → Stage 06 → Stage 05 → Stage 04 → Stage 07
+   ↑          ↑          ↑          ↑          ↑          ↑
+ HLD 1      HLD 1      HLD 2      HLD 3      HLD 5      HLD 6
+foundations  K8s     reverse-    edge      observe     code-
+              up      proxy      gateways   everything   ify`,
       note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–6), Part 0A (system-design interview prep — pairs with HLDs 3–7 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
     },
   },
@@ -1338,111 +1313,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
       ],
     },
 
-    varnish: {
-      title: "SRE 8 · Edge Caching with Varnish & VCL",
-      resources: [
-        // ── Intro & concepts ──
-        { id: "vrn-r-1", type: "video", sub: "Intro & concepts", name: "Varnish in 100 Seconds (mental model)" },
-        { id: "vrn-r-2", type: "video", sub: "Intro & concepts", name: "Hussein Nasser — How Varnish HTTP Cache works", url: "https://www.youtube.com/results?search_query=hussein+nasser+varnish" },
-        { id: "vrn-r-3", type: "video", sub: "Intro & concepts", name: "Fastly / Varnish Software — VCL conference talks (search NDC, Velocity)" },
-        // ── Books & guides ──
-        { id: "vrn-r-10", type: "book", sub: "Books & guides", name: "The Varnish Book — Varnish Software (free PDF, definitive guide)", url: "https://info.varnish-software.com/the-varnish-book" },
-        { id: "vrn-r-12", type: "blog", sub: "Books & guides", name: "Varnish Software blog — VCL recipes, perf, releases", url: "https://www.varnish-software.com/community/blog/" },
-        { id: "vrn-r-15", type: "blog", sub: "Books & guides", name: "Hitch — TLS terminator that pairs with Varnish (UDS pattern)", url: "https://github.com/varnish/hitch" },
-        // ── VCL reference & docs ──
-        { id: "vrn-r-4", type: "course", sub: "VCL reference & docs", name: "Varnish 6 Official Documentation — User Guide", url: "https://varnish-cache.org/docs/6.0/users-guide/index.html" },
-        { id: "vrn-r-5", type: "course", sub: "VCL reference & docs", name: "Varnish 6 — VCL Reference", url: "https://varnish-cache.org/docs/6.0/reference/vcl.html" },
-        { id: "vrn-r-13", type: "blog", sub: "VCL reference & docs", name: "varnish-cache.org — Users' Guide: Grace, Purging, Hit-for-pass", url: "https://varnish-cache.org/docs/6.0/users-guide/vcl.html" },
-        // ── Modules & testing ──
-        { id: "vrn-r-8", type: "course", sub: "Modules & testing", name: "Varnish Modules (vmod-cookie, xkey, saintmode, header, var, …)", url: "https://github.com/varnish/varnish-modules" },
-        { id: "vrn-r-9", type: "course", sub: "Modules & testing", name: "varnishtest / VTC framework — built-in HTTP test harness", url: "https://varnish-cache.org/docs/6.0/reference/varnishtest.html" },
-      ],
-      milestones: [
-        { id: "vrn-m-1",  name: "Run Varnish 6 locally in Docker; point it at a Hello-World nginx origin" },
-        { id: "vrn-m-2",  name: "Read the request lifecycle: vcl_recv → vcl_hash → vcl_hit/miss → vcl_backend_fetch → vcl_backend_response → vcl_deliver — be able to draw it" },
-        { id: "vrn-m-3",  name: "Add an X-Cache: HIT/MISS header in vcl_deliver using obj.hits — verify with 5 curls" },
-        { id: "vrn-m-4",  name: "Define a backend over Unix domain socket (.path = \"/var/run/nginx.sock\", .host_header = \"origin.local\") — like dn-backends.vcl" },
-        { id: "vrn-m-5",  name: "Write your first ACL (`acl trusted { \"localhost\"; \"10.0.0.0\"/8; }`) — gate a privileged path on `client.ip ~ trusted`" },
-        { id: "vrn-m-6",  name: "Implement PURGE that bans by URL + host (the ban-lurker-friendly pattern from purge.vcl using obj.http.x-url / x-host)" },
-        { id: "vrn-m-7",  name: "Implement SOFTPURGE with the `purge` VMOD (purge.soft(ttl=0s, grace=0s, keep=1d)) — see object age out in cache" },
-        { id: "vrn-m-8",  name: "Tag objects with `xkey` VMOD; invalidate a tag-group via XKEY_PURGE / XKEY_SOFTPURGE" },
-        { id: "vrn-m-9",  name: "Configure grace mode: set beresp.grace = 24h; serve stale-while-revalidate on backend health failures (std.healthy(req.backend_hint))" },
-        { id: "vrn-m-10", name: "Add saintmode: on beresp.status >= 500, saintmode.blacklist(15s) + return(retry) — flap a 5xx and watch retries" },
-        { id: "vrn-m-11", name: "Normalize X-Forwarded-For: keep only the left-most IP from a comma-list (regsub) and strip `::ffff:` IPv6 prefix" },
-        { id: "vrn-m-12", name: "Set X-Forwarded-Proto from std.port(local.ip) (Hitch terminates TLS, Varnish sees plain HTTP on port 6086)" },
-        { id: "vrn-m-13", name: "Issue 301/302 redirects from VCL: `return(synth(301, \"https://new.example.com\"))` + vcl_synth that promotes resp.reason into Location" },
-        { id: "vrn-m-14", name: "Block /actuator/(env|heapdump|prometheus|…) with synth(403) before the request ever reaches the backend (url-blacklisting.vcl)" },
-        { id: "vrn-m-15", name: "Build a host whitelist: env-aware (NHST_VARNISH_ENV) regex match on req.http.host; reject unknown hosts with synth(404)" },
-        { id: "vrn-m-16", name: "Use vmod-cookie: parse Cookie, keep only `dn_auth`, drop the rest (cookie.filter_except)" },
-        { id: "vrn-m-17", name: "Implement hit-for-pass: when beresp has Set-Cookie / Vary:* / Cache-Control: private — set beresp.ttl=120s + beresp.uncacheable=true" },
-        { id: "vrn-m-18", name: "Split config into per-site files via `include \"sites/yoursite.vcl\";` — extend by adding another publication without touching default.vcl" },
-        { id: "vrn-m-19", name: "Multi-env backend routing: choose backend by req.http.host regex `^(test|stage|www)\\.example\\.com$` (3 backends, one VCL)" },
-        { id: "vrn-m-20", name: "Route /static/* to an S3 bucket backend; rewrite Host header to the bucket's S3 endpoint; gzip JS/CSS in vcl_backend_response" },
-        { id: "vrn-m-21", name: "Restart pattern: on 404 from origin, set bereq.http.x-retry=1 + return(retry) to a fallback redirector backend (≤ 2 retries)" },
-        { id: "vrn-m-22", name: "Expose a health endpoint: `if (req.url == \"/_varnishping\") return(synth(200, \"OK\"));`" },
-        { id: "vrn-m-23", name: "Inject Strict-Transport-Security in vcl_backend_response only when bereq.method == GET and host == www (hsts.vcl)" },
-        { id: "vrn-m-24", name: "Tune TTL per status: 5s on 404, 24h grace on 200, abandon on 503 — observe with varnishlog" },
-        { id: "vrn-m-25", name: "Read varnishlog / varnishstat / varnishtop / varnishncsa output; trace one request end-to-end" },
-        { id: "vrn-m-26", name: "Break a stuck hit-for-pass object by adding `hash_data(\"x\")` in vcl_hash for one URL — verify it now caches" },
-        { id: "vrn-m-27", name: "Global state with var.global_set/get: build a /admin/feature/enable + /disable toggle, gate it on an `enabler` ACL" },
-        { id: "vrn-m-28", name: "Write a varnishtest (.vtc) covering one of: a PURGE, a redirect, a grace-mode fallback. Run `varnishtest -v test.vtc`" },
-        { id: "vrn-m-29", name: "Reproduce the layout of varnish-vcl-dn locally: default.vcl + auth.vcl + grace.vcl + purge.vcl + headers.vcl + xff.vcl + sites/<site>.vcl" },
-        { id: "vrn-m-30", name: "Wire Varnish behind Hitch (TLS); confirm HTTPS → Hitch → UDS → Varnish → backend works end-to-end with X-Forwarded-Proto set correctly" },
-      ],
-    },
-
-    fastly: {
-      title: "SRE 9 · Fastly CDN & VCL on Terraform",
-      resources: [
-        // ── VCL reference & playground ──
-        { id: "fst-r-10", type: "course", sub: "VCL reference & playground", name: "Fastly Developer Hub — Learning + VCL tutorials", url: "https://developer.fastly.com/learning/vcl/" },
-        { id: "fst-r-9", type: "course", sub: "VCL reference & playground", name: "Fastly Fiddle — VCL playground (no account required)", url: "https://fiddle.fastly.dev" },
-        { id: "fst-r-1", type: "course", sub: "VCL reference & playground", name: "Fastly VCL Reference (canonical)", url: "https://www.fastly.com/documentation/reference/vcl/" },
-        // ── CDN features & security ──
-        { id: "fst-r-7", type: "course", sub: "CDN features & security", name: "Fastly Caching guide (TTL, stale-if-error, Surrogate-Control)", url: "https://www.fastly.com/documentation/guides/full-site-delivery/caching/" },
-        { id: "fst-r-5", type: "course", sub: "CDN features & security", name: "Fastly Shielding guide", url: "https://www.fastly.com/documentation/guides/full-site-delivery/shielding/" },
-        { id: "fst-r-6", type: "course", sub: "CDN features & security", name: "Fastly Edge Rate Limiting guide (penaltybox + ratecounter)", url: "https://www.fastly.com/documentation/guides/full-site-delivery/rate-limiting/" },
-        // ── Terraform & CI/CD ──
-        { id: "fst-r-11", type: "course", sub: "Terraform & CI/CD", name: "Fastly Terraform Provider (registry, examples)", url: "https://registry.terraform.io/providers/fastly/fastly/latest/docs" },
-        { id: "fst-r-13", type: "course", sub: "Terraform & CI/CD", name: "Fastly CLI (brew install / config / deploy)", url: "https://www.fastly.com/documentation/reference/tools/fastly-cli/" },
-        { id: "fst-r-14", type: "course", sub: "Terraform & CI/CD", name: "hashicorp/setup-terraform GitHub Action", url: "https://github.com/hashicorp/setup-terraform" },
-        // ── Blog & docs ──
-        { id: "fst-r-16", type: "blog", sub: "Blog & docs", name: "Fastly Blog — main feed (release notes, perf, VCL recipes)", url: "https://www.fastly.com/blog" },
-        { id: "fst-r-17", type: "blog", sub: "Blog & docs", name: "Fastly Documentation — main index", url: "https://www.fastly.com/documentation/" },
-      ],
-      milestones: [
-        { id: "fst-m-1",  name: "S1 · Free dev account; first VCL service via UI; add domain + httpbin backend; activate; curl through Fastly" },
-        { id: "fst-m-2",  name: "S2 · In Fastly Fiddle, paste the repo's `default.vcl`; trace the request lifecycle (recv → hash → hit/miss → fetch → deliver → log); add an `X-Hello` header in vcl_deliver" },
-        { id: "fst-m-3",  name: "S3 · Trigger HIT/MISS by hitting the same URL; bust cache with query string; observe Surrogate-Control vs Cache-Control precedence" },
-        { id: "fst-m-4",  name: "S4 · Two backends; vcl_recv sets `req.http.x-backend` by URL prefix; condition + `request_condition` route requests; verify via real-time logs" },
-        { id: "fst-m-5",  name: "S4 · Use the `override_host` + `ssl_sni_hostname` + `ssl_cert_hostname` triplet so origin TLS handshake stays clean regardless of client Host" },
-        { id: "fst-m-6",  name: "S5 · Build 3 snippets at priorities 100/110/120 (all in vcl_deliver); verify execution order matches priority ascending" },
-        { id: "fst-m-7",  name: "S6 · Add `shield = \"<pop>\"` to a backend; instrument `fastly.ff.visits_this_service == 0` to log edge vs shield" },
-        { id: "fst-m-8",  name: "S7 · Enable Image Optimizer (`x-fastly-imageopto-api = \"fastly; qp=*\"`) on a JPEG backend; transform via `?format=webp&width=400`; verify HIT on repeat" },
-        { id: "fst-m-9",  name: "S8 · Add a healthcheck (interval/threshold/window); break the origin; observe Fastly UI marking the backend unhealthy" },
-        { id: "fst-m-10", name: "S9 · Implement force-TLS via `error 750 \"redirect\"` + vcl_error setting 301 Location (the canonical Fastly pattern)" },
-        { id: "fst-m-11", name: "S9 · Build a synthetic maintenance page in vcl_error (`obj.status = 503; synthetic \"<h1>Be right back</h1>\";`) — confirm the body comes from Fastly, not origin" },
-        { id: "fst-m-12", name: "S10 · CORS in vcl_deliver only for non-API host (the dngroup pattern); HSTS with `max-age=31536000; includeSubDomains; preload`" },
-        { id: "fst-m-13", name: "S11 · Add the `debug_headers.vcl` pattern (log-timing:* + log-origin:* + server.datacenter); read it from `curl -i`" },
-        { id: "fst-m-14", name: "S11 · Wire a real-time log endpoint (Datadog free / Honeycomb dev key); confirm structured lines stream live" },
-        { id: "fst-m-15", name: "S12 · Edge Rate Limit: declare `penaltybox` + `ratecounter`, call `ratelimit.check_rate(client.ip, ..., 5, 10, ..., 2m)`; verify with a for-loop curl that 6th req gets 429" },
-        { id: "fst-m-16", name: "S13 · Sign up for Fastly NGWAF (Signal Sciences); add `sigsci` provider; create `sigsci_site` + `sigsci_edge_deployment` + `sigsci_edge_deployment_service` linked to your Fastly SID" },
-        { id: "fst-m-17", name: "S13 · CDN enrichment snippet (`client.ip`, `tls.client.ja3_md5`, `client.as.number`, `client.geo.proxy_type`); send XSS / traversal curls; see them blocked in NGWAF events" },
-        { id: "fst-m-18", name: "S13 · Set `manage_snippets = false` on dynamic snippets `ngwaf_config_init/miss/pass/deliver` so Fastly's NGWAF integration writes to them without Terraform clobbering" },
-        { id: "fst-m-19", name: "S14 · S3 backend for Terraform state (`encrypt = true`); three workspaces (test/stage/prod); per-env tfvars; `terraform workspace select` flow" },
-        { id: "fst-m-20", name: "S14 · Add DynamoDB lock table to backend.tf — verify a second concurrent `apply` waits for the lock (repo doesn't have this; it's a real-world upgrade)" },
-        { id: "fst-m-21", name: "S15 · The big trick — `dynamic \"snippet\" { for_each = fileset(...) }` + `regex(\"^P([0-9]+)_\", ...)` for auto-loading any P<priority>_<name>.vcl file you drop into the snippet dir" },
-        { id: "fst-m-22", name: "S15 · `data \"http\"` calling the Signal Sciences API; `jsondecode` the response; output the list of linked services" },
-        { id: "fst-m-23", name: "S16 · GitHub Actions: `deploy-production.yml` (push to master), `deploy-stage.yml`, `terraform-verify.yml` (PR: fmt + validate + plan)" },
-        { id: "fst-m-24", name: "S16 · Upgrade `deploy-production.yml` from long-lived AWS keys to OIDC federation via `aws-actions/configure-aws-credentials` + `role-to-assume`" },
-        { id: "fst-m-25", name: "S17 · Strip S3 metadata headers (`bereq.http.X-Amz-*`, `Authorization`) in vcl_miss + vcl_pass — verify `x-amz-*` no longer leaks to client" },
-        { id: "fst-m-26", name: "S17 · Confirm Image Optimizer hygiene: `unset beresp.http.Set-Cookie` + `unset beresp.http.Vary` for IO responses — verify they now cache cleanly" },
-        { id: "fst-m-27", name: "S17 · Don't-cache-errors snippet (`P101_dont_cache_error.vcl` pattern): 2xx → `beresp.cacheable = true`; else `beresp.ttl = 0s` + `cacheable = false`" },
-        { id: "fst-m-28", name: "S18 capstone · Rebuild the dngroup-fastly architecture against 3 of your own (or public) backends: x-backend routing, snippet auto-load, force-TLS, CORS + HSTS, IO, rate-limit, deployed via GitHub Actions with workspaces" },
-        { id: "fst-m-29", name: "Read the repo's `main.tf` end-to-end without consulting the notes — be able to explain every block in ≤ 30 seconds" },
-        { id: "fst-m-30", name: "Internalize: when would you reach for managed Fastly vs running open-source Varnish yourself? Write the 5-bullet decision tree" },
-      ],
-    },
   },
 
   // ────────────────────────────────────────────────────────────────
