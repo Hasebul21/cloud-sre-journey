@@ -263,9 +263,9 @@ window.SRE_DATA = {
   hldRoadmap: {
     stageMap: [
       { num: "02", name: "Networking",                       desc: "TCP/UDP, TLS, HTTP/1/2/3, DNS — the wire under everything" },
-      { num: "03", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
-      { num: "04", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
-      { num: "05", name: "API Gateway, LB & HTTP Caching",    desc: "Kong + HAProxy + RFC 9111" },
+      { num: "03", name: "API Gateway, LB & HTTP Caching",    desc: "Kong + HAProxy + RFC 9111" },
+      { num: "04", name: "Cloud & K8s",                      desc: "Docker, Kubernetes, AWS basics — where every box in the diagram lives" },
+      { num: "05", name: "Reliability",                      desc: "Prometheus, Grafana, Loki, OTel, SLOs — observes everything" },
       { num: "06", name: "Reverse Proxy",                    desc: "NGINX + Caddy in front of backends" },
       { num: "07", name: "Automation",                       desc: "Terraform, Ansible, Python/Bash — provisions everything" },
     ],
@@ -285,7 +285,7 @@ window.SRE_DATA = {
    │
    └── DNS resolves → TCP handshake → TLS handshake → HTTP request
                                   (Stage 02)`,
-        body: "The smallest thing that can serve a request. Client speaks TCP / TLS / HTTP (Stage 02) to a Pod scheduled by Kubernetes on a Docker image (Stage 03); the Pod queries PostgreSQL on RDS. No edge, no proxy, no caching. Everything else in this roadmap is layers added to this picture.",
+        body: "The smallest thing that can serve a request. Client speaks TCP / TLS / HTTP (Stage 02) to a Pod scheduled by Kubernetes on a Docker image (Stage 04); the Pod queries PostgreSQL on RDS. No edge, no proxy, no caching. Everything else in this roadmap is layers added to this picture.",
         why: [
           { stage: "02 Networking", text: "Every box in every later HLD speaks over the network. If TLS handshake, HTTP/2 multiplexing, DNS, and TCP back-pressure are black boxes, every 'why is p99 spiking?' debugging session devolves into guesswork. This is the layer that never gets abstracted away." },
           { stage: "03 Cloud & K8s", text: "Every modern SRE job is 'ops on Kubernetes running in a public cloud.' You can't reason about reliability without knowing what a Pod, Service, Ingress, IAM role, Security Group, or VPC actually is. The Todo app in Part B Phase 2 is the worked example you'll build here." },
@@ -318,7 +318,7 @@ window.SRE_DATA = {
       {
         id: "hld-3",
         title: "HLD 3 — Add API gateway + L4 load balancer",
-        unlocks: "Stage 05 CDN, API Gateway & HTTP Caching (Kong + HAProxy + caching-theory parts)",
+        unlocks: "Stage 03 API Gateway, LB & HTTP Caching (Kong + HAProxy + caching-theory parts)",
         diagram:
 `                    ┌─── L4 LB: connection-level fan-out, stick tables,
                     │    zero-downtime reloads
@@ -331,10 +331,10 @@ window.SRE_DATA = {
                                             Request transforms
                                             Routes /api/v1/todos → todo-svc
                                             Routes /api/v1/users  → user-svc
-                                            (Stage 05)`,
+                                            (Stage 03)`,
         body: "Production stacks rarely have just one microservice. HAProxy sits in front as a connection-level load balancer (or AWS ALB does this in cloud); Kong sits inside the cluster doing JWT auth, rate-limiting, and routing across many backends. NGINX/Envoy still terminates TLS and proxies into the actual app pod.",
         why: [
-          { stage: "05 CDN, API Gateway & HTTP Caching", text: "At any APAC platform (Grab, Mercari, Agoda) someone owns 'the edge' — Kong/Apigee for auth + rate-limit, plus HTTP caching theory (Cache-Control, ETag, Vary, stale-while-revalidate, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it." },
+          { stage: "03 API Gateway, LB & HTTP Caching", text: "At any APAC platform (Grab, Mercari, Agoda) someone owns 'the edge' — Kong/Apigee for auth + rate-limit, plus HTTP caching theory (Cache-Control, ETag, Vary, stale-while-revalidate, RFC 9111). Whoever owns the edge owns the SLO for everyone behind it." },
         ],
       },
       {
@@ -360,7 +360,7 @@ window.SRE_DATA = {
       {
         id: "hld-5",
         title: "HLD 5 — Add observability everywhere",
-        unlocks: "Stage 04 Reliability",
+        unlocks: "Stage 05 Reliability",
         diagram:
 `[Client] ──▶ [Fastly] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
                 │             │            │           │          │         │
@@ -427,11 +427,11 @@ window.SRE_DATA = {
     ],
     readingOrder: {
       diagram:
-`Stage 02 → Stage 03 → Stage 06 → Stage 05 → Stage 04 → Stage 07
+`Stage 02 → Stage 03 → Stage 04 → Stage 06 → Stage 05 → Stage 07
    ↑          ↑          ↑          ↑          ↑          ↑
- HLD 1      HLD 1      HLD 2      HLD 3      HLD 5      HLD 6
-foundations  K8s     reverse-    edge      observe     code-
-              up      proxy      gateways   everything   ify`,
+ HLD 1      HLD 2      HLD 1      HLD 3      HLD 5      HLD 6
+foundations  edge       K8s     reverse-    observe     code-
+             gateways   up       proxy      everything   ify`,
       note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–6), Part 0A (system-design interview prep — pairs with HLDs 3–7 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
     },
   },
