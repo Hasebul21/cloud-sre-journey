@@ -997,10 +997,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
     networking: {
       title: "SRE 2 · Networking",
       resources: [
-        // ── Core networking & protocols ──
-        { id: "net-r-1", type: "video", sub: "Core networking & protocols", name: "Computer Networking Full Course — freeCodeCamp", url: "https://www.youtube.com/watch?v=qiQR5rTSshw" },
-        { id: "net-r-3", type: "course", sub: "Core networking & protocols", name: "Beej's Guide to Network Programming (free)", url: "https://beej.us/guide/bgnet/" },
-        { id: "net-r-4", type: "book", sub: "Core networking & protocols", name: "TCP/IP Illustrated Vol 1 — Stevens", url: "https://www.amazon.com/TCP-Illustrated-Protocols-Addison-Wesley-Professional/dp/0321336313" },
         // ── Application protocols (DNS / HTTP / TLS / SSH / FTP) ──
         { id: "net-r-10", type: "blog", sub: "Application protocols (DNS / HTTP / TLS / SSH / FTP)", name: "Julia Evans — networking zines (DNS, HTTP, TCP, How HTTPS works) — Start here", url: "https://wizardzines.com" },
         { id: "net-r-11", type: "blog", sub: "Application protocols (DNS / HTTP / TLS / SSH / FTP)", name: "Cloudflare Learning — DNS, HTTP, TLS, SSH one-pagers", url: "https://www.cloudflare.com/learning/" },
@@ -1045,10 +1041,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "scl-r-1", type: "video", sub: "AWS & cloud-native", name: "AWS Certified Cloud Practitioner — freeCodeCamp", url: "https://www.youtube.com/watch?v=NhDYbskXRgc" },
         { id: "scl-r-11", type: "course", sub: "AWS & cloud-native", name: "AWS Skill Builder (free official)", url: "https://skillbuilder.aws/" },
         { id: "scl-r-7", type: "course", sub: "AWS & cloud-native", name: "AWS SAA-C03 — Stephane Maarek (Udemy)", url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },
-        // ── Databases & data stores ──
-        { id: "scl-r-40", type: "course", sub: "Databases & data stores", name: "Hussein Nasser — Fundamentals of Database Engineering (Udemy)", url: "https://www.udemy.com/course/database-engines-crash-course/" },
-        { id: "scl-r-43", type: "blog", sub: "Databases & data stores", name: "PostgreSQL docs — High Availability & Replication", url: "https://www.postgresql.org/docs/current/high-availability.html" },
-        { id: "scl-r-44", type: "book", sub: "Databases & data stores", name: "Database Reliability Engineering — Campbell & Majors", url: "https://www.oreilly.com/library/view/database-reliability-engineering/9781491925935/" },
         // ── Storage & virtualization ──
         { id: "scl-r-46", type: "blog", sub: "Storage & virtualization", name: "Red Hat — Block vs File vs Object storage", url: "https://www.redhat.com/en/topics/data-storage/file-block-object-storage" },
         { id: "scl-r-47", type: "video", sub: "Storage & virtualization", name: "How Linux Virtualization Works: KVM, QEMU & Libvirt (YouTube)", url: "https://www.youtube.com/watch?v=Cz3Pi11Tr84" },
@@ -1267,10 +1259,6 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-r-1", type: "course", sub: "NGINX", name: "KodeKloud — Nginx for Beginners — Start here", url: "https://learn.kodekloud.com/user/courses/nginx-for-beginners" },
         { id: "rprx-r-3", type: "video", sub: "NGINX", name: "freeCodeCamp — NGINX Tutorial for Beginners (full ~3hr course)", url: "https://www.youtube.com/watch?v=7VAI73roXaY" },
         { id: "rprx-r-5", type: "course", sub: "NGINX", name: "Hussein Nasser — NGINX Fundamentals (Udemy)", url: "https://www.udemy.com/course/nginx-fundamentals/" },
-        // ── Envoy ──
-        { id: "rprx-r-20", type: "course", sub: "Envoy", name: "Tetrate Academy — free Envoy + Istio courses — Start here", url: "https://academy.tetrate.io/" },
-        { id: "rprx-r-22", type: "course", sub: "Envoy", name: "Envoy 'Getting Started' + sandboxes (runnable docker-compose examples)", url: "https://www.envoyproxy.io/docs/envoy/latest/start/start" },
-        { id: "rprx-r-23", type: "video", sub: "Envoy", name: "Marcel Dempers (That DevOps Guy) — Envoy series (free, hands-on)", url: "https://www.youtube.com/@MarcelDempers" },
         // ── Caddy ──
         { id: "rprx-r-30", type: "course", sub: "Caddy", name: "Caddy — Getting Started + tutorials (install, Caddyfile, automatic HTTPS) — Start here", url: "https://caddyserver.com/docs/getting-started" },
         { id: "rprx-r-31", type: "blog", sub: "Caddy", name: "Caddy — Quick-starts (reverse-proxy, file server, PHP, Wordpress) — copy-paste recipes", url: "https://caddyserver.com/docs/quick-starts/reverse-proxy" },
@@ -1280,10 +1268,7 @@ foundations  K8s     reverse-    edge        CDN deep   observe    code-      on
         { id: "rprx-m-1", name: "NGINX reverse proxy in front of Todo API: TLS (mkcert), upstream + keepalive, proxy_next_upstream retries" },
         { id: "rprx-m-2", name: "Turn on proxy_cache (5s microcache) for GET /todos; graph HIT/MISS ratio in Prometheus" },
         { id: "rprx-m-3", name: "Reproduce a zero-downtime config reload under load (SIGHUP); confirm no dropped requests via load-tester" },
-        { id: "rprx-m-4", name: "Envoy as a front-proxy via docker-compose: 1 listener + cluster, outlier detection, retry policy, /stats/prometheus" },
-        { id: "rprx-m-5", name: "Compare a p99 latency graph for the Todo API behind NGINX vs Envoy under identical load" },
-        { id: "rprx-m-6", name: "Walk through an xDS update path: change a route via static config, then via the control-plane snapshot pattern" },
-        { id: "rprx-m-7", name: "Stand up Caddy with a 10-line Caddyfile: reverse-proxy the Todo API and verify automatic Let's Encrypt + HTTP/3 on a real domain" },
+        { id: "rprx-m-4", name: "Stand up Caddy with a 10-line Caddyfile: reverse-proxy the Todo API and verify automatic Let's Encrypt + HTTP/3 on a real domain" },
       ],
     },
 
