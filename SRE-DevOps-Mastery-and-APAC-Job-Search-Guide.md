@@ -3118,6 +3118,25 @@ Week 11–12: Company-specific prep (Grab → ride-sharing; Shopee → e-commerc
 
 ---
 
+### Research Papers
+
+> Foundation papers that shaped modern LLMs — from architecture to alignment to efficient fine-tuning. Relevant to Part AI and any AI-adjacent SRE/platform role. Read in order; first five are essential, rest are specialist.
+
+| # | Paper | What it covers | Link |
+|---|-------|---------------|------|
+| 1 | **Attention Is All You Need** | Introduced the Transformer architecture — powers all modern LLMs | https://lnkd.in/dzGaatsJ |
+| 2 | **BERT** | Bidirectional masked-token pretraining; shaped how models understand context | https://lnkd.in/da9CReM3 |
+| 3 | **GPT (v1)** | Unsupervised pretraining + task fine-tuning; the GPT lineage starts here | https://lnkd.in/dsbSYYjp |
+| 4 | **RLHF — Learning to Summarize with Human Feedback** | Foundation of how ChatGPT-style models are aligned to human preferences | https://lnkd.in/dCqv4e2a |
+| 5 | **LoRA** | Low-rank matrix fine-tuning — makes adapting large models cheap and scalable | https://lnkd.in/db7Tgrhp |
+| 6 | **Retention Is All You Need** | Alternative to attention mixing recurrence + convnets for long-context efficiency | https://lnkd.in/dpnrApJd |
+| 7 | **Chain-of-Thought Prompting** | "Think out loud" prompting improves reasoning and complex task performance | https://lnkd.in/dPJUR7dn |
+| 8 | **The Illusion of Thinking** | Cautionary: LLMs can sound confident while being wrong — eval methodology matters | https://lnkd.in/dGm49u_T |
+| 9 | **Knowledge Distillation** | Compress large models into smaller ones with minimal performance loss | https://lnkd.in/dwYZSSfQ |
+| 10 | **RLVR — Verifiable Rewards** | Extends RL into real-world domains using logic-backed verifiable reward signals | https://lnkd.in/djKRBAU6 |
+
+---
+
 ## <a id="part-k"></a>Part K — Build-It-Up Roadmap: HLDs Per Learn Stage
 
 > **Read this before you start the Learn track.** Eight progressively-richer high-level designs, one per sidebar stage. Each HLD adds *one capability* on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to a globally cached, observable, IaC-provisioned, mesh-egressed system. Tackle the Learn stages in this order: every stage answers "how do I actually build the box I just drew."
