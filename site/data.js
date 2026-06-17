@@ -339,38 +339,17 @@ window.SRE_DATA = {
       },
       {
         id: "hld-4",
-        title: "HLD 4 — Add a CDN at the global edge",
-        unlocks: "Stage 09 Fastly CDN (and the Fastly piece of Stage 05)",
-        diagram:
-`                     ┌── Global edge POPs (Tokyo, Singapore, Sydney…)
-                     │   VCL at the edge
-                     │   Surrogate keys + instant purge
-                     │   stale-while-revalidate, Compute@Edge (WASM)
-                     ▼
-[Client] ──▶ [Fastly POP] ──cache HIT (served in <50ms)──▶  [Client gets response]
-
-[Client] ──▶ [Fastly POP] ──cache MISS──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
-                  ▲                                                                          │
-                  └──────────────── response flows back, gets cached at edge ◀───────────────┘`,
-        body: "Now you have two request paths — the cache-HIT path (served at the edge, never touches origin) and the cache-MISS path (traverses every layer below). Fastly's POPs sit close to users globally; on a HIT, user-perceived latency drops to single-digit ms regardless of where origin is.",
-        why: [
-          { stage: "09 Fastly CDN", text: "Stage 05 covers CDN concepts vendor-neutrally; Stage 09 is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack." },
-        ],
-      },
-      {
-        id: "hld-5",
-        title: "HLD 5 — Add observability everywhere",
+        title: "HLD 4 — Add observability everywhere",
         unlocks: "Stage 05 Reliability",
         diagram:
-`[Client] ──▶ [Fastly] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
-                │             │            │           │          │         │
-                ▼             ▼            ▼           ▼          ▼         ▼
-            metrics      stats page    prom plugin  /metrics   OTel SDK  pg_exporter
-            (Fastly         (HAProxy)   + access     (NGINX     (RED + USE +
-             real-time                     log         status)   trace context)
-             dashboard)
-                │             │            │           │          │         │
-                └─────────────┴────────────┴───────────┴──────────┴─────────┘
+`[Client] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
+                │             │           │          │         │
+                ▼             ▼           ▼          ▼         ▼
+           stats page    prom plugin  /metrics   OTel SDK  pg_exporter
+              (HAProxy)   + access     (NGINX     (RED + USE +
+                             log         status)   trace context)
+                │             │           │          │         │
+                └─────────────┴───────────┴──────────┴─────────┘
                                          │
                   ┌──────────────────────┼──────────────────────┐
                   ▼                      ▼                      ▼
@@ -388,38 +367,38 @@ window.SRE_DATA = {
                                          ▼
                                   [PagerDuty]   (oncall paged before
                                                  the user notices)`,
-        body: "Every box in HLDs 1–4 now emits metrics (Prometheus exporters or /metrics endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall before the customer notices the SLO breach.",
+        body: "Every box in HLDs 1–3 now emits metrics (Prometheus exporters or /metrics endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall before the customer notices the SLO breach.",
         why: [
           { stage: "04 Reliability", text: "This is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every 'SRE' job description tests this in the interview, and every incident is graded on how fast you went from page → root cause → fix." },
         ],
       },
       {
-        id: "hld-6",
-        title: "HLD 6 — Provision everything as code (no console clicks)",
+        id: "hld-5",
+        title: "HLD 5 — Provision everything as code (no console clicks)",
         unlocks: "Stage 07 Automation",
         diagram:
-`                  [git repo: terraform/ + ansible/ + helm/ + fastly-vcl/]
+`                  [git repo: terraform/ + ansible/ + helm/]
                                        │
                           PR  →  CI lint  →  CI plan
                                        │
                                        ▼
                         [GitHub Actions runs:
                           terraform apply / ansible-playbook
-                          helmfile sync / fastly deploy]
+                          helmfile sync]
                                        │
        ┌───────────────────────────────┼───────────────────────────────┐
        ▼                               ▼                               ▼
   [AWS infra]                    [K8s manifests]                  [Edge config]
-  • VPC + subnets                • EKS node groups                • Fastly services + VCL
-  • RDS PostgreSQL               • HAProxy / NGINX Helm           • Kong routes (decK)
-  • ALB / NLB                    • App Deployments                • Grafana dashboards
-  • Route 53 DNS                 • Prom / Loki / Tempo Helm       • Prom alert rules
-  • IAM roles                    • SLO definitions                • PagerDuty escalation
+  • VPC + subnets                • EKS node groups                • Kong routes (decK)
+  • RDS PostgreSQL               • HAProxy / NGINX Helm           • Grafana dashboards
+  • ALB / NLB                    • App Deployments                • Prom alert rules
+  • Route 53 DNS                 • Prom / Loki / Tempo Helm       • PagerDuty escalation
+  • IAM roles                    • SLO definitions
 
                                        ▲
                                        │
-                  every box in HLDs 1–5 is created by code, not the console`,
-        body: "Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Fastly VCL service, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK / fastly-cli running in CI. Drift-free, reviewable, reproducible.",
+                  every box in HLDs 1–4 is created by code, not the console`,
+        body: "Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK running in CI. Drift-free, reviewable, reproducible.",
         why: [
           { stage: "07 Automation", text: "'The SRE who clicks in the console' is a junior who can't be trusted with prod. The SRE who ships infra via PR with a terraform plan diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team)." },
         ],
@@ -429,10 +408,10 @@ window.SRE_DATA = {
       diagram:
 `Stage 02 → Stage 03 → Stage 04 → Stage 06 → Stage 05 → Stage 07
    ↑          ↑          ↑          ↑          ↑          ↑
- HLD 1      HLD 2      HLD 1      HLD 3      HLD 5      HLD 6
+ HLD 1      HLD 2      HLD 1      HLD 3      HLD 4      HLD 5
 foundations  edge       K8s     reverse-    observe     code-
              gateways   up       proxy      everything   ify`,
-      note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–6), Part 0A (system-design interview prep — pairs with HLDs 3–7 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
+      note: "Three orthogonal tracks run alongside this main path: Part B (the worked Todo App project — your hands-on companion through HLDs 1–5), Part 0A (system-design interview prep — pairs with HLDs 3–6 once the picture is rich enough), Part AI (AI/LLM track — orthogonal, run when bandwidth allows).",
     },
   },
 
@@ -830,6 +809,19 @@ foundations  edge       K8s     reverse-    observe     code-
     { id: "bk-go",   type: "book", name: "Learning Go — Jon Bodner",                                   url: "https://www.oreilly.com/library/view/learning-go-2nd/9781098139285/" },
     { id: "bk-xu",   type: "book", name: "System Design Interview Vol 1 & 2 — Alex Xu",                url: "https://www.amazon.com/System-Design-Interview-insiders-Second/dp/B08CMF2CQF" },
     { id: "bk-phx",  type: "book", name: "The Phoenix Project — Gene Kim",                             url: "https://itrevolution.com/product/the-phoenix-project/" },
+  ],
+
+  researchPapers: [
+    { id: "rp-1",  name: "Attention Is All You Need",                     what: "Introduced the Transformer architecture — powers all modern LLMs",                          url: "https://lnkd.in/dzGaatsJ" },
+    { id: "rp-2",  name: "BERT",                                          what: "Bidirectional masked-token pretraining; shaped how models understand context",              url: "https://lnkd.in/da9CReM3" },
+    { id: "rp-3",  name: "GPT (v1)",                                      what: "Unsupervised pretraining + task fine-tuning; the GPT lineage starts here",                  url: "https://lnkd.in/dsbSYYjp" },
+    { id: "rp-4",  name: "RLHF — Learning to Summarize with Human Feedback", what: "Foundation of how ChatGPT-style models are aligned to human preferences",              url: "https://lnkd.in/dCqv4e2a" },
+    { id: "rp-5",  name: "LoRA",                                          what: "Low-rank matrix fine-tuning — makes adapting large models cheap and scalable",             url: "https://lnkd.in/db7Tgrhp" },
+    { id: "rp-6",  name: "Retention Is All You Need",                     what: "Alternative to attention mixing recurrence + convnets for long-context efficiency",        url: "https://lnkd.in/dpnrApJd" },
+    { id: "rp-7",  name: "Chain-of-Thought Prompting",                    what: "\"Think out loud\" prompting improves reasoning and complex task performance",             url: "https://lnkd.in/dPJUR7dn" },
+    { id: "rp-8",  name: "The Illusion of Thinking",                      what: "Cautionary: LLMs can sound confident while being wrong — eval methodology matters",       url: "https://lnkd.in/dGm49u_T" },
+    { id: "rp-9",  name: "Knowledge Distillation",                        what: "Compress large models into smaller ones with minimal performance loss",                    url: "https://lnkd.in/dwYZSSfQ" },
+    { id: "rp-10", name: "RLVR — Verifiable Rewards",                     what: "Extends RL into real-world domains using logic-backed verifiable reward signals",          url: "https://lnkd.in/djKRBAU6" },
   ],
   courses: [
     { id: "co-saa",    type: "course", name: "AWS SAA-C03 (Stephane Maarek)",         plat: "Udemy",             cost: "$10–15", url: "https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/" },

@@ -3139,9 +3139,9 @@ Week 11–12: Company-specific prep (Grab → ride-sharing; Shopee → e-commerc
 
 ## <a id="part-k"></a>Part K — Build-It-Up Roadmap: HLDs Per Learn Stage
 
-> **Read this before you start the Learn track.** Eight progressively-richer high-level designs, one per sidebar stage. Each HLD adds *one capability* on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to a globally cached, observable, IaC-provisioned, mesh-egressed system. Tackle the Learn stages in this order: every stage answers "how do I actually build the box I just drew."
+> **Read this before you start the Learn track.** Six progressively-richer high-level designs, one per sidebar stage. Each HLD adds *one capability* on top of the last — by the end you've built up the full request path of an APAC platform from a bare backend to an API-gated, observable, IaC-provisioned, egress-controlled system. Tackle the Learn stages in this order: every stage answers "how do I actually build the box I just drew."
 >
-> The 9 sidebar stages (Automation moved to the end so the request-path stages flow naturally): 01 Networking · 02 Cloud & K8s · 03 Reliability · 04 CDN, API Gateway & HTTP Caching · 05 Reverse Proxy · 06 Proxy (Forward / Egress) · 07 Varnish & VCL · 08 Fastly CDN · 09 Automation.
+> The 7 sidebar stages (Automation moved to the end so the request-path stages flow naturally): 01 Networking · 02 Cloud & K8s · 03 Reliability · 04 CDN, API Gateway & HTTP Caching · 05 Reverse Proxy · 06 Proxy (Forward / Egress) · 09 Automation.
 
 | # | Sidebar stage | What's in it (one line) |
 |---|---|---|
@@ -3151,8 +3151,6 @@ Week 11–12: Company-specific prep (Grab → ride-sharing; Shopee → e-commerc
 | 04 | CDN, API Gateway & HTTP Caching | Fastly (concepts) + Kong + HAProxy + RFC 9111 |
 | 05 | Reverse Proxy | NGINX + Envoy in front of backends |
 | 06 | Proxy (Forward / Egress) | Squid, mitmproxy, NAT, mesh EgressGateway |
-| 07 | Varnish & VCL | On-prem VCL deep dive |
-| 08 | Fastly CDN | Hosted VCL + Compute@Edge — the dedicated Fastly course |
 | 09 | Automation | Terraform, Ansible, Python/Bash — provisions everything |
 
 ---
@@ -3234,43 +3232,19 @@ Production stacks rarely have just one microservice. **HAProxy** sits in front a
 
 ---
 
-### HLD 4 — Add a CDN at the global edge
-
-**Stages it unlocks:** 08 Fastly CDN *(and the Fastly piece of Stage 04)*
-
-```
-                     ┌── Global edge POPs (Tokyo, Singapore, Sydney…)
-                     │   VCL at the edge
-                     │   Surrogate keys + instant purge
-                     │   stale-while-revalidate, Compute@Edge (WASM)
-                     ▼
-[Client] ──▶ [Fastly POP] ──cache HIT (served in <50ms)──▶  [Client gets response]
-
-[Client] ──▶ [Fastly POP] ──cache MISS──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
-                  ▲                                                                          │
-                  └──────────────── response flows back, gets cached at edge ◀───────────────┘
-```
-
-Now you have **two request paths** — the **cache-HIT path** (served at the edge, never touches origin) and the **cache-MISS path** (traverses every layer below). Fastly's POPs sit close to users globally; on a HIT, user-perceived latency drops to single-digit ms regardless of where origin is.
-
-**Why learn 08 Fastly CDN** — Stage 04 covers CDN concepts vendor-neutrally; **Stage 08** is the hands-on Fastly-specific course: VCL dialect, surrogate keys, instant purge via API, Image Optimizer, Edge Rate Limiting, Compute@Edge. This is the dedicated track for the specific tool you'll touch on a real APAC publisher / e-commerce stack.
-
----
-
-### HLD 5 — Add observability everywhere
+### HLD 4 — Add observability everywhere
 
 **Stage it unlocks:** 03 Reliability
 
 ```
-[Client] ──▶ [Fastly] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
-                │             │            │           │          │         │
-                ▼             ▼            ▼           ▼          ▼         ▼
-            metrics      stats page    prom plugin  /metrics   OTel SDK  pg_exporter
-            (Fastly         (HAProxy)   + access     (NGINX     (RED + USE +
-             real-time                     log         status)   trace context)
-             dashboard)                                          
-                │             │            │           │          │         │
-                └─────────────┴────────────┴───────────┴──────────┴─────────┘
+[Client] ──▶ [HAProxy] ──▶ [Kong] ──▶ [NGINX] ──▶ [App] ──▶ [DB]
+                │             │           │          │         │
+                ▼             ▼           ▼          ▼         ▼
+           stats page    prom plugin  /metrics   OTel SDK  pg_exporter
+              (HAProxy)   + access     (NGINX     (RED + USE +
+                             log         status)   trace context)
+                │             │           │          │         │
+                └─────────────┴───────────┴──────────┴─────────┘
                                          │
                   ┌──────────────────────┼──────────────────────┐
                   ▼                      ▼                      ▼
@@ -3290,73 +3264,47 @@ Now you have **two request paths** — the **cache-HIT path** (served at the edg
                                                  the user notices)
 ```
 
-Every box in HLDs 1–4 now emits metrics (Prometheus exporters or `/metrics` endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall *before* the customer notices the SLO breach.
+Every box in HLDs 1–3 now emits metrics (Prometheus exporters or `/metrics` endpoints), logs (Loki / Vector), and traces (OpenTelemetry → Tempo). Grafana unifies the view; multi-window multi-burn-rate alerts page oncall *before* the customer notices the SLO breach.
 
 **Why learn 03 Reliability** — this is the actual SRE day job. Building things is half the work; knowing whether they're broken, fast enough, and within SLO is the other half. Every "SRE" job description tests this in the interview, and *every* incident is graded on how fast you went from page → root cause → fix.
 
 ---
 
-### HLD 6 — Provision everything as code (no console clicks)
+### HLD 5 — Provision everything as code (no console clicks)
 
 **Stage it unlocks:** 09 Automation
 
 ```
-                  [git repo: terraform/ + ansible/ + helm/ + fastly-vcl/]
+                  [git repo: terraform/ + ansible/ + helm/]
                                        │
                           PR  →  CI lint  →  CI plan
                                        │
                                        ▼
                         [GitHub Actions runs:
                           terraform apply / ansible-playbook
-                          helmfile sync / fastly deploy]
+                          helmfile sync]
                                        │
        ┌───────────────────────────────┼───────────────────────────────┐
        ▼                               ▼                               ▼
   [AWS infra]                    [K8s manifests]                  [Edge config]
-  • VPC + subnets                • EKS node groups                • Fastly services + VCL
-  • RDS PostgreSQL               • HAProxy / NGINX Helm           • Kong routes (decK)
-  • ALB / NLB                    • App Deployments                • Grafana dashboards
-  • Route 53 DNS                 • Prom / Loki / Tempo Helm       • Prom alert rules
-  • IAM roles                    • SLO definitions                • PagerDuty escalation
+  • VPC + subnets                • EKS node groups                • Kong routes (decK)
+  • RDS PostgreSQL               • HAProxy / NGINX Helm           • Grafana dashboards
+  • ALB / NLB                    • App Deployments                • Prom alert rules
+  • Route 53 DNS                 • Prom / Loki / Tempo Helm       • PagerDuty escalation
+  • IAM roles                    • SLO definitions                
 
                                        ▲
                                        │
-                  every box in HLDs 1–5 is created by code, not the console
+                  every box in HLDs 1–4 is created by code, not the console
 ```
 
-Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Fastly VCL service, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK / fastly-cli running in CI. Drift-free, reviewable, reproducible.
+Nothing in the picture is clicked in the AWS console. Every VPC, K8s manifest, Kong route, Grafana dashboard, and Prom alert is provisioned by Terraform / Ansible / Helm / decK running in CI. Drift-free, reviewable, reproducible.
 
 **Why learn 09 Automation** — "the SRE who clicks in the console" is a junior who can't be trusted with prod. The SRE who ships infra via PR with a `terraform plan` diff is the one who gets promoted (and the one who gets hired remote-first from Bangladesh by a Singapore or Tokyo team).
 
 ---
 
-### HLD 7 — Add on-prem VCL caching (when you can't use a hosted CDN)
-
-**Stage it unlocks:** 07 Varnish & VCL
-
-```
-Use case: on-prem newspaper / publisher stack (e.g. dn.no via NHST)
-          can't ship every cache fill to a hosted CDN
-          → run Varnish on bare metal inside your DC
-
-[Client in EU] ──▶ [Varnish on-prem cluster] ──cache MISS──▶ [HAProxy → Kong → App]
-                          │
-                          ├── VCL 4.1: vcl_recv → vcl_hash → vcl_backend_response
-                          ├── grace mode: serve stale while origin slow
-                          ├── hit-for-pass on uncacheable POSTs
-                          ├── purge via xkey (surrogate keys)
-                          └── Hitch terminates TLS in front (UDS socket)
-
-[Client in EU] ──▶ [Varnish on-prem cluster] ──cache HIT─────▶  RAM-speed response
-```
-
-The on-prem mirror of HLD 4. When you can't ship every cache fill through a hosted CDN — because of data residency, on-prem-only architecture, or budget — you run **Varnish** on bare metal. Same VCL dialect as Fastly (modulo a few extensions), so the skill transfers in both directions.
-
-**Why learn 07 Varnish & VCL** — directly maps to the Cefalo / NHST stack (Norwegian publishers). 30 hands-on milestones rebuild the `dn.no` reference architecture: multi-backend routing via the `x-backend` header pattern, snippet auto-loading, grace + hit-for-pass, surrogate-key purging, TLS via Hitch. It's also the cleanest way to learn VCL fundamentals before you go hosted with Fastly in Stage 08.
-
----
-
-### HLD 8 — Control outbound traffic (forward proxy / egress)
+### HLD 6 — Control outbound traffic (forward proxy / egress)
 
 **Stage it unlocks:** 06 Proxy (Forward / Egress)
 
@@ -3389,14 +3337,14 @@ The *other* direction. A reverse proxy hides backend servers from clients; a **f
 ### Reading order at a glance
 
 ```
-Stage 01 → Stage 02 → Stage 05 → Stage 04 → Stage 08 → Stage 03 → Stage 09 → Stage 07 → Stage 06
-   ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑          ↑
- HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6      HLD 7      HLD 8
-foundations  K8s     reverse-    edge        CDN deep   observe    code-      on-prem   outbound
-              up      proxy      gateways    dive       everything ify        VCL       control
+Stage 01 → Stage 02 → Stage 05 → Stage 04 → Stage 03 → Stage 09 → Stage 06
+   ↑          ↑          ↑          ↑          ↑          ↑          ↑
+ HLD 1      HLD 1      HLD 2      HLD 3      HLD 4      HLD 5      HLD 6
+foundations  K8s     reverse-    edge       observe    code-      outbound
+              up      proxy      gateways  everything  ify        control
 ```
 
-> Three orthogonal tracks run alongside this main path: **Part B** (the worked Todo App project — your hands-on companion through HLDs 1–6), **Part 0A** (system-design interview prep — pairs with HLDs 3–8 once the picture is rich enough), **Part AI** (AI/LLM track — orthogonal, run when bandwidth allows).
+> Three orthogonal tracks run alongside this main path: **Part B** (the worked Todo App project — your hands-on companion through HLDs 1–5), **Part 0A** (system-design interview prep — pairs with HLDs 3–6 once the picture is rich enough), **Part AI** (AI/LLM track — orthogonal, run when bandwidth allows).
 
 ---
 

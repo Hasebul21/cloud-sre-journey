@@ -587,11 +587,26 @@ function PartJView() {
           ))}
         </ul>
       </section>
+
+      <SectionCard title="Research Papers"
+        items={D.researchPapers}
+        group="researchPapers"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <span className="htag htag-res">PAPER</span>
+            {it.url ? <a href={it.url} target="_blank" rel="noopener">{it.name}</a> : <strong>{it.name}</strong>}
+            <span style={{color:"var(--ink-faint)", marginLeft:8, fontSize:13}}>{it.what}</span>
+          </span>
+        )}
+      >
+        <Notes id="researchPapers" placeholder="Notes on papers — key insights, open questions, how they connect to your work." />
+      </SectionCard>
     </div>
   );
 }
 
-// ───────── SRE LEARNING (the curated path: networking → fastly) ─────────
+// ───────── SRE LEARNING (the curated path: networking → automation) ─────────
 
 function ResourceTag({ type }) {
   const labels = {
@@ -611,8 +626,6 @@ const STAGE_NUM = {
   reliability: "04",
   edge:        "05",
   revproxy:    "06",
-  varnish:     "08",
-  fastly:      "09",
   automation:  "10",
   language:    "01",
 };
@@ -835,8 +848,6 @@ const SRE_LanguageView    = () => <SreLearningView sectionKey="language" />;
 const SRE_EdgeView        = () => <SreLearningView sectionKey="edge" />;
 const SRE_RevProxyView    = () => <SreLearningView sectionKey="revproxy" />;
 const SRE_ReliabilityView = () => <SreLearningView sectionKey="reliability" />;
-const SRE_VarnishView     = () => <SreLearningView sectionKey="varnish" />;
-const SRE_FastlyView      = () => <SreLearningView sectionKey="fastly" />;
 
 // Part AI renders 4 difficulty levels on one page (sourced from sreRoadmap.ai-l1..l4)
 function AILevelCard({ levelNum, sectionKey }) {
@@ -992,5 +1003,5 @@ Object.assign(window, {
   P0_DSAView, PartAIView, PartBView,
   PartGView, PartHView, PartIView, PartJView,
   SRE_NetworkingView, SRE_CloudView, SRE_AutomationView, SRE_LanguageView, SRE_EdgeView, SRE_RevProxyView, SRE_ReliabilityView,
-  SRE_VarnishView, SRE_FastlyView, RoadmapView,
+  RoadmapView,
 });
