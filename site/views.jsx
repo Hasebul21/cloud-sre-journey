@@ -622,10 +622,10 @@ function ResourceTag({ type }) {
 
 const STAGE_NUM = {
   networking:  "02",
-  cloud:       "03",
-  reliability: "04",
-  edge:        "05",
-  revproxy:    "06",
+  edge:        "03",
+  revproxy:    "04",
+  cloud:       "05",
+  reliability: "06",
   automation:  "10",
   language:    "01",
 };
