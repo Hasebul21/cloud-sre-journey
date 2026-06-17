@@ -2914,6 +2914,8 @@ Cross-post to dev.to, Hashnode, Medium. Share on LinkedIn. 3 months consistent p
 **Go**
 - [Go: The Complete Developer's Guide (Stephen Grider)](https://www.udemy.com/course/go-the-complete-developers-guide/?srsltid=AfmBOoqsRzAwkSqQa_Fms2yQ0tGKLd8GANL0-tUZ0kqm4V1PH1LZkVGg&couponCode=MT260601G1) — Udemy · paid · concurrency, interfaces, web servers
 - [Golang Tutorial for Beginners — Full Go Course](https://www.youtube.com/watch?v=yyUHQIec83I) — YouTube · free · syntax + idioms walkthrough
+- [Golang (KodeKloud)](https://learn.kodekloud.com/user/courses/golang) — KodeKloud · structured beginner course
+- [Advanced Golang (KodeKloud)](https://learn.kodekloud.com/user/courses/advanced-golang) — KodeKloud · concurrency, modules, performance
 
 **Python / FastAPI**
 - [FastAPI — The Complete Course](https://www.udemy.com/course/fastapi-the-complete-course/?srsltid=AfmBOopBXaxC6W_UHp0C4diA5h1pZPGvGJHw-z5BBh1Xiia3WsOGUgtX&couponCode=MT260601G1) — Udemy · paid · async API, Pydantic, OpenAPI, auth
