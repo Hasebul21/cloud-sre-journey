@@ -1196,6 +1196,32 @@ foundations  edge       K8s     reverse-    observe     code-
         { id: "ai4-m-6", name: "Subscribe to 2 of the 8 newsletters above; scan weekly, summarise monthly" },
       ],
     },
+    "ai-l5": {
+      title: "AI · Level 5 — Roadmap References",
+      resources: [
+        // ── AI Engineer (roadmap.sh) ──
+        { id: "ai5-r-1", type: "course", sub: "AI Engineer (roadmap.sh)", name: "roadmap.sh/ai-engineer — full visual map", url: "https://roadmap.sh/ai-engineer" },
+        { id: "ai5-r-2", type: "course", sub: "AI Engineer (roadmap.sh)", name: "OpenAI Platform — Chat Completions API + fine-tuning docs", url: "https://platform.openai.com/docs/api-reference" },
+        { id: "ai5-r-3", type: "course", sub: "AI Engineer (roadmap.sh)", name: "Hugging Face Hub — models, tasks, Inference SDK, Transformers.js", url: "https://huggingface.co" },
+        { id: "ai5-r-4", type: "course", sub: "AI Engineer (roadmap.sh)", name: "Ollama — local LLM runtime (models + SDK)", url: "https://ollama.com" },
+        { id: "ai5-r-5", type: "course", sub: "AI Engineer (roadmap.sh)", name: "OpenAI Moderation API — content safety filter", url: "https://platform.openai.com/docs/guides/moderation" },
+        // ── Claude Code (roadmap.sh) ──
+        { id: "ai5-r-6", type: "course", sub: "Claude Code (roadmap.sh)", name: "roadmap.sh/claude-code — full visual map", url: "https://roadmap.sh/claude-code" },
+        { id: "ai5-r-7", type: "course", sub: "Claude Code (roadmap.sh)", name: "Claude Code official docs — overview, CLAUDE.md, hooks, MCP", url: "https://docs.anthropic.com/en/docs/claude-code/overview" },
+        { id: "ai5-r-8", type: "course", sub: "Claude Code (roadmap.sh)", name: "DataCamp — Claude Code 101", url: "https://www.datacamp.com/courses/claude-code-101" },
+        { id: "ai5-r-9", type: "blog", sub: "Claude Code (roadmap.sh)", name: "Model Context Protocol spec — modelcontextprotocol.io", url: "https://modelcontextprotocol.io" },
+        { id: "ai5-r-10", type: "blog", sub: "Claude Code (roadmap.sh)", name: "Anthropic — CLAUDE.md memory + skills best practices", url: "https://docs.anthropic.com/en/docs/claude-code/memory" },
+      ],
+      milestones: [
+        { id: "ai5-m-1", name: "Read roadmap.sh/ai-engineer end-to-end; tick every domain you're already familiar with" },
+        { id: "ai5-m-2", name: "Read roadmap.sh/claude-code; install Claude Code CLI locally" },
+        { id: "ai5-m-3", name: "Write a CLAUDE.md for your sre-ai repo with project context + coding conventions" },
+        { id: "ai5-m-4", name: "Use Claude Code to generate a Prometheus alert rule from a written SLO definition" },
+        { id: "ai5-m-5", name: "Run Claude in headless mode (claude -p) in a GitHub Actions CI step to review an IaC PR" },
+        { id: "ai5-m-6", name: "Connect one MCP server (filesystem or Prometheus) to Claude Code; confirm tool calls work" },
+        { id: "ai5-m-7", name: "Build a Skill (/runbook-gen) that drafts a runbook from a postmortem template" },
+      ],
+    },
 
     edge: {
       title: "SRE 5 · API Gateway, Load Balancer & HTTP Caching (Kong / HAProxy)",
@@ -1310,6 +1336,59 @@ foundations  edge       K8s     reverse-    observe     code-
     },
 
   },
+
+  // ────────────────────────────────────────────────────────────────
+  // AWS Best Practices Checklist (roadmap.sh/aws-best-practices)
+  // ────────────────────────────────────────────────────────────────
+  awsBestPractices: [
+    { id: "aws-dev-1", cat: "Development", name: "Do not store application state on servers (use S3, DynamoDB, ElastiCache)" },
+    { id: "aws-dev-2", cat: "Development", name: "Store rich context in logs (request IDs, correlation IDs, user context)" },
+    { id: "aws-dev-3", cat: "Development", name: "Interact with AWS via the official SDK — never raw HTTP or undocumented endpoints" },
+    { id: "aws-dev-4", cat: "Development", name: "Have tooling to query and tail application logs (CloudWatch Logs Insights, Loki)" },
+    { id: "aws-ops-1", cat: "Operations", name: "Disable SSH — use SSM Session Manager instead" },
+    { id: "aws-ops-2", cat: "Operations", name: "Think at the service level, not server level (cattle, not pets)" },
+    { id: "aws-ops-3", cat: "Operations", name: "Don't assign static/elastic IPs to app servers — use ELB + Route 53" },
+    { id: "aws-ops-4", cat: "Operations", name: "Automate everything; no manual console clicks in production" },
+    { id: "aws-ops-5", cat: "Operations", name: "Every engineer has their own IAM account; never login to master" },
+    { id: "aws-ops-6", cat: "Operations", name: "Convert noisy alerts to actionable notifications (reduce alert fatigue)" },
+    { id: "aws-bill-1", cat: "Billing", name: "Set up granular billing alerts per service + per cost-allocation tag" },
+    { id: "aws-sec-1", cat: "Security", name: "Prefer EC2 instance roles over app-level IAM access keys" },
+    { id: "aws-sec-2", cat: "Security", name: "Assign permissions to IAM groups, not individual users" },
+    { id: "aws-sec-3", cat: "Security", name: "Set up automated security auditing (Security Hub, GuardDuty, Prowler)" },
+    { id: "aws-sec-4", cat: "Security", name: "Enable CloudTrail in every region — full audit log of all API calls" },
+    { id: "aws-sec-5", cat: "Security", name: "Apply least-privilege — start ReadOnly, add only what's needed" },
+    { id: "aws-s3-1", cat: "S3", name: "Use '-' instead of '.' in bucket names (breaks SSL on path-style access)" },
+    { id: "aws-s3-2", cat: "S3", name: "Avoid FUSE filesystem mounts — use SDK or s3fs sparingly" },
+    { id: "aws-s3-3", cat: "S3", name: "CloudFront in front of S3 reduces latency and hides origin (optional)" },
+    { id: "aws-s3-4", cat: "S3", name: "Use random/hash prefixes at the start of high-write keys" },
+    { id: "aws-ec2-1", cat: "EC2 / VPC", name: "Tag everything: Owner, Environment, CostCenter, Project" },
+    { id: "aws-ec2-2", cat: "EC2 / VPC", name: "Enable termination protection for critical non-auto-scaling instances" },
+    { id: "aws-ec2-3", cat: "EC2 / VPC", name: "Always deploy inside a VPC" },
+    { id: "aws-ec2-4", cat: "EC2 / VPC", name: "Use Reserved Instances or Savings Plans for steady-state workloads (30–60% savings)" },
+    { id: "aws-ec2-5", cat: "EC2 / VPC", name: "Lock down security groups — no 0.0.0.0/0 on port 22 or DB ports" },
+    { id: "aws-ec2-6", cat: "EC2 / VPC", name: "Release unassociated Elastic IPs (~$3.60/month each)" },
+    { id: "aws-elb-1", cat: "ELB", name: "Terminate SSL at the load balancer, not app servers" },
+    { id: "aws-elb-2", cat: "ELB", name: "Pre-warm ELBs before known traffic spikes (ALB auto-scales)" },
+    { id: "aws-rds-1", cat: "RDS", name: "Subscribe to RDS event notifications for failover events (SNS → PagerDuty)" },
+    { id: "aws-elasticache-1", cat: "ElastiCache", name: "Use configuration endpoints over individual node endpoints" },
+    { id: "aws-asg-1", cat: "Autoscaling", name: "Scale down on INSUFFICIENT_DATA as well as ALARM" },
+    { id: "aws-asg-2", cat: "Autoscaling", name: "Use ELB health checks instead of EC2 health checks in ASGs" },
+    { id: "aws-asg-3", cat: "Autoscaling", name: "Only include AZs your ELB is configured for in the ASG" },
+    { id: "aws-asg-4", cat: "Autoscaling", name: "Avoid multiple conflicting scaling policies on the same group" },
+    { id: "aws-cw-1", cat: "CloudWatch", name: "Prefer AWS CLI for CloudWatch queries (faster for scripting)" },
+    { id: "aws-cw-2", cat: "CloudWatch", name: "Use free metrics first; add custom metrics for app-level signals" },
+    { id: "aws-cw-3", cat: "CloudWatch", name: "Enable detailed monitoring (1-min) on critical instances" },
+    { id: "aws-cw-4", cat: "CloudWatch", name: "Alarm on custom metrics for business KPIs alongside infra metrics" },
+    { id: "aws-iam-1", cat: "IAM", name: "Use IAM roles for EC2/Lambda/ECS — never embed access keys in code" },
+    { id: "aws-iam-2", cat: "IAM", name: "Use separate API keys per environment/service (easier rotation + audit)" },
+    { id: "aws-iam-3", cat: "IAM", name: "Enforce MFA for all human IAM users on console + sensitive actions" },
+    { id: "aws-r53-1", cat: "Route 53", name: "Use ALIAS records instead of CNAME for zone apex (free + faster)" },
+    { id: "aws-misc-1", cat: "Misc", name: "Scale horizontally before vertically" },
+    { id: "aws-misc-2", cat: "Misc", name: "Always redundant across ≥ 2 AZs; 3 AZs for HA" },
+    { id: "aws-misc-3", cat: "Misc", name: "Know AWS service limits before deploying — request quota increases early" },
+    { id: "aws-misc-4", cat: "Misc", name: "Decide naming convention at the start; document in runbook" },
+    { id: "aws-misc-5", cat: "Misc", name: "Key-management strategy on day 1 (KMS, Secrets Manager, rotation schedule)" },
+  ],
 
   // ────────────────────────────────────────────────────────────────
   // Weekly habits

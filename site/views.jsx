@@ -356,6 +356,19 @@ function PartBView() {
           <Notes id={"phase-" + p.id} placeholder="Gotchas, links to repos, commands that worked." />
         </section>
       ))}
+
+      <SectionCard
+        title="AWS Best Practices (roadmap.sh/aws-best-practices)"
+        items={D.awsBestPractices}
+        group="awsBest"
+        tilted="left"
+        renderItem={(it) => (
+          <span>
+            <span style={{fontSize: 11, fontWeight: 600, color: "var(--ink-faint)", marginRight: 6, textTransform: "uppercase", letterSpacing: "0.05em"}}>{it.cat}</span>
+            {it.name}
+          </span>
+        )}
+      />
     </div>
   );
 }
@@ -961,10 +974,10 @@ function AiDatacampCatalog() {
 
 function PartAIView() {
   const D = window.SRE_DATA;
-  const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4"];
+  const levelKeys = ["ai-l1", "ai-l2", "ai-l3", "ai-l4", "ai-l5"];
 
-  // Aggregate resource progress across all 4 levels
-  const allResDone = ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4"]
+  // Aggregate resource progress across all 5 levels
+  const allResDone = ["sreLr_ai-l1","sreLr_ai-l2","sreLr_ai-l3","sreLr_ai-l4","sreLr_ai-l5"]
     .reduce((s, g) => s + Object.keys(loadJSON("done:" + g, {})).length, 0);
   const allResTotal = levelKeys.reduce((s, k) => s + D.sreRoadmap[k].resources.length, 0);
   const allPct = allResTotal > 0 ? Math.round(allResDone / allResTotal * 100) : 0;

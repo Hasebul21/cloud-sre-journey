@@ -1978,6 +1978,106 @@ Safety **is** reliability in this space. SREs should be the loudest voice in the
 
 ---
 
+### Level 5 — Roadmap Reference (roadmap.sh)
+
+> Quick-reference checklists from [roadmap.sh/ai-engineer](https://roadmap.sh/ai-engineer) and [roadmap.sh/claude-code](https://roadmap.sh/claude-code). Use as a self-assessment — not a learning sequence (the Levels above supply that).
+
+#### L5.1 AI Engineer Roadmap — Skill Checklist
+
+| Domain | Topics to cover | Covered in |
+|--------|----------------|------------|
+| **Pre-trained Models** | Benefits/limitations, context length, cut-off dates | L1.1 |
+| **Popular Models** | GPT-4o, Claude 3.5/3.7, Gemini 1.5 Pro, Mistral, Llama 3, Cohere, Azure AI, AWS SageMaker | L2.1 |
+| **OpenAI API** | Chat Completions, token counting, max tokens, pricing, Playground, fine-tuning | L2.1 |
+| **Prompt Engineering** | Zero-shot, few-shot, CoT, ReAct, system prompts, output constraints | L1.1 |
+| **AI Safety & Ethics** | Prompt injection, bias/fairness, adversarial testing, moderation API, end-user IDs | L3.4 |
+| **Open Source AI** | HuggingFace Hub/Tasks, Ollama (models + SDK), Transformers.js, Inference SDK | L2.1 |
+| **Embeddings** | Semantic search, recommendations, anomaly detection, classification, OpenAI Embeddings API | L2.2 |
+| **Vector Databases** | Chroma, Pinecone, Weaviate, FAISS, Qdrant, LanceDB, pgvector, MongoDB Atlas | L2.1 |
+| **RAG** | Chunk → embed → retrieve → generate pipeline; RAG vs fine-tuning decision | L2.2 |
+| **RAG Implementation** | LangChain, LlamaIndex, OpenAI Assistant API, direct SDK | L2.3 |
+| **AI Agents** | ReAct prompting, function/tool calling, OpenAI tools, MCP, manual implementation | L3.1 |
+| **Multimodal AI** | Vision API, DALL-E, Whisper (STT/TTS), HuggingFace multimodal, LangChain/LlamaIndex multimodal | L2.1 |
+| **Development Tools** | AI code editors (Cursor, Windsurf), code completion (GitHub Copilot, Supermaven) | context |
+
+#### L5.2 Claude Code — Roadmap Reference
+
+> Claude Code is the Anthropic CLI for agentic software engineering. For SREs: a Terraform/K8s author, incident-response copilot, and IaC reviewer. Source: [roadmap.sh/claude-code](https://roadmap.sh/claude-code).
+
+**Core concepts:**
+
+| Concept | One-line |
+|---------|----------|
+| **Vibe Coding** | Describe intent in natural language; Claude writes, runs, and iterates the code |
+| **Coding Agent** | Autonomous agent that reads/edits files, runs tests, makes git commits |
+| **Agentic Loop** | perceive → reason → act → perceive (loops until done or human stops it) |
+| **CLAUDE.md** | Project-specific instructions file that primes Claude's context per-repo |
+| **Skills** | Reusable slash-command scripts (`.claude/skills/`) invoked with `/skill-name` |
+| **Subagents** | Specialist agents (Explore, Plan, code-reviewer) spawned for parallel work |
+| **MCP** | Model Context Protocol — lets Claude connect to any external tool server |
+| **Hooks** | Shell commands that fire on events (SessionStart, PreToolUse, PostToolUse, Stop) |
+
+**Key CLI commands:**
+
+```bash
+claude                  # interactive REPL
+claude "query"          # one-shot prompt, no REPL
+claude -p               # print mode (pipe-friendly, no streaming)
+claude -c               # continue last session
+claude -r               # resume a named session
+claude --add-dir <path> # add directory to context
+```
+
+**Essential slash commands:**
+
+| Category | Commands |
+|----------|---------|
+| **Session** | `/help` `/clear` `/exit` `/status` `/usage` `/cost` `/export` `/rewind` |
+| **Context & Memory** | `/context` `/compact` `/init` `/memory` |
+| **Configuration** | `/config` `/permissions` `/model` `/doctor` `/agents` `/hooks` `/mcp` |
+| **Workflow** | `/plan` |
+
+**Model selection:**
+
+| Model | Use when |
+|-------|---------|
+| **Opus** | Complex multi-file refactors, architecture, deep debugging |
+| **Sonnet** | Day-to-day coding, code review, moderate tasks |
+| **Haiku** | Fast lookups, simple edits, cost-sensitive batch work |
+
+**Workflow features:**
+
+| Feature | What it does |
+|---------|-------------|
+| **Permission Modes** | Default asks before every tool use; auto-approve for trusted operations |
+| **Plan Mode** (`/plan`) | Claude proposes a plan; you approve before execution — good for large refactors |
+| **Git Worktrees** | Run parallel agents in isolated branches without polluting main |
+| **Headless mode** (`-p`) | Non-interactive; pipe Claude output into scripts and CI |
+| **Prompt Caching** | Reduces cost on repeated large contexts (up to 90% on stable system prompts) |
+| **Resume** | Restart a prior session exactly where it left off |
+| **Rewind** | Roll back to a prior checkpoint if an edit went wrong |
+
+**SRE use cases:**
+
+- Draft Terraform modules from architecture descriptions
+- Review Kubernetes manifests for security/best-practice gaps
+- Write runbooks from postmortem timelines
+- Generate Prometheus alerting rules from SLO definitions
+- Explain unfamiliar incident logs in plain language
+- Migrate Bash scripts to Go/Python
+- Auto-generate GitHub Actions CI/CD workflows
+- Spin up a headless Claude agent in CI to review IaC PRs
+
+**Context management (cost control):**
+
+- `/compact` before switching tasks in the same session
+- `/clear` + fresh session for completely unrelated work
+- Use subagents with `isolation: "worktree"` for parallel file edits
+- Check `/cost` after large operations; set model to Haiku for bulk tasks
+- Avoid letting context grow unbounded — token cost is multiplicative
+
+---
+
 ## <a id="part-a"></a>Part A — Full Software Lifecycle Mastery
 
 ### A1–A2. Plan + Code
@@ -2590,6 +2690,85 @@ jobs:
 5. **Optional next:** [CKS](https://kodekloud.com/courses/certified-kubernetes-security-specialist-cks) (K8s security), [PCA](https://kodekloud.com/courses/prometheus-certified-associate-pca) (Prometheus), [OTCA](https://kodekloud.com/courses/prep-course-opentelemetry-certified-associate-certification-otca) (OpenTelemetry) — pick the one that matches the job description.
 
 **GCP awareness:** Know GKE, BigQuery, Cloud Run conceptually (Mercari, LINE, Indeed Japan use GCP heavily).
+
+### AWS Best Practices — Quick-Reference Checklist
+
+> Sourced from [roadmap.sh/aws-best-practices](https://roadmap.sh/aws-best-practices). Use as a self-audit when reviewing Part B infrastructure or preparing for AWS-heavy interview questions.
+
+#### Development
+- [ ] Do not store application state on servers (use S3, DynamoDB, ElastiCache)
+- [ ] Store rich context in logs (request IDs, correlation IDs, user context)
+- [ ] Interact with AWS via the official SDK — never raw HTTP or undocumented endpoints
+- [ ] Have tooling to query and tail application logs (CloudWatch Logs Insights, Loki)
+
+#### Operations
+- [ ] Disable SSH access to production servers — use SSM Session Manager instead
+- [ ] Think at the **service** level, not the server level (cattle, not pets)
+- [ ] Don't assign static/elastic IPs to app servers — use ELB + Route 53
+- [ ] Automate everything; no manual console clicks in production
+- [ ] Every engineer has their own IAM account; never use the root account day-to-day
+- [ ] Convert noisy alerts to actionable notifications (reduce alert fatigue)
+
+#### Billing
+- [ ] Set up granular billing alerts per service and per cost-allocation tag (Cost Anomaly Detection)
+
+#### Security
+- [ ] Prefer EC2 instance roles over application-level IAM access keys
+- [ ] Assign permissions to IAM **groups**, not individual users
+- [ ] Set up automated security auditing (Security Hub, GuardDuty, Prowler)
+- [ ] Enable CloudTrail in every region — full audit log of all API calls
+- [ ] Apply least-privilege permissions — start with `ReadOnly`, add only what's needed
+
+#### S3
+- [ ] Use `-` instead of `.` in bucket names (`.` breaks SSL on path-style access)
+- [ ] Avoid FUSE filesystem mounts — use the SDK or `s3fs` sparingly
+- [ ] CloudFront in front of S3 reduces latency and hides origin (optional but useful)
+- [ ] Use random/hash prefixes at the start of high-write keys for even partition distribution
+
+#### EC2 / VPC
+- [ ] Tag everything: `Owner`, `Environment`, `CostCenter`, `Project`
+- [ ] Enable termination protection for critical non-auto-scaling instances
+- [ ] Always deploy inside a VPC
+- [ ] Use Reserved Instances or Savings Plans for steady-state workloads (30–60% savings)
+- [ ] Lock down security groups — no `0.0.0.0/0` on port 22 or database ports
+- [ ] Release unassociated Elastic IPs (each idle EIP costs ~$3.60/month)
+
+#### ELB
+- [ ] Terminate SSL at the load balancer, not the app servers
+- [ ] Pre-warm classic ELBs before known traffic spikes (ALB auto-scales; NLB is instantaneous)
+
+#### RDS
+- [ ] Subscribe to RDS event notifications for failover events (SNS → PagerDuty/Opsgenie)
+
+#### ElastiCache
+- [ ] Use **configuration endpoints** over individual node endpoints (survives node replacement)
+
+#### Autoscaling
+- [ ] Scale down on `INSUFFICIENT_DATA` as well as `ALARM` (missing metrics = unhealthy)
+- [ ] Use ELB health checks instead of EC2 health checks in ASGs
+- [ ] Only include AZs your ELB is configured for in the ASG's AZ list
+- [ ] Avoid multiple conflicting scaling policies on the same group (causes oscillation)
+
+#### CloudWatch
+- [ ] Prefer the AWS CLI for CloudWatch queries (faster than console for scripting)
+- [ ] Use free metrics first; add custom metrics only for app-level business signals
+- [ ] Enable detailed monitoring (1-min intervals) on critical instances
+- [ ] Alarm on custom metrics for business KPIs alongside infra metrics
+
+#### IAM
+- [ ] Use IAM roles for EC2, Lambda, ECS — never embed access keys in code or images
+- [ ] Use separate API keys per environment/service (easier to rotate, easier to audit)
+- [ ] Enforce MFA for all human IAM users, especially for console + sensitive actions
+
+#### Route 53
+- [ ] Use ALIAS records instead of CNAME for the zone apex (`example.com`) — free and faster
+
+#### Miscellaneous
+- [ ] Scale horizontally (add instances) before scaling vertically (bigger instance type)
+- [ ] Always be redundant across ≥ 2 AZs; 3 AZs for high-availability requirements
+- [ ] Know AWS service limits before deploying — request quota increases early
+- [ ] Decide on a naming convention at the start and document it in your runbook
+- [ ] Establish a key-management strategy on day 1 (KMS CMKs, Secrets Manager, rotation schedule)
 
 ---
 
